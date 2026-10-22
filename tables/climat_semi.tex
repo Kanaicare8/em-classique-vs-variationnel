@@ -1,0 +1,46 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}}
+\caption{Jeu semi-synthétique ($K_{\text{réf}}=5$, modèle ajusté à $N$ complet) : sélection de $K$ et qualité de partition}\label{tab:climat_semi}\\
+\toprule
+\textbf{$N$} & \textbf{Bras} & \textbf{$\hat K$ moy.} & \textbf{$\lvert\hat K-5\rvert$} & \textbf{ARI vérité} & \textbf{Dégénérés} & \textbf{Jeux} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$N$} & \textbf{Bras} & \textbf{$\hat K$ moy.} & \textbf{$\lvert\hat K-5\rvert$} & \textbf{ARI vérité} & \textbf{Dégénérés} & \textbf{Jeux} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+30 & EM-BIC & 9,58 & 4,58 & 0,382 & 100\,\% & 60 \\
+30 & EM-ICL & 9,58 & 4,58 & 0,382 & 100\,\% & 60 \\
+30 & EM-K & 5,00 & 0,00 & 0,444 & 100\,\% & 60 \\
+30 & EM-Kmax & 10,00 & 5,00 & 0,371 & 100\,\% & 60 \\
+30 & MAP-EM & 9,93 & 4,93 & 0,415 & 100\,\% & 60 \\
+30 & VB-emp & 6,77 & 1,77 & 0,472 & 100\,\% & 60 \\
+60 & EM-BIC & 9,43 & 4,43 & 0,501 & 100\,\% & 60 \\
+60 & EM-ICL & 9,43 & 4,43 & 0,501 & 100\,\% & 60 \\
+60 & EM-K & 5,00 & 0,00 & 0,526 & 98\,\% & 60 \\
+60 & EM-Kmax & 10,00 & 5,00 & 0,489 & 100\,\% & 60 \\
+60 & MAP-EM & 10,00 & 5,00 & 0,489 & 100\,\% & 60 \\
+60 & VB-emp & 7,03 & 2,03 & 0,548 & 95\,\% & 60 \\
+120 & EM-BIC & 5,42 & 1,05 & 0,788 & 47\,\% & 60 \\
+120 & EM-ICL & 5,45 & 1,02 & 0,788 & 48\,\% & 60 \\
+120 & EM-K & 5,00 & 0,00 & 0,771 & 42\,\% & 60 \\
+120 & EM-Kmax & 10,00 & 5,00 & 0,679 & 100\,\% & 60 \\
+120 & MAP-EM & 9,90 & 4,90 & 0,579 & 98\,\% & 60 \\
+120 & VB-emp & 6,67 & 1,67 & 0,693 & 87\,\% & 60 \\
+500 & EM-BIC & 5,00 & 0,00 & 0,950 & 0\,\% & 60 \\
+500 & EM-ICL & 5,00 & 0,00 & 0,950 & 0\,\% & 60 \\
+500 & EM-K & 5,00 & 0,00 & 0,950 & 0\,\% & 60 \\
+500 & EM-Kmax & 10,00 & 5,00 & 0,839 & 73\,\% & 60 \\
+500 & MAP-EM & 8,63 & 3,63 & 0,823 & 88\,\% & 60 \\
+500 & VB-emp & 5,00 & 0,00 & 0,927 & 8\,\% & 60 \\
+2000 & EM-BIC & 5,00 & 0,00 & 0,954 & 0\,\% & 15 \\
+2000 & EM-ICL & 5,00 & 0,00 & 0,954 & 0\,\% & 15 \\
+2000 & EM-K & 5,00 & 0,00 & 0,954 & 0\,\% & 15 \\
+2000 & EM-Kmax & 10,00 & 5,00 & 0,848 & 13\,\% & 15 \\
+2000 & MAP-EM & 5,47 & 0,47 & 0,931 & 80\,\% & 15 \\
+2000 & VB-emp & 5,00 & 0,00 & 0,950 & 0\,\% & 15 \\
+\end{longtable}
+}

@@ -1,5 +1,5 @@
-modele,composantes_actives,ARI,silhouette,iterations,temps_s,poids
-EM classique K=6,6,0.641,0.446,10,0.715,"[0.333, 0.214, 0.02, 0.053, 0.204, 0.175]"
-EM variationnel Kmax=6,3,0.562,0.276,134,2.518,"[0.007, 0.073, 0.001, 0.001, 0.585, 0.332]"
-EM classique K=3,3,0.904,0.501,17,0.22,"[0.333, 0.364, 0.303]"
-EM variationnel Kmax=3,3,0.684,0.4,62,2.329,"[0.19, 0.333, 0.476]"
+modele,composantes_actives,ARI,silhouette,iterations,converge,degenere,temps_s,poids
+EM classique K=6,6,0.662,0.44,34,True,True,1.121,"[0.333, 0.226, 0.02, 0.053, 0.191, 0.177]"
+EM variationnel Kmax=6,3,0.562,0.276,137,True,False,2.008,"[0.007, 0.073, 0.001, 0.001, 0.585, 0.332]"
+EM classique K=3,3,0.904,0.501,22,True,False,0.265,"[0.333, 0.367, 0.299]"
+EM variationnel Kmax=3,3,0.644,0.368,104,True,False,3.111,"[0.16, 0.333, 0.506]"

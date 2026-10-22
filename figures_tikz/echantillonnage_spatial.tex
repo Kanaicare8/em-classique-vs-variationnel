@@ -1,0 +1,14 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9]
+  \foreach \i in {0,...,5} {\foreach \j in {0,...,3} {\draw[gray!50] (\i*1.5,\j*1.5) rectangle ++(1.5,1.5);}}
+  \fill[bleu!30,opacity=0.5] (4.5,1.5) rectangle (6,3);
+  \fill[bleu!30,opacity=0.5] (1.5,3) rectangle (3,4.5);
+  \foreach \p in {(0.4,0.5),(2.3,0.9),(4.6,0.4),(7.0,1.1),(1.0,2.6),(3.4,2.2),(7.0,2.8),(8.0,2.3),(0.7,4.9),(3.9,4.0),(6.3,4.6),(8.5,5.1)}
+    \fill[navy] \p circle (2.2pt);
+  \node[font=\scriptsize,text=bleu] at (5.25,3.3) {bloc de test};
+  \draw[<->,navy] (0.4,-0.35) -- node[below,font=\scriptsize]{$d_{\min}$} (2.3,-0.35);
+\end{tikzpicture}
+\caption{Échantillonnage spatial : les points d'apprentissage (noirs) sont espacés d'au moins $d_{\min}$ ; l'évaluation se fait sur des blocs d'environ 100 km sans point d'apprentissage (validation croisée par blocs). Schéma illustratif.}
+\label{fig:echant_spatial}
+\end{figure}

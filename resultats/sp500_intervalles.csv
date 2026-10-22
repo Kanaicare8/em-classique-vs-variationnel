@@ -1,0 +1,3 @@
+niveau,B,IC95_bootstrap_EM,largeur_bootstrap,IC95_credible_VB,largeur_VB,note
+0.05,1000,[-2.085 ; -1.369],0.716,[-1.958 ; -1.454],0.504,objets différents (variabilité d'estimateur contre crédibilité a posteriori) ; couverture non évaluée ici : voir le jeu semi-synthétique du climat
+0.01,1000,[-4.723 ; -2.984],1.739,[-4.431 ; -3.227],1.204,objets différents (variabilité d'estimateur contre crédibilité a posteriori) ; couverture non évaluée ici : voir le jeu semi-synthétique du climat

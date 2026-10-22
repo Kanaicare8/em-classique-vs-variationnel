@@ -1,0 +1,29 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references,p_holm,rejet_holm
+S1[1],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0101948544151919,[0.002 ; 0.020],1.104458289707816e-05,30,expérience répliquée,,6.626749738246896e-05,True
+S1[2],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.1668668452843443,[0.126 ; 0.209],3.7896194415808806e-06,30,expérience répliquée,,3.4106574974227926e-05,True
+S1[3],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.2796634524009523,[0.239 ; 0.321],1.7343976283205826e-06,30,expérience répliquée,,2.2547169168167575e-05,True
+S1[4],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,-0.000938074872584,[-0.011 ; 0.005],1.375566327510569e-11,30,expérience répliquée,,2.476019389519024e-10,True
+S1[5],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0025236723236345,[0.000 ; 0.005],3.2287641699256402e-133,30,expérience répliquée,,7.749034007821536e-132,True
+S2[80/15/5],S2_desequilibre,"grille régénérée (VB-emp - EM-BIC, erreur_k)",équivalent,-0.0333333333333333,[-0.267 ; 0.233],0.0001868567734898,30,expérience répliquée,,0.0005605703204694,True
+S3[Kvrai=4],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.1051786597364837,[0.086 ; 0.125],2.35342099512154e-06,30,expérience répliquée,,2.35342099512154e-05,True
+S3[Kvrai=5],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.0969573645356007,[0.068 ; 0.129],4.285685869189878e-06,30,expérience répliquée,,3.4285486953519026e-05,True
+S3[Kvrai=6],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.1391881364348425,[0.124 ; 0.155],1.7343976283205826e-06,30,expérience répliquée,,2.2547169168167575e-05,True
+S4[Student nu=3],S4_queues_epaisses,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.0631261237237112,[0.044 ; 0.082],1.1265398499821105e-05,30,expérience répliquée,,6.626749738246896e-05,True
+S5[2],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0,[0.000 ; 0.000],0.0,30,expérience répliquée,,0.0,True
+S5[5],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",A < B,-0.0355477845064889,[-0.054 ; -0.018],0.0001226738150927,30,expérience répliquée,,0.0004906952603708,True
+S5[10],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",indéterminé,0.0617791567705093,[0.003 ; 0.135],0.2451903093209637,30,expérience répliquée,,0.2451903093209637,False
+S5[20],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.5710373031409832,[0.552 ; 0.589],1.7343976283205826e-06,30,expérience répliquée,,2.2547169168167575e-05,True
+S6[30],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-1.0,[-1.000 ; -1.000],4.320463057827508e-08,30,expérience répliquée,,7.344787198306763e-07,True
+S6[60],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.9666666666666668,[-1.000 ; -0.900],7.23782987174002e-08,30,expérience répliquée,,1.1580527794784032e-06,True
+S6[120],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.6666666666666666,[-0.833 ; -0.500],7.744216431044098e-06,30,expérience répliquée,,5.420951501730868e-05,True
+S6[300],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.1666666666666666,[-0.300 ; -0.033],0.0253473186774682,30,expérience répliquée,,0.0506946373549364,False
+S6[1000],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",équivalent,0.0,[0.000 ; 0.000],0.0,30,expérience répliquée,,0.0,True
+S7[prop=0.01;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0111678290554347,[0.005 ; 0.019],9.758193294952127e-08,30,expérience répliquée,,1.4637289942428191e-06,True
+S7[prop=0.01;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0011652977001063,[-0.000 ; 0.003],5.1208354653216995e-303,30,expérience répliquée,,1.3314172209836419e-301,True
+S7[prop=0.01;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0016511001319972,[-0.001 ; 0.004],8.395914429248906e-143,30,expérience répliquée,,2.0989786073122264e-141,True
+S7[prop=0.05;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0045359915732168,[0.001 ; 0.009],1.5543208535554167e-34,30,expérience répliquée,,3.264073792466375e-33,True
+S7[prop=0.05;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0042579721478564,[-0.000 ; 0.010],3.133637091848987e-23,30,expérience répliquée,,6.267274183697974e-22,True
+S7[prop=0.05;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0021209021421939,[-0.002 ; 0.006],1.7663622858353035e-41,30,expérience répliquée,,3.885997028837668e-40,True
+S7[prop=0.1;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.008591902955097,[0.002 ; 0.017],9.86007533089525e-08,30,expérience répliquée,,1.4637289942428191e-06,True
+S7[prop=0.1;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0029960451932125,[0.000 ; 0.006],1.8940074177100944e-83,30,expérience répliquée,,4.356217060733217e-82,True
+S7[prop=0.1;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0014939103075174,[-0.005 ; 0.009],1.2102914431662478e-15,30,expérience répliquée,,2.2995537420158708e-14,True

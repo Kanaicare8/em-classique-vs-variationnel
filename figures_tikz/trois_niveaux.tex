@@ -1,0 +1,23 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    cell/.style={draw=navy,rounded corners=2pt,minimum width=4.0cm,minimum height=1.4cm,align=center,font=\footnotesize,text width=3.7cm},
+    enteteh/.style={font=\footnotesize\bfseries,text=navy,align=center},
+    em/.style={cell,fill=ciel!25},
+    vb/.style={cell,fill=bleu!25},
+    hors/.style={cell,dashed,draw=gray,text=gray}]
+  \node[enteteh] at (0,3.2)   {$\theta$ ponctuel\\sans prior};
+  \node[enteteh] at (4.4,3.2) {$\theta$ ponctuel\\avec prior};
+  \node[enteteh] at (8.8,3.2) {$\theta$ aléatoire\\$q(\theta)$};
+  \node[enteteh,anchor=east,text width=2.3cm] at (-2.2,1.6) {$q(Z)=p(Z\mid X,\theta)$ exact};
+  \node[enteteh,anchor=east,text width=2.3cm] at (-2.2,-0.3) {$q(Z)$ approchée};
+  \node[em] at (0,1.6)   {\textbf{EM classique}\\MLE, niveau 1};
+  \node[em] at (4.4,1.6) {\textbf{MAP-EM}\\niveau 2, section 2.1.3};
+  \node[hors] at (8.8,1.6) {posterior exact (MCMC), hors périmètre};
+  \node[em] at (0,-0.3)   {\textbf{EM variationnel à $\theta$ ponctuel}\\Neal--Hinton, LDA de Blei};
+  \node[hors] at (4.4,-0.3) {MAP variationnel, non traité};
+  \node[vb] at (8.8,-0.3) {\textbf{Bayes variationnel (VB)}\\champ moyen, niveau 3};
+\end{tikzpicture}
+\caption{Trois niveaux d'inférence selon la nature de $\theta$ et l'approximation de $q(Z)$. Cases pleines : algorithmes comparés (EM classique, MAP-EM, VB pour le GMM ; EM variationnel à $\theta$ ponctuel pour la LDA du chapitre 3). Cases en pointillés : non traitées.}
+\label{fig:trois_niveaux}
+\end{figure}

@@ -1,0 +1,141 @@
+N,rep,methode,param,couvert
+120,17,VB,pi,True
+120,17,VB,mu,1.0
+120,17,VB,pi,True
+120,17,VB,mu,1.0
+120,17,VB,pi,True
+120,17,VB,mu,1.0
+120,17,VB,pi,True
+120,17,VB,mu,1.0
+120,17,VB,pi,True
+120,17,VB,mu,1.0
+120,17,bootstrap EM,pi,True
+120,17,bootstrap EM,mu,1.0
+120,17,bootstrap EM,pi,True
+120,17,bootstrap EM,mu,0.6
+120,17,bootstrap EM,pi,True
+120,17,bootstrap EM,mu,0.8
+120,17,bootstrap EM,pi,True
+120,17,bootstrap EM,mu,0.6
+120,17,bootstrap EM,pi,True
+120,17,bootstrap EM,mu,0.4
+120,20,VB,pi,False
+120,20,VB,mu,0.0
+120,20,VB,pi,True
+120,20,VB,mu,0.4
+120,20,VB,pi,True
+120,20,VB,mu,1.0
+120,20,VB,pi,False
+120,20,VB,mu,0.6
+120,20,VB,pi,False
+120,20,VB,mu,0.4
+120,20,bootstrap EM,pi,True
+120,20,bootstrap EM,mu,1.0
+120,20,bootstrap EM,pi,True
+120,20,bootstrap EM,mu,1.0
+120,20,bootstrap EM,pi,True
+120,20,bootstrap EM,mu,1.0
+120,20,bootstrap EM,pi,True
+120,20,bootstrap EM,mu,0.6
+120,20,bootstrap EM,pi,True
+120,20,bootstrap EM,mu,1.0
+120,25,VB,pi,True
+120,25,VB,mu,1.0
+120,25,VB,pi,True
+120,25,VB,mu,0.4
+120,25,VB,pi,True
+120,25,VB,mu,0.4
+120,25,VB,pi,True
+120,25,VB,mu,1.0
+120,25,VB,pi,False
+120,25,VB,mu,0.4
+120,25,bootstrap EM,pi,True
+120,25,bootstrap EM,mu,1.0
+120,25,bootstrap EM,pi,True
+120,25,bootstrap EM,mu,0.6
+120,25,bootstrap EM,pi,True
+120,25,bootstrap EM,mu,0.8
+120,25,bootstrap EM,pi,True
+120,25,bootstrap EM,mu,1.0
+120,25,bootstrap EM,pi,True
+120,25,bootstrap EM,mu,0.8
+120,29,VB,pi,True
+120,29,VB,mu,0.6
+120,29,VB,pi,False
+120,29,VB,mu,0.4
+120,29,VB,pi,False
+120,29,VB,mu,1.0
+120,29,VB,pi,True
+120,29,VB,mu,1.0
+120,29,VB,pi,True
+120,29,VB,mu,0.2
+120,29,bootstrap EM,pi,True
+120,29,bootstrap EM,mu,1.0
+120,29,bootstrap EM,pi,False
+120,29,bootstrap EM,mu,0.6
+120,29,bootstrap EM,pi,True
+120,29,bootstrap EM,mu,0.4
+120,29,bootstrap EM,pi,True
+120,29,bootstrap EM,mu,1.0
+120,29,bootstrap EM,pi,True
+120,29,bootstrap EM,mu,0.8
+120,34,VB,pi,False
+120,34,VB,mu,0.0
+120,34,VB,pi,True
+120,34,VB,mu,0.2
+120,34,VB,pi,False
+120,34,VB,mu,1.0
+120,34,VB,pi,True
+120,34,VB,mu,0.6
+120,34,VB,pi,False
+120,34,VB,mu,0.2
+120,34,bootstrap EM,pi,True
+120,34,bootstrap EM,mu,1.0
+120,34,bootstrap EM,pi,True
+120,34,bootstrap EM,mu,1.0
+120,34,bootstrap EM,pi,True
+120,34,bootstrap EM,mu,1.0
+120,34,bootstrap EM,pi,False
+120,34,bootstrap EM,mu,0.8
+120,34,bootstrap EM,pi,True
+120,34,bootstrap EM,mu,0.6
+120,35,VB,pi,False
+120,35,VB,mu,1.0
+120,35,VB,pi,False
+120,35,VB,mu,0.2
+120,35,VB,pi,True
+120,35,VB,mu,1.0
+120,35,VB,pi,True
+120,35,VB,mu,0.6
+120,35,VB,pi,True
+120,35,VB,mu,0.2
+120,35,bootstrap EM,pi,True
+120,35,bootstrap EM,mu,0.0
+120,35,bootstrap EM,pi,True
+120,35,bootstrap EM,mu,1.0
+120,35,bootstrap EM,pi,True
+120,35,bootstrap EM,mu,1.0
+120,35,bootstrap EM,pi,True
+120,35,bootstrap EM,mu,0.8
+120,35,bootstrap EM,pi,True
+120,35,bootstrap EM,mu,0.6
+120,39,VB,pi,True
+120,39,VB,mu,0.0
+120,39,VB,pi,False
+120,39,VB,mu,1.0
+120,39,VB,pi,True
+120,39,VB,mu,0.8
+120,39,VB,pi,True
+120,39,VB,mu,1.0
+120,39,VB,pi,True
+120,39,VB,mu,1.0
+120,39,bootstrap EM,pi,True
+120,39,bootstrap EM,mu,1.0
+120,39,bootstrap EM,pi,True
+120,39,bootstrap EM,mu,0.4
+120,39,bootstrap EM,pi,True
+120,39,bootstrap EM,mu,1.0
+120,39,bootstrap EM,pi,True
+120,39,bootstrap EM,mu,0.6
+120,39,bootstrap EM,pi,True
+120,39,bootstrap EM,mu,0.4

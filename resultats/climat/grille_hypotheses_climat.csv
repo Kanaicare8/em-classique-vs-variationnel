@@ -1,0 +1,31 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references,p_holm,rejet_holm
+"H1[EM-BIC,N=30]",Sélection de K,"|K̂-K_ref| VB-emp - EM-BIC, N = 30",A < B,-2.816666666666667,[-3.083 ; -2.533],2.103739383606397e-11,60,expérience répliquée,,2.945235137048956e-10,True
+"H1[EM-ICL,N=30]",Sélection de K,"|K̂-K_ref| VB-emp - EM-ICL, N = 30",A < B,-2.816666666666667,[-3.083 ; -2.533],2.103739383606397e-11,60,expérience répliquée,,2.945235137048956e-10,True
+"H1[EM-BIC,N=60]",Sélection de K,"|K̂-K_ref| VB-emp - EM-BIC, N = 60",A < B,-2.4,[-2.750 ; -2.067],1.6788258262214283e-10,60,expérience répliquée,,2.014590991465714e-09,True
+"H1[EM-ICL,N=60]",Sélection de K,"|K̂-K_ref| VB-emp - EM-ICL, N = 60",A < B,-2.4,[-2.750 ; -2.067],1.6788258262214283e-10,60,expérience répliquée,,2.014590991465714e-09,True
+"H1[EM-BIC,N=120]",Sélection de K,"|K̂-K_ref| VB-emp - EM-BIC, N = 120",A > B,0.6166666666666667,[0.217 ; 1.017],0.0025278333551357044,60,expérience répliquée,,0.01769483348594993,True
+"H1[EM-ICL,N=120]",Sélection de K,"|K̂-K_ref| VB-emp - EM-ICL, N = 120",A > B,0.65,[0.250 ; 1.050],0.0017182386700544772,60,expérience répliquée,,0.013745909360435817,True
+"H1[EM-BIC,N=500]",Sélection de K,"|K̂-K_ref| VB-emp - EM-BIC, N = 500",équivalent,0.0,[0.000 ; 0.000],0.0,60,expérience répliquée,,0.0,True
+"H1[EM-ICL,N=500]",Sélection de K,"|K̂-K_ref| VB-emp - EM-ICL, N = 500",équivalent,0.0,[0.000 ; 0.000],0.0,60,expérience répliquée,,0.0,True
+"H1[EM-BIC,N=2000]",Sélection de K,"|K̂-K_ref| VB-emp - EM-BIC, N = 2000",équivalent,0.0,[0.000 ; 0.000],0.0,15,expérience répliquée,,0.0,True
+"H1[EM-ICL,N=2000]",Sélection de K,"|K̂-K_ref| VB-emp - EM-ICL, N = 2000",équivalent,0.0,[0.000 ; 0.000],0.0,15,expérience répliquée,,0.0,True
+H2[ARI_koppen],Qualité à grand N,"ARI contre Köppen-Geiger : VB-emp - EM-BIC, N = 2000 (marge 0.03)",A < B,-0.03402038443070752,[-0.039 ; -0.029],3.852338441924475e-08,40,expérience répliquée,,3.569388204466045e-07,True
+H2[loglik_plugin],Qualité à grand N,"log-vraisemblance hors bloc (nat/obs, plug-in) : VB-emp - EM-BIC, N = 2000 (marge 0.02)",A < B,-0.34620973918043985,[-0.360 ; -0.332],3.569388204466045e-08,40,expérience répliquée,,3.569388204466045e-07,True
+H2[complet],Qualité à N complet,"une seule exécution à N complet : descriptif, pas de test",descriptif,,,,1,expérience unique,,,False
+H8[N=120],Dimension,"D = 20, dégénérés : VB-emp 20/20 contre EM-Kmax 20/20 (dépendance aux priors à D = 20 : non testée)",indéterminé,,,1.0,20,expérience répliquée,,1.0,False
+H8[N=500],Dimension,"D = 20, dégénérés : VB-emp 20/20 contre EM-Kmax 20/20 (dépendance aux priors à D = 20 : non testée)",indéterminé,,,1.0,20,expérience répliquée,,1.0,False
+H8[N=2000],Dimension,"D = 20, dégénérés : VB-emp 20/20 contre EM-Kmax 20/20 (dépendance aux priors à D = 20 : non testée)",indéterminé,,,1.0,20,expérience répliquée,,1.0,False
+H3[N=30],Petit N,dégénérés : VB-emp 40/40 contre EM-Kmax 40/40,indéterminé,,,1.0,40,expérience répliquée,,1.0,False
+H3[N=60],Petit N,dégénérés : VB-emp 39/40 contre EM-Kmax 40/40,indéterminé,,,0.9999999999999839,40,expérience répliquée,,1.0,False
+H3[N=120],Petit N,dégénérés : VB-emp 39/40 contre EM-Kmax 40/40,indéterminé,,,0.9999999999999839,40,expérience répliquée,,1.0,False
+H4[N=30],Coût,temps médian EM-BIC / VB-emp (ratio > 1 : EM-BIC plus coûteux),ratio > 1,1.1301889552128888,[1.04 ; 1.29],,40,expérience répliquée,,,False
+H4[N=60],Coût,temps médian EM-BIC / VB-emp (ratio > 1 : EM-BIC plus coûteux),ratio > 1,1.862961859822798,[1.44 ; 1.99],,40,expérience répliquée,,,False
+H4[N=120],Coût,temps médian EM-BIC / VB-emp (ratio > 1 : EM-BIC plus coûteux),ratio > 1,2.750560448512754,[2.65 ; 2.95],,40,expérience répliquée,,,False
+H4[N=500],Coût,temps médian EM-BIC / VB-emp (ratio > 1 : EM-BIC plus coûteux),ratio > 1,4.077855413198765,[3.67 ; 4.42],,40,expérience répliquée,,,False
+H4[N=2000],Coût,temps médian EM-BIC / VB-emp (ratio > 1 : EM-BIC plus coûteux),ratio > 1,3.707848550093554,[3.37 ; 4.07],,40,expérience répliquée,,,False
+H5,Hyperparamètres,Var(K̂) VB (priors) = 3.75 contre Var(K̂) EM-BIC (initialisation) = 0.23,Var VB >= Var EM,,,,0,expérience unique,,,False
+"H6[VB,mu]",Incertitude,couverture empirique à 90 % (360/410),compatible 90 %,0.8780487804878049,[0.843 ; 0.906] (Wilson),,410,expérience répliquée,,,False
+"H6[VB,pi]",Incertitude,couverture empirique à 90 % (353/410),< 90 %,0.8609756097560975,[0.824 ; 0.891] (Wilson),,410,expérience répliquée,,,False
+"H6[bootstrap EM,mu]",Incertitude,couverture empirique à 90 % (379/410),compatible 90 %,0.9243902439024391,[0.895 ; 0.946] (Wilson),,410,expérience répliquée,,,False
+"H6[bootstrap EM,pi]",Incertitude,couverture empirique à 90 % (389/410),>= 90 %,0.948780487804878,[0.923 ; 0.966] (Wilson),,410,expérience répliquée,,,False
+H7,Chevauchement,"K̂ moyen à N = 2000 : EM-BIC 5.00, EM-ICL 5.00, EM-K 5.00, EM-Kmax 10.00, MAP-EM 5.47, VB-emp 5.00",non,,,,90,expérience répliquée,,,False

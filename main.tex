@@ -21,6 +21,8 @@
 \fancyhead[RE]{\nouppercase{\leftmark}}
 \fancyhead[LO]{\nouppercase{\rightmark}}
 \renewcommand{\headrulewidth}{0.4pt}
+\AtBeginDocument{\setlength{\headheight}{15pt}}
+\setlength{\emergencystretch}{3em}
 
 % 
 % Titres de chapitres/sections
@@ -102,11 +104,33 @@
 % 
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
+\usepackage{qrcode}
+\newcommand{\depot}{https://github.com/Kanaicare8/em-classique-vs-variationnel}
+% QR code et adresse lisible d'un fichier du dépôt
+\newcommand{\qrfichier}[2]{%
+  \begin{minipage}[t]{0.31\linewidth}\centering
+  \qrcode[height=2.4cm]{\depot/blob/main/#1}\\[0.3em]
+  {\footnotesize\textbf{#2}}\\
+  {\scriptsize\texttt{#1}}
+  \end{minipage}}
 
 % 
 % Divers
 % 
 \usepackage{enumitem}
+
+%
+% Schémas TikZ, couleurs de la charte (Navy, Blue, Sky) et tableaux générés par le code
+%
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\definecolor{navy}{HTML}{0B1F4B}
+\definecolor{bleu}{HTML}{1E6FD9}
+\definecolor{ciel}{HTML}{87CEEB}
+% \tableauGenere{nom} inclut tables/nom.tex (produit par tex_tables.py) ou signale qu'il reste à générer
+\newcommand{\tableauGenere}[1]{%
+  \IfFileExists{tables/#1.tex}{\input{tables/#1}}{%
+    \par\medskip\noindent\fbox{\parbox{0.92\linewidth}{\small Tableau « \detokenize{#1} » à générer : exécuter le code, puis \texttt{python tex\_tables.py}.}}\par\medskip}}
 
 \title{Comparaison entre l'algorithme EM classique et l'EM variationnel}
 \author{KANA TIODONG ICARE BRICHEL}
@@ -172,6 +196,7 @@ Mémoire co-encadré par :\\[8pt]
 \end{titlepage}
 
 \pagenumbering{roman}
+
 
 % =======================================================================
 % SOMMAIRE, LISTES

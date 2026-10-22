@@ -1,0 +1,4 @@
+Téléchargé le 2026-10-14
+wc2.1_2.5m_bio.zip  sha256=acdc818765cb362d61c1bd88ee3ae7312e81da54ae2a8d87188bdcbe9b828ace
+wc2.1_2.5m_elev.zip  sha256=6761259f10b4d5ac421e9949d38cc80e8f586c54bba4ef30b1f257c4475774a9
+Licence WorldClim : usage académique et non commercial ; redistribution interdite sans autorisation.

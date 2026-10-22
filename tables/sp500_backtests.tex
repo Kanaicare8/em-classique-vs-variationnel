@@ -1,0 +1,33 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}}
+\caption{Backtests de la VaR et de l'ES (période d'évaluation)}\label{tab:sp500_backtests}\\
+\toprule
+\textbf{Modèle} & \textbf{Niv.} & \textbf{Exc.} & \textbf{Att.} & \textbf{Kupiec $p$} & \textbf{Chr. ind. $p$} & \textbf{Chr. cc $p$} & \textbf{$Z_1$} & \textbf{$Z_2$} & \textbf{Log-score} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Modèle} & \textbf{Niv.} & \textbf{Exc.} & \textbf{Att.} & \textbf{Kupiec $p$} & \textbf{Chr. ind. $p$} & \textbf{Chr. cc $p$} & \textbf{$Z_1$} & \textbf{$Z_2$} & \textbf{Log-score} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Gaussienne & 0,050 & 41 & 59,700 & 0,009 & 0,224 & 0,015 & 0,186 & -0,185 & -1,504 \\
+Gaussienne & 0,010 & 20 & 11,900 & 0,032 & 0,043 & 0,013 & 0,126 & 0,888 & -1,504 \\
+Student-t & 0,050 & 94 & 59,700 & 0,000 & 0,323 & 0,000 & -0,275 & 0,143 & -1,458 \\
+Student-t & 0,010 & 8 & 11,900 & 0,224 & 0,041 & 0,059 & -0,361 & -0,571 & -1,458 \\
+Simulation historique & 0,050 & 55 & 59,700 & 0,532 & 0,147 & 0,288 & -0,157 & -0,223 & n/d \\
+Simulation historique & 0,010 & 8 & 11,900 & 0,224 & 0,041 & 0,059 & -0,238 & -0,489 & n/d \\
+GARCH(1,1)-t & 0,050 & 92 & 59,700 & 0,000 & 0,371 & 0,000 & 0,009 & 0,557 & -1,378 \\
+GARCH(1,1)-t & 0,010 & 15 & 11,900 & 0,390 & 0,536 & 0,571 & 0,099 & 0,382 & -1,378 \\
+EM-BIC (K=4) (plug-in) & 0,050 & 57 & 59,700 & 0,723 & 0,068 & 0,177 & -0,166 & -0,203 & -1,462 \\
+EM-BIC (K=4) (plug-in) & 0,010 & 6 & 11,900 & 0,056 & 0,020 & 0,011 & -0,196 & -0,596 & -1,462 \\
+VB-emp (plug-in) & 0,050 & 57 & 59,700 & 0,723 & 0,068 & 0,177 & -0,163 & -0,200 & -1,460 \\
+VB-emp (plug-in) & 0,010 & 6 & 11,900 & 0,056 & 0,020 & 0,011 & -0,185 & -0,590 & -1,460 \\
+VB-emp (prédictive) & 0,050 & 56 & 59,700 & 0,624 & 0,168 & 0,343 & -0,177 & -0,228 & -1,460 \\
+VB-emp (prédictive) & 0,010 & 5 & 11,900 & 0,022 & 0,013 & 0,003 & -0,189 & -0,660 & -1,460 \\
+HMM 2 états (filtrage forward) & 0,050 & 79 & 59,700 & 0,014 & 0,088 & 0,011 & -0,069 & 0,233 & -1,449 \\
+HMM 2 états (filtrage forward) & 0,010 & 14 & 11,900 & 0,558 & 0,153 & 0,303 & -0,211 & -0,074 & -1,449 \\
+\end{longtable}
+\par\noindent{\footnotesize Exc. : exceptions observées, Att. : attendues. $Z_1$, $Z_2$ d'Acerbi et Székely (2014) : valeurs positives = risque sous-estimé. Les écarts d'une exception entre mélanges EM et VB ne sont pas une différence d'algorithme.}
+}

@@ -1,0 +1,29 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth,
+    v/.style={circle,draw=navy,minimum size=0.9cm,font=\footnotesize,inner sep=0pt},
+    o/.style={circle,draw=navy,fill=ciel!40,minimum size=0.9cm,font=\footnotesize,inner sep=0pt}]
+  \node[font=\footnotesize\bfseries] at (1.7,3.0) {pLSA (EM, sans prior)};
+  \node[v] (theta1) at (0,1.8) {$\theta_d$};
+  \node[v] (z1) at (1.8,1.8) {$z$};
+  \node[o] (w1) at (3.4,1.8) {$w$};
+  \node[font=\scriptsize] (phi1) at (3.4,0.4) {$\phi_k$ ponctuel};
+  \draw[->] (theta1) -- (z1);
+  \draw[->] (z1) -- (w1);
+  \draw[->] (phi1) -- (w1);
+  \node[font=\scriptsize,text=gray] at (0,0.9) {ponctuel, sans prior};
+  \node[font=\footnotesize\bfseries] at (9.4,3.0) {LDA (EM variationnel)};
+  \node[font=\scriptsize] (alpha) at (6.4,1.8) {$\alpha$};
+  \node[v] (theta2) at (7.8,1.8) {$\theta_d$};
+  \node[v] (z2) at (9.4,1.8) {$z$};
+  \node[o] (w2) at (11,1.8) {$w$};
+  \node[font=\scriptsize] (beta2) at (11,0.4) {$\beta_k$ ponctuel};
+  \draw[->] (alpha) -- (theta2);
+  \draw[->] (theta2) -- (z2);
+  \draw[->] (z2) -- (w2);
+  \draw[->] (beta2) -- (w2);
+  \node[font=\scriptsize,text=gray] at (7.8,0.9) {$\sim\mathrm{Dir}(\alpha)$, prior};
+\end{tikzpicture}
+\caption{Modèles graphiques du pLSA et de la LDA utilisée ici. La différence testée est le prior de Dirichlet sur $\theta_d$ (LDA) contre un $\theta_d$ ponctuel sans prior (pLSA). Dans les deux cas les distributions de mots par thème sont ponctuelles : la LDA du code est un EM variationnel à $\beta$ ponctuel, non un VB complet.}
+\label{fig:plsa_lda}
+\end{figure}

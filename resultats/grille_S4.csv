@@ -1,0 +1,2 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S4[Student nu=3],S4_queues_epaisses,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.06312612372371124,[0.044 ; 0.082],1.1265398499821103e-05,30,expérience répliquée,

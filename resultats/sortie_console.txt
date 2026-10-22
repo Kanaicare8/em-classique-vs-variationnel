@@ -1,0 +1,207 @@
+
+==============================================================================
+00  Validation des exemples numériques du chapitre 1
+==============================================================================
+Tableau 1.2 recalculé (EM classique, 8 observations) :
+ iteration   mu1   mu2  sigma1  sigma2   pi1   pi2  loglik
+         0 2.000 6.000   2.000   2.000 0.500 0.500     NaN
+         1 1.284 7.368   1.134   1.549 0.484 0.516 -15.814
+         2 1.125 7.722   0.466   0.479 0.500 0.500 -10.742
+         3 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         4 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         5 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         6 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         7 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         8 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         9 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+        10 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+Moyennes empiriques des deux groupes : 1.125 et 7.725
+Densité du mélange ajusté en x = 2,0 (éq. 1.10) : 0.0734
+Dirichlet a posteriori [8.0, 5.0, 2.0] ; E[pi] = [0.533, 0.333, 0.133]
+Tableau 1.4 recalculé (forward-backward) :
+ t  alpha_B  alpha_P  beta_B  beta_P  gamma_B  gamma_P
+ 1    0.540    0.080   0.147   0.262    0.791    0.209
+ 2    0.041    0.168   0.310   0.520    0.127    0.873
+ 3    0.010    0.090   1.000   1.000    0.096    0.904
+p(O) = 0.1001
+Tableau 1.5 recalculé (EM variationnel, Kmax = 3, alpha0 = 1/3) :
+  init  graine  iterations                 alpha                     m  actives
+ prior       0          12 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ prior       1           7 [4.333, 4.333, 0.333] [7.724, 1.126, 4.425]        2
+ prior       2          12 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ prior       3           7 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ prior       4           7 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+kmeans       0          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+kmeans       1           5 [4.333, 4.333, 0.333] [7.724, 1.126, 4.425]        2
+kmeans       2          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+kmeans       3          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+kmeans       4           5 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+EM : log-vraisemblance croissante à chaque itération : True
+Neal et Hinton : F(q*, theta) = -945.839902 ; log-vraisemblance = -945.839902 (écart 1.14e-13)
+EM variationnel : ELBO croissant à chaque itération : True ; ELBO final -1046.62 <= log-vraisemblance maximale de l'EM -945.84 : True
+[exp 00 terminée en 4.4 s]
+
+==============================================================================
+01  Comparaison K = 6 (sections 2.3.1 à 2.3.4)
+==============================================================================
+                                         modele  composantes_actives   ARI  silhouette  iterations  converge  degenere  temps_s                                      poids
+       EM classique (init k-means, 10 relances)                    6 0.794       0.390         162      True     False    2.389 [0.258, 0.332, 0.083, 0.013, 0.238, 0.075]
+   EM classique (init aléatoire, version 3.2.1)                    6 0.795       0.407         119      True     False    0.145  [0.333, 0.08, 0.303, 0.074, 0.034, 0.176]
+  EM variationnel (priors diffus, init k-means)                    4 0.985       0.646         102      True      True    2.625 [0.001, 0.326, 0.333, 0.332, 0.008, 0.001]
+            EM variationnel (priors empiriques)                    3 0.990       0.739          22      True     False    0.756 [0.001, 0.331, 0.333, 0.335, 0.001, 0.001]
+EM variationnel (init aléatoire, version 3.3.1)                    4 0.873       0.590         129      True     False    0.334 [0.198, 0.001, 0.001, 0.332, 0.334, 0.135]
+ELBO final (priors empiriques) : -1046.62 ; log-vraisemblance EM : -942.11
+[exp 01 terminée en 16.8 s]
+
+==============================================================================
+02  Sensibilité au prior de Dirichlet alpha0 (section 2.3.5)
+==============================================================================
+ alpha0            priors  composantes_actives   ARI                                      poids  iterations
+  0.001     priors diffus                    3 1.000       [0.0, 0.335, 0.333, 0.332, 0.0, 0.0]         100
+  0.001 priors empiriques                    3 0.990       [0.0, 0.335, 0.333, 0.331, 0.0, 0.0]          23
+  0.010     priors diffus                    3 1.000       [0.0, 0.334, 0.333, 0.332, 0.0, 0.0]         100
+  0.010 priors empiriques                    3 0.990       [0.0, 0.335, 0.331, 0.333, 0.0, 0.0]          24
+  0.100     priors diffus                    3 1.000       [0.0, 0.334, 0.333, 0.332, 0.0, 0.0]         101
+  0.100 priors empiriques                    3 0.990       [0.0, 0.335, 0.333, 0.331, 0.0, 0.0]          23
+  1.000     priors diffus                    4 0.981   [0.014, 0.329, 0.33, 0.32, 0.003, 0.003]         101
+  1.000 priors empiriques                    3 0.990  [0.33, 0.003, 0.328, 0.332, 0.003, 0.003]          23
+ 10.000     priors diffus                    6 0.618 [0.185, 0.162, 0.167, 0.166, 0.171, 0.149]          55
+ 10.000 priors empiriques                    6 0.960 [0.075, 0.263, 0.211, 0.306, 0.074, 0.072]         168
+[exp 02 terminée en 23.5 s]
+
+==============================================================================
+03  Scalabilité (section 2.3.6)
+==============================================================================
+ parametre  valeur  n_rep  classique_s  variationnel_s  ratio  iter_classique  iter_variationnel  cout_iter_classique_s  cout_iter_variationnel_s  ratio_cout_iter
+   N (D=2)     300     10       0.1830          0.1533    0.8           154.0               58.0                0.00119                   0.00264              2.2
+   N (D=2)    1000     10       0.2763          0.4648    1.7           155.0              139.0                0.00178                   0.00334              1.9
+   N (D=2)    5000     10       0.3208          1.9744    6.2            54.0              299.0                0.00594                   0.00660              1.1
+   N (D=2)   20000     10       1.0998          1.8825    1.7            56.0               88.0                0.01964                   0.02139              1.1
+D (N=2000)       2     10       0.2701          0.8956    3.3            98.0              226.0                0.00276                   0.00396              1.4
+D (N=2000)       5     10       0.3408          0.8464    2.5           127.0              199.0                0.00268                   0.00425              1.6
+D (N=2000)      10     10       0.3507          0.3427    1.0           131.0               77.0                0.00268                   0.00445              1.7
+D (N=2000)      20     10       0.3616          0.3846    1.1            98.0               62.0                0.00369                   0.00620              1.7
+Tableau et figure sortent du même run (même dataframe).
+[exp 03 terminée en 105.5 s]
+
+==============================================================================
+04  Cas de référence K = 3 (section 2.3.7)
+==============================================================================
+                modele  composantes_actives  ARI  silhouette  iterations  converge  degenere  temps_s                 poids
+      EM classique K=3                    3 1.00       0.740          72      True     False    0.103 [0.332, 0.333, 0.335]
+EM variationnel Kmax=3                    3 0.99       0.739           3      True     False    0.164 [0.333, 0.335, 0.331]
+[exp 04 terminée en 0.3 s]
+
+==============================================================================
+05  Convergence de l'ELBO (section 2.3.8)
+==============================================================================
+ELBO : première valeur -1134.71, dernière -1046.62, croissance stricte : True, itérations : 22
+[exp 05 terminée en 5.1 s]
+
+==============================================================================
+06  Robustesse à l'initialisation (section 2.3.9)
+==============================================================================
+[init k-means] log-vraisemblance EM : min -947.67, max -942.12, écart-type 1.61 ; ARI moyen EM variationnel 0.926
+[init aléatoire] log-vraisemblance EM : min -948.33, max -935.57, écart-type 3.52 ; ARI moyen EM variationnel 0.921
+initialisation                          algorithme  n_repetitions  3 actives  4 actives  5 actives  6 actives
+  init k-means                        EM classique             20          0          0          0         20
+  init k-means     EM variationnel (priors diffus)             20          0         12          8          0
+  init k-means EM variationnel (priors empiriques)             20         20          0          0          0
+init aléatoire                        EM classique             20          0          0          0         20
+init aléatoire     EM variationnel (priors diffus)             20          4         14          2          0
+init aléatoire EM variationnel (priors empiriques)             20         20          0          0          0
+[exp 06 terminée en 20.0 s]
+
+==============================================================================
+07  Sensibilité au type de covariance (section 2.3.10)
+==============================================================================
+covariance  ARI_classique  ARI_variationnel  actives_variationnel  BIC_classique
+      full          0.794              0.99                     3         2083.9
+      tied          0.745              1.00                     3         2022.7
+      diag          0.860              0.99                     3         2048.2
+ spherical          0.809              1.00                     3         2022.1
+Remarque : les variantes tied, diag et spherical de l'EM variationnel ne sont pas dérivées ici ; elles utilisent un prior Wishart partagé (tied) ou Gamma (diag, spherical), conjugués.
+[exp 07 terminée en 12.0 s]
+
+==============================================================================
+08  Jeu de données réel Iris (section 2.3.11)
+==============================================================================
+                modele  composantes_actives   ARI  silhouette  iterations  converge  degenere  temps_s                                      poids
+      EM classique K=6                    6 0.662       0.440          34      True      True    0.511  [0.333, 0.226, 0.02, 0.053, 0.191, 0.177]
+EM variationnel Kmax=6                    3 0.562       0.276         137      True     False    1.407 [0.007, 0.073, 0.001, 0.001, 0.585, 0.332]
+      EM classique K=3                    3 0.904       0.501          22      True     False    0.179                      [0.333, 0.367, 0.299]
+EM variationnel Kmax=3                    3 0.644       0.368         104      True     False    2.479                       [0.16, 0.333, 0.506]
+[exp 08 terminée en 6.8 s]
+
+==============================================================================
+09  Valeurs aberrantes (section 2.3.12)
+==============================================================================
+         modele  ARI_hors_aberrantes  composantes_actives  trace_covariance_max  poids_plus_petit
+   EM classique                 0.99                    6                   6.2            0.0065
+EM variationnel                 0.99                    5                  98.5            0.0108
+[exp 09 terminée en 1.3 s]
+
+==============================================================================
+10  Sélection de modèle par BIC et AIC (section 2.2.3)
+==============================================================================
+ K   loglik     BIC     AIC
+ 1 -1348.44 2725.40 2706.88
+ 2 -1064.91 2192.56 2151.82
+ 3  -955.80 2008.56 1945.59
+ 4  -950.04 2031.27 1946.08
+ 5  -946.95 2059.30 1951.89
+ 6  -942.11 2083.85 1954.22
+ 7  -931.02 2095.89 1944.03
+ 8  -927.69 2123.46 1949.38
+K* selon BIC : 3 ; K* selon AIC : 7
+[exp 10 terminée en 13.6 s]
+
+==============================================================================
+11  Variantes de l'EM, Baum-Welch et LDA
+==============================================================================
+                                               methode  loglik  ARI  temps_s
+                                   EM standard (batch)  -955.8 1.00    0.017
+EM stochastique (SEM), 20 baisses de log-vraisemblance  -955.8 1.00    0.180
+                  EM online (statistiques suffisantes)  -956.0 1.00    0.049
+             EM variationnel batch (Kmax=6, 3 actives)     NaN 0.99    0.198
+                               SVI (Kmax=6, 3 actives)     NaN 0.99    0.195
+Baum-Welch discret (T=1000) : log-vraisemblance croissante : True, 100 itérations
+  log-vraisemblance estimée -662.74 contre -663.19 aux vrais paramètres (le maximum de vraisemblance peut dépasser la vraie valeur sur une séquence courte)
+  A vrai [[0.7, 0.3], [0.4, 0.6]]  estimé [[0.705, 0.295], [0.383, 0.617]]
+  B vrai [[0.1, 0.9], [0.8, 0.2]]  estimé [[0.105, 0.895], [0.804, 0.196]]
+Baum-Welch gaussien : sigma estimés [0.482, 1.99] (vrais 0,5 et 2,0), A estimée [[0.939, 0.061], [0.164, 0.836]] (vraie [[0.95, 0.05], [0.1, 0.9]])
+LDA : borne variationnelle croissante : True ; 4 itérations ; meilleure borne -131.63 (10 graines)
+  Thème 0 : football, reprend, end, remporte, week, equipe
+  Thème 1 : taux, but, joueur, rencontre, decisif, marque
+  Thème 2 : chat, chien, actions, progressent, marche, financier
+      T0    T1    T2  theme_dominant  theme_vrai
+0   0.96  0.02  0.02               0           0
+1   0.02  0.02  0.95               2           0
+2   0.02  0.02  0.96               2           0
+3   0.02  0.02  0.96               2           1
+4   0.02  0.02  0.96               2           1
+5   0.02  0.97  0.02               1           1
+6   0.96  0.02  0.02               0           2
+7   0.02  0.97  0.02               1           2
+8   0.96  0.02  0.02               0           2
+9   0.02  0.02  0.96               2           0
+10  0.02  0.96  0.02               1           1
+11  0.95  0.02  0.02               0           2
+Pureté des documents (thème dominant contre thème vrai) : 0.67
+[exp 11 terminée en 22.1 s]
+
+==============================================================================
+12  Réplication statistique sur jeux de données indépendants
+==============================================================================
+                             modele  R  ARI_moyen        ARI_IC95  ARI_ecart_type  silhouette_moyenne silhouette_IC95  part_exactement_3_actives part_IC95_Wilson  actives_moyennes  iterations_moyennes  temps_moyen_s
+                       EM classique 30      0.760 [0.743 ; 0.777]           0.048               0.412 [0.389 ; 0.436]                      0.000  [0.000 ; 0.114]              6.00                128.5          1.688
+    EM variationnel (priors diffus) 30      0.971 [0.953 ; 0.988]           0.050               0.709 [0.685 ; 0.732]                      0.733  [0.556 ; 0.858]              3.27                118.5          3.058
+EM variationnel (priors empiriques) 30      0.999 [0.998 ; 1.000]           0.003               0.746 [0.743 ; 0.749]                      1.000  [0.886 ; 1.000]              3.00                 27.2          0.754
+                                                 comparaison  difference_moyenne  IC95_bootstrap jeux_ou_variationnel_meilleur
+    EM variationnel (priors diffus) moins EM classique (ARI)               0.211 [0.192 ; 0.229]                     30 sur 30
+EM variationnel (priors empiriques) moins EM classique (ARI)               0.239 [0.222 ; 0.256]                     30 sur 30
+H1 pour EM variationnel (priors diffus) moins EM classique (ARI) : soutenue (IC95 strictement positif)
+H1 pour EM variationnel (priors empiriques) moins EM classique (ARI) : soutenue (IC95 strictement positif)
+[exp 12 terminée en 168.9 s]
+
+Terminé en 400.5 s. Résultats dans M:\Travail\Icare\resultats

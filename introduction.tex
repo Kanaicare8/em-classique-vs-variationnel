@@ -1,0 +1,27 @@
+%% ==== Introduction générale ====
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+\markboth{INTRODUCTION GÉNÉRALE}{INTRODUCTION GÉNÉRALE}
+
+\section*{Contexte et problématique}
+Les modèles à variables latentes, au premier rang desquels les mélanges gaussiens, sont ajustés depuis plus de quarante ans par l'algorithme Espérance-Maximisation (EM) de Dempster, Laird et Rubin (1977). L'EM fournit un estimateur ponctuel du maximum de vraisemblance, exige que le nombre de composantes $K$ soit fixé à l'avance et peut converger vers des solutions dégénérées. L'EM variationnel, dans sa forme bayésienne (Attias, 2000 ; Bishop, 2006), place des lois a priori sur les paramètres, approche leur loi a posteriori par un champ moyen et élague les composantes superflues. La question traitée est la suivante : \emph{que gagne-t-on, et que perd-on, en passant de l'EM classique à l'EM variationnel, et sur quelles preuves ces gains et ces pertes reposent-ils ?}
+
+La littérature présente volontiers l'EM variationnel comme un progrès. Ce mémoire adopte la position inverse du soupçon méthodique : chaque avantage (sélection automatique de $K$, incertitude, robustesse aux singularités, économie de calcul) et chaque inconvénient (coût, sensibilité aux priors, biais d'approximation, irréversibilité de l'élagage, dépendance à $K_{\max}$) est relié à une preuve : un théorème, une expérience répliquée, une expérience unique, ou la mention « non testé ».
+
+\section*{Trois niveaux d'inférence}
+La comparaison n'a de sens que si l'on distingue trois niveaux, rassemblés à la figure~\ref{fig:trois_niveaux} (chapitre 2). (1) L'\emph{EM classique} estime $\theta$ par un point (maximum de vraisemblance) avec $q(Z) = p(Z \mid X, \theta)$ exact. (2) L'\emph{EM variationnel à $\theta$ ponctuel} (Neal et Hinton, 1998 ; la LDA de Blei, Ng et Jordan, 2003) approche $q(Z)$ mais garde $\theta$ ponctuel. (3) Le \emph{Bayes variationnel} (VB) rend $\theta$ aléatoire et approche $q(\theta)$. Un comparateur intermédiaire, le \emph{MAP-EM}, ajoute les priors du VB à l'EM sans distribution sur $\theta$ : il isole l'effet de la régularisation de celui de l'inférence bayésienne complète.
+
+\section*{Thèse défendue}
+Le VB ne « bat » pas l'EM. Il déplace la sélection de $K$ vers le choix des hyperparamètres (et de $K_{\max}$), apporte une incertitude approchée, au prix d'un coût et d'une sensibilité aux priors. Les termes « supériorité », « changement de paradigme » et « dérivation originale » sont bannis de ce mémoire : l'équivalence de Neal et Hinton y est reprise comme une re-démonstration rigoureuse, non comme une contribution.
+
+\section*{Hypothèses et critères}
+Les hypothèses sont fixées avant l'analyse. Au chapitre 2, dix scénarios synthétiques (S1 à S10) testent le chevauchement, le déséquilibre des poids, la sous-estimation de $K$, les queues épaisses, la dimension, le petit effectif, les aberrations, la grille de $\alpha_0$ autour du seuil $d/2$ de Rousseau et Mengersen (2011), un plan factoriel sur les priors et la sensibilité au seuil d'activité, chacun avec au moins 30 réplications, un test apparié et un critère d'équivalence. Au chapitre 3, huit hypothèses H1 à H8 (sélection de $K$, qualité à $N$ complet, petit $N$, coût, hyperparamètres, couverture des intervalles de crédibilité, chevauchement, dimension) sont posées pour le cas principal avec leurs critères de décision (tableau~\ref{tab:climat_hypotheses}) ; la correction de Holm s'applique à l'ensemble des tests, et l'équivalence est une issue légitime.
+
+\section*{Méthode et reproductibilité}
+Tous les algorithmes sont écrits en PyTorch à partir des équations, avec un \emph{critère d'arrêt commun} (tolérance relative de $10^{-6}$ sur le critère total, plafond de 500 étapes M, figure~\ref{fig:boucle_arret}) : aucune comparaison n'est faite avec des critères d'arrêt différents. Les tableaux et les figures sont produits par le code avec des graines fixées ; aucun nombre des tableaux n'est saisi à la main, et le dépôt est archivé (annexe A).
+
+\section*{Périmètre}
+Le mémoire porte sur les mélanges gaussiens (et de Student pour la robustesse), le modèle de Markov caché et la LDA. Le cas principal est le climat du Cameroun (données WorldClim) ; le cas secondaire est le risque de marché du S\&P 500 ; une comparaison pLSA contre LDA porte sur un corpus réel. La vision, la bio-informatique et la recommandation font l'objet d'une revue de la littérature, sans expérience. Les mélanges de Dirichlet infinis, les méthodes MCMC et les familles variationnelles structurées sont hors périmètre.
+
+\section*{Plan}
+Le chapitre 1 pose les fondements (variables latentes, ELBO, KL, EM, EM variationnel) en distinguant les trois niveaux d'inférence. Le chapitre 2 compare théoriquement puis expérimentalement les deux approches, avec la baseline EM-BIC/ICL et le MAP-EM, et aboutit à la grille « axe $\times$ preuve » du tableau~\ref{tab:2_17}. Le chapitre 3 présente le cas climatique, le cas du S\&P 500, la comparaison pLSA contre LDA, une revue de littérature pour les autres domaines, l'implémentation et le guide de décision avec niveaux de preuve. La conclusion générale dresse le bilan et les limites.

@@ -1,0 +1,52 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}}
+\caption{Chevauchement croissant (S1) : moyennes sur les réplications (au moins 30)}\label{tab:S1}\\
+\toprule
+\textbf{Paramètre} & \textbf{Bras} & \textbf{$\hat K$ moy.} & \textbf{$\lvert\hat K-K\rvert$} & \textbf{ARI} & \textbf{LL test} & \textbf{Dégénérés} & \textbf{Non convergés} & \textbf{Temps méd. (s)} & \textbf{Rép.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Paramètre} & \textbf{Bras} & \textbf{$\hat K$ moy.} & \textbf{$\lvert\hat K-K\rvert$} & \textbf{ARI} & \textbf{LL test} & \textbf{Dégénérés} & \textbf{Non convergés} & \textbf{Temps méd. (s)} & \textbf{Rép.} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1 & EM-BIC & 1,000 & 2,000 & 0,000 & -3,000 & 0,0\,\% & 0,0\,\% & 64,980 & 30 \\
+1 & EM-ICL & 1,000 & 2,000 & 0,000 & -3,000 & 0,0\,\% & 0,0\,\% & 65,104 & 30 \\
+1 & EM-K & 3,000 & 0,000 & 0,037 & -3,041 & 0,0\,\% & 10,0\,\% & 4,390 & 30 \\
+1 & EM-Kmax & 10,000 & 7,000 & 0,043 & -3,242 & 53,3\,\% & 6,7\,\% & 9,842 & 30 \\
+1 & MAP-EM & 10,000 & 7,000 & 0,059 & -3,066 & 0,0\,\% & 0,0\,\% & 3,872 & 30 \\
+1 & VB-diff & 1,800 & 1,600 & 0,012 & -3,017 & 10,0\,\% & 0,0\,\% & 13,904 & 30 \\
+1 & VB-emp & 1,300 & 1,700 & 0,010 & -3,006 & 0,0\,\% & 0,0\,\% & 17,647 & 30 \\
+2 & EM-BIC & 1,167 & 1,833 & 0,033 & -3,358 & 0,0\,\% & 0,0\,\% & 54,794 & 30 \\
+2 & EM-ICL & 1,000 & 2,000 & 0,000 & -3,353 & 0,0\,\% & 0,0\,\% & 54,453 & 30 \\
+2 & EM-K & 3,000 & 0,000 & 0,254 & -3,372 & 0,0\,\% & 0,0\,\% & 2,145 & 30 \\
+2 & EM-Kmax & 10,000 & 7,000 & 0,151 & -3,583 & 60,0\,\% & 0,0\,\% & 8,741 & 30 \\
+2 & MAP-EM & 10,000 & 7,000 & 0,208 & -3,396 & 0,0\,\% & 0,0\,\% & 3,690 & 30 \\
+2 & VB-diff & 2,333 & 0,867 & 0,111 & -3,366 & 3,3\,\% & 0,0\,\% & 13,824 & 30 \\
+2 & VB-emp & 2,500 & 0,633 & 0,200 & -3,359 & 0,0\,\% & 0,0\,\% & 12,498 & 30 \\
+3 & EM-BIC & 2,033 & 0,967 & 0,350 & -3,705 & 0,0\,\% & 0,0\,\% & 24,236 & 30 \\
+3 & EM-ICL & 1,000 & 2,000 & 0,000 & -3,757 & 0,0\,\% & 0,0\,\% & 23,358 & 30 \\
+3 & EM-K & 3,000 & 0,000 & 0,610 & -3,675 & 0,0\,\% & 0,0\,\% & 0,549 & 30 \\
+3 & EM-Kmax & 10,000 & 7,000 & 0,313 & -3,895 & 23,3\,\% & 0,0\,\% & 4,780 & 30 \\
+3 & MAP-EM & 10,000 & 7,000 & 0,381 & -3,696 & 0,0\,\% & 0,0\,\% & 1,861 & 30 \\
+3 & VB-diff & 3,767 & 0,767 & 0,526 & -3,692 & 6,7\,\% & 0,0\,\% & 6,403 & 30 \\
+3 & VB-emp & 3,167 & 0,167 & 0,629 & -3,670 & 0,0\,\% & 0,0\,\% & 3,297 & 30 \\
+4 & EM-BIC & 3,000 & 0,000 & 0,856 & -3,857 & 0,0\,\% & 0,0\,\% & 13,841 & 30 \\
+4 & EM-ICL & 2,667 & 0,400 & 0,719 & -3,896 & 0,0\,\% & 0,0\,\% & 13,748 & 30 \\
+4 & EM-K & 3,000 & 0,000 & 0,856 & -3,857 & 0,0\,\% & 0,0\,\% & 0,110 & 30 \\
+4 & EM-Kmax & 10,000 & 7,000 & 0,448 & -4,041 & 16,7\,\% & 0,0\,\% & 2,803 & 30 \\
+4 & MAP-EM & 9,667 & 6,667 & 0,559 & -3,874 & 23,3\,\% & 0,0\,\% & 1,081 & 30 \\
+4 & VB-diff & 4,067 & 1,067 & 0,786 & -3,878 & 0,0\,\% & 0,0\,\% & 3,756 & 30 \\
+4 & VB-emp & 3,033 & 0,033 & 0,855 & -3,853 & 0,0\,\% & 0,0\,\% & 1,460 & 30 \\
+5 & EM-BIC & 3,000 & 0,000 & 0,959 & -3,935 & 0,0\,\% & 0,0\,\% & 11,857 & 30 \\
+5 & EM-ICL & 3,000 & 0,000 & 0,959 & -3,935 & 0,0\,\% & 0,0\,\% & 11,884 & 30 \\
+5 & EM-K & 3,000 & 0,000 & 0,959 & -3,935 & 0,0\,\% & 0,0\,\% & 0,059 & 30 \\
+5 & EM-Kmax & 10,000 & 7,000 & 0,506 & -4,121 & 26,7\,\% & 0,0\,\% & 2,318 & 30 \\
+5 & MAP-EM & 7,267 & 4,267 & 0,741 & -3,951 & 93,3\,\% & 0,0\,\% & 1,030 & 30 \\
+5 & VB-diff & 4,133 & 1,133 & 0,878 & -3,954 & 6,7\,\% & 0,0\,\% & 3,140 & 30 \\
+5 & VB-emp & 3,000 & 0,000 & 0,961 & -3,932 & 0,0\,\% & 0,0\,\% & 1,097 & 30 \\
+\end{longtable}
+\par\noindent{\footnotesize Mêmes critère d'arrêt et graines pour tous les bras ; LL test : log-vraisemblance moyenne par observation sur un jeu indépendant. Tests appariés : grille du tableau récapitulatif.}
+}

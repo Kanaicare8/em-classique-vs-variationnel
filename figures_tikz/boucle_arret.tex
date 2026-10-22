@@ -1,0 +1,23 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Stealth,
+    boite/.style={draw=navy,rounded corners=2pt,minimum height=0.9cm,align=center,font=\footnotesize,fill=ciel!20,text width=3.0cm},
+    test/.style={draw=bleu,rounded corners=2pt,align=center,font=\footnotesize,fill=bleu!12,text width=3.6cm,minimum height=1.1cm}]
+  \node[boite] (init) at (0,0) {initialisation\\$\theta_0$ ou $q_0$, $n_M=0$};
+  \node[boite] (E) at (4.2,0) {étape E\\$r_{ik}$ et critère $c_t$};
+  \node[test] (T) at (8.8,0) {$\lvert c_t-c_{t-1}\rvert\le \mathrm{tol}\cdot\max(\lvert c_{t-1}\rvert,1)$ ?};
+  \node[boite,fill=navy!15] (S) at (13.0,0) {arrêt\\\texttt{converge}=vrai};
+  \node[test] (P) at (8.8,-2.2) {$n_M=500$ ?\\sinon étape M};
+  \node[boite,fill=navy!15] (S2) at (13.0,-2.2) {arrêt\\\texttt{converge}=faux};
+  \node[boite] (M) at (4.2,-2.2) {étape M\\$n_M\leftarrow n_M+1$};
+  \draw[->] (init) -- (E);
+  \draw[->] (E) -- (T);
+  \draw[->] (T) -- node[above,font=\scriptsize]{oui} (S);
+  \draw[->] (T) -- node[right,font=\scriptsize]{non} (P);
+  \draw[->] (P) -- node[above,font=\scriptsize]{oui} (S2);
+  \draw[->] (P) -- node[above,font=\scriptsize]{non} (M);
+  \draw[->] (M) -- (E);
+\end{tikzpicture}
+\caption{Critère d'arrêt commun à l'EM, au MAP-EM, à l'EM variationnel et au pLSA. Le critère $c$ est la log-vraisemblance totale (EM) ou l'ELBO total (VB, covariance pleine), évalué après chaque étape E et avant l'étape M. Tolérance relative $10^{-6}$ et plafond commun de 500 étapes M ; $n_M$ est le nombre d'itérations rapporté.}
+\label{fig:boucle_arret}
+\end{figure}

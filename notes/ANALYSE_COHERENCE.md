@@ -2,7 +2,7 @@
 
 Mémoire analysé : `body.tex` (copie avant modification : `legacy/body_v0.tex`).
 Code précédent : `legacy/main_numpy_sklearn_v0.py`.
-Sources externes : voir `references/SOURCES.md` (références S1 à S12 citées ci-dessous).
+Sources externes : voir `../references/SOURCES.md` (références S1 à S12 citées ci-dessous).
 
 ## 1. Ce qui a été fait
 

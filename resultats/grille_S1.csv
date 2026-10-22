@@ -1,0 +1,6 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S1[1],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.010194854415191957,[0.002 ; 0.020],1.1044582897078161e-05,30,expérience répliquée,
+S1[2],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.16686684528434437,[0.126 ; 0.209],3.7896194415808806e-06,30,expérience répliquée,
+S1[3],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.2796634524009523,[0.239 ; 0.321],1.7343976283205826e-06,30,expérience répliquée,
+S1[4],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,-0.0009380748725840456,[-0.011 ; 0.005],1.375566327510569e-11,30,expérience répliquée,
+S1[5],S1_chevauchement,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0025236723236345036,[0.000 ; 0.005],3.22876416992564e-133,30,expérience répliquée,

@@ -1,0 +1,11 @@
+A,B,ecart_logscore_moyen,DM,p,p_holm
+EM-BIC (K=4) (plug-in),Gaussienne,0.0424,1.572,0.116,0.6960000000000001
+VB-emp (prédictive),Gaussienne,0.0445,1.654,0.0982,0.6874
+Student-t,Gaussienne,0.0466,1.769,0.0769,0.6152
+VB-emp (prédictive),VB-emp (plug-in),-0.0,-0.503,0.6151,1.0
+VB-emp (prédictive),EM-BIC (K=4) (plug-in),0.0021,1.105,0.2692,1.0
+VB-emp (plug-in),EM-BIC (K=4) (plug-in),0.0022,1.134,0.2569,1.0
+EM-BIC (K=4) (plug-in),Student-t,-0.0042,-0.785,0.4324,1.0
+VB-emp (prédictive),Student-t,-0.0021,-0.439,0.6609,1.0
+"GARCH(1,1)-t",Student-t,0.0796,6.194,0.0,0.0
+"GARCH(1,1)-t",VB-emp (prédictive),0.0817,5.89,0.0,0.0

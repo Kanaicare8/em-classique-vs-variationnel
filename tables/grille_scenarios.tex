@@ -1,0 +1,45 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}}
+\caption{Décisions des tests appariés des scénarios (VB à priors empiriques contre EM-BIC, sauf S3 : VB à $K_{\max}=K$ contre EM à $K$ ; S6 : taux de dégénérescence contre EM à $K_{\max}$)}\label{tab:grille_scenarios}\\
+\toprule
+\textbf{N°} & \textbf{Décision} & \textbf{Différence moyenne} & \textbf{IC bootstrap 95 \%} & \textbf{$p$ (Holm)} & \textbf{Rép.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N°} & \textbf{Décision} & \textbf{Différence moyenne} & \textbf{IC bootstrap 95 \%} & \textbf{$p$ (Holm)} & \textbf{Rép.} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+S1[1] & équivalent & 0,010 & [0.002 ; 0.020] & 0,000 & 30 \\
+S1[2] & A > B & 0,167 & [0.126 ; 0.209] & 0,000 & 30 \\
+S1[3] & A > B & 0,280 & [0.239 ; 0.321] & 0,000 & 30 \\
+S1[4] & équivalent & -0,001 & [-0.011 ; 0.005] & 0,000 & 30 \\
+S1[5] & équivalent & 0,003 & [0.000 ; 0.005] & 0,000 & 30 \\
+S2[80/15/5] & équivalent & -0,033 & [-0.267 ; 0.233] & 0,001 & 30 \\
+S3[Kvrai=4] & A > B & 0,105 & [0.086 ; 0.125] & 0,000 & 30 \\
+S3[Kvrai=5] & A > B & 0,097 & [0.068 ; 0.129] & 0,000 & 30 \\
+S3[Kvrai=6] & A > B & 0,139 & [0.124 ; 0.155] & 0,000 & 30 \\
+S4[Student nu=3] & A > B & 0,063 & [0.044 ; 0.082] & 0,000 & 30 \\
+S5[2] & équivalent & 0,000 & [0.000 ; 0.000] & 0,000 & 30 \\
+S5[5] & A < B & -0,036 & [-0.054 ; -0.018] & 0,000 & 30 \\
+S5[10] & indéterminé & 0,062 & [0.003 ; 0.135] & 0,245 & 30 \\
+S5[20] & A > B & 0,571 & [0.552 ; 0.589] & 0,000 & 30 \\
+S6[30] & A < B & -1,000 & [-1.000 ; -1.000] & 0,000 & 30 \\
+S6[60] & A < B & -0,967 & [-1.000 ; -0.900] & 0,000 & 30 \\
+S6[120] & A < B & -0,667 & [-0.833 ; -0.500] & 0,000 & 30 \\
+S6[300] & A < B & -0,167 & [-0.300 ; -0.033] & 0,051 & 30 \\
+S6[1000] & équivalent & 0,000 & [0.000 ; 0.000] & 0,000 & 30 \\
+S7[prop=0.01;amp=10.0] & équivalent & 0,011 & [0.005 ; 0.019] & 0,000 & 30 \\
+S7[prop=0.01;amp=20.0] & équivalent & 0,001 & [-0.000 ; 0.003] & 0,000 & 30 \\
+S7[prop=0.01;amp=5.0] & équivalent & 0,002 & [-0.001 ; 0.004] & 0,000 & 30 \\
+S7[prop=0.05;amp=10.0] & équivalent & 0,005 & [0.001 ; 0.009] & 0,000 & 30 \\
+S7[prop=0.05;amp=20.0] & équivalent & 0,004 & [-0.000 ; 0.010] & 0,000 & 30 \\
+S7[prop=0.05;amp=5.0] & équivalent & 0,002 & [-0.002 ; 0.006] & 0,000 & 30 \\
+S7[prop=0.1;amp=10.0] & équivalent & 0,009 & [0.002 ; 0.017] & 0,000 & 30 \\
+S7[prop=0.1;amp=20.0] & équivalent & 0,003 & [0.000 ; 0.006] & 0,000 & 30 \\
+S7[prop=0.1;amp=5.0] & équivalent & 0,001 & [-0.005 ; 0.009] & 0,000 & 30 \\
+\end{longtable}
+\par\noindent{\footnotesize Équivalence par TOST (marge $\pm0{,}03$ en ARI, $\pm0{,}5$ en $\hat K$, $\pm0{,}1$ en taux de dégénérescence) ; sinon test des rangs signés de Wilcoxon ; « A > B » : le premier bras est supérieur. Correction de Holm sur l'ensemble des tests de la grille.}
+}

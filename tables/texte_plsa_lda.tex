@@ -1,0 +1,23 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}}
+\caption{pLSA contre LDA sur 20 Newsgroups (4 groupes) selon le nombre de documents $N$ d'apprentissage}\label{tab:texte}\\
+\toprule
+\textbf{$N$} & \textbf{Modèle} & \textbf{Perplexité test} & \textbf{Écart relatif test/appr.} & \textbf{Mots planchés} & \textbf{NPMI} & \textbf{Pureté} & \textbf{Non convergés} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$N$} & \textbf{Modèle} & \textbf{Perplexité test} & \textbf{Écart relatif test/appr.} & \textbf{Mots planchés} & \textbf{NPMI} & \textbf{Pureté} & \textbf{Non convergés} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+50 & LDA & 2469,576 & 5,910 & 0,0\,\% & 0,102 & 0,472 & 0,0\,\% \\
+50 & pLSA & 18719,679 & 58,276 & 12,3\,\% & 0,131 & 0,519 & 20,0\,\% \\
+200 & LDA & 1138,447 & 1,004 & 0,0\,\% & 0,147 & 0,568 & 0,0\,\% \\
+200 & pLSA & 1280,461 & 1,490 & 1,6\,\% & 0,216 & 0,655 & 80,0\,\% \\
+1000 & LDA & 866,627 & 0,213 & 0,0\,\% & 0,169 & 0,616 & 0,0\,\% \\
+1000 & pLSA & 811,117 & 0,252 & 0,1\,\% & 0,231 & 0,746 & 30,0\,\% \\
+\end{longtable}
+\par\noindent{\footnotesize Écart relatif : perplexité hors échantillon / perplexité d'apprentissage - 1. Moyennes sur les réplications.}
+}

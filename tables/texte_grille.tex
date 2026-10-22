@@ -1,0 +1,19 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}}
+\caption{Test apparié du surapprentissage (pLSA moins LDA, écart relatif de perplexité)}\label{tab:texte_grille}\\
+\toprule
+\textbf{N°} & \textbf{Décision} & \textbf{Estimation} & \textbf{IC bootstrap 95 \%} & \textbf{Rép.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N°} & \textbf{Décision} & \textbf{Estimation} & \textbf{IC bootstrap 95 \%} & \textbf{Rép.} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+H-texte[N=50] & A > B & 52,366 & [21.906 ; 95.766] & 10 \\
+H-texte[N=200] & A > B & 0,486 & [0.387 ; 0.594] & 10 \\
+H-texte[N=1000] & A > B & 0,039 & [0.021 ; 0.059] & 10 \\
+\end{longtable}
+}

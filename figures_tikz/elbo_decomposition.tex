@@ -1,0 +1,13 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[fill=ciel!40,draw=navy] (0,0) rectangle (7,0.9);
+  \draw[fill=bleu!35,draw=navy] (7,0) rectangle (10.4,0.9);
+  \node at (3.5,0.45) {\footnotesize $\mathrm{ELBO}(q)$};
+  \node at (8.7,0.45) {\footnotesize $\mathrm{KL}[q\,\Vert\,p]$};
+  \draw[<->,navy] (0,1.35) -- node[above,font=\footnotesize]{$\log p(X)$, indépendant de $q$} (10.4,1.35);
+  \node[font=\footnotesize,text width=10.4cm,anchor=north west] at (0,-0.25) {Maximiser l'ELBO en $q$ revient à minimiser la KL. L'écart entre l'ELBO et $\log p(X)$ est cette KL, qui varie d'un modèle à l'autre : comparer des ELBO entre modèles est donc biaisé (section 1.7.8).};
+\end{tikzpicture}
+\caption{Décomposition $\log p(X)=\mathrm{ELBO}(q)+\mathrm{KL}[q\,\Vert\,p]$ (équation 1.14).}
+\label{fig:elbo}
+\end{figure}

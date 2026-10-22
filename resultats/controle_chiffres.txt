@@ -1,0 +1,23 @@
+168: 0,5, 1,125, 0,466, 7,725, 0,460, 2,0 | Afin de rendre pleinement concrète l'équation (1.8) avant son utilisation intensive dans la suite de ce chapit
+175: 1,125, 0,5, 0,1468, 0,0734, 2,0, 1,9, 7,725, 2,0 | Le premier terme, associé à la composante centrée en 1,125, vaut 0,5   0,1468   0,0734, la valeur x = 2,0 n'ét
+208: 0,533, 0,333, 0,133, 0,583, 0,333, 0,083, 0,133, 0,083 | La distribution a posteriori sur les poids de mélange est donc Dir(8, 5, 2), dont la moyenne  l'estimation pon
+334: 0,5, 1,0, 1,2, 1,8, 7,1, 7,5, 8,0, 8,3 | Afin d'illustrer concrètement le fonctionnement de l'algorithme EM classique, considérons N = 8 observations s
+337: -15,814, -10,736, 1,125, 0,5, 1,0, 1,2, 1,8, 0,466 | La convergence est très rapide : le point fixe est atteint en trois itérations, la variation de la log-vraisem
+386: 0,791, 0,127, 0,096, 0,873, 0,904, 0,010, 0,091, 0,100 | La dernière colonne du tableau se lit comme suit : après observation de la séquence complète (NPa, Pa, Pa), la
+540: 2,5, 1,5 | Le seuil en deçà duquel l'élagage opère n'est pas  . Pour un mélange sur-paramétré, la théorie de Rousseau et 
+547: 0,5, 1,0, 1,2, 1,8, 7,1, 7,5, 8,0, 8,3 | Afin de rendre plus concret le mécanisme d'élagage décrit ci-dessus, reprenons l'exemple numérique de la   : l
+552: 0,482, 7,724, 1,126, 7,725, 1,125, 0,333 | Ce résultat illustre de façon particulièrement nette le mécanisme théorique décrit ci-dessus. Les deux premièr
+782: 0,7, 0,49, 7,1 | Le jeu de données est constitué de N = 300 observations bidimensionnelles, générées à partir de trois groupes 
+947: 0,16, 0,33, 0,51 | Avec  , l'ARI du VB est supérieur à celui de   mais inférieur à celui de l'EM à   exactement spécifié (tableau
+956: 95 \%, 95 \%, 0,5 | Les sections précédentes reposent sur un jeu de données unique. Pour chiffrer l'incertitude, le protocole de l
+969: 0,001 | La grille du   (0,001 à 10) saute la zone de transition. La grille   est donc évaluée pour les trois types de 
+976: 90 \% | La sous-estimation de variance du champ moyen ( ) ne peut être jugée que par la couverture empirique des inter
+983: 5 \%, 0,03 | Chaque scénario compte au moins 30 réplications et compare, par test apparié, EM- , EM- , EM-BIC, EM-ICL, MAP-
+1013: 0,5, 1 \%, 5 \% | Le plan factoriel fait varier  ,  ,   et l'échelle de   ; la part de variance du nombre de composantes actives
+1127: 0,3 | (iii) \emph{Qualité à grand   (H2).} À   sur les données réelles, EM-BIC est supérieur au VB à priors empiriqu
+1131: 1,1, 4,1 | (v) \emph{Coût (H4).} Le temps médian du pipeline EM-BIC est supérieur à celui d'un VB à dix initialisations p
+1135: 90 \% | (vii) \emph{Incertitude (H6).} Voir le tableau~\ref{tab:climat_couverture} : sous-couverture des poids du VB, 
+1137: 80 \% | (viii) \emph{Chevauchement et dimension (H7, H8).} À  , le VB à priors empiriques ne fusionne pas plus de comp
+1196: 1 \%, 11,9, 5 \%, 0,032, 1 \%, 11,9, 0,056, 1 \% | (H5) La VaR gaussienne à 1 \% est franchie 20 fois pour 11,9 attendues, et le test de Kupiec la rejette au seu
+1198: 22,7, 6,5, 1 \% | Ces résultats se lisent avec le changement de régime : la kurtosis excédentaire passe de 22,7 (apprentissage, 
+1200: 95 \%, 1 \% | (H6) L'intervalle de crédibilité à 95 \% de la VaR à 1 \% du VB est plus étroit que l'intervalle bootstrap de 

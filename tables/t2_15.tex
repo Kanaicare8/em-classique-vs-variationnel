@@ -1,0 +1,19 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}}
+\caption{Résultats moyens sur 30 jeux de données d'un même générateur ($K=6$ imposé)}\label{tab:2_15}\\
+\toprule
+\textbf{Modèle} & \textbf{R} & \textbf{ARI moyen [IC 95 \%]} & \textbf{Silh. moy.} & \textbf{Part de jeux à $\hat K=3$ [IC de Wilson]} & \textbf{Itér. moy.} & \textbf{Temps (s)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Modèle} & \textbf{R} & \textbf{ARI moyen [IC 95 \%]} & \textbf{Silh. moy.} & \textbf{Part de jeux à $\hat K=3$ [IC de Wilson]} & \textbf{Itér. moy.} & \textbf{Temps (s)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+EM classique & 30 & 0,760 [0.743 ; 0.777] & 0,412 & 0\,\% [0.000 ; 0.114] & 128,5 & 1,69 \\
+EM variationnel (priors diffus) & 30 & 0,971 [0.953 ; 0.988] & 0,709 & 73\,\% [0.556 ; 0.858] & 118,5 & 3,06 \\
+EM variationnel (priors empiriques) & 30 & 0,999 [0.998 ; 1.000] & 0,746 & 100\,\% [0.886 ; 1.000] & 27,2 & 0,75 \\
+\end{longtable}
+}

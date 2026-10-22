@@ -1,0 +1,4 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+H-texte[N=50],Surapprentissage,écart relatif de perplexité (pLSA - LDA),A > B,52.36640882732322,[21.906 ; 95.766],0.00506203212626787,10,expérience répliquée,
+H-texte[N=200],Surapprentissage,écart relatif de perplexité (pLSA - LDA),A > B,0.48574201453122623,[0.387 ; 0.594],0.00506203212626787,10,expérience répliquée,
+H-texte[N=1000],Surapprentissage,écart relatif de perplexité (pLSA - LDA),A > B,0.03937365144384093,[0.021 ; 0.059],0.00506203212626787,10,expérience répliquée,

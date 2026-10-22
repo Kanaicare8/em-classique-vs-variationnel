@@ -1,0 +1,23 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}}
+\caption{Temps total jusqu'au modèle final : pipeline EM-BIC ($K$ de 1 à 10, 10 initialisations) contre un VB à 10 initialisations (médianes)}\label{tab:cout_selection}\\
+\toprule
+\textbf{$N$} & \textbf{EM-BIC, balayage complet (s)} & \textbf{VB, un ajustement (s)} & \textbf{Ratio} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$N$} & \textbf{EM-BIC, balayage complet (s)} & \textbf{VB, un ajustement (s)} & \textbf{Ratio} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+2000 & 38,114 & 10,076 & 3,78 \\
+30 & 1,585 & 1,399 & 1,13 \\
+60 & 2,805 & 1,509 & 1,86 \\
+120 & 6,819 & 2,488 & 2,74 \\
+500 & 21,218 & 5,206 & 4,08 \\
+complet & 693,073 & 89,807 & 7,72 \\
+\end{longtable}
+\par\noindent{\footnotesize Ratio supérieur à 1 : le pipeline EM-BIC coûte plus. Même machine, même critère d'arrêt.}
+}

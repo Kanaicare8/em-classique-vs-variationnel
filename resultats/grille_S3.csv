@@ -1,0 +1,4 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S3[Kvrai=4],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.10517865973648376,[0.086 ; 0.125],2.35342099512154e-06,30,expérience répliquée,
+S3[Kvrai=5],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.09695736453560079,[0.068 ; 0.129],4.285685869189878e-06,30,expérience répliquée,
+S3[Kvrai=6],S3_sous_estimation,"grille régénérée (VB-Kmax=K - EM-K, ARI)",A > B,0.1391881364348425,[0.124 ; 0.155],1.7343976283205826e-06,30,expérience répliquée,

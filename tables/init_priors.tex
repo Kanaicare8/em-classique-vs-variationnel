@@ -1,0 +1,22 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}}
+\caption{Effet de l'initialisation et des priors (jeu de référence, $K=6$)}\label{tab:init_priors}\\
+\toprule
+\textbf{Modèle} & \textbf{Actives} & \textbf{ARI} & \textbf{Silh.} & \textbf{Itér.} & \textbf{Convergé} & \textbf{Dégénéré} & \textbf{Temps (s)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Modèle} & \textbf{Actives} & \textbf{ARI} & \textbf{Silh.} & \textbf{Itér.} & \textbf{Convergé} & \textbf{Dégénéré} & \textbf{Temps (s)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+EM classique (init k-means, 10 relances) & 6 & 0,794 & 0,390 & 162 & oui & non & 2,389 \\
+EM classique (init aléatoire, version 3.2.1) & 6 & 0,795 & 0,407 & 119 & oui & non & 0,145 \\
+EM variationnel (priors diffus, init k-means) & 4 & 0,985 & 0,646 & 102 & oui & oui & 2,625 \\
+EM variationnel (priors empiriques) & 3 & 0,990 & 0,739 & 22 & oui & non & 0,756 \\
+EM variationnel (init aléatoire, version 3.3.1) & 4 & 0,873 & 0,590 & 129 & oui & non & 0,334 \\
+\end{longtable}
+\par\noindent{\footnotesize Critère d'arrêt commun (tolérance relative $10^{-6}$ sur le critère total, plafond de 500 étapes M) ; « convergé : non » signale un plafond atteint.}
+}

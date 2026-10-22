@@ -1,0 +1,50 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.40cm}>{\raggedright\arraybackslash}p{4.20cm}>{\raggedright\arraybackslash}p{4.60cm}>{\raggedright\arraybackslash}p{2.20cm}>{\raggedright\arraybackslash}p{1.90cm}}
+\caption{Grille « axe $\times$ preuve » : chaque affirmation renvoie à un théorème, une expérience ou la mention « non testé »}\label{tab:2_17}\\
+\toprule
+\textbf{Axe} & \textbf{Affirmation} & \textbf{Preuve (décision lue dans le fichier de résultats)} & \textbf{Niveau de preuve} & \textbf{Section} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Axe} & \textbf{Affirmation} & \textbf{Preuve (décision lue dans le fichier de résultats)} & \textbf{Niveau de preuve} & \textbf{Section} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Sélection de $K$ & VB comparé à EM-BIC sur des groupes séparés & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
+Composante minoritaire & Le VB perd la composante à 5 \% à une fréquence différente de EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
+Sous-estimation de $K$ & Avec $K_{\max}=K$ choisi $<K$ vrai, le VB ne corrige pas l'erreur & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
+Queues épaisses & Composantes de Student : VB comparé à EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
+Dimension & Dimension croissante $D\in\{2,5,10,20\}$ & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
+Singularités, petit $N$ & Taux d'ajustements dégénérés selon $N$ & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
+Valeurs aberrantes & Proportion et amplitude variées & \emph{non encore généré} & non testé (résultats non générés) & §2.3.18 \\
+Sélection de $K$ (climat) & Erreur sur $K$ du VB et de EM-BIC (semi-synthétique) & \emph{non encore généré} & non testé (résultats non générés) & §3.1.1 \\
+Qualité à grand $N$ (climat) & ARI et log-vraisemblance hors bloc & \emph{non encore généré} & non testé (résultats non générés) & §3.1.1 \\
+Singularités (climat) & VB contre EM-Kmax, $N\leq120$ & \emph{non encore généré} & non testé (résultats non générés) & §3.1.1 \\
+Coût de calcul & Pipeline EM-BIC contre un VB, temps total & \emph{non encore généré} & non testé (résultats non générés) & §2.3.20 \\
+Sensibilité aux priors & Variance de $\hat K$ due aux priors contre due à l'initialisation & \emph{non encore généré} & non testé (résultats non générés) & §2.3.19 \\
+Incertitude & Couverture des intervalles à 90 \% (VB et bootstrap EM) & \emph{non encore généré} & non testé (résultats non générés) & §2.3.15 \\
+Chevauchement & Le VB fusionne des zones voisines plus que EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §3.1.1 \\
+Dimension (climat) & $D = 20$ : dégénérescence du VB contre EM-Kmax & \emph{non encore généré} & non testé (résultats non générés) & §3.1.1 \\
+Surapprentissage (texte) & Écart test/apprentissage de pLSA contre LDA & \emph{non encore généré} & non testé (résultats non générés) & §3.1.2 \\
+Gestion du risque & Log-score des modèles de VaR (Diebold-Mariano, Holm) & \emph{non encore généré} & non testé (résultats non générés) & §3.1.3 \\
+Seuil d'élagage & Seuil de $\alpha_0$ transféré au champ moyen & \emph{non encore généré} & non testé (résultats non générés) & §1.7.4, §2.3.14 \\
+Seuil d'activité & Le nombre de composantes actives dépend du seuil & \emph{non encore généré} & non testé (résultats non générés) & §2.3.19 \\
+Dépendance à $K_{\max}$ & Résultat de l'élagage dépendant de $K_{\max}$ (Iris) & \emph{non encore généré} & non testé (résultats non générés) & §2.3.11 \\
+Initialisation & Composantes actives selon l'initialisation & \emph{non encore généré} & non testé (résultats non générés) & §2.3.9 \\
+Biais d'approximation & Variance sous-estimée par le champ moyen & référence théorique & théorème & §1.5.4 (Bishop 2006) ; couverture : HC6 \\
+Monotonie du critère & Croissance de la log-vraisemblance (EM) et de l'ELBO (VB, covariance pleine) & référence théorique & théorème & §1.6.3, §1.7.6 ; vérification numérique (validation) \\
+Convergence de l'EM pour le GMM & Le théorème de Wu (1983) ne s'applique pas tel quel (vraisemblance non bornée) & référence théorique & théorème & §1.6.3 ; régularisation $\varepsilon I$ \\
+Consistance de la sélection de $K$ & Garantie de consistance du champ moyen pour $K$ & aucune & non testé & §1.7.9 \\
+Taux de l'EM en sur-spécification & Précision $(d/n)^{1/4}$ dans le cas équilibré (Dwivedi et al., 2020) & aucune & non testé & §1.6.3.d \\
+Cible de l'EM en sous-spécification & Convergence vers la projection de Kullback-Leibler (Dwivedi et al., 2018) & aucune & non testé & §1.6.3.d \\
+Consistance des paramètres du VB & Moyenne variationnelle consistante, covariance trop petite (Wang et Titterington, cités) & aucune & non testé & §1.7.9 \\
+Optima locaux de l'ELBO & Fréquence des optima locaux du VB & voir l'annexe & mesuré au calibrage & annexe (calibrage n\_init) \\
+Irréversibilité de l'élagage & Une composante éteinte ne revient pas & aucune & non testé & §1.7.4 \\
+Double usage des données & Effet des priors empiriques sur l'ELBO et les intervalles & aucune & non testé & §2.3.1 \\
+Vitesse de VAE, flux normalisants, gradient naturel & Affirmations de vitesse des variantes avancées & aucune & non testé & §1.7.7 \\
+Vision, bio-informatique, recommandation & Choix d'algorithme par domaine & aucune & non testé & revue \\
+\end{longtable}
+\par\noindent{\footnotesize Niveaux : théorème ; expérience répliquée (nombre de réplications fixé par le calcul de puissance) ; expérience unique ; non testé. Aucune ligne n'autorise à parler de supériorité d'un algorithme.}
+}

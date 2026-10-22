@@ -1,0 +1,6 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S6[30],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-1.0,[-1.000 ; -1.000],4.320463057827508e-08,30,expérience répliquée,
+S6[60],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.9666666666666667,[-1.000 ; -0.900],7.23782987174002e-08,30,expérience répliquée,
+S6[120],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.6666666666666666,[-0.833 ; -0.500],7.744216431044098e-06,30,expérience répliquée,
+S6[300],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",A < B,-0.16666666666666666,[-0.300 ; -0.033],0.02534731867746827,30,expérience répliquée,
+S6[1000],S6_petit_N,"grille régénérée (VB-emp - EM-Kmax, degenere)",équivalent,0.0,[0.000 ; 0.000],0.0,30,expérience répliquée,

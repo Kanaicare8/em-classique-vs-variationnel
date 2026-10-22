@@ -1,0 +1,21 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}>{\raggedright\arraybackslash}p{3.06cm}}
+\caption{ARI et nombre de composantes actives selon le type de covariance ($K=6$ imposé)}\label{tab:2_12}\\
+\toprule
+\textbf{Covariance} & \textbf{ARI EM} & \textbf{ARI VB} & \textbf{Actives VB} & \textbf{BIC EM} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Covariance} & \textbf{ARI EM} & \textbf{ARI VB} & \textbf{Actives VB} & \textbf{BIC EM} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+full & 0,79 & 0,99 & 3 & 2083,90 \\
+tied & 0,74 & 1,00 & 3 & 2022,70 \\
+diag & 0,86 & 0,99 & 3 & 2048,20 \\
+spherical & 0,81 & 1,00 & 3 & 2022,10 \\
+\end{longtable}
+\par\noindent{\footnotesize Pour tied, diag et spherical le critère du VB est une approximation (ELBO sans le terme KL sur $\theta$), non l'ELBO.}
+}

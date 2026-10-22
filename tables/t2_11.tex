@@ -1,0 +1,22 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}}
+\caption{Nombre de composantes actives sur 20 initialisations indépendantes}\label{tab:2_11}\\
+\toprule
+\textbf{initialisation} & \textbf{algorithme} & \textbf{n\_repetitions} & \textbf{3 actives} & \textbf{4 actives} & \textbf{5 actives} & \textbf{6 actives} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{initialisation} & \textbf{algorithme} & \textbf{n\_repetitions} & \textbf{3 actives} & \textbf{4 actives} & \textbf{5 actives} & \textbf{6 actives} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+init k-means & EM classique & 20 & 0 & 0 & 0 & 20 \\
+init k-means & EM variationnel (priors diffus) & 20 & 0 & 12 & 8 & 0 \\
+init k-means & EM variationnel (priors empiriques) & 20 & 20 & 0 & 0 & 0 \\
+init aléatoire & EM classique & 20 & 0 & 0 & 0 & 20 \\
+init aléatoire & EM variationnel (priors diffus) & 20 & 4 & 14 & 2 & 0 \\
+init aléatoire & EM variationnel (priors empiriques) & 20 & 20 & 0 & 0 & 0 \\
+\end{longtable}
+}

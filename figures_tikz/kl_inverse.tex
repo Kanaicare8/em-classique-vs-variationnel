@@ -1,0 +1,18 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.15cm,y=3.2cm]
+  \draw[->] (-4.3,0) -- (4.5,0) node[right] {$z$};
+  \draw[->] (-4.3,0) -- (-4.3,1.05);
+  \draw[navy,very thick,domain=-4:4,samples=120,smooth]
+    plot (\x,{0.45*exp(-(\x+2)^2/(2*0.35^2)) + 0.45*exp(-(\x-2)^2/(2*0.35^2))});
+  \draw[bleu,thick,dashed,domain=-4:4,samples=120,smooth]
+    plot (\x,{0.9*exp(-(\x+2)^2/(2*0.35^2))});
+  \draw[ciel!60!black,thick,dotted,domain=-4:4,samples=120,smooth]
+    plot (\x,{0.38*exp(-\x^2/(2*2.1^2))});
+  \node[navy,font=\footnotesize,anchor=south] at (2,0.5) {$p(z)$ (bimodal)};
+  \node[bleu,font=\footnotesize,anchor=south] at (-2,0.92) {KL inverse : mode-seeking};
+  \node[ciel!60!black,font=\footnotesize,anchor=south] at (0,0.4) {KL directe};
+\end{tikzpicture}
+\caption{Premier effet de la KL inverse : sur un posterior multimodal, le $q$ qui minimise $\mathrm{KL}[q\,\Vert\,p]$ se concentre sur un mode (tirets), alors que la KL directe $\mathrm{KL}[p\,\Vert\,q]$ étale $q$ sur les modes (pointillés). Schéma illustratif, les hauteurs des courbes ne sont pas normalisées.}
+\label{fig:kl_inverse}
+\end{figure}

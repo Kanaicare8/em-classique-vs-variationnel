@@ -1,0 +1,5 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S5[2],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0,[0.000 ; 0.000],0.0,30,expérience répliquée,
+S5[5],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",A < B,-0.03554778450648892,[-0.054 ; -0.018],0.00012267381509278264,30,expérience répliquée,
+S5[10],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",indéterminé,0.06177915677050933,[0.003 ; 0.135],0.24519030932096378,30,expérience répliquée,
+S5[20],S5_dimension,"grille régénérée (VB-emp - EM-BIC, ARI)",A > B,0.5710373031409832,[0.552 ; 0.589],1.7343976283205826e-06,30,expérience répliquée,

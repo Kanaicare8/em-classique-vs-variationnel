@@ -1,91 +1,91 @@
-graine_donnees,modele,ARI,silhouette,composantes_actives,iterations,temps_s
-1000,EM classique,0.6932,0.4501,6,15,0.449
-1000,EM variationnel (priors diffus),1.0,0.7551,3,77,13.3651
-1000,EM variationnel (priors empiriques),1.0,0.7551,3,25,6.8912
-1001,EM classique,0.7005,0.4357,6,8,2.4003
-1001,EM variationnel (priors diffus),1.0,0.7451,3,148,39.4863
-1001,EM variationnel (priors empiriques),1.0,0.7451,3,24,2.8286
-1002,EM classique,0.6791,0.4547,6,9,0.3064
-1002,EM variationnel (priors diffus),0.99,0.734,3,114,8.8169
-1002,EM variationnel (priors empiriques),0.99,0.734,3,22,1.0899
-1003,EM classique,0.7016,0.4693,6,7,0.2746
-1003,EM variationnel (priors diffus),1.0,0.7458,3,85,5.8594
-1003,EM variationnel (priors empiriques),1.0,0.7458,3,17,0.8426
-1004,EM classique,0.6951,0.4479,6,8,0.2377
-1004,EM variationnel (priors diffus),1.0,0.7571,3,90,3.8781
-1004,EM variationnel (priors empiriques),1.0,0.7571,3,20,1.0941
-1005,EM classique,0.7054,0.4661,6,6,0.2763
-1005,EM variationnel (priors diffus),1.0,0.7532,3,181,6.2147
-1005,EM variationnel (priors empiriques),1.0,0.7532,3,20,1.0293
-1006,EM classique,0.8087,0.5804,6,6,0.3115
-1006,EM variationnel (priors diffus),1.0,0.7244,3,68,3.4906
-1006,EM variationnel (priors empiriques),1.0,0.7244,3,28,1.1292
-1007,EM classique,0.6802,0.4524,6,13,0.2331
-1007,EM variationnel (priors diffus),0.8713,0.5844,4,128,3.9461
-1007,EM variationnel (priors empiriques),1.0,0.7308,3,30,1.1528
-1008,EM classique,0.7005,0.4598,6,6,0.1736
-1008,EM variationnel (priors diffus),0.9052,0.5984,4,104,8.3426
-1008,EM variationnel (priors empiriques),1.0,0.7322,3,34,1.5429
-1009,EM classique,0.6758,0.4439,6,10,0.2072
-1009,EM variationnel (priors diffus),1.0,0.7548,3,221,4.6441
-1009,EM variationnel (priors empiriques),1.0,0.7548,3,25,0.9545
-1010,EM classique,0.6885,0.4612,6,7,0.1866
-1010,EM variationnel (priors diffus),0.8705,0.6175,4,67,2.8366
-1010,EM variationnel (priors empiriques),1.0,0.7367,3,37,1.4879
-1011,EM classique,0.6992,0.4682,6,5,0.1629
-1011,EM variationnel (priors diffus),1.0,0.7482,3,91,2.9539
-1011,EM variationnel (priors empiriques),1.0,0.7482,3,18,1.1078
-1012,EM classique,0.679,0.4417,6,5,0.1717
-1012,EM variationnel (priors diffus),1.0,0.7566,3,180,5.6013
-1012,EM variationnel (priors empiriques),1.0,0.7566,3,20,0.8552
-1013,EM classique,0.6859,0.4766,6,7,0.1897
-1013,EM variationnel (priors diffus),1.0,0.7477,3,64,3.1226
-1013,EM variationnel (priors empiriques),1.0,0.7477,3,21,1.7028
-1014,EM classique,0.7173,0.4072,6,5,0.3421
-1014,EM variationnel (priors diffus),0.9344,0.6,4,113,4.8267
-1014,EM variationnel (priors empiriques),1.0,0.7465,3,19,1.0016
-1015,EM classique,0.6759,0.4537,6,5,0.2317
-1015,EM variationnel (priors diffus),1.0,0.7479,3,168,5.1152
-1015,EM variationnel (priors empiriques),1.0,0.7479,3,26,0.8325
-1016,EM classique,0.6759,0.4749,6,4,0.1809
-1016,EM variationnel (priors diffus),0.8949,0.6101,4,78,3.068
-1016,EM variationnel (priors empiriques),1.0,0.7554,3,22,0.7559
-1017,EM classique,0.687,0.4611,6,13,0.2155
-1017,EM variationnel (priors diffus),1.0,0.7456,3,196,3.6942
-1017,EM variationnel (priors empiriques),1.0,0.7456,3,26,0.8337
-1018,EM classique,0.8227,0.5709,6,10,0.2362
-1018,EM variationnel (priors diffus),1.0,0.7486,3,77,3.6272
-1018,EM variationnel (priors empiriques),0.99,0.7482,3,25,0.8803
-1019,EM classique,0.6986,0.4442,6,15,0.205
-1019,EM variationnel (priors diffus),0.873,0.5899,4,140,3.143
-1019,EM variationnel (priors empiriques),1.0,0.7424,3,36,1.2851
-1020,EM classique,0.6835,0.4294,6,14,0.215
-1020,EM variationnel (priors diffus),1.0,0.7506,3,54,4.0478
-1020,EM variationnel (priors empiriques),1.0,0.7506,3,27,1.0325
-1021,EM classique,0.6748,0.463,6,8,0.1991
-1021,EM variationnel (priors diffus),1.0,0.7455,3,137,4.2815
-1021,EM variationnel (priors empiriques),1.0,0.7455,3,29,0.8342
-1022,EM classique,0.6786,0.4758,6,14,0.2083
-1022,EM variationnel (priors diffus),1.0,0.7467,3,256,4.1038
-1022,EM variationnel (priors empiriques),1.0,0.7467,3,38,1.0261
-1023,EM classique,0.7155,0.4745,6,21,0.2374
-1023,EM variationnel (priors diffus),1.0,0.7512,3,68,3.7348
-1023,EM variationnel (priors empiriques),1.0,0.7512,3,18,0.7701
-1024,EM classique,0.6913,0.4647,6,8,0.1806
-1024,EM variationnel (priors diffus),1.0,0.7485,3,104,4.0607
-1024,EM variationnel (priors empiriques),1.0,0.7485,3,21,1.0949
-1025,EM classique,0.6857,0.4452,6,7,0.1809
-1025,EM variationnel (priors diffus),1.0,0.7558,3,100,4.9599
-1025,EM variationnel (priors empiriques),1.0,0.7558,3,19,1.1809
-1026,EM classique,0.6881,0.4468,6,16,0.2204
-1026,EM variationnel (priors diffus),0.9172,0.5904,4,127,3.5445
-1026,EM variationnel (priors empiriques),1.0,0.7347,3,24,0.809
-1027,EM classique,0.7146,0.4558,6,11,0.199
-1027,EM variationnel (priors diffus),1.0,0.7475,3,75,2.6017
-1027,EM variationnel (priors empiriques),1.0,0.7475,3,35,1.0194
-1028,EM classique,0.6113,0.3444,6,9,0.2314
-1028,EM variationnel (priors diffus),1.0,0.7548,3,63,5.3831
-1028,EM variationnel (priors empiriques),1.0,0.7548,3,26,0.8644
-1029,EM classique,0.568,0.3624,6,5,0.3017
-1029,EM variationnel (priors diffus),0.8691,0.6247,4,190,7.59
-1029,EM variationnel (priors empiriques),1.0,0.7385,3,41,1.1508
+graine_donnees,modele,ARI,silhouette,composantes_actives,iterations,converge,degenere,temps_s
+1000,EM classique,0.7553,0.4498,6,88,True,False,1.7561
+1000,EM variationnel (priors diffus),1.0,0.7551,3,104,True,False,3.9845
+1000,EM variationnel (priors empiriques),1.0,0.7551,3,28,True,False,1.144
+1001,EM classique,0.8404,0.4412,6,218,True,True,3.5054
+1001,EM variationnel (priors diffus),1.0,0.7451,3,58,True,False,3.579
+1001,EM variationnel (priors empiriques),1.0,0.7451,3,35,True,False,1.2838
+1002,EM classique,0.6857,0.4185,6,76,True,False,1.8705
+1002,EM variationnel (priors diffus),0.99,0.734,3,114,True,False,5.0996
+1002,EM variationnel (priors empiriques),0.99,0.734,3,30,True,False,0.8986
+1003,EM classique,0.7552,0.3213,6,134,True,False,3.1954
+1003,EM variationnel (priors diffus),1.0,0.7458,3,85,True,False,5.2641
+1003,EM variationnel (priors empiriques),1.0,0.7458,3,27,True,False,0.8818
+1004,EM classique,0.7577,0.4442,6,97,True,False,1.6616
+1004,EM variationnel (priors diffus),1.0,0.7571,3,90,True,False,3.1158
+1004,EM variationnel (priors empiriques),1.0,0.7571,3,21,True,False,1.0638
+1005,EM classique,0.7067,0.4645,6,17,True,False,2.0077
+1005,EM variationnel (priors diffus),1.0,0.7532,3,147,True,False,6.287
+1005,EM variationnel (priors empiriques),1.0,0.7532,3,21,True,False,0.7953
+1006,EM classique,0.7376,0.3811,6,67,True,False,2.2134
+1006,EM variationnel (priors diffus),1.0,0.7244,3,68,True,False,3.1353
+1006,EM variationnel (priors empiriques),1.0,0.7244,3,28,True,False,1.1262
+1007,EM classique,0.6918,0.4303,6,86,True,False,1.538
+1007,EM variationnel (priors diffus),0.8713,0.5844,4,128,True,False,3.7672
+1007,EM variationnel (priors empiriques),1.0,0.7308,3,21,True,False,0.9811
+1008,EM classique,0.7482,0.4267,6,56,True,False,2.0366
+1008,EM variationnel (priors diffus),0.9052,0.5984,4,104,True,False,4.4489
+1008,EM variationnel (priors empiriques),1.0,0.7322,3,30,True,False,1.0039
+1009,EM classique,0.8353,0.3621,6,166,True,False,2.056
+1009,EM variationnel (priors diffus),1.0,0.7548,3,221,True,False,4.2776
+1009,EM variationnel (priors empiriques),1.0,0.7548,3,26,True,False,0.9339
+1010,EM classique,0.7178,0.3951,6,117,True,False,1.8338
+1010,EM variationnel (priors diffus),0.8705,0.6175,4,67,True,False,2.7672
+1010,EM variationnel (priors empiriques),1.0,0.7367,3,37,True,False,1.0673
+1011,EM classique,0.7326,0.3147,6,172,True,False,1.5817
+1011,EM variationnel (priors diffus),1.0,0.7482,3,91,True,False,2.9744
+1011,EM variationnel (priors empiriques),1.0,0.7482,3,22,True,False,0.823
+1012,EM classique,0.7721,0.3086,6,94,True,False,2.7665
+1012,EM variationnel (priors diffus),1.0,0.7566,3,154,True,False,4.7425
+1012,EM variationnel (priors empiriques),1.0,0.7566,3,18,True,False,0.8367
+1013,EM classique,0.7775,0.4519,6,103,True,False,2.8469
+1013,EM variationnel (priors diffus),1.0,0.7477,3,67,True,False,2.9243
+1013,EM variationnel (priors empiriques),1.0,0.7477,3,24,True,False,0.9141
+1014,EM classique,0.8019,0.4382,6,124,True,False,2.96
+1014,EM variationnel (priors diffus),0.9344,0.6,4,113,True,False,4.4474
+1014,EM variationnel (priors empiriques),1.0,0.7465,3,22,True,False,0.9105
+1015,EM classique,0.7698,0.3763,6,97,True,False,1.7605
+1015,EM variationnel (priors diffus),1.0,0.7479,3,149,True,False,4.6147
+1015,EM variationnel (priors empiriques),1.0,0.7479,3,25,True,False,0.8468
+1016,EM classique,0.686,0.4526,6,84,True,False,1.5989
+1016,EM variationnel (priors diffus),0.8949,0.6101,4,78,True,False,2.9993
+1016,EM variationnel (priors empiriques),1.0,0.7554,3,22,True,False,0.8253
+1017,EM classique,0.7705,0.4008,6,131,True,False,1.4575
+1017,EM variationnel (priors diffus),1.0,0.7456,3,196,True,False,3.432
+1017,EM variationnel (priors empiriques),1.0,0.7456,3,19,True,False,0.8328
+1018,EM classique,0.826,0.5735,6,64,True,False,1.8413
+1018,EM variationnel (priors diffus),1.0,0.7486,3,77,True,False,3.37
+1018,EM variationnel (priors empiriques),0.99,0.7482,3,36,True,False,0.8013
+1019,EM classique,0.717,0.4506,6,42,True,False,1.9016
+1019,EM variationnel (priors diffus),0.873,0.5899,4,140,True,False,2.076
+1019,EM variationnel (priors empiriques),1.0,0.7424,3,36,True,False,1.2217
+1020,EM classique,0.721,0.4095,6,106,True,False,2.6886
+1020,EM variationnel (priors diffus),1.0,0.7506,3,54,True,False,3.6566
+1020,EM variationnel (priors empiriques),1.0,0.7506,3,35,True,False,0.9727
+1021,EM classique,0.7754,0.4125,6,123,True,False,1.5698
+1021,EM variationnel (priors diffus),1.0,0.7455,3,137,True,False,4.5155
+1021,EM variationnel (priors empiriques),1.0,0.7455,3,38,True,False,0.9796
+1022,EM classique,0.8382,0.283,6,200,True,False,3.013
+1022,EM variationnel (priors diffus),1.0,0.7467,3,256,True,False,4.6729
+1022,EM variationnel (priors empiriques),1.0,0.7467,3,31,True,False,1.3308
+1023,EM classique,0.7103,0.4681,6,58,True,False,1.1825
+1023,EM variationnel (priors diffus),1.0,0.7512,3,68,True,False,3.2227
+1023,EM variationnel (priors empiriques),1.0,0.7512,3,24,True,False,0.779
+1024,EM classique,0.708,0.3835,6,93,True,False,2.6775
+1024,EM variationnel (priors diffus),1.0,0.7485,3,104,True,False,3.4542
+1024,EM variationnel (priors empiriques),1.0,0.7485,3,26,True,False,0.9933
+1025,EM classique,0.7991,0.4061,6,167,True,False,2.5037
+1025,EM variationnel (priors diffus),1.0,0.7558,3,204,True,False,4.8691
+1025,EM variationnel (priors empiriques),1.0,0.7558,3,28,True,False,1.2319
+1026,EM classique,0.7928,0.3898,6,145,True,False,2.423
+1026,EM variationnel (priors diffus),0.9172,0.5904,4,126,True,False,3.7512
+1026,EM variationnel (priors empiriques),1.0,0.7347,3,32,True,False,1.2847
+1027,EM classique,0.8371,0.5786,6,129,True,True,1.5976
+1027,EM variationnel (priors diffus),1.0,0.7475,3,75,True,False,2.4624
+1027,EM variationnel (priors empiriques),1.0,0.7475,3,28,True,False,0.9579
+1028,EM classique,0.8136,0.3246,6,383,True,False,2.7949
+1028,EM variationnel (priors diffus),1.0,0.7548,3,90,True,False,5.9392
+1028,EM variationnel (priors empiriques),1.0,0.7548,3,20,True,False,1.0015
+1029,EM classique,0.7239,0.3892,6,419,True,False,5.4836
+1029,EM variationnel (priors diffus),0.8691,0.6247,4,189,True,False,7.5
+1029,EM variationnel (priors empiriques),1.0,0.7385,3,27,True,False,1.1706

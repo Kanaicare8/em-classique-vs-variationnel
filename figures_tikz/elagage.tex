@@ -1,0 +1,17 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=2.6cm,y=0.62cm,>=Stealth]
+  \draw[->] (0,0) -- (4.3,0) node[right] {$\alpha_k$};
+  \draw[->] (0,-9) -- (0,2.2) node[above] {$\psi(\alpha_k)$};
+  \foreach \x in {1,2,3,4} {\draw (\x,0.1) -- (\x,-0.1) node[below=3pt,font=\footnotesize] {\x};}
+  \foreach \y in {-8,-6,-4,-2,0,2} {\draw (0.03,\y) -- (-0.03,\y) node[left,font=\footnotesize] {\y};}
+  \draw[navy,very thick,domain=0.125:4,samples=90,smooth]
+    plot (\x,{ln(\x+2)-1/(2*(\x+2))-1/(12*(\x+2)^2)-1/\x-1/(\x+1)});
+  \draw[bleu,dashed] (1,-9) -- (1,2);
+  \node[bleu,font=\footnotesize,anchor=west] at (1.03,1.6) {$\alpha_k=1$};
+  \node[font=\footnotesize,anchor=west,text width=3.6cm] at (0.26,-7.3) {composante vide : $\alpha_k\approx\alpha_0$ petit, $\mathbb{E}[\log\pi_k]\ll 0$};
+  \node[font=\footnotesize,anchor=east,text width=3.2cm,align=right] at (4.2,-3.3) {composante soutenue par les données : $\alpha_k=\alpha_0+N_k$ grand};
+\end{tikzpicture}
+\caption{Mécanisme d'élagage : $\psi(\alpha_k)\approx -1/\alpha_k$ tend vers $-\infty$ quand $\alpha_k\to 0$. Dans l'étape E, $\mathbb{E}[\log\pi_k]=\psi(\alpha_k)-\psi(\sum_j\alpha_j)$ pénalise une composante dont $\alpha_k$ reste proche de $\alpha_0$. Courbe tracée par l'approximation asymptotique de la fonction digamma décalée de 2.}
+\label{fig:elagage}
+\end{figure}

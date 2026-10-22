@@ -1,0 +1,10 @@
+id,axe,enonce,decision,estimation,intervalle,pvalue,n,niveau_preuve,references
+S7[prop=0.01;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.011167829055434737,[0.005 ; 0.019],9.758193294952126e-08,30,expérience répliquée,
+S7[prop=0.01;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0011652977001063677,[-0.000 ; 0.003],5.1208354653217e-303,30,expérience répliquée,
+S7[prop=0.01;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.0016511001319972148,[-0.001 ; 0.004],8.395914429248906e-143,30,expérience répliquée,
+S7[prop=0.05;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.004535991573216883,[0.001 ; 0.009],1.5543208535554167e-34,30,expérience répliquée,
+S7[prop=0.05;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.004257972147856466,[-0.000 ; 0.010],3.133637091848987e-23,30,expérience répliquée,
+S7[prop=0.05;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.00212090214219397,[-0.002 ; 0.006],1.7663622858353035e-41,30,expérience répliquée,
+S7[prop=0.1;amp=10.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.008591902955097023,[0.002 ; 0.017],9.86007533089525e-08,30,expérience répliquée,
+S7[prop=0.1;amp=20.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.002996045193212582,[0.000 ; 0.006],1.8940074177100944e-83,30,expérience répliquée,
+S7[prop=0.1;amp=5.0],S7_aberrations,"grille régénérée (VB-emp - EM-BIC, ARI)",équivalent,0.001493910307517469,[-0.005 ; 0.009],1.2102914431662478e-15,30,expérience répliquée,

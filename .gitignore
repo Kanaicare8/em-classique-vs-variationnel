@@ -1,0 +1,30 @@
+# Python et outils
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/
+
+# LaTeX (fichiers produits)
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+
+# Données non redistribuables ou sans licence claire (téléchargées par les scripts, voir LANCEMENT.md)
+data/climat/
+data/texte/
+data/sp500_fred.csv
+
+# Résultats régénérables (magasin d'artefacts, journaux de calcul)
+resultats/magasin/
+resultats/magasin_rapide/
+resultats/tables_rapide/
+logs/
+resultats/calibrage_rapide/
+tables_rapide/
+figures/rapide/
+figures/html/
+references/*.pdf

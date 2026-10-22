@@ -1,0 +1,6 @@
+modele,composantes_actives,ARI,silhouette,iterations,temps_s,poids
+"EM classique (init k-means, 10 relances)",6,0.715,0.45,8,0.207,"[0.333, 0.013, 0.167, 0.148, 0.185, 0.154]"
+"EM classique (init aléatoire, version 3.2.1)",6,0.834,0.382,44,0.077,"[0.333, 0.073, 0.303, 0.046, 0.034, 0.21]"
+"EM variationnel (priors diffus, init k-means)",4,0.985,0.646,103,3.676,"[0.001, 0.326, 0.333, 0.332, 0.008, 0.001]"
+EM variationnel (priors empiriques),3,0.99,0.739,25,1.652,"[0.001, 0.335, 0.331, 0.333, 0.001, 0.001]"
+"EM variationnel (init aléatoire, version 3.3.1)",4,0.884,0.589,200,0.885,"[0.216, 0.001, 0.001, 0.332, 0.334, 0.118]"

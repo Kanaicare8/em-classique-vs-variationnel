@@ -1,0 +1,7 @@
+initialisation,algorithme,n_repetitions,3 actives,4 actives,5 actives,6 actives
+init k-means,EM classique,20,0,0,0,20
+init k-means,EM variationnel (priors diffus),20,0,12,8,0
+init k-means,EM variationnel (priors empiriques),20,20,0,0,0
+init aléatoire,EM classique,20,0,1,1,18
+init aléatoire,EM variationnel (priors diffus),20,4,14,2,0
+init aléatoire,EM variationnel (priors empiriques),20,20,0,0,0

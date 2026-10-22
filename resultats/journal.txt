@@ -1,0 +1,102 @@
+
+==============================================================================
+00  Validation des exemples numériques du chapitre 1
+==============================================================================
+Tableau 1.2 recalculé (EM classique, 8 observations) :
+ iteration   mu1   mu2  sigma1  sigma2   pi1   pi2  loglik
+         0 2.000 6.000   2.000   2.000 0.500 0.500     NaN
+         1 1.284 7.368   1.134   1.549 0.484 0.516 -15.814
+         2 1.125 7.722   0.466   0.479 0.500 0.500 -10.742
+         3 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         4 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         5 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         6 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         7 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         8 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+         9 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+        10 1.125 7.725   0.466   0.460 0.500 0.500 -10.736
+Moyennes empiriques des deux groupes : 1.125 et 7.725
+p(2,0 | theta) : paramètres du mémoire 0.1414 ; paramètres recalculés 0.0734
+Dirichlet a posteriori [8.0, 5.0, 2.0] ; E[pi] = [0.533, 0.333, 0.133] (mémoire : 0,533 0,333 0,133)
+Tableau 1.4 recalculé (forward-backward) :
+ t  alpha_B  alpha_P  beta_B  beta_P  gamma_B  gamma_P
+ 1    0.540    0.080   0.147   0.262    0.791    0.209
+ 2    0.041    0.168   0.310   0.520    0.127    0.873
+ 3    0.010    0.090   1.000   1.000    0.096    0.904
+p(O) = 0.1001 (mémoire : 0,100)
+Tableau 1.5 recalculé (EM variationnel, Kmax = 3, alpha0 = 1/3) :
+   init  graine  iterations                 alpha                     m  actives
+memoire       0          12 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+memoire       1           8 [4.333, 4.333, 0.333] [7.724, 1.126, 4.425]        2
+memoire       2          12 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+memoire       3           7 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+memoire       4           7 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ kmeans       0          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ kmeans       1           5 [4.333, 4.333, 0.333] [7.724, 1.126, 4.425]        2
+ kmeans       2          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ kmeans       3          15 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+ kmeans       4           5 [4.333, 4.333, 0.333] [1.126, 7.724, 4.425]        2
+EM : log-vraisemblance croissante à chaque itération : True
+Neal et Hinton : F(q*, theta) = -945.026019 ; log-vraisemblance = -945.026019 (écart 1.14e-13)
+EM variationnel : ELBO croissant à chaque itération : True ; ELBO final -1046.62 <= log-vraisemblance maximale de l'EM -945.03 : True
+[exp 00 terminée en 3.4 s]
+
+==============================================================================
+01  Comparaison K = 6 (sections 2.3.1 à 2.3.4)
+==============================================================================
+                                           modele  composantes_actives   ARI  silhouette  iterations  temps_s                                      poids
+         EM classique (init k-means, 10 relances)                    6 0.715       0.450           8    0.175 [0.333, 0.013, 0.167, 0.148, 0.185, 0.154]
+     EM classique (init aléatoire, version 3.2.1)                    6 0.834       0.382          44    0.053  [0.333, 0.073, 0.303, 0.046, 0.034, 0.21]
+EM variationnel (priors du mémoire, init k-means)                    4 0.985       0.646         103    2.305 [0.001, 0.326, 0.333, 0.332, 0.008, 0.001]
+       EM variationnel (priors type scikit-learn)                    3 0.990       0.739          25    0.767 [0.001, 0.335, 0.331, 0.333, 0.001, 0.001]
+  EM variationnel (init aléatoire, version 3.3.1)                    4 0.884       0.589         200    0.644 [0.216, 0.001, 0.001, 0.332, 0.334, 0.118]
+ELBO final (priors type sklearn) : -1046.62 ; log-vraisemblance EM : -946.00
+[exp 01 terminée en 9.8 s]
+
+==============================================================================
+12  Réplication statistique sur jeux de données indépendants
+==============================================================================
+                               modele  R  ARI_moyen        ARI_IC95  ARI_ecart_type  silhouette_moyenne silhouette_IC95  part_exactement_3_actives part_IC95_Wilson  actives_moyennes  iterations_moyennes  temps_moyen_s
+                         EM classique  8      0.708 [0.689 ; 0.738]           0.042               0.470 [0.448 ; 0.503]                      0.000  [0.000 ; 0.324]              6.00                  9.0          0.175
+  EM variationnel (priors du mémoire)  8      0.983 [0.950 ; 1.000]           0.045               0.725 [0.683 ; 0.751]                      0.875  [0.529 ; 0.978]              3.12                111.4          3.384
+EM variationnel (priors type sklearn)  8      0.999 [0.996 ; 1.000]           0.004               0.743 [0.735 ; 0.751]                      1.000  [0.676 ; 1.000]              3.00                 23.2          0.829
+                                                   comparaison  difference_moyenne  IC95_bootstrap jeux_ou_variationnel_meilleur
+  EM variationnel (priors du mémoire) moins EM classique (ARI)               0.275 [0.235 ; 0.304]                       8 sur 8
+EM variationnel (priors type sklearn) moins EM classique (ARI)               0.291 [0.261 ; 0.309]                       8 sur 8
+H1 pour EM variationnel (priors du mémoire) moins EM classique (ARI) : soutenue (IC95 strictement positif)
+H1 pour EM variationnel (priors type sklearn) moins EM classique (ARI) : soutenue (IC95 strictement positif)
+[exp 12 terminée en 37.4 s]
+
+==============================================================================
+Comparaison mémoire / reproduit
+==============================================================================
+experience                                                  grandeur memoire reproduit    ecart
+        00                              mu1 à convergence (tab. 1.2)     1.3     1.125   -0.175
+        00                              mu2 à convergence (tab. 1.2)     7.5     7.725    0.225
+        00                           sigma1 à convergence (tab. 1.2)   0.474     0.466   -0.008
+        00                           sigma2 à convergence (tab. 1.2)    0.44      0.46    0.020
+        00                log-vraisemblance à convergence (tab. 1.2)   -9.97   -10.736   -0.766
+        00                  log-vraisemblance itération 1 (tab. 1.2)  -13.21   -15.814   -2.604
+        00                                   p(2,0|theta) (éq. 1.10)  0.1414    0.0734   -0.068
+        00                                        E[pi_3] (éq. 1.12)   0.133     0.133    0.000
+        00                               p(O | A, B, pi0) (tab. 1.4)     0.1       0.1    0.000
+        00                                     gamma_1(B) (tab. 1.4)   0.791     0.791    0.000
+        00                                     gamma_3(P) (tab. 1.4)   0.904     0.904    0.000
+        00                            composantes actives (tab. 1.5)       2         2    0.000
+        00                 alpha de la composante élaguée (tab. 1.5)   0.333     0.333    0.000
+        00                           log-vraisemblance monotone (EM)     oui       oui      NaN
+        00                           ELBO monotone (EM variationnel)     oui       oui      NaN
+        01                                          ARI EM classique   0.708     0.715    0.007
+        01                 ARI EM variationnel (priors type sklearn)     1.0      0.99   -0.010
+        01                                   silhouette EM classique   0.395      0.45    0.055
+        01          silhouette EM variationnel (priors type sklearn)    0.75     0.739   -0.011
+        01 composantes actives EM variationnel (priors type sklearn)       3         3      NaN
+        01   composantes actives EM variationnel (priors du mémoire)       3         4      NaN
+        01                          composantes actives EM classique       6         6      NaN
+        01                                log-vraisemblance EM (K=6) -930.42    -946.0  -15.580
+        01                                      ELBO EM variationnel -485.23  -1046.62 -561.390
+        01                                   itérations EM classique      14         8   -6.000
+        01          itérations EM variationnel (priors type sklearn)      29        25   -4.000
+        12                           ARI moyen EM classique (R jeux)   0.708     0.708    0.000
+        12        ARI moyen EM variationnel, priors sklearn (R jeux)     1.0     0.999   -0.001
+        12     ARI moyen EM variationnel, priors du mémoire (R jeux)     1.0     0.983   -0.017

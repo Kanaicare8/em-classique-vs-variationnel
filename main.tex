@@ -1,0 +1,195 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% 
+% Encodage, langue, polices
+% 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french,provide=*]{babel}
+\usepackage{textcomp}
+
+% 
+% Mise en page
+% 
+\usepackage[a4paper,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% 
+% Titres de chapitres/sections
+% 
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large}
+  {\chaptertitlename\ \thechapter}{20pt}{\Large}
+\titlespacing*{\chapter}{0pt}{0pt}{30pt}
+
+% 
+% Mathematiques
+% 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\numberwithin{equation}{chapter}
+\providecommand{\textsubscript}[1]{\ensuremath{{}_{\text{#1}}}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\sign}{sign}
+
+% 
+% Graphiques, tableaux, figures
+% 
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+
+
+% 
+% Code source (Python)
+% 
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codekw}{RGB}{0,0,160}
+\definecolor{codestr}{RGB}{163,21,21}
+\definecolor{codecom}{RGB}{0,128,0}
+\definecolor{codeframe}{RGB}{200,200,200}
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{codekw}\bfseries,
+  stringstyle=\color{codestr},
+  commentstyle=\color{codecom}\itshape,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  breaklines=true,
+  breakatwhitespace=false,
+  postbreak=\mbox{\textcolor{codekw}{$\hookrightarrow$}\space},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  tabsize=4,
+  xleftmargin=0.6em,
+  xrightmargin=0.2em,
+  aboveskip=1em,
+  belowskip=0.6em,
+  literate=
+    {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1
+    {à}{{\`a}}1 {â}{{\^a}}1 {ä}{{\"a}}1
+    {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1
+    {ô}{{\^o}}1 {ö}{{\"o}}1 {î}{{\^\i}}1 {ï}{{\"\i}}1
+    {ç}{{\c c}}1 {É}{{\'E}}1 {È}{{\`E}}1 {À}{{\`A}}1
+    {«}{{\guillemotleft}}1 {»}{{\guillemotright}}1
+    {°}{{\textdegree}}1 {—}{{}}1 {–}{{--}}1
+}
+
+% 
+% Liens, references
+% 
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+% 
+% Divers
+% 
+\usepackage{enumitem}
+
+\title{Comparaison entre l'algorithme EM classique et l'EM variationnel}
+\author{KANA TIODONG ICARE BRICHEL}
+\date{Année Académique 2025 -- 2026}
+
+\begin{document}
+
+% Noms francises (apres babel, qui les redefinit en fin de preambule)
+\addto\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+  \renewcommand{\contentsname}{Table des matières}%
+  \renewcommand{\listtablename}{Liste des tableaux}%
+  \renewcommand{\listfigurename}{Liste des figures}%
+  \renewcommand{\bibname}{Bibliographie}%
+}
+
+% =======================================================================
+% PAGE DE GARDE
+% =======================================================================
+\begin{titlepage}
+\begin{center}
+
+\textbf{UNIVERSITÉ DE DOUALA}\\[2pt]
+\textit{THE UNIVERSITY OF DOUALA}
+
+\vspace{4pt}
+* \quad * \quad *
+\vspace{4pt}
+
+\textbf{ÉCOLE NATIONALE SUPÉRIEURE POLYTECHNIQUE DE DOUALA}\\[2pt]
+(ENSPD)
+
+\vspace{4pt}
+* \quad * \quad *
+\vspace{20pt}
+
+\textbf{DÉPARTEMENT DE GÉNIE INFORMATIQUE}
+
+\vspace{10pt}
+\textbf{\Large MÉMOIRE DE MASTER}\\[2pt]
+\textit{Master of Science en Data Science et Intelligence Artificielle (SDIA)}
+
+\vspace{30pt}
+{\Large\textbf{COMPARAISON ENTRE L'ALGORITHME EM CLASSIQUE ET L'EM VARIATIONNEL}}\\[6pt]
+\textit{(Avantages, inconvénients et applications)}
+
+\vspace{40pt}
+Dressé et présenté par :\\[4pt]
+\textbf{\Large KANA TIODONG ICARE BRICHEL}
+
+\vspace{25pt}
+Mémoire co-encadré par :\\[8pt]
+\textbf{Prof. Dr. habil. P. NJIONOU SADJANG}\\
+\textit{Professeur Associé, École Nationale Supérieure Polytechnique de Douala}\\[8pt]
+\textbf{Prof. Patrice TAKAM SOH}\\
+\textit{Professeur Associé, Université de Yaoundé 1}
+
+\vfill
+\textbf{Année Académique 2025 -- 2026}
+
+\end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+% =======================================================================
+% SOMMAIRE, LISTES
+% =======================================================================
+\tableofcontents
+\clearpage
+\renewcommand{\listfigurename}{Liste des figures}
+\listoffigures
+\clearpage
+\renewcommand{\listtablename}{Liste des tableaux}
+\listoftables
+\clearpage
+
+\pagenumbering{arabic}
+
+% =======================================================================
+% CORPS DU DOCUMENT (genere automatiquement depuis le .docx)
+% =======================================================================
+\input{body.tex}
+
+\end{document}

@@ -1,0 +1,9 @@
+niveau,modele,VaR_pct,ES_pct,IC95_VaR,exceptions,exceptions_attendues,taux_observe,Kupiec_LR,Kupiec_p
+0.05,Gaussienne unique,-1.907,-2.406,,41.0,59.7,0.0344,6.86,0.0088
+0.05,Mélange EM (K = 4),-1.733,-3.113,,53.0,59.7,0.0444,0.81,0.3683
+0.05,Mélange variationnel (prédictive),-1.683,-3.105,[-1.944 ; -1.461],57.0,59.7,0.0478,0.13,0.7229
+0.05,"Bootstrap EM (K = 4, B = 100)",-1.725,,[-2.104 ; -1.319],,,,,
+0.01,Gaussienne unique,-2.721,-3.126,,20.0,11.9,0.0168,4.58,0.0323
+0.01,Mélange EM (K = 4),-3.721,-5.509,,5.0,11.9,0.0042,5.2,0.0225
+0.01,Mélange variationnel (prédictive),-3.695,-5.795,[-4.392 ; -3.223],6.0,11.9,0.005,3.64,0.0563
+0.01,"Bootstrap EM (K = 4, B = 100)",-3.926,,[-5.018 ; -3.124],,,,,

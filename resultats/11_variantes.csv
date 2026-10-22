@@ -1,0 +1,6 @@
+methode,loglik,ARI,temps_s
+EM standard (batch),-955.8,1.0,0.098
+"EM stochastique (SEM), 20 baisses de log-vraisemblance",-955.8,1.0,0.625
+EM online (statistiques suffisantes),-956.0,1.0,0.064
+"EM variationnel batch (Kmax=6, 3 actives)",,0.99,0.331
+"SVI (Kmax=6, 3 actives)",,0.99,0.376

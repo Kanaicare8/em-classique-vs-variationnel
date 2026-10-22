@@ -1,0 +1,5 @@
+covariance,ARI_classique,ARI_variationnel,actives_variationnel,BIC_classique
+full,0.715,0.99,3,2091.6
+tied,0.685,1.0,3,2027.0
+diag,0.727,0.99,3,2067.6
+spherical,0.726,1.0,3,2033.3

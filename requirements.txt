@@ -1,0 +1,9 @@
+torch==2.4.1
+plotly==6.8.0
+kaleido==1.3.0
+pytest==9.1.1
+# lecture des formats géographiques seulement (donnees_geo.py) ; aucun calcul
+rasterio==1.4.3
+geopandas==1.0.1
+shapely==2.1.0
+pyproj==3.6.1

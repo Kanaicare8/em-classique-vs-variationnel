@@ -1,0 +1,3 @@
+modele,ARI_hors_aberrantes,composantes_actives,trace_covariance_max,poids_plus_petit
+EM classique,0.99,6,6.2,0.0065
+EM variationnel,0.99,5,98.4,0.0108

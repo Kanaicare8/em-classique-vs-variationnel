@@ -1,0 +1,9 @@
+{
+  "python": "3.10.0",
+  "torch": "2.4.1+cpu",
+  "pandas": "2.1.4",
+  "plotly": "6.8.0",
+  "systeme": "Windows-10-10.0.21996-SP0",
+  "cpu_threads": 4,
+  "precision": "torch.float64"
+}

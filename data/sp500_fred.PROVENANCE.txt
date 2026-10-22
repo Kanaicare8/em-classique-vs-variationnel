@@ -1,0 +1,7 @@
+Fichier : data/sp500_fred.csv  (série FRED « SP500 », clôtures quotidiennes de l'indice S&P 500)
+Source  : https://fred.stlouisfed.org/series/SP500  (export CSV fredgraph.csv?id=SP500)
+Dernière écriture du fichier : 2026-10-06 19:39 (date de téléchargement non journalisée avant ce jour ; c'est la date de modification).
+Période : 2016-10-06 à 2026-10-05, 2608 observations.
+SHA-256 : 551b282c417da2e7fa38ad4da0c5ebc2c907d386272a0752d04f97e16b7c90dc
+Droits  : les données de l'indice appartiennent à S&P Dow Jones Indices ; FRED n'en publie que les dix dernières années.
+          À vérifier avant tout dépôt public (Zenodo) du fichier ; à défaut, ne déposer que le hash et le script de téléchargement.

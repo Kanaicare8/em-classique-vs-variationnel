@@ -1,0 +1,3 @@
+periode,observations,moyenne_pct,ecart_type_pct,asymetrie,kurtosis_excedentaire,minimum_pct,maximum_pct
+apprentissage 2016-2021,1318,0.06,1.196,-1.154,22.72,-12.77,8.97
+évaluation 2022-2026,1193,0.041,1.0786,0.039,6.487,-6.16,9.09

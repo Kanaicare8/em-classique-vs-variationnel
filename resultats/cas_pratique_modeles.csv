@@ -1,0 +1,5 @@
+modele,composantes,loglik_moy_apprentissage,loglik_moy_evaluation,BIC
+"Gaussienne unique (EM, K = 1)",1,-1.5976,-1.5043,4225.5
+"EM classique, K choisi par BIC (K = 4)",4,-1.2966,-1.4705,3496.9
+"EM classique, K = 6 imposé",6,-1.2948,-1.4862,3535.2
+"EM variationnel, Kmax = 6 (4 actives), prédictive a posteriori",4,-1.2903,-1.4597,

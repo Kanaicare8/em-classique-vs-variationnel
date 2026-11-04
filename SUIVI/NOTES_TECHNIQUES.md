@@ -107,3 +107,25 @@ nouvelle définition de la dégénérescence : il faudrait alors les déplacer p
    les résultats du mémoire (magasin séparé) ni désormais sur les tests ; à mettre de côté sur l'instance (commande
    dans E-01).
 4. **`fin/texte` sur 8 cœurs** : voir D-11.
+
+## N-05 Relecture des commits `3e1d4b0` et `4269bda` (session de l'instance), 2026-11-05
+
+**Problème réglé.** Avec 200 relances, une évaluation de la recherche LDA (`fin/texte`) enchaînait 200 ajustements sur
+un cœur sans rien écrire (environ 12 h) ; le superviseur l'a tuée cinq fois le 4 novembre et le travail a été perdu. Le
+même risque existait dans `etape_texte.unite_echantillon` (mémoire de la seule boucle complète).
+
+**Ce qui change.** Recherche LDA : chaque relance est une sous-tâche qui mémorise sa borne finale ; l'évaluation
+réajuste ensuite la meilleure relance avec sa graine et range son score sous la même clé qu'avant. Étape texte :
+`_meilleur` mémorise le critère de chaque relance (`<nom>/relances/s=<s>`) ; sans interruption, rien n'est recalculé ;
+après une reprise, la meilleure relance relue est réajustée avec sa graine. `etapes.sous_taches_paralleles` lance
+aussi un processus pour une sous-tâche unique.
+
+**Neutralité (lecture).** Même règle de choix (plus grand critère, la première à égalité : inégalité stricte dans les
+deux versions) ; un ajustement à graine fixée, un fil, est déterministe, donc le réajustement redonne le même modèle ;
+clés des scores inchangées. Vérifications de la session : 84 tests passent sur l'instance (dont
+`tests/test_relances_memorisees.py` : pLSA réel, reprise partielle, égalité) ; `outils/verifier_parallele.py --texte 4` :
+13 valeurs sur 13 identiques, dont une évaluation LDA en deux temps (−6,751938501440624 des deux côtés). Surcoût : un
+ajustement par évaluation (environ 0,5 %).
+
+**État au 2026-11-05 à 0 h 45 (Douala)** : calibrage, 1 unité faite sur 448 ; `fin/texte` sur 32 cœurs (environ
+7 LDA par minute, environ 32 h au total pour environ 13 600 ajustements) ; coût 6,65 $ sur 40 $.

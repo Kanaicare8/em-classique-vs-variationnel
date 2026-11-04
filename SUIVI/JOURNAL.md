@@ -37,6 +37,7 @@ Une ligne par action : date ; ce qui a été fait ; pourquoi (P-xx, D-xx ou phas
 | 2026-11-05 | D-14 : relances de l'étape texte séparées du calibrage (règle par l'écart au meilleur, au plus 20), sensibilité au vocabulaire à 3 réplications ; commit `5bd4fe7` | D-14 | `calibrage.py`, `etape_texte.py`, `parametres.py`, `body.tex` | `py_compile` ; registre, dépendances (pilotes texte après fin/n_init_texte) et nombre d'unités texte vérifiés par import (51 au R provisoire) ; compilation du mémoire | à récupérer sur l'instance avant la vague 7 |
 | 2026-11-05 | Sensibilité des décisions d'équivalence à la marge (moitié, double, Holm recalculé) et tableau `sensibilite_marges` ; temps d'EM-BIC retirés de `prix_complet` ; commit `dc14b66` | D-04, P-08 | `statistique.py`, `tex_tables.py`, `tests/test_statistique.py`, `body.tex` | `py_compile` ; test calculé à la main (non lancé) ; compilation du mémoire | |
 | 2026-11-05 | Fiche E-02 (étapes confirmatoires) : prérequis, contrôles à envoyer avant lancement, commandes, critères de réussite | lot 3 | `EXPERIENCES/E-02.md` | | à lancer après le calibrage |
+| 2026-11-05 | Relecture des commits `3e1d4b0` et `4269bda` (session de l'instance : relances du texte mémorisées une à une) : neutres d'après la lecture et les vérifications de la session ; `--inactivite-max 360` accepté pour E-02 | N-05 | `EXPERIENCES/E-02.md`, `NOTES_TECHNIQUES.md` | lecture du diff ; 84 tests et vérification bit à bit faites sur l'instance | calibrage en cours, 6,65 $ |
 
 ## Inventaire du 2026-11-04 (phase 0)
 

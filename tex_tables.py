@@ -455,6 +455,39 @@ def _lecture_recherche(toutes):
     _ecrire_lecture("recherche", par)
 
 
+def environnement():
+    """
+    Annexe D : machines et logiciels des lancements, lus dans resultats/environnement_historique.jsonl (écrit par
+    run.py à chaque lancement, point P-17) ; une ligne par configuration distincte (commit, machine, versions).
+    """
+    import json
+    f = RACINE / "resultats" / "environnement_historique.jsonl"
+    if not f.exists():
+        ABSENTS.append("environnement (resultats/environnement_historique.jsonl)")
+        return
+    groupes = {}
+    for ligne in f.read_text(encoding="utf-8").splitlines():
+        if not ligne.strip():
+            continue
+        e = json.loads(ligne)
+        if e.get("rapide"):
+            continue                                  # essais réduits : hors résultats du mémoire
+        cle = (e.get("commit"), e.get("systeme"), e.get("processeur"), e.get("coeurs_logiques"), e.get("memoire_go"),
+               e.get("python"), e.get("torch"))
+        g = groupes.setdefault(cle, {"etapes": set(), "debut": e["date"], "fin": e["date"], "travailleurs": set()})
+        g["etapes"].update(e.get("etapes") or [])
+        g["travailleurs"].add(f'{e.get("travailleurs")}/{e.get("sous_travailleurs") or "-"}')
+        g["debut"], g["fin"] = min(g["debut"], e["date"]), max(g["fin"], e["date"])
+    lignes = []
+    for (commit, sy, pr, co, me, py, to), g in sorted(groupes.items(), key=lambda x: x[1]["debut"]):
+        lignes.append([esc(commit), esc(f"{g['debut'][:16]} à {g['fin'][:16]}"), esc(", ".join(sorted(g["etapes"]))),
+                       esc(f"{sy} ; {pr} ; {co} coeurs logiques ; {me} Go"), esc(f"Python {py} ; PyTorch {to}"),
+                       esc(", ".join(sorted(g["travailleurs"])))])
+    ecrire("environnement", ["Commit", "Période", "Étapes", "Machine", "Logiciels", "Processus / sous-processus"], lignes,
+           "Machines et logiciels des lancements (resultats/environnement\\_historique.jsonl)", "tab:environnement",
+           taille="tiny", largeurs=[1.3, 2.4, 3.0, 4.2, 2.4, 2.0])
+
+
 def main(rapide=False):
     global OUT
     if rapide:
@@ -464,6 +497,8 @@ def main(rapide=False):
     lectures(rapide)
     grille(rapide)
     registre()
+    if not rapide:
+        environnement()
     print(f"{len(ECRITS)} tableaux écrits dans tables/")
     if ABSENTS:
         print("à générer (CSV absent) :\n  " + "\n  ".join(ABSENTS))

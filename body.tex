@@ -250,7 +250,7 @@ La figure~\ref{fig:kl_inverse} illustre le premier effet. Les deux effets condui
 
 \input{figures_tikz/kl_inverse}
 
-\section{L'algorithme EM classique}
+\section{L'algorithme EM classique}\label{sec:em_classique}
 \subsection{Historique et contexte}
 L'algorithme Espérance-Maximisation a une histoire riche qui précède sa formalisation par Dempster, Laird et Rubin. Des idées similaires apparaissent dans les travaux de Hartley (1958) sur les tableaux de contingence, de Baum et al. (1970) dans le contexte des modèles de Markov cachés  l'algorithme de Baum-Welch , et d'Orchard et Woodbury (1972) sur le traitement des données manquantes. C'est toutefois l'article de 1977 de Dempster, Laird et Rubin qui a unifié ces approches disparates sous un cadre théorique commun, démontré les propriétés générales de convergence, et fourni le langage  étapes E et M  devenu standard.
 
@@ -310,7 +310,7 @@ L'astuce consiste à factoriser par le maximum des $a_{k}$ avant d'exponentier :
 \tag{1.18}
 \label{eq:1_18}
 \end{equation}
-Cette identité est mathématiquement triviale  il suffit de factoriser exp(a\_max) dans la somme puis de repasser au logarithme , mais elle change radicalement le comportement numérique du calcul : après soustraction de a\_max, le terme correspondant au maximum vaut exp(0) = 1, et tous les autres termes valent exp($a_{k}$ - a\_max) $\leq $ 1, ce qui élimine tout risque de dépassement de capacité (overflow) ou de perte de précision par underflow. C'est cette identité qui est utilisée, sous une forme ou une autre, dans les deux implémentations from scratch présentées au chapitre 3 (sections \ref{sec:impl_em} et 3.3.1).
+Cette identité est mathématiquement triviale  il suffit de factoriser exp(a\_max) dans la somme puis de repasser au logarithme , mais elle change radicalement le comportement numérique du calcul : après soustraction de a\_max, le terme correspondant au maximum vaut exp(0) = 1, et tous les autres termes valent exp($a_{k}$ - a\_max) $\leq $ 1, ce qui élimine tout risque de dépassement de capacité (overflow) ou de perte de précision par underflow. C'est cette identité qui est utilisée, sous une forme ou une autre, dans les deux implémentations from scratch présentées à la section~\ref{sec:implementation} (sections~\ref{sec:impl_em} et~\ref{sec:impl_vb}).
 
 \subsubsection{f) La fonction Q et la garantie de croissance}
 La propriété de croissance monotone de l'EM repose sur la décomposition $\ell $($\theta $) = Q($\theta $ | $\theta ^{t}$) - $\mathbb{E}$\_\{p(Z|X,$\theta ^{t}$)\}[log p(Z | X, $\theta $)] + constante. Comme l'étape M assure Q($\theta ^{t+1}$ | $\theta ^{t}$) $\geq $ Q($\theta ^{t}$ | $\theta ^{t}$), et que le terme soustractif ne diminue pas quand $\theta $ passe de $\theta ^{t}$ à $\theta ^{t+1}$  par la non-négativité de la divergence KL établie à la section 1.5 , on conclut que $\ell $($\theta ^{t+1}$) $\geq $ $\ell $($\theta ^{t}$) : la log-vraisemblance ne peut donc que croître ou rester constante à chaque itération de l'algorithme.
@@ -364,7 +364,7 @@ La convergence est très rapide : le point fixe est atteint en trois itérations
 \caption{Évolution de la log-vraisemblance au fil des itérations (exemple numérique de la section 1.6.4). La courbe est croissante puis stationnaire dès la troisième itération, ce qui illustre la garantie de monotonie établie à la section 1.6.2.f.}
 \label{fig:1_1}
 \end{figure}
-\subsection{Variantes de l'EM classique}
+\subsection{Variantes de l'EM classique}\label{sec:variantes_em}
 \begin{table}[H]
 \centering
 \small
@@ -395,7 +395,7 @@ L'EM généralisé remplace l'étape M exacte par une étape qui améliore, sans
 
 Enfin, l'application originale ayant motivé l'article de Dempster et al. était précisément le traitement des données manquantes. Lorsque certaines composantes de $x_{i}$ sont manquantes, on peut traiter les valeurs manquantes comme des variables latentes supplémentaires, et l'algorithme EM impute naturellement ces valeurs en calculant leur espérance conditionnelle à l'étape E. Cette approche est asymptotiquement plus efficace que l'imputation simple et produit des estimateurs cohérents sous l'hypothèse MCAR ou MAR.
 
-\subsection{Extension aux données séquentielles : l'algorithme de Baum-Welch}
+\subsection{Extension aux données séquentielles : l'algorithme de Baum-Welch}\label{sec:baum_welch}
 Une application particulièrement importante de l'algorithme EM, mentionnée à plusieurs reprises dans ce mémoire (tableau 1.1, section 1.6.1 et section~\ref{sec:portee}), concerne les modèles de Markov cachés (HMM), utilisés notamment en bio-informatique et en finance. Contrairement au GMM, où les observations sont supposées indépendantes conditionnellement à leur variable latente, un HMM suppose que la séquence des variables latentes ($z_{1}$, \ldots{}, z\_T) forme elle-même une chaîne de Markov : $z_{t}$ dépend de $z_{t-1}$ selon une matrice de transition A, et chaque observation $x_{t}$ dépend de l'état caché courant $z_{t}$ selon une matrice d'émission B. Cette structure séquentielle empêche le calcul direct des responsabilités comme à l'équation (1.15), puisque les variables latentes ne sont plus indépendantes entre elles : l'étape E doit être remplacée par l'algorithme forward-backward, qui exploite la structure de chaîne pour calculer efficacement, par programmation dynamique, les probabilités a posteriori nécessaires. L'algorithme résultant, connu sous le nom d'algorithme de Baum-Welch (Baum et al., 1970), est historiquement antérieur à la formalisation générale de Dempster, Laird et Rubin, mais en constitue, comme le notent ces derniers dans leur article de 1977, un cas particulier.
 
 \textbf{Illustration numérique. }Considérons un HMM discret à deux états cachés (« Beau temps » = B, « Pluvieux » = P), avec une matrice de transition A = [[0,7 ; 0,3], [0,4 ; 0,6]] ($A_{ij}$ = P($z_{t+1}$=j | $z_{t}$=i)), et une matrice d'émission B qui associe à chaque état une probabilité d'observer « Parapluie » (Pa) ou « Pas de parapluie » (NPa) : B(B) = [0,1 ; 0,9] et B(P) = [0,8 ; 0,2]. Étant donné une courte séquence observée O = (NPa, Pa, Pa), l'étape E (forward-backward) calcule, pour chaque instant t et chaque état i, la probabilité a posteriori $\gamma _{t}$(i) = p($z_{t}$=i | O), de la même manière que $r_{ik}$ à l'équation (1.15) pour le GMM, mais en tenant compte de la dépendance séquentielle via les récursions forward $\alpha _{t}$(i) = [$\Sigma _{j}$ $\alpha _{t-1}$(j) $A_{ji}$] $B_{i}$($o_{t}$) et backward $\beta _{t}$(i) = $\Sigma _{j}$ $A_{ij}$ $B_{j}$($o_{t+1}$) $\beta _{t+1}$(j).
@@ -427,7 +427,7 @@ La dernière colonne du tableau se lit comme suit : après observation de la sé
 \item \textbf{Scalabilité limitée : }la version batch standard nécessite de traiter toutes les données à chaque itération, ce qui devient prohibitif pour des bases de plusieurs millions d'observations, sans recourir aux variantes online ou mini-batch. La même limite vaut pour la version batch de l'EM variationnel ; les variantes online (EM online) et stochastique (SVI) existent pour les deux (sections 1.6.5 et 1.7.7).
 \end{itemize}
 \par\noindent\emph{Renvois à la grille du tableau~\ref{tab:2_17} :} optima locaux $\to$ « Initialisation » (expérience unique) ; $K$ à fixer $\to$ « Sélection de $K$ », « Sous-estimation de $K$ » ; incertitude non native $\to$ « Incertitude » ; singularités $\to$ « Singularités, petit $N$ » et « Convergence de l'EM pour le GMM » ; lenteur et scalabilité $\to$ « Coût de calcul ».
-\section{L'algorithme EM variationnel}
+\section{L'algorithme EM variationnel}\label{sec:em_variationnel}
 \subsection{Motivation et cadre général}
 Les limitations identifiées à la section 1.6.8 motivent naturellement le développement d'une approche plus riche. L'EM variationnel émerge à la confluence de deux courants : l'inférence bayésienne, qui traite les paramètres comme des variables aléatoires et vise à caractériser leur distribution a posteriori complète, et l'optimisation variationnelle, qui transforme le problème d'inférence  généralement intractable  en un problème d'optimisation sur un espace de distributions plus simples.
 
@@ -577,7 +577,7 @@ L'algorithme converge en 5 à 15 itérations selon l'initialisation (critère $|
 \tableauGenere{t1_5}
 Ce résultat illustre de façon particulièrement nette le mécanisme théorique décrit ci-dessus. Les deux premières composantes se partagent presque également la masse de probabilité (poids 0,482 chacune), avec des moyennes de 7,724 et 1,126 qui coïncident, à $10^{-3}$ près, avec les moyennes empiriques des deux groupes et avec la solution de l'EM classique de la section 1.6.4 (7,725 et 1,125). La troisième composante, en revanche, voit son paramètre $\alpha _{k}$ rester exactement égal à sa valeur initiale $\alpha _{0}$ = 1/3 = 0,333, signe que $N_{k}$ = $\alpha _{k}$ - $\alpha _{0}$ = 0 : aucune observation, même partiellement, ne lui a été attribuée au cours de la convergence. Cette composante est donc entièrement inactive, et le modèle retient effectivement K\_effectif = 2 composantes actives, exactement le nombre réel de groupes  un résultat que l'EM classique, avec K fixé à l'avance, ne peut pas produire de lui-même : il faudrait, pour l'EM classique, comparer explicitement les solutions à K = 2 et K = 3 au moyen d'un critère externe tel que le BIC, alors que l'EM variationnel effectue cette sélection de façon endogène, en une seule exécution.
 
-\subsection{Calcul de l'ELBO et critère de convergence}
+\subsection{Calcul de l'ELBO et critère de convergence}\label{sec:calcul_elbo}
 Pour le mélange gaussien bayésien sous l'hypothèse du champ moyen, l'ELBO peut être calculé analytiquement à chaque itération. Il se décompose sous la forme :
 
 \begin{equation}
@@ -587,7 +587,7 @@ Pour le mélange gaussien bayésien sous l'hypothèse du champ moyen, l'ELBO peu
 \end{equation}
 Chacun de ces termes peut être calculé analytiquement grâce aux formes conjuguées des distributions considérées ; leur expression complète est donnée par Bishop (2006, éq. 10.71 à 10.77) et implémentée à l'annexe B. L'ELBO constitue le critère de convergence naturel de l'EM variationnel : on arrête l'algorithme lorsque |ELBO(t) - ELBO(t-1)| < $\varepsilon $. Contrairement à l'EM classique, où la log-vraisemblance peut diverger vers l'infini en présence de singularités, l'ELBO de l'EM variationnel reste toujours borné, grâce à la régularisation bayésienne induite par les priors.
 
-\subsection{Variantes avancées de l'EM variationnel}
+\subsection{Variantes avancées de l'EM variationnel}\label{sec:variantes_vb}
 \textbf{Inférence variationnelle naturelle. }L'inférence variationnelle standard utilise le gradient ordinaire de l'ELBO pour optimiser les paramètres variationnels. Une variante plus efficace utilise le gradient naturel, qui prend en compte la géométrie de l'espace des distributions à travers la métrique de Fisher. Les mises à jour par gradient naturel sont invariantes aux reparamétrisations et convergent généralement beaucoup plus rapidement que les mises à jour utilisant le gradient ordinaire.
 
 Les trois méthodes suivantes répondent chacune à une limite précise de l'EM variationnel batch à champ moyen : le coût d'un passage complet sur les données (SVI), le calcul analytique des espérances (VAE), la rigidité de la famille factorisée (flux normalisants). Seule la première est implémentée dans ce travail ; les deux autres sont présentées pour situer le VB conjugué dans l'état de l'art, et aucune conclusion expérimentale ne s'appuie sur elles.
@@ -625,7 +625,7 @@ Les trois méthodes suivantes répondent chacune à une limite précise de l'EM 
 \section{Conclusion du chapitre 1}
 Ce premier chapitre a permis de poser l'ensemble des fondements théoriques nécessaires à la compréhension des deux algorithmes centraux de ce mémoire. Nous avons vu que les modèles à variables latentes, et en particulier le modèle de mélange gaussien, fournissent un cadre unificateur dans lequel s'inscrivent naturellement l'EM classique et l'EM variationnel. L'inégalité de Jensen et la borne ELBO constituent le socle mathématique commun aux deux algorithmes, tandis que le cadre bayésien et la divergence de Kullback-Leibler permettent de comprendre précisément ce qui distingue l'approche variationnelle de l'approche classique.
 
-Ce parcours théorique n'a pas été conduit de façon purement abstraite : chaque notion introduite  la borne ELBO, la conjugaison Dirichlet--Catégorielle, le mécanisme d'élagage bayésien, la correspondance avec l'algorithme de Baum-Welch  a été illustrée par un exemple numérique (calculé à la main pour la densité du GMM et la conjugaison Dirichlet--Catégorielle ; produit par le code et vérifié pour les tableaux 1.2, 1.4 et 1.5), du plus simple (l'évaluation de la densité d'un GMM à deux composantes, section 1.3.5) au plus élaboré (le calcul complet des quantités forward, backward et a posteriori d'un modèle de Markov caché, section 1.6.6). Cette démarche, délibérément choisie, répond à la conviction que la compréhension approfondie d'un algorithme d'inférence statistique passe nécessairement par la capacité à en dérouler, à la main ou par le calcul, chacune des étapes sur un exemple de taille réduite, avant d'en confier l'exécution à une bibliothèque logicielle  démarche qui trouve son prolongement naturel dans les implémentations from scratch présentées au chapitre 3.
+Ce parcours théorique n'a pas été conduit de façon purement abstraite : chaque notion introduite  la borne ELBO, la conjugaison Dirichlet--Catégorielle, le mécanisme d'élagage bayésien, la correspondance avec l'algorithme de Baum-Welch  a été illustrée par un exemple numérique (calculé à la main pour la densité du GMM et la conjugaison Dirichlet--Catégorielle ; produit par le code et vérifié pour les tableaux 1.2, 1.4 et 1.5), du plus simple (l'évaluation de la densité d'un GMM à deux composantes, section 1.3.5) au plus élaboré (le calcul complet des quantités forward, backward et a posteriori d'un modèle de Markov caché, section 1.6.6). Cette démarche, délibérément choisie, répond à la conviction que la compréhension approfondie d'un algorithme d'inférence statistique passe nécessairement par la capacité à en dérouler, à la main ou par le calcul, chacune des étapes sur un exemple de taille réduite, avant d'en confier l'exécution à une bibliothèque logicielle  démarche qui trouve son prolongement naturel dans les implémentations from scratch présentées à la section~\ref{sec:implementation}.
 
 L'étude détaillée de l'EM classique a mis en évidence sa simplicité, son efficacité computationnelle et la garantie de convergence monotone qui le caractérisent, mais également ses limites majeures : nécessité de fixer K a priori, absence de quantification de l'incertitude, et sensibilité aux singularités. Les résultats non asymptotiques récents (section 1.6.3.d) précisent ces limites : en sur-spécification équilibrée, l'EM converge lentement vers une estimation de précision $(d/n)^{1/4}$ seulement, et en sous-spécification il vise la projection de Kullback-Leibler de la vraie loi, non un paramètre vrai. L'étude de l'EM variationnel a montré que le cadre bayésien ne lève pas ces limites mais les déplace : la sélection de $K$ passe du critère externe aux hyperparamètres et à $K_{\max}$, l'incertitude devient native mais approchée et vraisemblablement trop étroite (section 1.7.9), le tout au prix d'une complexité d'implémentation et d'un coût par itération plus élevés. Les extensions modernes (SVI, inférence amortie, flux normalisants, section 1.7.7) répondent chacune à l'une de ces limites, sans être évaluées ici. La dérivation détaillée du champ moyen variationnel pour le cas particulier du GMM bayésien (section 1.7.3.c) a par ailleurs montré que les formules de mise à jour de l'EM variationnel, loin d'être postulées par analogie avec l'EM classique, se déduisent rigoureusement de l'application d'un principe unique  la formule générale du champ moyen  à un choix spécifique de distributions conjuguées, ce qui confère à l'ensemble de l'édifice théorique une cohérence interne que l'on ne perçoit pas toujours dans les présentations plus informelles de la littérature d'introduction.
 
@@ -775,7 +775,7 @@ L'EM variationnel est, lui, doté d'une régularisation structurelle : le prior 
 
 Un second aspect du comportement numérique concerne le conditionnement des matrices de covariance. L'évaluation de la densité gaussienne par inversion explicite de $\Sigma _{k}$ devient numériquement instable lorsque cette matrice est proche de la singularité, situation qui survient lorsqu'une composante concentre son support sur un sous-espace de dimension inférieure à D. L'implémentation présentée au chapitre 3 évalue donc les densités à partir de la factorisation de Cholesky $\Sigma _{k} = LL^{T}$ : le terme quadratique $(x-\mu _{k})^{T}\Sigma _{k}^{-1}(x-\mu _{k})$ est obtenu par résolution d'un système triangulaire et $\log |\Sigma _{k}|$ vaut $2\sum _{j}\log L_{jj}$. Cette technique, standard dans les bibliothèques de production, améliore la stabilité et réduit le coût, sans modifier le résultat mathématique de l'algorithme.
 
-\subsection{Critères de sélection de modèle}
+\subsection{Critères de sélection de modèle}\label{sec:selection_modele}
 Lorsque l'on utilise l'EM classique, la sélection du nombre de composantes K repose généralement sur des critères d'information calculés a posteriori, après avoir exécuté l'algorithme pour plusieurs valeurs candidates de K. Les critères les plus couramment employés sont le critère d'information bayésien (BIC), le critère d'information d'Akaike (AIC), et le critère de vraisemblance classifiante intégrée (ICL), définis respectivement par :
 
 \begin{equation}
@@ -813,7 +813,7 @@ Cinq sources de données sont utilisées. Toutes sont chargées par du code écr
 \subsection{Jeu synthétique de référence}\label{sec:donnees_reference}
 Les illustrations du chapitre 3 reposent sur un jeu de données synthétique bidimensionnel. Ce choix méthodologique permet une visualisation directe des résultats et une interprétation sans ambiguïté des mécanismes en jeu.
 
-Le jeu de données est constitué de N = 300 observations bidimensionnelles, générées à partir de trois groupes gaussiens, de centres respectifs (0, 0), (5, 5) et (0, 5), chacun comportant 100 observations et une covariance isotrope d'écart-type 0,7 (variance 0,49). Les centres sont distants de 5 à 7,1 unités, soit de 7 à 10 écarts-types : les trois groupes sont donc bien séparés. Ce jeu de données constitue, par construction, un mélange à trois composantes gaussiennes. Il est tiré avec la graine 42 ; les scénarios S1 à S10 (section~\ref{sec:scenarios_plan}) répliquent et généralisent ce protocole.
+Le jeu de données est constitué de N = 300 observations bidimensionnelles, générées à partir de trois groupes gaussiens, de centres respectifs (0, 0), (5, 5) et (0, 5), chacun comportant 100 observations et une covariance isotrope d'écart-type 0,7 (variance 0,49). Les centres sont distants de 5 à 7,1 unités, soit de 7 à 10 écarts-types : les trois groupes sont donc bien séparés. Ce jeu de données constitue, par construction, un mélange à trois composantes gaussiennes. Sa graine est dérivée de façon déterministe du rôle du tirage (fonction \texttt{persistance.graine}, annexe D), de sorte que chaque étape qui l'utilise (validation, illustrations) travaille sur un tirage fixé et reproductible ; les scénarios S1 à S10 (section~\ref{sec:scenarios_plan}) répliquent et généralisent ce protocole.
 
 L'expérience consiste à ajuster, sur ce même jeu de données, un GMM classique via l'algorithme EM classique et un GMM bayésien via l'algorithme EM variationnel, en imposant dans les deux cas un nombre de composantes délibérément surestimé, K = 6, soit le double du nombre réel de groupes. L'objectif est d'observer comment chacun des deux algorithmes gère cette surestimation. Deux jeux d'hyperparamètres sont considérés pour l'EM variationnel : des priors empiriques (centrés sur les données : $\beta _{0}$ = 1, $W_{0}^{-1}$ égale à la covariance empirique) et des priors diffus ($\beta _{0}$ = $10^{-3}$, $W_{0}$ = I). Sauf mention contraire, les résultats rapportés utilisent les priors empiriques.
 
@@ -1174,7 +1174,7 @@ L'EM variationnel est ajusté avec $K_{\max}=6$, des priors empiriques et un pri
 \subsection{Comparaison visuelle et qualité de partition}\label{sec:res_partition}
 Au-delà des poids de mélange, la qualité des partitions obtenues par les deux algorithmes peut être évaluée à l'aide de métriques externes de clustering, en comparant les affectations produites aux véritables étiquettes de groupe. Le tableau~\ref{tab:ill_k6} présente les résultats obtenus pour l'indice de Rand ajusté (ARI) et le score de silhouette, calculés sur les affectations dures obtenues en prenant, pour chaque observation, la composante de responsabilité maximale.
 
-\emph{Source : implémentation PyTorch (graine 42). Les temps sont ceux de cette exécution unique ; le coût est jugé par l'étape de chronométrage (HP4).}
+\emph{Source : implémentation PyTorch (graine dérivée du rôle, annexe D). Les temps sont ceux de cette exécution unique ; le coût est jugé par l'étape de chronométrage (HP4).}
 
 Ces résultats appellent quatre commentaires (tableau~\ref{tab:ill_k6}). Premièrement, l'ARI du VB à priors empiriques est supérieur à celui de l'EM à $K=6$ : la partition du VB est proche des trois groupes générateurs, celle de l'EM à $K=6$ est fragmentée. Cette comparaison est toutefois défavorable à l'EM par construction ($K=6$ imposé) ; la comparaison pertinente est avec EM-BIC et EM-ICL (section \ref{sec:res_s1s3}). Deuxièmement, la silhouette n'est pas comparable entre des solutions de nombres de composantes différents : elle mesure surtout ce nombre, et n'est donc pas utilisée comme preuve. Troisièmement, avec le \emph{même} critère d'arrêt, le nombre d'itérations du VB à priors empiriques n'est pas supérieur à celui de l'EM à $K=6$ ; le constat antérieur d'un VB environ trois fois plus long provenait d'une asymétrie de normalisation du critère (par observation pour l'EM, totale pour le VB), et non d'une propriété des algorithmes. L'EM à composantes fragmentées et fortement chevauchantes converge lentement (taux linéaire proche de 1, section 1.6.3.b), ce que le tableau est compatible avec, sans l'établir. Quatrièmement, le temps total dépend aussi du nombre d'initialisations et de l'implémentation : il n'est comparé qu'à critère et machine communs (sections \ref{sec:res_scalabilite} et \ref{sec:res_s9s10}).
 
@@ -1200,7 +1200,7 @@ Pour quantifier le surcoût de l'EM variationnel identifié à la section 2.2.1,
 \caption{Temps d'exécution des deux algorithmes en fonction du nombre d'observations N (à gauche, échelles logarithmiques) et de la dimension D (à droite). Les étiquettes donnent le rapport du temps variationnel au temps classique.}
 \label{fig:2_6}
 \end{figure}
-\emph{Source : implémentation PyTorch (CPU, machine unique, graine 42).}
+\emph{Source : implémentation PyTorch (CPU, un processus, graine dérivée du rôle, annexe D).}
 
 Les deux grandeurs doivent être lues séparément. Le \emph{coût par itération} du VB est supérieur à celui de l'EM d'un facteur de l'ordre de l'unité à quelques unités, sans tendance monotone nette en $N$ ni en $D$ (colonne « Ratio coût/itér. »). Le \emph{temps jusqu'au modèle final} est le produit de ce coût par le nombre d'itérations, qui varie d'une configuration à l'autre et dans un sens ou dans l'autre (colonnes « Itér. EM » et « Itér. VB ») : le ratio global ne se réduit donc ni à un facteur multiplicatif stable ni à l'analyse de complexité de la section 2.2.1, qui porte sur le coût par itération. Les mesures sont des médianes de dix répétitions, mais restent propres à une machine, à une implémentation et à des données synthétiques de $D \leq 20$. La conclusion « le VB est $x$ fois plus lent » n'est donc pas retenue ; la question utile, le temps total d'un pipeline EM-BIC contre un VB, est traitée à la section \ref{sec:res_s9s10}.
 
@@ -1262,10 +1262,10 @@ Les résultats précédents ont été obtenus sur un jeu synthétique de trois g
 \aCompleter{ARI et poids du VB à $K_{\max}=3$ comparés à $K_{\max}=6$ et à l'EM à $K=3$ sur Iris (tableau~\ref{tab:ill_iris}) ; dépendance du résultat du VB à $K_{\max}$.}
 
 \subsection{Sensibilité aux valeurs aberrantes}\label{sec:res_aberrantes}
-Une dernière expérience examine le comportement des deux algorithmes en présence de valeurs aberrantes, situation fréquente en pratique et distincte de la simple surestimation de K. Dix points, tirés uniformément dans le carré $[-10 ; 15]^{2}$ (graine 7), ont été ajoutés au jeu de données de la section \ref{sec:donnees_reference}, puis les deux algorithmes ont été ajustés avec K = 6 sur ce jeu augmenté (N = 310).
+Une dernière expérience examine le comportement des deux algorithmes en présence de valeurs aberrantes, situation fréquente en pratique et distincte de la simple surestimation de K. Dix points (environ 3 \%), tirés uniformément dans une boîte trois fois plus large que l'étendue des données et centrée sur elles, ont été ajoutés au jeu de données de la section \ref{sec:donnees_reference}, puis les deux algorithmes ont été ajustés avec K = 6 sur ce jeu augmenté (N = 310).
 
 \tableauGenere{ill_aberrantes}
-Cette expérience, fondée sur un seul tirage (graine 7), n'est pas un test de robustesse : elle illustre le comportement des composantes en présence d'aberrations. \aCompleter{ARI hors aberrations de l'EM à $K=6$ et du VB, avec et sans aberrations, et rôle des composantes excédentaires (tableau~\ref{tab:ill_aberrantes}).} Un test de robustesse exige au moins 30 tirages, des proportions et des amplitudes d'aberrations variées, et une comparaison avec la baseline EM-BIC (et, idéalement, une composante uniforme de fond) : c'est le scénario S7 de la section \ref{sec:res_s7}.
+Cette expérience, fondée sur un seul tirage, n'est pas un test de robustesse : elle illustre le comportement des composantes en présence d'aberrations. \aCompleter{ARI hors aberrations de l'EM à $K=6$ et du VB, avec et sans aberrations, et rôle des composantes excédentaires (tableau~\ref{tab:ill_aberrantes}).} Un test de robustesse exige au moins 30 tirages, des proportions et des amplitudes d'aberrations variées, et une comparaison avec la baseline EM-BIC (et, idéalement, une composante uniforme de fond) : c'est le scénario S7 de la section \ref{sec:res_s7}.
 
 \subsection{Grille de $\alpha_0$ autour du seuil $d/2$ (S8, descriptif)}\label{sec:res_s8}
 La grille du tableau~\ref{tab:ill_alpha0} (0,001 à 10) saute la zone de transition. La grille $\alpha_0 \in \{1;\,1{,}5;\,2;\,2{,}5;\,3;\,5;\,10\}$ est donc évaluée pour les trois types de covariance, dont les seuils théoriques de Rousseau et Mengersen (2011) sont $d/2 = 2{,}5$ (pleine), $2$ (diagonale) et $1{,}5$ (sphérique) en dimension 2. L'hypothèse testée est que le nombre de composantes actives change de régime autour de ces seuils ; la théorie portant sur le posterior exact, l'observation d'un seuil ailleurs n'est pas une réfutation de la théorie mais une propriété du champ moyen. Résultats : tableau~\ref{tab:S8_alpha0}. Le tableau indique la part d'exécutions non convergées, et pour les covariances non pleines le critère est une approximation (section \ref{sec:impl_em_init}).
@@ -1594,21 +1594,21 @@ Les résultats de ce mémoire sont produits par les fichiers Python suivants : \
 \hline
 \textbf{Fonction} & \textbf{Section} & \textbf{Équations} \\
 \hline
-em\_classique & 1.6 & (1.15), (1.16), (1.18) \\
+em\_classique & \ref{sec:em_classique} & (\ref{eq:1_15}), (\ref{eq:1_16}), (\ref{eq:1_18}) \\
 \hline
-em\_stochastique, em\_online & 1.6.5 & Celeux et Diebolt, Cappé et Moulines \\
+em\_stochastique, em\_online & \ref{sec:variantes_em} & Celeux et Diebolt, Cappé et Moulines \\
 \hline
-forward\_backward, baum\_welch & 1.6.6 & forward et backward, tableau 1.4 \\
+forward\_backward, baum\_welch & \ref{sec:baum_welch} & récursions forward et backward \\
 \hline
-em\_variationnel & 1.7 & (1.26) à (1.30) \\
+em\_variationnel & \ref{sec:em_variationnel} & (\ref{eq:1_26}) à (\ref{eq:1_30}) \\
 \hline
-elbo\_gmm\_bayesien & 1.7.6 & (1.31) \\
+elbo\_gmm\_bayesien & \ref{sec:calcul_elbo} & (\ref{eq:1_31}) \\
 \hline
-svi\_gmm & 1.7.7 & Hoffman et al. \\
+svi\_gmm & \ref{sec:variantes_vb} & Hoffman et al. \\
 \hline
-lda\_variationnel & 3.1.1 & (3.1), (3.2) \\
+lda\_variationnel, plsa\_em & \ref{sec:texte_methodo} & Blei, Ng et Jordan (2003) ; Hofmann (1999) \\
 \hline
-bic, aic & 2.2.3 & (2.4), (2.5) \\
+bic, aic & \ref{sec:selection_modele} & (\ref{eq:2_4}), (\ref{eq:2_5}) \\
 \hline
 \end{tabular}
 \caption{Correspondance entre fonctions du code, sections et équations}
@@ -1683,7 +1683,7 @@ Seuls les relevés antérieurs au mois $t$ entrent dans le niveau de référence
 L'orchestrateur \texttt{run.py} enchaîne les étapes (calibrage, validation, illustrations, chronométrage, scénarios, prix, texte) ; chaque étape est une liste d'unités indépendantes, exécutées en parallèle et écrites atomiquement dans un magasin d'artefacts, de sorte qu'un calcul interrompu (erreur, coupure de courant, arrêt volontaire) reprend exactement où il s'était arrêté lorsqu'on relance la même commande ; \texttt{superviseur.py} relance automatiquement le calcul après un arrêt non voulu. L'option \texttt{--rapide} exécute une version réduite dans un magasin séparé. Les tableaux (\texttt{python tex\_tables.py}) et les figures (\texttt{python run.py --figures}) sont produits depuis le magasin, sans recalcul ; aucun nombre des tableaux n'est saisi à la main.
 
 \subsection*{A.4 Corpus et résultats de la comparaison pLSA contre LDA}
-Le corpus (sous-ensemble de 20 Newsgroups), le prétraitement et les résultats détaillés sont produits par \texttt{texte\_plsa\_lda.py} et écrits dans \texttt{resultats/texte\_plsa\_lda\_brut.csv} (une ligne par modèle, par taille $N$ et par réplication). La démonstration sur douze phrases des versions précédentes est supprimée.
+Le corpus (sous-ensemble de 20 Newsgroups) est lu et prétraité par \texttt{donnees.py} (section~\ref{sec:texte_methodo}) ; les ajustements pLSA et LDA sont faits par \texttt{etape\_texte.py}, une unité par taille de vocabulaire, par taille $N$ et par réplication, écrite dans le magasin de l'étape \texttt{texte}, d'où les tableaux de la section~\ref{sec:res_texte} sont produits.
 
 
 \section*{Annexe B : Détail du calcul de l'ELBO pour le GMM bayésien}
@@ -1791,29 +1791,13 @@ $N_{k}$ & Nombre effectif de points assignés à la composante k \\
 \end{table}
 \section*{Annexe D : Environnement logiciel et reproductibilité}
 \addcontentsline{toc}{section}{Annexe D : Environnement logiciel et reproductibilité}
-Toutes les expériences ont été exécutées sur une machine unique, avec l'environnement suivant, enregistré automatiquement dans le fichier \texttt{environnement.json} :
+Les calculs dont les résultats figurent dans ce mémoire ont été exécutés sur une instance de calcul dans le nuage de 32 cœurs logiques et 61,6 Go de mémoire, louée à l'heure ; la machine personnelle de l'auteur n'a servi qu'à écrire le code et le document. À chaque lancement, \texttt{run.py} enregistre la machine et les logiciels (système, processeur, nombre de cœurs, mémoire, versions de Python et de PyTorch, commit Git du code exécuté, nombre de processus) dans \texttt{resultats/environnement.json} et ajoute une ligne à \texttt{resultats/environnement\_historique.jsonl}. Le tableau suivant est produit depuis ce fichier, sans saisie manuelle ; il regroupe les lancements par configuration.
 
-\begin{table}[H]
-\centering
-\small
-\setlength{\tabcolsep}{0.14cm}
-\begin{tabular}{|p{7.42cm}|p{7.42cm}|}
-\hline
-\textbf{Composant} & \textbf{Version utilisée} \\
-\hline
-Python & 3.10.0 \\
-\hline
-PyTorch (CPU, précision double) & 2.4.1 \\
-\hline
-Pandas & 2.1.4 \\
-\hline
-Plotly & 6.8.0 \\
-\hline
-Système et processeur & Windows 10 ; Intel Core i7-1165G7 à 2,8 GHz (4 coeurs, 8 fils logiques) ; un fil de calcul par processus (\texttt{OMP\_NUM\_THREADS=1}), jusqu'à 8 processus simultanés pour les scénarios et le cas des prix ; le chronométrage s'exécute toujours dans un seul processus. Les temps de ces calculs parallèles sont mesurés sous charge : ils se comparent entre bras d'un même run, non entre runs. Le tableau de scalabilité (section 2.3.6) a été mesuré avec, pour seule autre activité, un téléchargement de fichiers. \\
-\hline
-\end{tabular}
-\end{table}
-Les graines suivantes sont fixées explicitement : 42 pour le jeu de référence, 1000 à 1029 pour la réplication de la section 2.3.13, 7 pour les valeurs aberrantes, 0 à 19 pour la robustesse à l'initialisation (section 2.3.9). Chaque ajustement utilise la graine du jeu de données augmentée de l'indice de relance. Avec ces graines et la précision double, deux exécutions successives donnent des résultats identiques ; des différences minimes peuvent apparaître avec une autre version de PyTorch ou un autre processeur, en raison de l'ordre des opérations en virgule flottante. Les graines des scénarios, du cas des prix et de la comparaison de texte sont dérivées de façon déterministe du rôle de chaque tirage (empreinte SHA-256 du rôle, fonction \texttt{persistance.graine}), ce qui donne une graine indépendante par tirage. La machine d'exécution (modèle de processeur, nombre de coeurs et de fils effectifs, mémoire) est enregistrée dans \texttt{environnement.json}, et les versions exactes des bibliothèques dans \texttt{requirements.txt} (verrouillé par \texttt{pip freeze}) : les temps de calcul ne sont comparables qu'à ces conditions.
+\tableauGenere{environnement}
+
+Chaque processus de calcul n'utilise qu'un fil d'exécution (\texttt{torch.set\_num\_threads(1)}) ; les unités indépendantes d'une étape sont réparties sur plusieurs processus, et les sous-calculs des unités longues du calibrage sur des processus supplémentaires (variable \texttt{ICARE\_SOUS\_TRAVAILLEURS}). Les temps mesurés pendant ces calculs parallèles le sont sous charge : ils se comparent entre bras d'une même unité, non entre lancements. Le coût des algorithmes (HP4) est mesuré à part, par l'étape de chronométrage lancée seule sur l'instance, dans un seul processus.
+
+Toutes les graines sont dérivées de façon déterministe du rôle de chaque tirage (empreinte SHA-256 du rôle, fonction \texttt{persistance.graine}) : un jeu de données, une réplication, un rééchantillonnage ou un ajustement reçoivent chacun une graine propre, et les réplications pilotes du calibrage des graines disjointes de celles des étapes confirmatoires. Les $n$ relances d'un ajustement utilisent les graines $g, g+1, \dots, g+n-1$, où $g$ est la graine de l'ajustement. En précision double, deux exécutions du même code sur la même machine donnent des résultats identiques, et le calcul parallèle des sous-calculs donne les mêmes valeurs que le calcul séquentiel (vérification bit à bit par \texttt{outils/verifier\_parallele.py}). Des différences minimes peuvent apparaître avec une autre version de PyTorch ou un autre processeur, en raison de l'ordre des opérations en virgule flottante. Les versions des bibliothèques principales sont fixées dans \texttt{requirements.txt}.
 
 Le protocole est entièrement scripté : \texttt{python run.py} réalise les expériences, écrit les tableaux (fichiers \texttt{.csv}) et les figures (\texttt{.html} interactifs et \texttt{.png}) ; la marche à suivre figure dans \texttt{LANCEMENT.md}.
 

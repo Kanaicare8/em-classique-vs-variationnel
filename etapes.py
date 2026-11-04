@@ -85,6 +85,41 @@ def executer_unite(u: Unite, rapide: bool) -> str:
     return u.cle
 
 
+def _executer_sous_tache(racine: str, etape: str, cle: str, module: str, fonction: str, kwargs: dict) -> str:
+    """Calcule une sous-tâche (dans un processus de travail) et l'écrit sous sa clé de mémoire. Ne fait rien si elle existe."""
+    import torch
+    torch.set_num_threads(1)
+    mag = PE.Magasin(etape, Path(racine))
+    if not mag.existe(cle):
+        mag.ecrire(cle, getattr(importlib.import_module(module), fonction)(**kwargs))
+    return cle
+
+
+def sous_taches_paralleles(memo: Memo, taches: list) -> None:
+    """
+    Calcule en parallèle les sous-calculs mémorisés d'une unité qui en enchaînerait sinon un grand nombre à la suite
+    (relances, configurations d'une recherche) : chaque tâche (cle, module, fonction, kwargs) absente du magasin est
+    confiée à un processus, qui écrit fonction(**kwargs) sous memo(cle). La boucle de l'unité relit ensuite ces valeurs
+    par memo(cle, ...) : même fonction, même graine, un fil d'exécution par processus, donc mêmes résultats ; seul
+    l'ordre d'exécution change. Nombre de processus : ICARE_SOUS_TRAVAILLEURS (défaut : coeurs logiques - 1).
+    """
+    import concurrent.futures as cf
+    import multiprocessing as mp
+    import os
+    mag = memo.mag
+    reste = [(f"{memo.prefixe}/_sous/{c}", m, f, k) for c, m, f, k in taches
+             if not mag.existe(f"{memo.prefixe}/_sous/{c}")]
+    n = min(len(reste), int(os.environ.get("ICARE_SOUS_TRAVAILLEURS", max(1, (os.cpu_count() or 2) - 1))))
+    if n <= 1:
+        return
+    with cf.ProcessPoolExecutor(max_workers=n, mp_context=mp.get_context("spawn"),
+                                initializer=PE.ignorer_interruption) as pool:
+        futs = [pool.submit(_executer_sous_tache, str(mag.dossier.parent), mag.etape, c, m, f, k)
+                for c, m, f, k in reste if not PE.arret_demande()]
+        for fu in cf.as_completed(futs):
+            fu.result()
+
+
 def resultats(etape: str, rapide: bool, prefixe: str = "") -> list[dict]:
     """Toutes les unités terminées d'une étape (dans l'ordre des clés)."""
     mag = magasin(etape, rapide)

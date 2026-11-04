@@ -326,27 +326,30 @@ def unite_n_init(memo, rapide, jeu):
     return {"lignes": lignes}
 
 
-def unite_n_init_texte(memo, rapide):
+def _relance_n_init_texte(rapide, a, s):
+    """Une relance du pilote n_init du texte (pLSA si a est None, sinon LDA d'hyperparamètre alpha = a)."""
     import etape_texte as T
-    cor = _corpus(rapide)
-    comptes = cor["comptes"].double()
-    sel = cor["reservoir"][:200]
-    c = comptes[sel]
+    c = _corpus(rapide)["comptes"].double()[_corpus(rapide)["reservoir"][:200]]
+    esp = PARAM.valeur("espace_lda")
+    r = (A.plsa_em(c, T.K, graine=_g("n_init_texte", s)) if a is None
+         else A.lda_variationnel(c, T.K, alpha=a, lissage=math.sqrt(esp["lissage"][0] * esp["lissage"][1]),
+                                 graine=_g("n_init_texte", s)))
+    return {"c": r["ll_hist"][-1] if "ll_hist" in r else r["bornes"][-1]}
+
+
+def unite_n_init_texte(memo, rapide):
     n = 10 if rapide else RELANCES_PILOTE
     tol = float(PARAM.valeur("tol_rel"))
     esp = PARAM.valeur("espace_lda")
     lignes = []
     cas = [("pLSA", None)] + [(f"LDA-alpha={a}", a) for a in (esp["alpha"][0], math.sqrt(esp["alpha"][0] * esp["alpha"][1]),
                                                                esp["alpha"][1])]
+    E.sous_taches_paralleles(memo, [(f"{nom}/s={s}", "calibrage", "_relance_n_init_texte", dict(rapide=rapide, a=a, s=s))
+                                    for nom, a in cas for s in range(n)])
     for nom, a in cas:
         cr = []
         for s in range(n):
-            def f():
-                r = (A.plsa_em(c, T.K, graine=_g("n_init_texte", s)) if a is None
-                     else A.lda_variationnel(c, T.K, alpha=a, lissage=math.sqrt(esp["lissage"][0] * esp["lissage"][1]),
-                                             graine=_g("n_init_texte", s)))
-                return {"c": r["ll_hist"][-1] if "ll_hist" in r else r["bornes"][-1]}
-            cr.append(memo(f"{nom}/s={s}", f)["c"])
+            cr.append(memo(f"{nom}/s={s}", lambda a=a, s=s: _relance_n_init_texte(rapide, a, s))["c"])
         p, m = _p_succes(cr, tol)
         lignes.append({"jeu": "texte", "algo": nom, "p": p, "relances_valides": m, "n_requis": _n_requis(p, n)})
     return {"lignes": lignes}
@@ -369,15 +372,19 @@ def fin_n_init(memo, rapide):
 
 
 # ------------------------------------------------------------------------------ V5 : recherches heuristiques
-def divisions_successives(memo, configs, n_taches, evaluer, m0=1):
+def divisions_successives(memo, configs, n_taches, evaluer, m0=1, precalcul=None):
     """
     Successive halving (Jamieson et Talwalkar 2016) : toutes les configurations sont évaluées sur m0 tâches, la
     meilleure moitié est gardée et évaluée sur deux fois plus de tâches, etc., jusqu'à une configuration ou
     jusqu'à épuisement des tâches. Score = moyenne des tâches (plus grand = meilleur). Toutes les évaluations sont rendues.
+    precalcul(paires) : calcule d'avance, en parallèle, les évaluations (indice, tâche) d'une division (voir
+    etapes.sous_taches_paralleles) ; la boucle les relit ensuite par memo, sans changer le résultat.
     """
     surv, m, etape, evals = list(range(len(configs))), m0, 0, []
     while True:
         m_eff = min(m, n_taches)
+        if precalcul is not None:
+            precalcul([(i, t) for i in surv for t in range(m_eff)])
         sc = {}
         for i in surv:
             v = [memo(f"cfg={i}/tache={t}", lambda i=i, t=t: {"v": evaluer(configs[i], t)})["v"] for t in range(m_eff)]
@@ -406,21 +413,45 @@ def _taches_priors(famille, rapide):
     raise KeyError(famille)
 
 
-def unite_priors(memo, rapide, famille):
+_TACHES_PRIORS = {}
+
+
+def _evaluer_priors(rapide, famille, cfg, t):
+    """Score d'une configuration de priors sur la tâche t (log-vraisemblance prédictive moyenne de validation)."""
     from risque import log_predictive_variationnel
+    if (famille, rapide) not in _TACHES_PRIORS:
+        _TACHES_PRIORS[(famille, rapide)] = _taches_priors(famille, rapide)
     kmax = int(PARAM.valeur("k_max")[famille])
     n_init = min(int(PARAM.valeur("n_init")[famille]), 2 if rapide else 10 ** 9)
+    tr, va = _TACHES_PRIORS[(famille, rapide)][t]()
+    try:
+        v = A.em_variationnel(tr, kmax, priori=priori_config(tr, cfg), n_init=n_init, graine=_g("priors_fit", famille, t))
+        return float(log_predictive_variationnel(va, v["P"]).mean())
+    except A.EchecNumerique:
+        return float("-inf")
+
+
+def _evaluation_memo(fonction, **k):
+    """Valeur mémorisée d'une évaluation de divisions_successives ({"v": score}), calculée dans un processus de travail."""
+    return {"v": globals()[fonction](**k)}
+
+
+def _precalcul(memo, configs, fonction, prefixe="", **k):
+    """precalcul de divisions_successives : les évaluations (indice, tâche) d'une division, en parallèle."""
+    return lambda paires: E.sous_taches_paralleles(memo, [
+        (f"{prefixe}cfg={i}/tache={t}", "calibrage", "_evaluation_memo", dict(fonction=fonction, cfg=configs[i], t=t, **k))
+        for i, t in paires])
+
+
+def unite_priors(memo, rapide, famille):
+    kmax = int(PARAM.valeur("k_max")[famille])
     configs = _configs_aleatoires(8 if rapide else N_CONFIGS, _g("priors", famille), kmax)
-    taches = _taches_priors(famille, rapide)
+    n_taches = len(_taches_priors(famille, rapide))
 
     def evaluer(cfg, t):
-        tr, va = taches[t]()
-        try:
-            v = A.em_variationnel(tr, kmax, priori=priori_config(tr, cfg), n_init=n_init, graine=_g("priors_fit", famille, t))
-            return float(log_predictive_variationnel(va, v["P"]).mean())
-        except A.EchecNumerique:
-            return float("-inf")
-    best, evals = divisions_successives(memo, configs, len(taches), evaluer)
+        return _evaluer_priors(rapide, famille, cfg, t)
+    best, evals = divisions_successives(memo, configs, n_taches, evaluer,
+                                        precalcul=_precalcul(memo, configs, "_evaluer_priors", rapide=rapide, famille=famille))
     return {"lignes": [{"famille": famille, **best}], "artefacts": {"meilleure": best, "evaluations": evals}}
 
 
@@ -435,45 +466,85 @@ def fin_priors(memo, rapide):
                    "d'apprentissage pour les prix, jeux indépendants pour les scénarios)", {"evaluations": ev})
 
 
+_CORPUS = {}                        # corpus relu une fois par processus (unité terminée, donc immuable)
+
+
 def _corpus(rapide):
-    r = _mag(rapide).lire(f"corpus/V={int(PARAM.valeur('vocabulaire')['taille'])}")
-    return r["artefacts"]
+    cle = f"corpus/V={int(PARAM.valeur('vocabulaire')['taille'])}"
+    if (rapide, cle) not in _CORPUS:
+        _CORPUS[(rapide, cle)] = _mag(rapide).lire(cle)["artefacts"]
+    return _CORPUS[(rapide, cle)]
 
 
-def unite_texte(memo, rapide):
+def _evaluer_texte(rapide, cfg, t):
+    """Score d'une configuration LDA sur la tâche t (- log perplexité par complétion de 200 documents de validation)."""
     import etape_texte as T
     cor = _corpus(rapide)
     comptes = cor["comptes"].double()
     res = cor["reservoir"]
-    esp = PARAM.valeur("espace_lda")
     n_init = min(int(PARAM.valeur("n_init")["texte"]), 2 if rapide else 10 ** 9)
+    perm = res[torch.randperm(len(res), generator=A.generateur(_g("texte_tache", t)))]
+    tr, va = comptes[perm[:200]], comptes[perm[200:400]]
+    best = None
+    for s in range(n_init):
+        r = A.lda_variationnel(tr, T.K, alpha=cfg["alpha"], lissage=cfg["lissage"], graine=_g("texte_fit", t, s))
+        if best is None or r["bornes"][-1] > best["bornes"][-1]:
+            best = r
+    obs, ev = T.separer_moitie(va, _g("texte_moitie", t))
+    ppl, _ = T.perplexite(T.repli_lda(best["beta"], best["alpha"], obs), best["beta"], ev)
+    return -math.log(ppl)
+
+
+def _configs_texte(rapide):
+    """Configurations (alpha, lissage) de la recherche LDA, tirées log-uniformément dans « espace_lda »."""
+    esp = PARAM.valeur("espace_lda")
     nc = 8 if rapide else N_CONFIGS_TEXTE
     u = torch.rand(nc, 2, generator=A.generateur(_g("texte")), dtype=torch.float64)
 
     def lu(x, b):
         return 10 ** (math.log10(b[0]) + float(x) * (math.log10(b[1]) - math.log10(b[0])))
-    configs = [{"alpha": lu(u[i, 0], esp["alpha"]), "lissage": lu(u[i, 1], esp["lissage"])} for i in range(nc)]
+    return [{"alpha": lu(u[i, 0], esp["alpha"]), "lissage": lu(u[i, 1], esp["lissage"])} for i in range(nc)]
+
+
+def unite_texte(memo, rapide):
+    configs = _configs_texte(rapide)
     n_taches = 2 if rapide else int(PARAM.valeur("n_plis"))
 
     def evaluer(cfg, t):
-        perm = res[torch.randperm(len(res), generator=A.generateur(_g("texte_tache", t)))]
-        tr, va = comptes[perm[:200]], comptes[perm[200:400]]
-        best = None
-        for s in range(n_init):
-            r = A.lda_variationnel(tr, T.K, alpha=cfg["alpha"], lissage=cfg["lissage"], graine=_g("texte_fit", t, s))
-            if best is None or r["bornes"][-1] > best["bornes"][-1]:
-                best = r
-        obs, ev = T.separer_moitie(va, _g("texte_moitie", t))
-        ppl, _ = T.perplexite(T.repli_lda(best["beta"], best["alpha"], obs), best["beta"], ev)
-        return -math.log(ppl)
-    best, evals = divisions_successives(memo, configs, n_taches, evaluer)
+        return _evaluer_texte(rapide, cfg, t)
+    best, evals = divisions_successives(memo, configs, n_taches, evaluer,
+                                        precalcul=_precalcul(memo, configs, "_evaluer_texte", rapide=rapide))
     return _ecrire("texte", {"lda_hyper": best},
                    "recherche aléatoire (32 configurations) puis divisions successives ; score = -log perplexité par complétion "
                    "de 200 documents de validation tirés du réservoir d'apprentissage", {"evaluations": evals})
 
 
-def unite_variantes(memo, rapide):
+def _noms_variantes(rapide):
+    return [n for n, f in jeux(rapide) if f == "synthetique"][:2 if rapide else 8]
+
+
+def _evaluer_variantes(rapide, meth, cfg, t):
+    """Score d'une configuration d'une variante stochastique (sem, online, svi) sur le jeu synthétique t."""
     from risque import log_predictive_variationnel
+    kmax = int(PARAM.valeur("k_max")["synthetique"])
+    tr, va, k, _, _ = charger_jeu(_noms_variantes(rapide)[t], rep=2)
+    g = _g("variantes_fit", meth, t)
+    try:
+        if meth == "sem":
+            r = A.em_stochastique(tr, k, n_iter=cfg["sem_n_iter"], burn=cfg["sem_burn"], graine=g)
+            return C.logdens_plugin(r, va)
+        if meth == "online":
+            r = A.em_online(tr, k, taille_lot=cfg["online_lot"], n_epoques=cfg["epoques"], kappa=cfg["online_kappa"],
+                            t0=cfg["online_t0"], graine=g)
+            return C.logdens_plugin(r, va)
+        r = A.svi_gmm(tr, kmax, A.priori_empirique(tr, 1.0 / kmax), taille_lot=cfg["svi_lot"], n_epoques=cfg["epoques"],
+                      tau=cfg["svi_tau"], kappa=cfg["svi_kappa"], graine=g)
+        return float(log_predictive_variationnel(va, r["P"]).mean())
+    except (A.EchecNumerique, RuntimeError):
+        return float("-inf")
+
+
+def unite_variantes(memo, rapide):
     esp = PARAM.valeur("espace_variantes")
     nc = 6 if rapide else N_CONFIGS_VARIANTES
     u = torch.rand(nc, 8, generator=A.generateur(_g("variantes")), dtype=torch.float64)
@@ -490,29 +561,16 @@ def unite_variantes(memo, rapide):
                         "sem_n_iter": int(round(lu(u[i, 6], esp["sem_n_iter"])))})
         configs[-1]["sem_burn"] = int(configs[-1]["sem_n_iter"] * (esp["sem_part_burn"][0] + float(u[i, 7]) *
                                                                     (esp["sem_part_burn"][1] - esp["sem_part_burn"][0])))
-    noms = [n for n, f in jeux(rapide) if f == "synthetique"][:2 if rapide else 8]
-    kmax = int(PARAM.valeur("k_max")["synthetique"])
+    n_noms = len(_noms_variantes(rapide))
     out, evals_tout = {}, {}
     for meth in ("sem", "online", "svi"):
         def evaluer(cfg, t, meth=meth):
-            tr, va, k, _, _ = charger_jeu(noms[t], rep=2)
-            g = _g("variantes_fit", meth, t)
-            try:
-                if meth == "sem":
-                    r = A.em_stochastique(tr, k, n_iter=cfg["sem_n_iter"], burn=cfg["sem_burn"], graine=g)
-                    return C.logdens_plugin(r, va)
-                if meth == "online":
-                    r = A.em_online(tr, k, taille_lot=cfg["online_lot"], n_epoques=cfg["epoques"], kappa=cfg["online_kappa"],
-                                    t0=cfg["online_t0"], graine=g)
-                    return C.logdens_plugin(r, va)
-                r = A.svi_gmm(tr, kmax, A.priori_empirique(tr, 1.0 / kmax), taille_lot=cfg["svi_lot"], n_epoques=cfg["epoques"],
-                              tau=cfg["svi_tau"], kappa=cfg["svi_kappa"], graine=g)
-                return float(log_predictive_variationnel(va, r["P"]).mean())
-            except (A.EchecNumerique, RuntimeError):
-                return float("-inf")
+            return _evaluer_variantes(rapide, meth, cfg, t)
         def sous(c, f, meth=meth):
             return memo(f"{meth}/{c}", f)
-        best, ev = divisions_successives(sous, configs, len(noms), evaluer)
+        best, ev = divisions_successives(sous, configs, n_noms, evaluer,
+                                         precalcul=_precalcul(memo, configs, "_evaluer_variantes", prefixe=f"{meth}/",
+                                                              rapide=rapide, meth=meth))
         evals_tout[meth] = ev
         cles = {"sem": ("sem_n_iter", "sem_burn"), "online": ("online_kappa", "online_t0", "online_lot"),
                 "svi": ("svi_kappa", "svi_tau", "svi_lot")}[meth]

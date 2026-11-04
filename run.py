@@ -201,6 +201,26 @@ def executer_etape(etape: str, rapide: bool, travailleurs: int, tentatives: int 
     return True
 
 
+def _verrouiller(rapide: bool):
+    """
+    Verrou exclusif sur le magasin (complet ou réduit) : une seconde commande de calcul sur le même magasin attend que
+    la première se termine, puis relit les unités faites au lieu de les recalculer en double. Sans effet sous Windows.
+    """
+    try:
+        import fcntl
+    except ImportError:
+        return None
+    racine = E.racine_magasin(rapide)
+    racine.mkdir(parents=True, exist_ok=True)
+    f = open(racine / ".verrou", "w")
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        print(f"Une autre commande calcule déjà dans {racine} : attente de sa fin.", flush=True)
+        fcntl.flock(f, fcntl.LOCK_EX)
+    return f
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("etapes", nargs="*", choices=ORDRE + [[]], default=[])
@@ -225,6 +245,7 @@ def main():
         if a.figures:
             importlib.import_module("figures").produire(a.rapide)
         return
+    verrou = _verrouiller(a.rapide)
     PE.installer_arret_propre()
     PE.desactiver_selection_console()
     with PE.empecher_veille():

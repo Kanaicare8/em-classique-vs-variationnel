@@ -45,6 +45,20 @@ def test_kmeans_identique(jeu):
         assert torch.equal(e1, e2) and proche(c1, c2, 1e-10)
 
 
+@pytest.mark.parametrize("reg", [1e-6, 1e-2])
+@pytest.mark.parametrize("cov_type", ["full", "diag"])
+def test_em_equivalent_reglages_explicites(jeu, cov_type, reg):
+    """Mêmes réglages passés explicitement aux deux implémentations (la régularisation calibrée peut valoir 1e-2) :
+    sans cela, le noyau par lots lit le registre calibré et la référence ses constantes, et l'écart d'itérations ne
+    dit rien de la vectorisation."""
+    k = dict(cov_type=cov_type, init="kmeans", graine=3, n_init=4, tol=REF.TOL_REL, n_iter=REF.N_ITER_MAX, reg=reg)
+    a, b = A.em_classique(jeu, 5, **k), REF.em_classique(jeu, 5, **k)
+    assert a["n_iter"] == b["n_iter"] and a["converge"] == b["converge"]
+    assert abs(a["loglik"] - b["loglik"]) < 1e-8 * abs(b["loglik"])
+    oa, ob = ordonner(a), ordonner(b)
+    assert proche(a["pi"][oa], b["pi"][ob]) and proche(a["mu"][oa], b["mu"][ob]) and proche(a["cov"][oa], b["cov"][ob])
+
+
 @pytest.mark.parametrize("cov_type", ["full", "tied", "diag", "spherical"])
 @pytest.mark.parametrize("init", ["kmeans", "aleatoire"])
 def test_em_equivalent(jeu, cov_type, init):

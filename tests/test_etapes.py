@@ -9,11 +9,19 @@ import pytest
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-os.environ["ICARE_RAPIDE"] = "1"
 
 import calibrage as K  # noqa: E402
 import etapes as E  # noqa: E402
 import run  # noqa: E402
+
+
+@pytest.fixture(autouse=True, scope="module")
+def mode_rapide():
+    """ICARE_RAPIDE=1 pour les seuls tests de ce fichier (auparavant fixé au chargement, il fuyait dans les fichiers de
+    tests suivants)."""
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setenv("ICARE_RAPIDE", "1")
+        yield
 
 ETAPES_SANS_DONNEES_EXTERNES = ["validation", "illustrations", "scenarios", "chronometrage", "prix", "calibrage"]
 

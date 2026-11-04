@@ -34,7 +34,13 @@ RACINE = Path(__file__).parent
 
 
 def dossier_calibrage() -> Path:
-    """resultats/calibrage (exécution complète) ou resultats/calibrage_rapide (essais : run.py --rapide)."""
+    """
+    resultats/calibrage (exécution complète) ou resultats/calibrage_rapide (essais : run.py --rapide).
+    ICARE_DOSSIER_CALIBRAGE remplace ce dossier (tests : dossier vide, donc valeurs provisoires du registre, quelle que
+    soit la machine).
+    """
+    if os.environ.get("ICARE_DOSSIER_CALIBRAGE"):
+        return Path(os.environ["ICARE_DOSSIER_CALIBRAGE"])
     return RACINE / "resultats" / ("calibrage_rapide" if os.environ.get("ICARE_RAPIDE") == "1" else "calibrage")
 
 STATUTS = ("mathematique", "source", "plan", "benchmark", "recherche", "donnees", "performance")

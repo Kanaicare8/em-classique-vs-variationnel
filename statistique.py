@@ -193,8 +193,11 @@ def decider_famille(hypotheses: list[dict], alpha: float, n_boot: int, graine: i
     Pour chaque hypothèse, le seul test déclaré est appliqué ; la correction de Holm porte sur toute la
     famille ; la décision est prise sur la p-valeur AJUSTÉE :
       equivalence : « équivalent » si p_holm < alpha, sinon « équivalence non démontrée » ;
-      difference  : « A > B » ou « A < B » (signe de la moyenne) si p_holm < alpha, sinon « différence non démontrée ».
-    L'intervalle rapporté est le bootstrap percentile à 95 % de la moyenne des différences.
+      difference  : « A > B » ou « A < B » si p_holm < alpha, sinon « différence non démontrée ». Le sens est donné par
+                    l'estimateur de Hodges-Lehmann (médiane des moyennes de Walsh), cohérent avec le test de Wilcoxon
+                    (point P-10) ; la moyenne ne sert qu'en cas d'estimateur nul.
+    L'intervalle rapporté est le bootstrap percentile à 95 % de la moyenne des différences ; l'estimateur de
+    Hodges-Lehmann est rapporté en plus.
     """
     p = [tester(h["diffs"], h["test"], h.get("marge")) if len(h["diffs"]) else 1.0 for h in hypotheses]
     aj = holm(p)
@@ -202,14 +205,28 @@ def decider_famille(hypotheses: list[dict], alpha: float, n_boot: int, graine: i
     for h, pb, pa in zip(hypotheses, p, aj):
         d = torch.as_tensor(h["diffs"], dtype=torch.float64)
         est, bas, haut = ic_bootstrap(d, n_boot, graine=graine) if len(d) else (float("nan"),) * 3
+        hl = hodges_lehmann(d)
         if h["test"] == "equivalence":
             decision = "équivalent" if pa < alpha else "équivalence non démontrée"
         else:
-            decision = ("A > B" if est > 0 else "A < B") if pa < alpha else "différence non démontrée"
+            sens = hl if hl != 0 else est
+            decision = ("A > B" if sens > 0 else "A < B") if pa < alpha else "différence non démontrée"
         sortie.append({k: v for k, v in h.items() if k != "diffs"} |
-                      {"n": len(d), "estimation": est, "ic_bas": bas, "ic_haut": haut, "p": pb, "p_holm": pa,
-                       "decision": decision})
+                      {"n": len(d), "estimation": est, "ic_bas": bas, "ic_haut": haut, "hodges_lehmann": hl,
+                       "p": pb, "p_holm": pa, "decision": decision})
     return sortie
+
+
+def hodges_lehmann(diffs) -> float:
+    """Estimateur de Hodges-Lehmann à un échantillon : médiane des moyennes de Walsh (d_i + d_j) / 2, i <= j."""
+    d = torch.as_tensor(diffs, dtype=torch.float64)
+    if len(d) == 0:
+        return float("nan")
+    i, j = torch.triu_indices(len(d), len(d))
+    w = (d[i] + d[j]) / 2
+    s = torch.sort(w).values
+    n = len(s)
+    return float((s[(n - 1) // 2] + s[n // 2]) / 2)
 
 
 def puissance_simulee(diffs_pilote, n: int, test: str, marge: float | None, alpha: float,

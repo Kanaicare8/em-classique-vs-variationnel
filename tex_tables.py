@@ -241,7 +241,7 @@ def grille(rapide):
         ("Coût de calcul", "Pipeline EM-BIC contre un VB, temps total", ("prix_decisions", "HP4-"), REP, "§2.3.20"),
         ("Sensibilité aux priors", r"Variance de $\hat K$ due aux priors contre due à l'initialisation", ("prix_decisions", "HP5"),
          "expérience répliquée (descriptive)", "§2.3.19"),
-        ("Incertitude", r"Couverture des intervalles à 90 \% (VB et bootstrap EM)", ("prix_decisions", "HP6-"), REP, "§2.3.15"),
+        ("Incertitude", r"Couverture des intervalles à 90 \% (VB, bootstrap EM-BIC et EM-K)", ("prix_decisions", "HP6-"), REP, "§2.3.15"),
         ("Prévision (prix)", "Log-score des mélanges et de la gaussienne, 2024-2026 (Diebold-Mariano par mois, Holm)",
          ("prix_diebold_mariano", None), "expérience unique (une période de test)", "§3.1"),
         ("Surapprentissage (texte)", "Écart test/apprentissage de pLSA contre LDA", ("texte_decisions", "HT1-"), REP, "§3.2"),

@@ -135,7 +135,12 @@ for n in (50, 200, 1000):
 AUTRES = [
     ("HP4", "RH5", "ratio > 1", "Rapport des temps médians pipeline EM-BIC / VB, IC bootstrap de la médiane"),
     ("HP6-VB", "RH3", "< 90 %", "Couverture à 90 % des intervalles de crédibilité du VB, IC bootstrap par grappes"),
-    ("HP6-bootstrap EM", "RH3", "compatible avec 90 %", "Couverture à 90 % du bootstrap de l'EM, IC bootstrap par grappes"),
+    ("HP6-bootstrap EM-BIC", "RH3", "compatible avec 90 %",
+     "Couverture à 90 % du bootstrap de l'EM-BIC (K choisi par le BIC sur chaque jeu), IC bootstrap par grappes"),
+    ("HP6-bootstrap EM-K", "RH3", "compatible avec 90 %",
+     "Couverture à 90 % du bootstrap de l'EM au K de référence (borne : K connu), IC bootstrap par grappes"),
+    ("HP6-diff-VB-EM-BIC", "RH3", "VB < EM-BIC",
+     "Différence de couverture VB moins EM-BIC, appariée par réplication, IC bootstrap"),
     ("HPP1", "RH1", None, "Log-score de test, EM-BIC contre gaussienne unique (Diebold-Mariano par mois)"),
     ("HPP2", "RH1", None, "Log-score de test, VB-emp (prédictive) contre gaussienne unique"),
     ("HPP3", "RH1", None, "Log-score de test, VB-emp (prédictive) contre EM-BIC"),

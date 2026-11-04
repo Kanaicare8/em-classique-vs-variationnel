@@ -56,3 +56,11 @@ def test_decision_apres_holm():
 def test_wilson():
     p, b, h = S.wilson(90, 100)
     assert abs(b - 0.8256) < 1e-3 and abs(h - 0.9448) < 1e-3
+
+
+def test_hodges_lehmann():
+    """Médiane des moyennes de Walsh, calculée à la main (point P-10)."""
+    # [1, 2, 3] : moyennes de Walsh 1 ; 1,5 ; 2 ; 2 ; 2,5 ; 3 -> médiane 2
+    assert S.hodges_lehmann([1.0, 2.0, 3.0]) == 2.0
+    # [-5, 1, 2] : -5 ; -2 ; -1,5 ; 1 ; 1,5 ; 2 -> médiane (-1,5 + 1) / 2 = -0,25 (la moyenne vaut -0,667)
+    assert abs(S.hodges_lehmann([-5.0, 1.0, 2.0]) + 0.25) < 1e-12

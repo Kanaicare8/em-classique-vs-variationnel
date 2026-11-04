@@ -203,20 +203,33 @@ def unite_couverture(memo, rapide, N, rep):
     pis, mus, _ = tirages_q(vb["P"], nt, PE.graine("prix", "tirages", N, rep) % 2 ** 31)
     pi_b, mu_b = torch.quantile(pis, q, dim=0), torch.quantile(mus, q, dim=0)
     lignes = lignes_couverture(N, rep, "VB", couverts(vrai, pi_b[0], pi_b[1], mu_b[0], mu_b[1], vb["m"][act], act))
-    em = memo("EM-K", lambda: A.em_classique(Xs, K_ref, n_init=n_init, graine=g_fit))
     B = 50 if rapide else int(PARAM.valeur("n_bootstrap_modele"))
-    pis_b, mus_b = [], []
-    for b in range(B):
-        ib = torch.randint(N, (N,), generator=A.generateur(PE.graine("prix", "bootstrap", N, rep, b)))
-        eb = C.em_demarrage_chaud(Xs[ib], em)
-        c = A.hongrois(torch.cdist(em["mu"], eb["mu"]).pow(2))
-        pis_b.append(eb["pi"][c])
-        mus_b.append(eb["mu"][c])
-    pis_b, mus_b = torch.stack(pis_b), torch.stack(mus_b)
-    pi_e, mu_e = torch.quantile(pis_b, q, dim=0), torch.quantile(mus_b, q, dim=0)
-    lignes += lignes_couverture(N, rep, "bootstrap EM",
+
+    def bootstrap(em):
+        """Bootstrap non paramétrique à démarrage chaud au K du modèle em ; mêmes rééchantillons pour EM-K et EM-BIC."""
+        pis_b, mus_b = [], []
+        for b in range(B):
+            ib = torch.randint(N, (N,), generator=A.generateur(PE.graine("prix", "bootstrap", N, rep, b)))
+            eb = C.em_demarrage_chaud(Xs[ib], em)
+            c = A.hongrois(torch.cdist(em["mu"], eb["mu"]).pow(2))
+            pis_b.append(eb["pi"][c])
+            mus_b.append(eb["mu"][c])
+        pis_b, mus_b = torch.stack(pis_b), torch.stack(mus_b)
+        return torch.quantile(pis_b, q, dim=0), torch.quantile(mus_b, q, dim=0)
+    # EM-K : K de référence connu (borne favorable à l'EM)
+    em = memo("EM-K", lambda: A.em_classique(Xs, K_ref, n_init=n_init, graine=g_fit))
+    pi_e, mu_e = bootstrap(em)
+    lignes += lignes_couverture(N, rep, "bootstrap EM-K",
                                 couverts(vrai, pi_e[0], pi_e[1], mu_e[0], mu_e[1], em["mu"], torch.arange(K_ref)))
-    return {"lignes": lignes, "artefacts": {"B": B, "tirages_q": nt}}
+    # EM-BIC : K choisi par le BIC sur chaque jeu simulé, comme le VB choisit le sien (décision D-07) ; le bootstrap
+    # est conditionnel au K retenu (il ne propage pas l'incertitude du choix de K)
+    eb = C.choisir_k_critere(Xs, _kmax(), "bic", n_init, g_fit, memo=memo, prefixe="EM-BIC/")
+    K_bic = int(eb["mu"].shape[0])
+    pi_e, mu_e = bootstrap(eb)
+    lignes += lignes_couverture(N, rep, "bootstrap EM-BIC",
+                                couverts(vrai, pi_e[0], pi_e[1], mu_e[0], mu_e[1], eb["mu"], torch.arange(K_bic)))
+    return {"lignes": lignes, "artefacts": {"B": B, "tirages_q": nt, "K_bic": K_bic, "K_ref": K_ref,
+                                            "K_vb": int(len(act))}}
 
 
 # ------------------------------------------------------------------------------ sensibilité aux hyperparamètres
@@ -430,7 +443,24 @@ def agreger(rapide: bool):
     # réplication étant dépendantes
     Lc = E.lignes("prix", rapide, "couverture/")
     E.ecrire_csv("prix_couverture_brut", Lc, rapide)
-    for meth in ("VB", "bootstrap EM"):
+    def grappes_de(meth, par):
+        g = {}
+        for l in Lc:
+            if l["methode"] == meth and l["param"] == par:
+                g.setdefault((l["N"], l["rep"]), []).append(float(l["couvert"]))
+        return {k: sum(x) / len(x) for k, x in g.items()}
+    # lecture de RH3 (D-07) : VB contre EM-BIC (chacun choisit K), différence appariée par réplication
+    for par in ("pi", "mu"):
+        gv, ge = grappes_de("VB", par), grappes_de("bootstrap EM-BIC", par)
+        communs = sorted(set(gv) & set(ge))
+        if communs:
+            p, lo, hi = S.ic_bootstrap([gv[k] - ge[k] for k in communs], nb,
+                                       graine=PE.graine("prix", "HP6", "diff", par) % 2 ** 31)
+            dec.append({"id": f"HP6-diff-VB-EM-BIC-{par}", "axe": "Incertitude", "test": "intervalle",
+                        "enonce": f"Couverture VB moins couverture bootstrap EM-BIC ({par}), appariée par réplication",
+                        "estimation": p, "ic_bas": lo, "ic_haut": hi, "n_grappes": len(communs),
+                        "decision": "VB < EM-BIC" if hi < 0 else ("VB > EM-BIC" if lo > 0 else "non tranché")})
+    for meth in ("VB", "bootstrap EM-BIC", "bootstrap EM-K"):
         for par in ("pi", "mu"):
             v = [l for l in Lc if l["methode"] == meth and l["param"] == par]
             if not v:

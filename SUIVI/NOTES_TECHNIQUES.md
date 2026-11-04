@@ -89,3 +89,21 @@ donc les estimations finales telles que chaque méthode les rend, ce qui est la 
 **Ordre d'arrivée sur l'instance.** Le code doit être sur l'instance avant les vagues 6 (`fin/marges`) et 7 (unités
 pilotes `puissance/pilote/...` et `fin/puissance`). Les unités pilotes calculées avant ce code n'ont ni durée ni
 nouvelle définition de la dégénérescence : il faudrait alors les déplacer pour qu'elles soient recalculées.
+
+## N-04 Retours de la session qui pilote l'instance (2026-11-04)
+
+1. **18 tests en échec sur l'instance, 76 passent sur une copie propre.** Cause : `tests/test_etapes.py` fixait
+   `ICARE_RAPIDE=1` au chargement, sans le rétablir ; et, plus largement, les tests lisaient le calibrage présent dans
+   `resultats/` (sur l'instance : essai rapide de l'ancien code, puis calibrage réel en cours). Correction `de26220` :
+   `tests/conftest.py` redirige le calibrage vers un dossier vide pour toute la session de tests
+   (`ICARE_DOSSIER_CALIBRAGE`, lu par `parametres.dossier_calibrage`) ; `ICARE_RAPIDE` n'est plus fixé que pour
+   `test_etapes.py`.
+2. **Régularisation 0,01 : 477 itérations contre 221.** Cause probable : les tests appelaient le noyau par lots sans
+   `tol`, `n_iter` ni `reg`, qui lisait donc le registre calibré (`reg_covariance` = 0,01 sur l'instance), alors que la
+   référence garde ses constantes (`REG_EM` = 1e-6). Les deux ne calculaient pas le même ajustement. Nouveau test
+   `test_em_equivalent_reglages_explicites` (reg 1e-6 et 1e-2, mêmes réglages passés aux deux) : s'il passe sur
+   l'instance, la vectorisation est hors de cause. Non lancé ici (règle 4).
+3. **Essai rapide de l'ancien code** dans `resultats/magasin_rapide` et `resultats/calibrage_rapide` : sans effet sur
+   les résultats du mémoire (magasin séparé) ni désormais sur les tests ; à mettre de côté sur l'instance (commande
+   dans E-01).
+4. **`fin/texte` sur 8 cœurs** : voir D-11.

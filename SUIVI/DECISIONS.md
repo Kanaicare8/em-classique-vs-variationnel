@@ -143,3 +143,22 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
   d'instance (paramètre `budget_replications`), avec réduction proportionnelle de toutes les clés et puissance obtenue
   rapportée par hypothèse. Le budget (96 h, environ 17 $) est modifiable par l'étudiant.
 - **D-06** : écrit (même critère pour tous les bras, sur la covariance plug-in finale).
+
+## D-10 Structure de la partie I (P-19, P-20), 2026-11-04
+
+- **Options** : A, deux chapitres dans la partie I (chapitre 1 : cadre conceptuel ; nouveau chapitre 2 : état de
+  l'art, limites de la littérature, lien avec la recherche, synthèse) ; B, sections ajoutées au chapitre 1.
+- **Recommandation de Claude** : A.
+- **Choix de l'étudiant** : **A**.
+- **Impact** : la méthodologie devient le chapitre 3 et les résultats le chapitre 4 (renvois automatiques) ; la section
+  « Portée : domaines non testés » (revue) passe dans l'état de l'art ; points manquants de la méthodologie ajoutés ;
+  environ 10 pages du chapitre 1 vers les annexes.
+
+## D-11 Sous-processus de l'unité fin/texte, 2026-11-04
+
+- **Contexte** : la session qui pilote l'instance signale que `fin/texte` n'utilise que 8 cœurs sur 32
+  (`ICARE_SOUS_TRAVAILLEURS=8`, consigne N-02 prévue pour quatre unités simultanées en vague 5).
+- **Décision** (réglage d'exécution, sans effet sur les résultats : mêmes graines, un fil par processus, vérification
+  bit à bit par `outils/verifier_parallele.py`) : si `fin/texte` est la seule unité de la vague 5 encore en cours,
+  relancer avec `ICARE_SOUS_TRAVAILLEURS=31` ; si une autre unité de la vague tourne encore, 24. Les sous-calculs déjà
+  écrits sont relus.

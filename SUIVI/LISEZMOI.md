@@ -19,16 +19,16 @@ identifiant : P-xx (point du plan), D-xx (décision), E-xx (expérience).
 | `DECISIONS.md` | une fiche par décision de l'étudiant | à écrire ; reprendra les décisions déjà consignées dans `notes/` |
 | `NOTES_TECHNIQUES.md` | explications données (concepts, défauts trouvés) | au fil de l'eau |
 | `EXPERIENCES/E-xx.md` | une fiche par expérience ou calcul | à la spécification |
+| `EXPERIENCES/E-02.md` | lancement des étapes confirmatoires | créé le 2026-11-05 |
 | `CANEVAS_ECOLE.md` | plan imposé par l'école (transcription) | créé le 2026-11-04 |
 | `CHANGEMENTS_MEMOIRE.md` | modifications du document, par section | créé le 2026-11-04 |
 
-## État du jour (2026-11-04 soir, phase 4)
+## État du jour (2026-11-05)
 
-Code : lots 1 et 2 faits et poussés (`9ece8ce`, `f73142e`), à récupérer sur l'instance avant la vague 6 (E-01).
-Mémoire : corrections (P-05, P-09, P-12 à P-16), annexes (P-15), bibliographie IEEE (P-18), forme (P-21) faites.
-Reste : P-19 et P-20 (structure selon le canevas et volume), en attente d'une décision de l'étudiant sur la forme de
-la revue de littérature ; lot 3 (calculs) puis lot 4 (résultats) ; 4 entrées bibliographiques non citées à trancher ;
-Steinley 2004 et énoncé de Wu à vérifier.
+Calibrage en cours sur l'instance (E-01). Code à jour sur GitHub (`dc14b66`) : D-04 à D-07, D-14 (relances du texte),
+P-10, P-17, sensibilité aux marges. Mémoire restructuré selon le canevas (D-10), bibliographie IEEE, renvois
+automatiques ; corps jusqu'à la page 101 (limite 112, contenu principal seul, D-12). Prochaine étape : E-02 (étapes
+confirmatoires, lot 3) dès la fin du calibrage, puis lot 4 (résultats dans le mémoire).
 
 1. Document : `main.tex` + `body.tex` (35 224 mots) + `introduction.tex` ; PDF compilé du 27 octobre, 125 pages.
 2. Plan actuel : introduction ; partie I (revue, chap. 1 fondements théoriques) ; chap. 2 méthodologie ; chap. 3 résultats et discussion ; conclusion ; bibliographie annoncée IEEE ; annexes A à F.

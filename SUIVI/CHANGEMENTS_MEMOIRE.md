@@ -63,3 +63,23 @@ convergente » (tautologique) a été retirée ; la condition exacte de converge
 **À vérifier au lot 4** : l'exemple numérique de la section 1.7.5 (« 5 à 15 itérations », « dix essais, graines 0 à
 4 ») doit correspondre aux sorties de l'étape de validation.
 Compilation : 125 pages, sans erreur ; renvois non définis : tableaux encore à générer seulement.
+
+## 2026-11-04 (structure, D-10 option A ; P-19, P-20)
+
+| Partie | Changement |
+|---|---|
+| Partie I | deux chapitres : 1 « Cadre conceptuel : fondements théoriques et algorithmes EM », 2 « État de l'art et positionnement de la recherche » ; la méthodologie devient le chapitre 3, les résultats le chapitre 4 (renvois automatiques) |
+| Chap. 1 | section « Introduction de la revue » (rôle, contexte, structure) au lieu du paragraphe d'ouverture ; historique de l'EM (ancienne 1.6.1) supprimé, repris en 2.1 ; « variantes avancées » déplacées en 2.3 ; exemples numériques (densité d'un GMM, Dirichlet--Catégorielle, EM détaillé, VB) et Baum-Welch déplacés en annexe G (G.1 à G.5), une phrase de renvoi à leur place |
+| Chap. 2 (nouveau) | 2.1 travaux sur l'EM ; 2.2 travaux sur l'inférence variationnelle ; 2.3 tendances (SVI, AEVB, flux) ; 2.4 comparaison critique (tableau, quatre controverses) ; 2.5 domaines d'application (ancienne section « Portée » du chapitre des résultats, plus le suivi des prix par le PAM) ; 2.6 limites de la littérature (5) ; 2.7 lien avec la recherche (limites → RH1 à RH5) ; 2.8 synthèse. Rédigé à partir de ce que le mémoire disait déjà de chaque source ; les constats de lacunes portent « sur les seules sources examinées » |
+| Chap. 3 | sections ajoutées : introduction du chapitre, type et approche, cadre de recherche, plan d'échantillonnage, considérations éthiques, synthèse et transition ; renommées : « Sources, collecte et préparation des données » (avec validité et fiabilité), « Méthodes d'analyse : protocole de comparaison », « Limites de la méthodologie : menaces à la validité et écarts au protocole » |
+| Chap. 3, données | phrase corrigée : seule l'empreinte du fichier des prix est vérifiée par le code (et non « les données réelles ») |
+| Chap. 4 | « Introduction du chapitre » ; « Analyse et interprétation : bilan des hypothèses » avec « Mise en relation avec la littérature » (encadré à compléter) ; « Discussion critique » (limites à compléter, six précautions d'interprétation indépendantes des résultats, perspectives) ; « Synthèse du chapitre » |
+| Introduction | plan en quatre chapitres ; MAP-EM décrit avec le Dirichlet plat ; « Elle est décomposée » → « La thèse est décomposée » |
+| Divers | renvoi erroné corrigé (« section 2.1 de l'article » de Hoffman et al. avait été converti en renvoi interne) ; renvoi Neal et Hinton dans la conclusion corrigé vers la section du cas limite de Dirac ; citations des annexes converties |
+
+Volume : corps (introduction à conclusion générale) jusqu'à la page 101, bibliographie 102 à 106, annexes à partir de
+107 (135 pages au total). Avant : corps jusqu'à 107. Marge pour les résultats à venir : environ 6 pages si la
+bibliographie compte dans les 112, 11 sinon (à préciser par l'étudiant).
+
+**À relire par l'étudiant** : le chapitre 2 en entier (nouveau texte), en particulier les constats de la section 2.6
+sur ce qui manque dans la littérature, qui n'engagent que les sources citées.

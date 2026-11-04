@@ -31,7 +31,7 @@ définies : uniquement des tableaux encore à générer (`tab:ill_*`, `tab:prix_
 
 | Section | Changement | Point du plan |
 |---|---|---|
-| Annexe A | tableau fonctions / sections / équations en renvois automatiques (`ef`), ligne LDA corrigée (section du corpus texte, pas « 3.1.1 ») ; A.4 décrit `donnees.py` et `etape_texte.py` au lieu du script `texte_plsa_lda.py` (ancien) | P-15, T-04 |
+| Annexe A | tableau fonctions / sections / équations en renvois automatiques (`\ref`), ligne LDA corrigée (section du corpus texte, pas « 3.1.1 ») ; A.4 décrit `donnees.py` et `etape_texte.py` au lieu du script `texte_plsa_lda.py` (ancien) | P-15, T-04 |
 | Annexe D | réécrite : instance cloud ; tableau `environnement` produit par `tex_tables.py` depuis `resultats/environnement_historique.jsonl` ; un fil par processus, sous-processus du calibrage ; graines toutes dérivées du rôle ; vérification bit à bit du parallélisme | P-15, P-17 |
 | Chap. 2 et 3 | graines « 42 » et « 7 » retirées (le code dérive toutes les graines du rôle) ; boîte des aberrations décrite comme dans le code | T-04 |
 | Chap. 1 et 2 | « implémentations présentées au chapitre 3 » corrigé en renvoi à la section d'implémentation (chapitre 2) ; étiquettes ajoutées à 11 sections | T-04, T-07 |

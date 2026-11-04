@@ -26,3 +26,23 @@ définies : uniquement des tableaux encore à générer (`tab:ill_*`, `tab:prix_
 **Non vérifié** : les seuils 0,65 / 0,80 / 0,90 dans l'article de Steinley (2004) (source secondaire seulement).
 **Reste** : lectures du chapitre 3 au-delà des illustrations, à réécrire au lot 4 depuis les sorties ; annexes A et D
 (P-15) ; structure du canevas (P-19, P-20) ; bibliographie IEEE (P-18).
+
+## 2026-11-04 (suite)
+
+| Section | Changement | Point du plan |
+|---|---|---|
+| Annexe A | tableau fonctions / sections / équations en renvois automatiques (`ef`), ligne LDA corrigée (section du corpus texte, pas « 3.1.1 ») ; A.4 décrit `donnees.py` et `etape_texte.py` au lieu du script `texte_plsa_lda.py` (ancien) | P-15, T-04 |
+| Annexe D | réécrite : instance cloud ; tableau `environnement` produit par `tex_tables.py` depuis `resultats/environnement_historique.jsonl` ; un fil par processus, sous-processus du calibrage ; graines toutes dérivées du rôle ; vérification bit à bit du parallélisme | P-15, P-17 |
+| Chap. 2 et 3 | graines « 42 » et « 7 » retirées (le code dérive toutes les graines du rôle) ; boîte des aberrations décrite comme dans le code | T-04 |
+| Chap. 1 et 2 | « implémentations présentées au chapitre 3 » corrigé en renvoi à la section d'implémentation (chapitre 2) ; étiquettes ajoutées à 11 sections | T-04, T-07 |
+| Bibliographie | passage à biblatex (style IEEE, numérotation par ordre d'apparition, « vol. », `references.bib`) ; 95 citations auteur-année converties en `\cite{}` (nom de l'auteur gardé dans les citations narratives) ; Porter (1980) ajouté (cité mais absent de la liste) ; PyTorch cité dans l'implémentation | P-18 (T-05) |
+| Grille « axe × preuve » (`tex_tables.py`) | numéros de section d'une ancienne version (« §2.3.16 »…) remplacés par des renvois ; citations en `\cite` | T-07, P-18 |
+
+**Entrées non citées (ne s'impriment plus en IEEE)** : Blei et Jordan (2006), Frühwirth-Schnatter (2006), McLachlan
+et Peel (2000), McLachlan et Krishnan (2008). Décision de l'étudiant : les citer à un endroit pertinent, ou les retirer.
+
+**À vérifier au lot 4** : chiffres descriptifs restant au chapitre 3 (par exemple l'écart moyen du maïs, +0,04 puis
+−0,12, section du cas pratique), à confronter au tableau `prix_descriptif` une fois généré.
+
+Sauvegardes : `sauvegardes/body_*_avant_bibtex.tex`, `sauvegardes/introduction_*.tex`. Compilation :
+`pdflatex`, `biber`, `pdflatex` ×2 sans erreur ni citation indéfinie, 124 pages.

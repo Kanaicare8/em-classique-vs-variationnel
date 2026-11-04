@@ -92,8 +92,11 @@ schtasks /Delete /TN "Icare-reprise" /F                 # quand tout est termin�
 python run.py --tables
 python run.py --figures
 python tex_tables.py
-pdflatex main.tex; pdflatex main.tex; pdflatex main.tex
+pdflatex main.tex; biber main; pdflatex main.tex; pdflatex main.tex
 ```
+
+La bibliographie est dans `references.bib` (style IEEE de biblatex, numérotation dans l'ordre d'apparition) ; `biber`
+la construit à partir des `\cite{}` du texte.
 
 `tex_tables.py` écrit les tableaux **et les lectures factuelles** des décisions (`tables/lecture_*.tex`) : chaque
 décision est rattachée à son hypothèse de recherche (RH1 à RH5) avec son verdict (conforme, contraire, non tranché).

@@ -101,7 +101,12 @@
 
 % 
 % Liens, references
-% 
+%
+% Bibliographie au format IEEE (numérotation dans l'ordre d'apparition), fichier references.bib, compilation par biber
+\usepackage{csquotes}
+\usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
+\addbibresource{references.bib}
+\DefineBibliographyStrings{french}{volume = {vol\adddot}, volumes = {vol\adddot}, jourvol = {vol\adddot}}   % « vol. » (IEEE), pas « t. »
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
 \usepackage{qrcode}

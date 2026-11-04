@@ -36,7 +36,7 @@
 
 %% ==== CHAPITRE : FONDEMENTS THÉORIQUES ET ALGORITHMES EM ====
 \chapter{FONDEMENTS THÉORIQUES ET ALGORITHMES EM}\label{chap:fondements}
-Ce premier chapitre pose l'ensemble des bases théoriques nécessaires à la compréhension du reste de ce mémoire, puis présente en détail les deux algorithmes qui en constituent l'objet central : l'algorithme Espérance-Maximisation (EM) classique et sa généralisation bayésienne, l'EM variationnel. Nous commençons par définir la notion de modèle à variables latentes, avant d'introduire les outils mathématiques indispensables  la vraisemblance et sa maximisation, les distributions gaussiennes et le modèle de mélange gaussien, le cadre bayésien, l'inégalité de Jensen et la divergence de Kullback-Leibler. Ces éléments théoriques permettent ensuite de dérouler, de façon rigoureuse et progressive, la formulation mathématique complète de l'EM classique puis de l'EM variationnel, en insistant à chaque étape sur les propriétés de convergence, les variantes existantes, ainsi que les avantages et les limites de chacune des deux approches.
+Ce premier chapitre pose l'ensemble des bases théoriques nécessaires à la compréhension du reste de ce mémoire, puis présente en détail les deux algorithmes qui en constituent l'objet central : l'algorithme Espérance-Maximisation (EM) classique et sa généralisation bayésienne, l'EM variationnel. Nous commençons par définir la notion de modèle à variables latentes, avant d'introduire les outils mathématiques indispensables : la vraisemblance et sa maximisation, les distributions gaussiennes et le modèle de mélange gaussien, le cadre bayésien, l'inégalité de Jensen et la divergence de Kullback-Leibler. Ces éléments théoriques permettent ensuite de dérouler, de façon rigoureuse et progressive, la formulation mathématique complète de l'EM classique puis de l'EM variationnel, en insistant à chaque étape sur les propriétés de convergence, les variantes existantes, ainsi que les avantages et les limites de chacune des deux approches.
 
 \section{Modèles à variables latentes}\label{sec:modeles_a_variables_latentes}
 \subsection{Définition formelle}\label{sec:definition_formelle}
@@ -50,7 +50,7 @@ Un modèle probabiliste à variables latentes est défini par la donnée d'un es
 L'objectif de l'inférence est d'estimer le paramètre $\theta $ à partir des seules observations \{$x_{i}$\}, les variables latentes $z_{i}$ n'étant jamais directement observées. La loi jointe se factorise selon le processus génératif du modèle :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(X{,} Z | \theta ) = p(Z | \theta ) \times  p(X | Z{,} \theta ) = \prod _{i} p(z_{i} | \theta ) p(x_{i} | z_{i}{,} \theta )$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(X{,} Z | \theta ) = p(Z | \theta ) \times p(X | Z{,} \theta ) = \prod _{i} p(z_{i} | \theta ) p(x_{i} | z_{i}{,} \theta )$\end{adjustbox}
 \tag{1.2}
 \label{eq:1_2}
 \end{equation}
@@ -100,31 +100,36 @@ IRT & Niveau de compétence $\theta _{i}$ & $a_{j}$, $b_{j}$ & Tests psychométr
 La distinction entre vraisemblance complète et vraisemblance incomplète est au cœur de la compréhension de l'algorithme EM. La log-vraisemblance complète est définie sur l'espace des données complètes, c'est-à-dire en incluant les variables latentes :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell c(\theta ) = \log  p(X{,} Z | \theta ) = \Sigma _{i} \log  p(x_{i}{,} z_{i} | \theta )$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell c(\theta ) = \log p(X{,} Z | \theta ) = \Sigma _{i} \log p(x_{i}{,} z_{i} | \theta )$\end{adjustbox}
 \tag{1.3}
 \label{eq:1_3}
 \end{equation}
 Cette quantité est généralement facile à optimiser, car p(X, Z | $\theta $) se factorise de manière simple, conduisant souvent à des expressions analytiques fermées pour les estimateurs du maximum de vraisemblance. En revanche, la log-vraisemblance incomplète, définie sur les seules observations, s'écrit :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell (\theta ) = \log  p(X | \theta ) = \Sigma _{i} \log  \int  p(x_{i}{,} z_{i} | \theta ) dz_{i} = \Sigma _{i} \log  \Sigma _{k} p(x_{i}{,} z_{i} = k | \theta )$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell (\theta ) = \log p(X | \theta ) = \Sigma _{i} \log \int p(x_{i}{,} z_{i} | \theta ) dz_{i} = \Sigma _{i} \log \Sigma _{k} p(x_{i}{,} z_{i} = k | \theta )$\end{adjustbox}
 \tag{1.4}
 \label{eq:1_4}
 \end{equation}
-L'opération de logarithme d'une somme (ou d'une intégrale) détruit la structure factorielle favorable de la vraisemblance complète, rendant l'optimisation directe de $\ell $($\theta $) généralement intractable sur le plan analytique. C'est précisément cette difficulté que l'algorithme EM contourne de manière élégante, en s'appuyant sur une borne inférieure de la vraisemblance incomplète  l'ELBO  que nous introduisons dès à présent.
+L'opération de logarithme d'une somme (ou d'une intégrale) détruit la structure factorielle favorable de la vraisemblance complète, rendant l'optimisation directe de $\ell $($\theta $) généralement intractable sur le plan analytique. C'est précisément cette difficulté que l'algorithme EM contourne de manière élégante, en s'appuyant sur une borne inférieure de la vraisemblance incomplète (l'ELBO) que nous introduisons dès à présent.
 
 \subsection{L'inégalité de Jensen et le principe de la borne inférieure}\label{sec:l_inegalite_de_jensen_et}
-L'inégalité de Jensen est un résultat fondamental de l'analyse convexe qui sous-tend directement la construction de l'algorithme EM. Elle énonce que pour toute fonction concave f et toute variable aléatoire X, on a :
+L'inégalité de Jensen est un résultat fondamental de l'analyse convexe qui sous-tend directement la construction de l'algorithme EM.
 
+\begin{theoreme}[Inégalité de Jensen]\label{thm:jensen}
+Soit $f$ une fonction concave et $X$ une variable aléatoire réelle telle que $X$ et $f(X)$ soient intégrables. Alors
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle f(\mathbb{E}[X]) \geq  \mathbb{E}[f(X)]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle f(\mathbb{E}[X]) \geq \mathbb{E}[f(X)]$\end{adjustbox}
 \tag{1.5}
 \label{eq:1_5}
 \end{equation}
-avec égalité si et seulement si X est constante presque sûrement, ou si f est linéaire. Appliquée à la fonction logarithme, qui est concave, avec q(Z) comme distribution de pondération, cette inégalité fournit, pour tout $\theta $ et toute distribution q(Z) :
+où $\mathbb{E}$ désigne l'espérance. Si $f$ est strictement concave, l'égalité a lieu si et seulement si $X$ est presque sûrement constante.
+\end{theoreme}
+
+Appliquée à la fonction logarithme, qui est concave, avec q(Z) comme distribution de pondération, cette inégalité fournit, pour tout $\theta $ et toute distribution q(Z) :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell (\theta ) = \log  p(X | \theta ) \geq  \mathbb{E}_{q}[\log  p(X{,} Z | \theta )] - \mathbb{E}_{q}[\log  q(Z)] =: ELBO(q{,} \theta )$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \ell (\theta ) = \log p(X | \theta ) \geq \mathbb{E}_{q}[\log p(X{,} Z | \theta )] - \mathbb{E}_{q}[\log q(Z)] =: ELBO(q{,} \theta )$\end{adjustbox}
 \tag{1.6}
 \label{eq:1_6}
 \end{equation}
@@ -141,7 +146,7 @@ Une seconde forme de non-identifiabilité, distincte du label switching, est pro
 La distribution gaussienne (ou normale) $\mathcal{N}$($\mu $, $\sigma ^{2}$) est une distribution de probabilité continue définie sur $\mathbb{R}$, entièrement caractérisée par sa moyenne $\mu $ $\in $ $\mathbb{R}$ et sa variance $\sigma ^{2}$ > 0. Sa densité de probabilité est donnée par :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(x | \mu {,} \sigma ^{2}) = 1/\sqrt{2\pi \sigma ^{2}} \cdot  \exp [-(x-\mu )^{2} / (2\sigma ^{2})]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(x | \mu {,} \sigma ^{2}) = 1/\sqrt{2\pi \sigma ^{2}} \cdot \exp [-(x-\mu )^{2} / (2\sigma ^{2})]$\end{adjustbox}
 \tag{1.7}
 \label{eq:1_7}
 \end{equation}
@@ -174,7 +179,7 @@ Le célèbre algorithme k-means peut être vu comme un cas limite dégénéré d
 Afin de rendre pleinement concrète l'équation~\eqref{eq:1_8} avant son utilisation intensive dans la suite de ce chapitre, évaluons-la numériquement en reprenant le modèle à deux composantes convergé à la section~\ref{sec:application_au_melange_gaussien_exemple} ($\pi _{1}$=$\pi _{2}$=0,5 ; $\mu _{1}$=1,125, $\sigma _{1}$=0,466 ; $\mu _{2}$=7,725, $\sigma _{2}$=0,460), et calculons la densité prédite p(x|$\theta $) pour une nouvelle observation x = 2,0, non présente dans l'échantillon original.
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(2{,}0 | \theta ) = 0{,}5 \times  \mathcal{N}(2{,}0 | 1{,}125 ; 0{,}466^{2}) + 0{,}5 \times  \mathcal{N}(2{,}0 | 7{,}725 ; 0{,}460^{2})$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(2{,}0 | \theta ) = 0{,}5 \times \mathcal{N}(2{,}0 | 1{,}125 ; 0{,}466^{2}) + 0{,}5 \times \mathcal{N}(2{,}0 | 7{,}725 ; 0{,}460^{2})$\end{adjustbox}
 \tag{1.10}
 \label{eq:1_10}
 \end{equation}
@@ -190,7 +195,7 @@ Cette différence philosophique a des conséquences pratiques importantes : un b
 Le théorème de Bayes est le pivot de toute l'inférence bayésienne. Pour un modèle avec paramètres $\theta $ et observations X, il s'écrit :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(\theta  | X) = p(X | \theta ) p(\theta ) / p(X)$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle p(\theta | X) = p(X | \theta ) p(\theta ) / p(X)$\end{adjustbox}
 \tag{1.11}
 \label{eq:1_11}
 \end{equation}
@@ -207,22 +212,26 @@ Afin d'ancrer concrètement la notion de conjugaison avant son utilisation inten
 La règle de mise à jour bayésienne pour le couple conjugué Dirichlet--Catégorielle, appliquée à la section~\ref{sec:formulation_de_l_em_variationnel}.c, donne directement le paramètre a posteriori $\alpha _{k}$ = $\alpha _{0}$ + $N_{k}$, soit ici :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \alpha _{1} = 1 + 7 = 8{,}   \alpha _{2} = 1 + 4 = 5{,}   \alpha _{3} = 1 + 1 = 2$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \alpha _{1} = 1 + 7 = 8{,} \alpha _{2} = 1 + 4 = 5{,} \alpha _{3} = 1 + 1 = 2$\end{adjustbox}
 \tag{1.12}
 \label{eq:1_12}
 \end{equation}
-La distribution a posteriori sur les poids de mélange est donc Dir(8, 5, 2), dont la moyenne  l'estimation ponctuelle bayésienne des poids  vaut $\mathbb{E}$[$\pi _{k}$] = $\alpha _{k}$ / $\Sigma _{j}$ $\alpha _{j}$, soit $\mathbb{E}$[$\pi _{1}$] = 8/15 $\approx $ 0,533, $\mathbb{E}$[$\pi _{2}$] = 5/15 $\approx $ 0,333 et $\mathbb{E}$[$\pi _{3}$] = 2/15 $\approx $ 0,133. On notera que ces valeurs moyennes sont très proches, mais non identiques, des fréquences empiriques $N_{k}$/N = 7/12 $\approx $ 0,583 ; 4/12 $\approx $ 0,333 ; 1/12 $\approx $ 0,083 qu'aurait directement utilisées l'EM classique à l'équation~\eqref{eq:1_16} : l'écart entre les deux, plus marqué pour la composante la moins représentée (0,133 contre 0,083 pour $\pi _{3}$), illustre précisément l'effet de régularisation du prior décrit à la section~\ref{sec:avantages_de_l_em_variationnel}  le prior « tire » les estimations vers l'uniformité a priori (1/3 pour chaque composante), d'autant plus fortement que le nombre d'observations disponibles pour cette composante est faible. Cet exemple, volontairement simplifié à une seule mise à jour, préfigure directement le mécanisme itératif complet de l'EM variationnel détaillé à la section~\ref{sec:formulation_de_l_em_variationnel}, dans lequel cette même règle de mise à jour est appliquée de façon répétée, conjointement à la mise à jour des paramètres Normal-Wishart, jusqu'à convergence de l'ELBO. Ce calcul porte sur $\mathbb{E}[\pi_k]$ ; il ne doit pas être confondu avec le mécanisme d'élagage, qui repose sur $\mathbb{E}[\log \pi_k] = \psi(\alpha_k) - \psi(\sum_j \alpha_j)$ (section~\ref{sec:elagage}).
+La distribution a posteriori sur les poids de mélange est donc Dir(8, 5, 2), dont la moyenne (l'estimation ponctuelle bayésienne des poids) vaut $\mathbb{E}$[$\pi _{k}$] = $\alpha _{k}$ / $\Sigma _{j}$ $\alpha _{j}$, soit $\mathbb{E}$[$\pi _{1}$] = 8/15 $\approx $ 0,533, $\mathbb{E}$[$\pi _{2}$] = 5/15 $\approx $ 0,333 et $\mathbb{E}$[$\pi _{3}$] = 2/15 $\approx $ 0,133. On notera que ces valeurs moyennes sont très proches, mais non identiques, des fréquences empiriques $N_{k}$/N = 7/12 $\approx $ 0,583 ; 4/12 $\approx $ 0,333 ; 1/12 $\approx $ 0,083 qu'aurait directement utilisées l'EM classique à l'équation~\eqref{eq:1_16} : l'écart entre les deux, plus marqué pour la composante la moins représentée (0,133 contre 0,083 pour $\pi _{3}$), illustre précisément l'effet de régularisation du prior décrit à la section~\ref{sec:avantages_de_l_em_variationnel} : le prior « tire » les estimations vers l'uniformité a priori (1/3 pour chaque composante), d'autant plus fortement que le nombre d'observations disponibles pour cette composante est faible. Cet exemple, volontairement simplifié à une seule mise à jour, préfigure directement le mécanisme itératif complet de l'EM variationnel détaillé à la section~\ref{sec:formulation_de_l_em_variationnel}, dans lequel cette même règle de mise à jour est appliquée de façon répétée, conjointement à la mise à jour des paramètres Normal-Wishart, jusqu'à convergence de l'ELBO. Ce calcul porte sur $\mathbb{E}[\pi_k]$ ; il ne doit pas être confondu avec le mécanisme d'élagage, qui repose sur $\mathbb{E}[\log \pi_k] = \psi(\alpha_k) - \psi(\sum_j \alpha_j)$ (section~\ref{sec:elagage}).
 
 \section{La divergence de Kullback-Leibler}\label{sec:la_divergence_de_kullback_leibler}
 \subsection{Définition et propriétés}\label{sec:definition_et_proprietes}
 La divergence de Kullback-Leibler (KL) entre deux distributions de probabilité q et p est définie par :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle KL[q \Vert  p] = \mathbb{E}_{q}[\log  q(z) - \log  p(z)] = \int  q(z) \log [q(z)/p(z)] dz$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle KL[q \Vert p] = \mathbb{E}_{q}[\log q(z) - \log p(z)] = \int q(z) \log [q(z)/p(z)] dz$\end{adjustbox}
 \tag{1.13}
 \label{eq:1_13}
 \end{equation}
-Cette divergence possède plusieurs propriétés importantes : elle est toujours non négative, KL[q $\Vert $ p] $\geq $ 0, avec égalité si et seulement si q = p presque partout, ce résultat étant connu sous le nom d'inégalité de Gibbs ; elle est asymétrique, c'est-à-dire que KL[q $\Vert $ p] $\neq $ KL[p $\Vert $ q] en général ; elle n'est pas une distance au sens mathématique du terme, car elle ne satisfait pas l'inégalité triangulaire ; enfin, elle est étroitement liée à l'information de Fisher et joue un rôle central en théorie de l'information.
+\begin{theoreme}[Inégalité de Gibbs]\label{thm:gibbs}
+Pour deux lois $q$ et $p$ telles que $\mathrm{KL}[q \Vert p]$ soit définie, $\mathrm{KL}[q \Vert p] \geq 0$, avec égalité si et seulement si $q = p$ presque partout.
+\end{theoreme}
+
+Cette divergence possède d'autres propriétés importantes : elle est asymétrique, c'est-à-dire que KL[q $\Vert $ p] $\neq $ KL[p $\Vert $ q] en général ; elle n'est pas une distance au sens mathématique du terme, car elle ne satisfait pas l'inégalité triangulaire ; enfin, elle est étroitement liée à l'information de Fisher et joue un rôle central en théorie de l'information.
 
 \subsection{Interprétation informationnelle}\label{sec:interpretation_informationnelle}
 La divergence KL[q $\Vert $ p] peut être interprétée comme le coût moyen, exprimé en nats (ou en bits si le logarithme est en base 2), d'encoder des données générées par q en utilisant un code optimal conçu pour p. Plus q et p sont similaires, plus ce coût est faible. Dans le contexte de l'inférence variationnelle, minimiser KL[q $\Vert $ p], où p = p($\theta $, Z | X) désigne la vraie distribution a posteriori, revient à rechercher, au sein d'une famille variationnelle donnée, la distribution q la plus proche possible de la véritable distribution a posteriori.
@@ -231,7 +240,7 @@ La divergence KL[q $\Vert $ p] peut être interprétée comme le coût moyen, ex
 La relation entre la divergence KL, l'ELBO et la log-vraisemblance marginale est établie par la décomposition fondamentale suivante :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log  p(X) = ELBO(q) + KL[q(Z{,} \theta ) \Vert  p(Z{,} \theta  | X)]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log p(X) = ELBO(q) + KL[q(Z{,} \theta ) \Vert p(Z{,} \theta | X)]$\end{adjustbox}
 \tag{1.14}
 \label{eq:1_14}
 \end{equation}
@@ -252,11 +261,11 @@ La figure~\ref{fig:kl_inverse} illustre le premier effet. Les deux effets condui
 
 \section{L'algorithme EM classique}\label{sec:em_classique}
 \subsection{Historique et contexte}\label{sec:historique_et_contexte}
-L'algorithme Espérance-Maximisation a une histoire riche qui précède sa formalisation par Dempster, Laird et Rubin. Des idées similaires apparaissent dans les travaux de Hartley~\cite{hartley1958} sur les tableaux de contingence, de Baum et al.~\cite{baum1970} dans le contexte des modèles de Markov cachés  l'algorithme de Baum-Welch , et d'Orchard et Woodbury~\cite{orchard1972} sur le traitement des données manquantes. C'est toutefois l'article de 1977 de Dempster, Laird et Rubin qui a unifié ces approches disparates sous un cadre théorique commun, démontré les propriétés générales de convergence, et fourni le langage  étapes E et M  devenu standard.
+L'algorithme Espérance-Maximisation a une histoire riche qui précède sa formalisation par Dempster, Laird et Rubin. Des idées similaires apparaissent dans les travaux de Hartley~\cite{hartley1958} sur les tableaux de contingence, de Baum et al.~\cite{baum1970} dans le contexte des modèles de Markov cachés (l'algorithme de Baum-Welch), et d'Orchard et Woodbury~\cite{orchard1972} sur le traitement des données manquantes. C'est toutefois l'article de 1977 de Dempster, Laird et Rubin qui a unifié ces approches disparates sous un cadre théorique commun, démontré les propriétés générales de convergence, et fourni le langage (étapes E et M) devenu standard.
 
-L'article original de Dempster, Laird et Rubin est remarquable par sa généralité : il ne se restreint pas à une classe particulière de modèles, mais formule l'algorithme dans le cadre général de la famille exponentielle, couvrant ainsi une large classe de modèles statistiques courants. Depuis 1977, l'EM a fait l'objet de milliers de publications, donnant lieu à de nombreuses extensions  EM stochastique, EM online, EM généralisé, entre autres  et à des applications dans presque tous les domaines des sciences des données.
+L'article original de Dempster, Laird et Rubin est remarquable par sa généralité : il ne se restreint pas à une classe particulière de modèles, mais formule l'algorithme dans le cadre général de la famille exponentielle, couvrant ainsi une large classe de modèles statistiques courants. Depuis 1977, l'EM a fait l'objet de milliers de publications, donnant lieu à de nombreuses extensions (EM stochastique, EM online, EM généralisé, entre autres) et à des applications dans presque tous les domaines des sciences des données.
 
-Il est intéressant de noter que la démonstration originale de convergence proposée par Dempster, Laird et Rubin en 1977 comportait une lacune technique, corrigée seulement six ans plus tard par Wu~\cite{wu1983}, qui établit les conditions précises sous lesquelles la suite des paramètres \{$\theta ^{t}$\} converge effectivement vers un point stationnaire de la vraisemblance, et non simplement la suite des valeurs de vraisemblance \{$\ell $($\theta ^{t}$)\}  une distinction subtile mais importante, puisqu'une suite de valeurs de vraisemblance convergente n'implique pas nécessairement, en toute généralité mathématique, la convergence de la suite des paramètres eux-mêmes. Cet épisode illustre un trait caractéristique du développement de l'algorithme EM : la simplicité de son principe opérationnel  alterner deux étapes de calcul relativement élémentaires  a longtemps contrasté avec la subtilité des conditions mathématiques précises garantissant son bon comportement, subtilité qui n'a été pleinement clarifiée que par les travaux théoriques ultérieurs de Wu~\cite{wu1983} et de Boyles~\cite{boyles1983}, puis, pour le versant bayésien de l'algorithme qui nous occupe à la section~\ref{sec:em_variationnel} de ce chapitre, par les travaux fondateurs de Jordan et al.~\cite{jordan1999} évoqués à la section~\ref{sec:motivation_et_cadre_general}.
+Il est intéressant de noter que la démonstration originale de convergence proposée par Dempster, Laird et Rubin en 1977 comportait une lacune technique, corrigée seulement six ans plus tard par Wu~\cite{wu1983}, qui établit les conditions précises sous lesquelles la suite des paramètres \{$\theta ^{t}$\} converge effectivement vers un point stationnaire de la vraisemblance, et non simplement la suite des valeurs de vraisemblance \{$\ell $($\theta ^{t}$)\} : une distinction subtile mais importante, puisqu'une suite de valeurs de vraisemblance convergente n'implique pas nécessairement, en toute généralité mathématique, la convergence de la suite des paramètres eux-mêmes. Cet épisode illustre un trait caractéristique du développement de l'algorithme EM : la simplicité de son principe opérationnel (alterner deux étapes de calcul relativement élémentaires) a longtemps contrasté avec la subtilité des conditions mathématiques précises garantissant son bon comportement, subtilité qui n'a été pleinement clarifiée que par les travaux théoriques ultérieurs de Wu~\cite{wu1983} et de Boyles~\cite{boyles1983}, puis, pour le versant bayésien de l'algorithme qui nous occupe à la section~\ref{sec:em_variationnel} de ce chapitre, par les travaux fondateurs de Jordan et al.~\cite{jordan1999} évoqués à la section~\ref{sec:motivation_et_cadre_general}.
 
 \subsection{Formulation mathématique complète}\label{sec:formulation_mathematique_complete}
 \subsubsection{a) L'algorithme en pseudocode}\label{sec:a_l_algorithme_en_pseudocode}
@@ -275,20 +284,20 @@ Ces responsabilités satisfont $r_{ik}$ $\geq $ 0 et $\Sigma _{k}$ $r_{ik}$ = 1 
 Le calcul des responsabilités peut poser des problèmes numériques lorsque les densités gaussiennes sont très petites, ce qui conduit à un phénomène d'underflow. En pratique, on travaille en log-espace et on utilise l'astuce dite du log-sum-exp pour stabiliser les calculs.
 
 \subsubsection{c) L'étape M en détail}\label{sec:c_l_etape_m_en}
-L'étape M maximise la fonction Q($\theta $ | $\theta ^{t}$) = $\mathbb{E}$\_\{p(Z|X,$\theta ^{t}$)\}[log p(X, Z | $\theta $)] par rapport à $\theta $. Pour le GMM, cette maximisation admet des solutions analytiques fermées. En différentiant Q par rapport à $\pi _{k}$, $\mu _{k}$ et $\Sigma _{k}$, et en annulant les gradients  la contrainte $\Sigma _{k}$ $\pi _{k}$ = 1 étant traitée par un multiplicateur de Lagrange , on obtient les mises à jour :
+L'étape M maximise la fonction Q($\theta $ | $\theta ^{t}$) = $\mathbb{E}$\_\{p(Z|X,$\theta ^{t}$)\}[log p(X, Z | $\theta $)] par rapport à $\theta $. Pour le GMM, cette maximisation admet des solutions analytiques fermées. En différentiant Q par rapport à $\pi _{k}$, $\mu _{k}$ et $\Sigma _{k}$, et en annulant les gradients : la contrainte $\Sigma _{k}$ $\pi _{k}$ = 1 étant traitée par un multiplicateur de Lagrange , on obtient les mises à jour :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \pi _{k} = N_{k}/N{,}   \mu _{k} = (1/N_{k}) \Sigma _{i} r_{ik} x_{i}{,}   \Sigma _{k} = (1/N_{k}) \Sigma _{i} r_{ik} (x_{i}-\mu _{k})(x_{i}-\mu _{k})^{T}$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \pi _{k} = N_{k}/N{,} \mu _{k} = (1/N_{k}) \Sigma _{i} r_{ik} x_{i}{,} \Sigma _{k} = (1/N_{k}) \Sigma _{i} r_{ik} (x_{i}-\mu _{k})(x_{i}-\mu _{k})^{T}$\end{adjustbox}
 \tag{1.16}
 \label{eq:1_16}
 \end{equation}
-où $N_{k}$ = $\Sigma _{i}$ $r_{ik}$ désigne le nombre effectif de points assignés à la composante k  une quantité réelle, pas nécessairement entière. Ces formules ont une interprétation intuitive claire : la nouvelle moyenne $\mu _{k}$ est la moyenne pondérée des données, avec des poids proportionnels aux responsabilités ; la nouvelle covariance $\Sigma _{k}$ est la covariance empirique pondérée autour de cette nouvelle moyenne ; et le nouveau poids $\pi _{k}$ est la fraction effective de données assignées à la composante k. La dérivation complète de ces trois formules, par annulation des gradients de la fonction Q, est détaillée ci-après, dans un souci de complétude mathématique.
+où $N_{k}$ = $\Sigma _{i}$ $r_{ik}$ désigne le nombre effectif de points assignés à la composante k : une quantité réelle, pas nécessairement entière. Ces formules ont une interprétation intuitive claire : la nouvelle moyenne $\mu _{k}$ est la moyenne pondérée des données, avec des poids proportionnels aux responsabilités ; la nouvelle covariance $\Sigma _{k}$ est la covariance empirique pondérée autour de cette nouvelle moyenne ; et le nouveau poids $\pi _{k}$ est la fraction effective de données assignées à la composante k. La dérivation complète de ces trois formules, par annulation des gradients de la fonction Q, est détaillée ci-après, dans un souci de complétude mathématique.
 
 \subsubsection{d) Dérivation complète des mises à jour de l'étape M}\label{sec:d_derivation_complete_des_mises}
 Cette section détaille la dérivation des formules de mise à jour de l'étape M annoncées ci-dessus, à partir de l'expression explicite de la fonction Q pour le modèle de mélange gaussien. En développant la log-vraisemblance complète pour le GMM, on obtient :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle Q(\theta  | \theta ^{t}) = \Sigma _{i} \Sigma _{k} r_{ik} [\log  \pi _{k} + \log  \mathcal{N}(x_{i} | \mu _{k}{,} \Sigma _{k})]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle Q(\theta | \theta ^{t}) = \Sigma _{i} \Sigma _{k} r_{ik} [\log \pi _{k} + \log \mathcal{N}(x_{i} | \mu _{k}{,} \Sigma _{k})]$\end{adjustbox}
 \tag{1.17}
 \label{eq:1_17}
 \end{equation}
@@ -306,18 +315,22 @@ La stabilisation numérique du calcul des responsabilités, mentionnée à la se
 L'astuce consiste à factoriser par le maximum des $a_{k}$ avant d'exponentier :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log  \Sigma _{k} \exp (a_{k}) = a_{max} + \log  \Sigma _{k} \exp (a_{k} - a_{max}){,}\ \text{où}\ a_{max} = \max_{k} a_{k}$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log \Sigma _{k} \exp (a_{k}) = a_{max} + \log \Sigma _{k} \exp (a_{k} - a_{max}){,}\ \text{où}\ a_{max} = \max_{k} a_{k}$\end{adjustbox}
 \tag{1.18}
 \label{eq:1_18}
 \end{equation}
-Cette identité est mathématiquement triviale  il suffit de factoriser exp(a\_max) dans la somme puis de repasser au logarithme , mais elle change radicalement le comportement numérique du calcul : après soustraction de a\_max, le terme correspondant au maximum vaut exp(0) = 1, et tous les autres termes valent exp($a_{k}$ - a\_max) $\leq $ 1, ce qui élimine tout risque de dépassement de capacité (overflow) ou de perte de précision par underflow. C'est cette identité qui est utilisée, sous une forme ou une autre, dans les deux implémentations from scratch présentées à la section~\ref{sec:implementation} (sections~\ref{sec:impl_em} et~\ref{sec:impl_vb}).
+Cette identité est mathématiquement triviale (il suffit de factoriser exp(a\_max) dans la somme puis de repasser au logarithme), mais elle change radicalement le comportement numérique du calcul : après soustraction de a\_max, le terme correspondant au maximum vaut exp(0) = 1, et tous les autres termes valent exp($a_{k}$ - a\_max) $\leq $ 1, ce qui élimine tout risque de dépassement de capacité (overflow) ou de perte de précision par underflow. C'est cette identité qui est utilisée, sous une forme ou une autre, dans les deux implémentations from scratch présentées à la section~\ref{sec:implementation} (sections~\ref{sec:impl_em} et~\ref{sec:impl_vb}).
 
 \subsubsection{f) La fonction Q et la garantie de croissance}\label{sec:f_la_fonction_q_et}
 La propriété de croissance monotone de l'EM repose sur la décomposition $\ell $($\theta $) = Q($\theta $ | $\theta ^{t}$) - $\mathbb{E}$\_\{p(Z|X,$\theta ^{t}$)\}[log p(Z | X, $\theta $)] + constante. Comme l'étape M assure Q($\theta ^{t+1}$ | $\theta ^{t}$) $\geq $ Q($\theta ^{t}$ | $\theta ^{t}$), et que le terme soustractif ne diminue pas quand $\theta $ passe de $\theta ^{t}$ à $\theta ^{t+1}$  par la non-négativité de la divergence KL établie à la section~\ref{sec:la_divergence_de_kullback_leibler} , on conclut que $\ell $($\theta ^{t+1}$) $\geq $ $\ell $($\theta ^{t}$) : la log-vraisemblance ne peut donc que croître ou rester constante à chaque itération de l'algorithme.
 
 \subsection{Propriétés théoriques}\label{sec:proprietes_em}
 \subsubsection{a) Convergence : théorème principal}\label{sec:a_convergence_theoreme_principal}
-Le théorème de convergence de l'EM, établi par Dempster et al.~\cite{dempster1977} et renforcé par Wu~\cite{wu1983}, stipule que, sous des conditions de régularité standard (modèle lisse, espace des paramètres compact), la suite \{$\theta ^{t}$\} générée par l'algorithme EM satisfait les propriétés suivantes : la log-vraisemblance \{$\ell $($\theta ^{t}$)\} est une suite croissante et bornée, donc convergente ; tout point d'accumulation de la suite \{$\theta ^{t}$\} est un point stationnaire de $\ell $($\theta $) ; la suite \{$\theta ^{t}$\} converge vers un point stationnaire si $\ell $ est unimodale, ou si la suite elle-même est convergente.
+Le théorème de convergence de l'EM a été établi par Dempster et al.~\cite{dempster1977} et renforcé par Wu~\cite{wu1983}.
+
+\begin{theoreme}[Convergence de l'EM]\label{thm:wu}
+Sous des conditions de régularité standard (modèle lisse, espace des paramètres compact), la suite $(\theta^{t})$ générée par l'algorithme EM vérifie : (i) la suite des log-vraisemblances $(\ell(\theta^{t}))$ est croissante et bornée, donc convergente ; (ii) tout point d'accumulation de $(\theta^{t})$ est un point stationnaire de $\ell$ ; (iii) si $\ell$ est unimodale, la suite $(\theta^{t})$ converge vers son unique point stationnaire.
+\end{theoreme}
 
 Il est important de noter que l'EM n'est pas garanti de converger vers le maximum global de la vraisemblance. Dans les modèles de mélanges, la surface de vraisemblance est typiquement multimodale, et l'algorithme converge vers le maximum local le plus proche du point de départ, ce qui justifie la pratique courante consistant à relancer l'algorithme depuis plusieurs initialisations différentes.
 
@@ -327,11 +340,11 @@ Il est important de noter que l'EM n'est pas garanti de converger vers le maximu
 La vitesse de convergence locale de l'algorithme EM est linéaire, avec un taux de convergence donné par la valeur propre maximale de la matrice d'information manquante :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle r = \lambda max(I_{comp}^{-1} I_{man}) \in  [0{,} 1)$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle r = \lambda max(I_{comp}^{-1} I_{man}) \in [0{,} 1)$\end{adjustbox}
 \tag{1.19}
 \label{eq:1_19}
 \end{equation}
-où I\_comp désigne la matrice d'information complète (information de Fisher qu'on aurait si les variables latentes étaient observées) et I\_man la matrice d'information manquante, de sorte que I\_obs = I\_comp - I\_man. La matrice I\_comp$^{-1}$ I\_man = I - I\_comp$^{-1}$ I\_obs est la matrice de taux établie par Dempster, Laird et Rubin~\cite[section~3]{dempster1977}. Plus r est proche de 1  c'est-à-dire lorsque la proportion d'information manquante est élevée , plus la convergence est lente ; plus r est proche de 0, plus la convergence est rapide. Ce résultat explique pourquoi l'EM peut se révéler très lent dans certains problèmes comportant un grand nombre de variables latentes ou de fortes ambiguïtés d'appartenance.
+où I\_comp désigne la matrice d'information complète (information de Fisher qu'on aurait si les variables latentes étaient observées) et I\_man la matrice d'information manquante, de sorte que I\_obs = I\_comp - I\_man. La matrice I\_comp$^{-1}$ I\_man = I - I\_comp$^{-1}$ I\_obs est la matrice de taux établie par Dempster, Laird et Rubin~\cite[section~3]{dempster1977}. Plus r est proche de 1 (c'est-à-dire lorsque la proportion d'information manquante est élevée), plus la convergence est lente ; plus r est proche de 0, plus la convergence est rapide. Ce résultat explique pourquoi l'EM peut se révéler très lent dans certains problèmes comportant un grand nombre de variables latentes ou de fortes ambiguïtés d'appartenance.
 
 \subsubsection{c) Erreurs standard et information de Fisher}\label{sec:c_erreurs_standard_et_information}
 Bien que l'EM classique ne fournisse pas directement d'estimations d'incertitude, des intervalles de confiance asymptotiques peuvent être obtenus a posteriori en utilisant la matrice d'information de Fisher observée, calculée à la solution $\hat{\theta }$. La formule de Louis~\cite{louis1982} permet de calculer cette matrice d'information observée à partir des quantités calculées lors des itérations EM, selon I\_obs($\hat{\theta }$) = I\_comp($\hat{\theta }$) - I\_man($\hat{\theta }$), où I\_comp désigne la matrice d'information complète. Cette formule, bien que théoriquement fondée, est rarement utilisée en pratique en raison de sa complexité computationnelle, ce qui constitue l'une des limitations pratiques de l'EM classique pour la quantification de l'incertitude. Il existe des remèdes : le bootstrap (utilisé à la section \ref{sec:res_prix}), l'EM stochastique, l'EM supplémenté de Meng et Rubin~\cite{meng1991}. L'EM variationnel ne « lève » pas cette limitation : les deux approches ne répondent pas à la même question. Un intervalle de confiance décrit la variabilité de l'estimateur sur des échantillons répétés ; un intervalle de crédibilité décrit la loi de $\theta$ sachant les données sous un prior donné, et celui du champ moyen n'est de plus qu'approché (section~\ref{sec:kl_inverse}).
@@ -400,12 +413,12 @@ Une application particulièrement importante de l'algorithme EM, mentionnée à 
 
 \textbf{Illustration numérique. }Considérons un HMM discret à deux états cachés (« Beau temps » = B, « Pluvieux » = P), avec une matrice de transition A = [[0,7 ; 0,3], [0,4 ; 0,6]] ($A_{ij}$ = P($z_{t+1}$=j | $z_{t}$=i)), et une matrice d'émission B qui associe à chaque état une probabilité d'observer « Parapluie » (Pa) ou « Pas de parapluie » (NPa) : B(B) = [0,1 ; 0,9] et B(P) = [0,8 ; 0,2]. Étant donné une courte séquence observée O = (NPa, Pa, Pa), l'étape E (forward-backward) calcule, pour chaque instant t et chaque état i, la probabilité a posteriori $\gamma _{t}$(i) = p($z_{t}$=i | O), de la même manière que $r_{ik}$ à l'équation~\eqref{eq:1_15} pour le GMM, mais en tenant compte de la dépendance séquentielle via les récursions forward $\alpha _{t}$(i) = [$\Sigma _{j}$ $\alpha _{t-1}$(j) $A_{ji}$] $B_{i}$($o_{t}$) et backward $\beta _{t}$(i) = $\Sigma _{j}$ $A_{ij}$ $B_{j}$($o_{t+1}$) $\beta _{t+1}$(j).
 
-Une fois les quantités $\gamma _{t}$(i) calculées, l'étape M du Baum-Welch réestime les matrices A et B par des formules directement analogues à l'équation~\eqref{eq:1_16} du GMM, en remplaçant les responsabilités $r_{ik}$ par les quantités $\gamma _{t}$(i) et $\xi _{t}$(i,j) = p($z_{t}$=i, $z_{t+1}$=j | O) : Â$_{ij}$ = $\Sigma _{t}$ $\xi _{t}$(i,j) / $\Sigma _{t}$ $\gamma _{t}$(i), et $\hat{B}$$_{i}$(v) = $\Sigma $\_\{t : $o_{t}$=v\} $\gamma _{t}$(i) / $\Sigma _{t}$ $\gamma _{t}$(i). Cette correspondance formelle entre les mises à jour du Baum-Welch et celles du GMM illustre concrètement l'affirmation, faite à la section~\ref{sec:historique_et_contexte}, selon laquelle l'EM constitue un cadre général unifiant des algorithmes historiquement développés de façon indépendante : le Baum-Welch n'est rien d'autre qu'un EM classique dans lequel l'étape E est rendue efficace, par programmation dynamique, pour tenir compte de la dépendance séquentielle entre variables latentes successives  une adaptation que l'on retrouve, sous une forme analogue, dans les extensions séquentielles de l'EM variationnel évoquées à la section~\ref{sec:variantes_vb}.
+Une fois les quantités $\gamma _{t}$(i) calculées, l'étape M du Baum-Welch réestime les matrices A et B par des formules directement analogues à l'équation~\eqref{eq:1_16} du GMM, en remplaçant les responsabilités $r_{ik}$ par les quantités $\gamma _{t}$(i) et $\xi _{t}$(i,j) = p($z_{t}$=i, $z_{t+1}$=j | O) : Â$_{ij}$ = $\Sigma _{t}$ $\xi _{t}$(i,j) / $\Sigma _{t}$ $\gamma _{t}$(i), et $\hat{B}$$_{i}$(v) = $\Sigma $\_\{t : $o_{t}$=v\} $\gamma _{t}$(i) / $\Sigma _{t}$ $\gamma _{t}$(i). Cette correspondance formelle entre les mises à jour du Baum-Welch et celles du GMM illustre concrètement l'affirmation, faite à la section~\ref{sec:historique_et_contexte}, selon laquelle l'EM constitue un cadre général unifiant des algorithmes historiquement développés de façon indépendante : le Baum-Welch n'est rien d'autre qu'un EM classique dans lequel l'étape E est rendue efficace, par programmation dynamique, pour tenir compte de la dépendance séquentielle entre variables latentes successives : une adaptation que l'on retrouve, sous une forme analogue, dans les extensions séquentielles de l'EM variationnel évoquées à la section~\ref{sec:variantes_vb}.
 
 \textbf{Calcul numérique complet de l'étape E. }Pour rendre entièrement concret le mécanisme décrit ci-dessus, calculons explicitement les quantités forward $\alpha _{t}$(i), backward $\beta _{t}$(i) et les probabilités a posteriori $\gamma _{t}$(i) pour la séquence observée O = (NPa, Pa, Pa), avec les matrices A et B et la distribution initiale $\pi _{0}$ = (0,6 ; 0,4) données ci-dessus. Le tableau~\ref{tab:1_4} présente le détail de ce calcul.
 
 \tableauGenere{t1_4}
-La dernière colonne du tableau se lit comme suit : après observation de la séquence complète (NPa, Pa, Pa), la probabilité a posteriori que le temps ait été « Beau » (B) au premier instant est de 0,791 (malgré l'absence de parapluie ce jour-là, cohérent avec un temps beau), tandis qu'elle chute à 0,127 au deuxième instant et à 0,096 au troisième, la présence du parapluie aux instants 2 et 3 rendant l'état « Pluvieux » (P) très majoritairement probable a posteriori ($\gamma _{2}$(P) = 0,873 et $\gamma _{3}$(P) = 0,904). On notera que $\Sigma _{i}$ $\gamma _{t}$(i) = 1 à chaque instant t, exactement comme $\Sigma _{k}$ $r_{ik}$ = 1 pour les responsabilités du GMM à l'équation~\eqref{eq:1_15}  les quantités $\gamma _{t}$(i) jouant, pour le HMM, exactement le rôle que jouent les responsabilités $r_{ik}$ pour le GMM. La probabilité totale de la séquence observée, obtenue en sommant $\alpha _{t}$(i) sur i au dernier instant, vaut p(O | A, B, $\pi _{0}$) = $\alpha _{3}$(B) + $\alpha _{3}$(P) = 0,010 + 0,091 = 0,100.
+La dernière colonne du tableau se lit comme suit : après observation de la séquence complète (NPa, Pa, Pa), la probabilité a posteriori que le temps ait été « Beau » (B) au premier instant est de 0,791 (malgré l'absence de parapluie ce jour-là, cohérent avec un temps beau), tandis qu'elle chute à 0,127 au deuxième instant et à 0,096 au troisième, la présence du parapluie aux instants 2 et 3 rendant l'état « Pluvieux » (P) très majoritairement probable a posteriori ($\gamma _{2}$(P) = 0,873 et $\gamma _{3}$(P) = 0,904). On notera que $\Sigma _{i}$ $\gamma _{t}$(i) = 1 à chaque instant t, exactement comme $\Sigma _{k}$ $r_{ik}$ = 1 pour les responsabilités du GMM à l'équation~\eqref{eq:1_15} : les quantités $\gamma _{t}$(i) jouant, pour le HMM, exactement le rôle que jouent les responsabilités $r_{ik}$ pour le GMM. La probabilité totale de la séquence observée, obtenue en sommant $\alpha _{t}$(i) sur i au dernier instant, vaut p(O | A, B, $\pi _{0}$) = $\alpha _{3}$(B) + $\alpha _{3}$(P) = 0,010 + 0,091 = 0,100.
 
 \subsection{Avantages de l'EM classique}\label{sec:avantages_de_l_em_classique}
 \begin{itemize}
@@ -429,7 +442,7 @@ La dernière colonne du tableau se lit comme suit : après observation de la sé
 \par\noindent\emph{Renvois à la grille du tableau~\ref{tab:2_17} :} optima locaux $\to$ « Initialisation » (expérience unique) ; $K$ à fixer $\to$ « Sélection de $K$ », « Sous-estimation de $K$ » ; incertitude non native $\to$ « Incertitude » ; singularités $\to$ « Singularités, petit $N$ » et « Convergence de l'EM pour le GMM » ; lenteur et scalabilité $\to$ « Coût de calcul ».
 \section{L'algorithme EM variationnel}\label{sec:em_variationnel}
 \subsection{Motivation et cadre général}\label{sec:motivation_et_cadre_general}
-Les limitations identifiées à la section~\ref{sec:inconvenients_et_limites_de_l} motivent naturellement le développement d'une approche plus riche. L'EM variationnel émerge à la confluence de deux courants : l'inférence bayésienne, qui traite les paramètres comme des variables aléatoires et vise à caractériser leur distribution a posteriori complète, et l'optimisation variationnelle, qui transforme le problème d'inférence  généralement intractable  en un problème d'optimisation sur un espace de distributions plus simples.
+Les limitations identifiées à la section~\ref{sec:inconvenients_et_limites_de_l} motivent naturellement le développement d'une approche plus riche. L'EM variationnel émerge à la confluence de deux courants : l'inférence bayésienne, qui traite les paramètres comme des variables aléatoires et vise à caractériser leur distribution a posteriori complète, et l'optimisation variationnelle, qui transforme le problème d'inférence (généralement intractable) en un problème d'optimisation sur un espace de distributions plus simples.
 
 Le cadre variationnel trouve ses racines dans les travaux de Hinton et van Camp~\cite{hinton1993} sur les réseaux de neurones bayésiens, de Peterson et Anderson~\cite{peterson1987} sur les champs moyens pour les réseaux de Boltzmann, et a été synthétisé et généralisé par Jordan, Ghahramani, Jaakkola et Saul~\cite{jordan1999} dans leur article fondateur sur les méthodes variationnelles pour les modèles graphiques. Depuis lors, l'inférence variationnelle est devenue l'une des méthodes d'inférence approchée les plus utilisées en apprentissage automatique probabiliste. Pour le mélange gaussien, le traitement variationnel à priors conjugués est généralement rattaché à Attias~\cite{attias2000} et il est exposé en détail par Bishop~\cite[section~10.2]{bishop2006}, dont ce travail suit les équations. Corduneanu et Bishop~\cite{corduneanu2001} en donnent une variante distincte : les poids de mélange $\pi$ n'y reçoivent pas de prior de Dirichlet, ils sont traités comme des paramètres ponctuels et estimés par maximisation de la borne inférieure (maximum de vraisemblance de type II), tandis que $(\mu_k, \Lambda_k)$ restent aléatoires (section~\ref{sec:elagage}). L'article d'Attias n'a pas été consulté dans le texte original ; il n'est cité que pour l'historique.
 
@@ -441,14 +454,14 @@ Dans le cadre bayésien complet, on cherche à calculer la distribution a poster
 L'inférence variationnelle introduit une famille de distributions $\mathcal{Q}$ = \{q($\theta $, Z | $\lambda $), $\lambda $ $\in $ $\Lambda $\}, paramétrée par des paramètres variationnels $\lambda $. L'objectif est de trouver le membre de cette famille le plus proche de la vraie distribution a posteriori, au sens de la divergence de Kullback-Leibler :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle q*(\theta {,} Z) = \operatorname*{argmin}_{q \in  \mathcal{Q}} KL[q(\theta {,} Z) \Vert  p(\theta {,} Z | X)]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle q*(\theta {,} Z) = \operatorname*{argmin}_{q \in \mathcal{Q}} KL[q(\theta {,} Z) \Vert p(\theta {,} Z | X)]$\end{adjustbox}
 \tag{1.20}
 \label{eq:1_20}
 \end{equation}
 Cette divergence ne peut pas être calculée directement, car elle fait intervenir p(X) dans sa normalisation. On montre cependant que minimiser cette divergence est équivalent à maximiser l'ELBO, qui lui est calculable :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q) = \mathbb{E}_{q}[\log  p(X{,} Z{,} \theta )] - \mathbb{E}_{q}[\log  q(\theta {,} Z)]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q) = \mathbb{E}_{q}[\log p(X{,} Z{,} \theta )] - \mathbb{E}_{q}[\log q(\theta {,} Z)]$\end{adjustbox}
 \tag{1.21}
 \label{eq:1_21}
 \end{equation}
@@ -458,7 +471,7 @@ Cette reformulation est la clé de l'inférence variationnelle : un problème d'
 L'ELBO peut être décomposé de deux manières complémentaires, chacune offrant une interprétation différente. La première décomposition montre l'ELBO comme la différence entre la vraisemblance attendue et la complexité du modèle :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q) = \mathbb{E}_{q}[\log  p(X | Z{,} \theta )] - KL[q(\theta {,} Z) \Vert  p(\theta {,} Z)]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q) = \mathbb{E}_{q}[\log p(X | Z{,} \theta )] - KL[q(\theta {,} Z) \Vert p(\theta {,} Z)]$\end{adjustbox}
 \tag{1.22}
 \label{eq:1_22}
 \end{equation}
@@ -481,7 +494,7 @@ Cette hypothèse ignore les corrélations a posteriori entre les paramètres $\t
 Sous l'hypothèse du champ moyen, la solution variationnelle optimale pour chaque facteur $q_{j}$($z_{j}$) est donnée par la formule du champ moyen variationnel :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log  q*_{j}(z_{j}) = \mathbb{E}_{q(z \setminus z_{j})}[\log  p(X{,} Z{,} \theta )] + constante$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log q*_{j}(z_{j}) = \mathbb{E}_{q(z \setminus z_{j})}[\log p(X{,} Z{,} \theta )] + constante$\end{adjustbox}
 \tag{1.24}
 \label{eq:1_24}
 \end{equation}
@@ -493,7 +506,7 @@ Cette section applique explicitement la formule générale du champ moyen variat
 \textbf{Facteur q($\pi $). }En isolant, dans le logarithme de la distribution jointe complète log p(X, Z, $\pi $, $\mu $, $\Lambda $), les seuls termes qui dépendent de $\pi $, on obtient log p(Z | $\pi $) + log p($\pi $) = $\Sigma _{i}$ $\Sigma _{k}$ $z_{ik}$ log $\pi _{k}$ + $\Sigma _{k}$ ($\alpha _{0}$-1) log $\pi _{k}$ + constante, où $z_{ik}$ désigne l'indicatrice $z_{i}$ = k. En appliquant la formule du champ moyen, on prend l'espérance de cette expression par rapport à q(Z), ce qui revient à remplacer $z_{ik}$ par son espérance $r_{ik}$ = $\mathbb{E}$\_q[$z_{ik}$] :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log  q*(\pi ) = \Sigma _{k} (\alpha _{0} - 1 + N_{k}) \log  \pi _{k} + \text{constante}{,}\ \text{où}\ N_{k} = \Sigma _{i} r_{ik}$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log q*(\pi ) = \Sigma _{k} (\alpha _{0} - 1 + N_{k}) \log \pi _{k} + \text{constante}{,}\ \text{où}\ N_{k} = \Sigma _{i} r_{ik}$\end{adjustbox}
 \tag{1.25}
 \label{eq:1_25}
 \end{equation}
@@ -502,13 +515,13 @@ Cette expression est, à une constante de normalisation près, exactement le log
 \textbf{Facteur q($\mu _{k}$, $\Lambda _{k}$). }De façon similaire, en isolant les termes qui dépendent de ($\mu _{k}$, $\Lambda _{k}$) dans log p(X, Z, $\pi $, $\mu $, $\Lambda $), on obtient une contribution de la vraisemblance gaussienne, $\Sigma _{i}$ $r_{ik}$ log $\mathcal{N}$($x_{i}$ | $\mu _{k}$, $\Lambda _{k}^{-1}$), à laquelle s'ajoute le logarithme du prior Normal-Wishart log p($\mu _{k}$, $\Lambda _{k}$). Cette somme, une fois réorganisée en complétant le carré sur $\mu _{k}$  une manipulation algébrique standard pour les formes quadratiques gaussiennes , se réécrit comme le logarithme d'une densité Normal-Wishart de paramètres mis à jour :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \beta _{k} = \beta _{0} + N_{k}{,}   m_{k} = (\beta _{0}m_{0} + N_{k}\bar{x}_{k})/\beta _{k}{,}   \nu _{k} = \nu _{0} + N_{k}{,}   W_{k}^{-1} = W_{0}^{-1} + N_{k}S_{k} + [\beta _{0}N_{k}/(\beta _{0}+N_{k})](\bar{x}_{k}-m_{0})(\bar{x}_{k}-m_{0})^{T}$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \beta _{k} = \beta _{0} + N_{k}{,} m_{k} = (\beta _{0}m_{0} + N_{k}\bar{x}_{k})/\beta _{k}{,} \nu _{k} = \nu _{0} + N_{k}{,} W_{k}^{-1} = W_{0}^{-1} + N_{k}S_{k} + [\beta _{0}N_{k}/(\beta _{0}+N_{k})](\bar{x}_{k}-m_{0})(\bar{x}_{k}-m_{0})^{T}$\end{adjustbox}
 \tag{1.26}
 \label{eq:1_26}
 \end{equation}
 où $\bar{x}$$_{k}$ et $S_{k}$ désignent respectivement la moyenne et la covariance empiriques pondérées par les responsabilités, telles que définies à la section~\ref{sec:formulation_de_l_em_variationnel}.d. Le terme $\beta _{k}$ s'interprète comme une « taille d'échantillon effective augmentée » (la taille d'échantillon effective $N_{k}$ à laquelle s'ajoute la pseudo-taille d'échantillon $\beta _{0}$ du prior), tandis que le dernier terme correctif dans la mise à jour de $W_{k}^{-1}$ traduit l'incertitude supplémentaire due à l'écart entre la moyenne empirique du cluster $\bar{x}$$_{k}$ et la moyenne a priori $m_{0}$ : plus cet écart est grand par rapport à la confiance relative accordée au prior (mesurée par le rapport $\beta _{0}N_{k}$/($\beta _{0}$+$N_{k}$)), plus l'inverse $W_{k}^{-1}$ de la matrice d'échelle de la loi de Wishart augmente. La précision attendue $\mathbb{E}[\Lambda_k] = \nu_k W_k$ diminue alors, ce qui élargit la covariance attendue de la composante et, par $\mu_k \mid \Lambda_k \sim \mathcal{N}(m_k, (\beta_k \Lambda_k)^{-1})$, la distribution a posteriori sur $\mu _{k}$.
 
-Cette dérivation confirme, de façon rigoureuse, que les formules de mise à jour utilisées à la section~\ref{sec:formulation_de_l_em_variationnel}.d ne sont pas de simples analogues heuristiques de l'étape M classique : elles sont la conséquence mathématique directe et nécessaire de l'application de la formule générale du champ moyen variationnel au choix spécifique de priors conjugués effectué à la section~\ref{sec:le_theoreme_de_bayes_et}. Ce même schéma de dérivation  isoler les termes pertinents dans la log-distribution jointe, prendre leur espérance sous les autres facteurs, puis reconnaître la forme conjuguée résultante  se généralise sans difficulté conceptuelle à tout modèle à variables latentes construit à partir de distributions conjuguées, ce qui explique la popularité de l'hypothèse du champ moyen dans la pratique de l'inférence variationnelle.
+Cette dérivation confirme, de façon rigoureuse, que les formules de mise à jour utilisées à la section~\ref{sec:formulation_de_l_em_variationnel}.d ne sont pas de simples analogues heuristiques de l'étape M classique : elles sont la conséquence mathématique directe et nécessaire de l'application de la formule générale du champ moyen variationnel au choix spécifique de priors conjugués effectué à la section~\ref{sec:le_theoreme_de_bayes_et}. Ce même schéma de dérivation (isoler les termes pertinents dans la log-distribution jointe, prendre leur espérance sous les autres facteurs, puis reconnaître la forme conjuguée résultante) se généralise sans difficulté conceptuelle à tout modèle à variables latentes construit à partir de distributions conjuguées, ce qui explique la popularité de l'hypothèse du champ moyen dans la pratique de l'inférence variationnelle.
 
 \subsubsection{d) L'algorithme EM variationnel}\label{sec:d_l_algorithme_em_variationnel}
 L'algorithme EM variationnel alterne entre deux étapes, analogues aux étapes E et M de l'EM classique, mais opérant sur des distributions plutôt que sur des estimations ponctuelles. L'algorithme prend en entrée les observations X, un nombre maximal de composantes Kmax, les hyperparamètres du prior \{$\alpha _{0}$, $m_{0}$, $\beta _{0}$, $W_{0}$, $\nu _{0}$\}, ainsi qu'un critère d'arrêt $\varepsilon $.
@@ -518,7 +531,7 @@ L'algorithme EM variationnel alterne entre deux étapes, analogues aux étapes E
 \textbf{Étape E variationnelle. }Pour chaque observation i et chaque composante k, on calcule :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log  \rho _{ik} = \mathbb{E}[\log  \pi _{k}] + \tfrac{1}{2} \mathbb{E}[\log |\Lambda _{k}|] - (D/2) \log (2\pi ) - \tfrac{1}{2} \mathbb{E}[(x_{i}-\mu _{k})^{T}\Lambda _{k}(x_{i}-\mu _{k})]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \log \rho _{ik} = \mathbb{E}[\log \pi _{k}] + \tfrac{1}{2} \mathbb{E}[\log |\Lambda _{k}|] - (D/2) \log (2\pi ) - \tfrac{1}{2} \mathbb{E}[(x_{i}-\mu _{k})^{T}\Lambda _{k}(x_{i}-\mu _{k})]$\end{adjustbox}
 \tag{1.27}
 \label{eq:1_27}
 \end{equation}
@@ -527,7 +540,7 @@ puis on normalise pour obtenir les responsabilités : $r_{ik}$ = exp(log $\rho _
 \textbf{Étape M variationnelle. }Pour chaque composante k, on calcule $N_{k}$ = $\Sigma _{i}$ $r_{ik}$, $\bar{x}$$_{k}$ = (1/$N_{k}$) $\Sigma _{i}$ $r_{ik}$ $x_{i}$, et $S_{k}$ = (1/$N_{k}$) $\Sigma _{i}$ $r_{ik}$ ($x_{i}$-$\bar{x}$$_{k}$)($x_{i}$-$\bar{x}$$_{k}$)$^{T}$, avant de mettre à jour les paramètres des lois de Dirichlet et Normal-Wishart :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \alpha _{k} = \alpha _{0} + N_{k}{,}  \beta _{k} = \beta _{0} + N_{k}{,}  m_{k} = (\beta _{0}m_{0} + N_{k}\bar{x}_{k})/\beta _{k}{,}  \nu _{k} = \nu _{0} + N_{k}$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \alpha _{k} = \alpha _{0} + N_{k}{,} \beta _{k} = \beta _{0} + N_{k}{,} m_{k} = (\beta _{0}m_{0} + N_{k}\bar{x}_{k})/\beta _{k}{,} \nu _{k} = \nu _{0} + N_{k}$\end{adjustbox}
 \tag{1.28}
 \label{eq:1_28}
 \end{equation}
@@ -537,7 +550,7 @@ ainsi que la mise à jour de la matrice d'échelle $W_{k}^{-1}$ = $W_{0}^{-1}$ +
 L'étape E variationnelle requiert le calcul de plusieurs espérances par rapport aux distributions variationnelles courantes, espérances qui admettent des formes analytiques pour les distributions conjuguées utilisées. Pour la distribution de Dirichlet q($\pi $) = Dir($\alpha _{1}$, \ldots{}, $\alpha K$), l'espérance du logarithme du poids est donnée par :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \mathbb{E}[\log  \pi _{k}] = \psi (\alpha _{k}) - \psi (\Sigma _{j} \alpha _{j})$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \mathbb{E}[\log \pi _{k}] = \psi (\alpha _{k}) - \psi (\Sigma _{j} \alpha _{j})$\end{adjustbox}
 \tag{1.29}
 \label{eq:1_29}
 \end{equation}
@@ -551,7 +564,7 @@ où $\psi $ désigne la fonction digamma. Pour la distribution de Wishart q($\La
 \subsection{Sélection automatique du nombre de composantes}\label{sec:elagage}
 L'une des propriétés les plus remarquables et pratiquement importantes de l'EM variationnel est sa capacité à déterminer automatiquement le nombre effectif de composantes dans un mélange gaussien bayésien. Ce mécanisme, qui constitue l'un des apports majeurs de l'EM variationnel par rapport à l'EM classique, mérite une explication détaillée, car il sera au cœur de l'étude expérimentale présentée au chapitre~\ref{chap:methodologie}.
 
-La clé de ce mécanisme réside dans le prior de Dirichlet Dir($\alpha _{0}$, \ldots{}, $\alpha _{0}$) placé sur les poids de mélange. Lorsque $\alpha _{0}$ est petit  typiquement $\alpha _{0}$ = 1/Kmax ou $\alpha _{0}$ = 10$^{-3}$ , ce prior favorise fortement les solutions parcimonieuses, où la plupart des poids sont proches de zéro, c'est-à-dire les solutions n'utilisant qu'un petit nombre de composantes actives.
+La clé de ce mécanisme réside dans le prior de Dirichlet Dir($\alpha _{0}$, \ldots{}, $\alpha _{0}$) placé sur les poids de mélange. Lorsque $\alpha _{0}$ est petit (typiquement $\alpha _{0}$ = 1/Kmax ou $\alpha _{0}$ = 10$^{-3}$), ce prior favorise fortement les solutions parcimonieuses, où la plupart des poids sont proches de zéro, c'est-à-dire les solutions n'utilisant qu'un petit nombre de composantes actives.
 
 Lors de l'optimisation variationnelle, l'élagage ne provient pas de l'espérance $\mathbb{E}[\pi_k] = (\alpha_0 + N_k)/(K\alpha_0 + N)$ : celle-ci est tirée vers la valeur uniforme $1/K$ pour tout $\alpha_0$ (section~\ref{sec:exemple_numerique_illustratif_conjugaison_dirichlet}) et ne s'annule jamais. Il provient de l'espérance du logarithme du poids, qui intervient dans l'étape E (équation~\ref{eq:1_29}) :
 \begin{equation*}
@@ -561,27 +574,33 @@ Pour $\alpha_k < 1$, on a $\psi(\alpha_k) = \psi(\alpha_k + 1) - 1/\alpha_k \app
 
 \input{figures_tikz/elagage}
 
-Le seuil en deçà duquel l'élagage opère n'est pas $\alpha_0 = 1$. Pour un mélange sur-paramétré, la théorie de Rousseau et Mengersen~\cite{rousseau2011} établit que la loi a posteriori exacte vide les composantes superflues lorsque $\alpha_0 < d/2$, où $d$ est le nombre de paramètres libres d'une composante ($d = 5$ pour une covariance pleine en dimension 2, soit un seuil de 2,5 ; $d = 4$ pour une covariance diagonale, seuil de 2 ; $d = 3$ pour une covariance sphérique, seuil de 1,5). Ce résultat concerne le posterior exact, non l'approximation de champ moyen. Son transfert à l'EM variationnel est donc une \emph{hypothèse à tester}, et non un fait acquis : l'expérience S8 (section \ref{sec:res_s8}) mesure le nombre de composantes actives sur une grille de $\alpha_0$ de 1 à 10 autour de ces seuils.
+Le seuil en deçà duquel l'élagage opère n'est pas $\alpha_0 = 1$.
 
-Ce mécanisme d'élagage automatique constitue une forme de rasoir d'Occam bayésien : le modèle utilise spontanément le nombre minimal de composantes nécessaires pour expliquer les données, sans sur-ajustement. En initialisant avec un Kmax suffisamment grand  par exemple Kmax = 20 pour un problème où l'on attend entre 3 et 5 groupes , l'algorithme converge naturellement vers une solution utilisant uniquement le nombre approprié de composantes actives, sans qu'il soit nécessaire d'exécuter l'algorithme séparément pour chaque valeur candidate de K, comme l'exigerait l'EM classique.
+\begin{theoreme}[Rousseau et Mengersen~\cite{rousseau2011}, énoncé simplifié]\label{thm:rousseau}
+Pour un mélange sur-paramétré muni d'un prior de Dirichlet de concentration $\alpha_0$, la loi a posteriori exacte vide les composantes superflues lorsque $\alpha_0 < d/2$, où $d$ est le nombre de paramètres libres d'une composante.
+\end{theoreme}
+
+En dimension 2, $d = 5$ pour une covariance pleine (seuil de 2,5), $d = 4$ pour une covariance diagonale (seuil de 2) et $d = 3$ pour une covariance sphérique (seuil de 1,5). Ce résultat concerne le posterior exact, non l'approximation de champ moyen. Son transfert à l'EM variationnel est donc une \emph{hypothèse à tester}, et non un fait acquis : l'expérience S8 (section \ref{sec:res_s8}) mesure le nombre de composantes actives sur une grille de $\alpha_0$ de 1 à 10 autour de ces seuils.
+
+Ce mécanisme d'élagage automatique constitue une forme de rasoir d'Occam bayésien : le modèle utilise spontanément le nombre minimal de composantes nécessaires pour expliquer les données, sans sur-ajustement. En initialisant avec un Kmax suffisamment grand (par exemple Kmax = 20 pour un problème où l'on attend entre 3 et 5 groupes), l'algorithme converge naturellement vers une solution utilisant uniquement le nombre approprié de composantes actives, sans qu'il soit nécessaire d'exécuter l'algorithme séparément pour chaque valeur candidate de K, comme l'exigerait l'EM classique.
 
 Ce rasoir d'Occam a un coût que le texte précédent ne doit pas masquer : le résultat dépend de $K_{\max}$ (il ne peut pas retrouver plus de composantes que $K_{\max}$), des hyperparamètres $(\alpha_0, \beta_0, \nu_0, W_0)$ qui déplacent la sensibilité de l'initialisation vers les priors, et du seuil d'activité choisi pour décréter qu'une composante est éteinte (le seuil $N_k \geq 1$ est une convention, dont la sensibilité est mesurée par l'expérience S10).
 
 \textbf{Deux mécanismes d'élagage à ne pas confondre. }Le mécanisme décrit ci-dessus, par $\mathbb{E}[\log \pi_k]$, est celui du modèle entièrement bayésien de Bishop~\cite[section~10.2]{bishop2006}, où $\pi$ suit un Dirichlet ; c'est celui que ce travail implémente. Corduneanu et Bishop~\cite{corduneanu2001} obtiennent l'élagage autrement : $\pi$ est un paramètre ponctuel, réestimé par $\pi_k = N^{-1}\sum_n r_{nk}$~\cite[éq.~10.83]{bishop2006}, et les composantes qui contribuent peu à expliquer les données voient leur poids conduit à zéro au cours de l'optimisation, par un effet de détermination automatique de la pertinence. Dans la typologie de la section~\ref{sec:trois_niveaux_d_inference_mle}, cette variante est hybride : $\pi$ relève du niveau 2 (point estimé sur une borne marginale), $(\mu_k, \Lambda_k)$ du niveau 3. Les deux mécanismes partent d'un $K$ initial élevé et suppriment les composantes superflues en une seule exécution, mais ils n'ont ni les mêmes hyperparamètres (pas d'$\alpha_0$ chez Corduneanu et Bishop) ni la même lecture de l'incertitude sur les poids. Bishop~\cite[section~10.2.4]{bishop2006} signale en outre que, pour comparer des valeurs de $K$ par la borne, il faut tenir compte des $K!$ modes équivalents du posterior, par exemple en ajoutant $\ln K!$ à la borne.
 
 \subsection{Exemple numérique illustratif}\label{sec:exemple_numerique_illustratif}
-Afin de rendre plus concret le mécanisme d'élagage décrit ci-dessus, reprenons l'exemple numérique de la section~\ref{sec:application_au_melange_gaussien_exemple} : les huit observations scalaires X = \{0,5 ; 1,0 ; 1,2 ; 1,8 ; 7,1 ; 7,5 ; 8,0 ; 8,3\}, qui forment visiblement deux groupes bien séparés. Appliquons cette fois l'EM variationnel avec Kmax = 3 composantes  soit une de plus que le nombre réel de groupes , un prior de Dirichlet de concentration $\alpha _{0}$ = 1/3, et des priors Normal-Wishart non informatifs ($\beta _{0}$ = 10$^{-3}$, $\nu _{0}$ = 1, $W_{0}$ = 1).
+Afin de rendre plus concret le mécanisme d'élagage décrit ci-dessus, reprenons l'exemple numérique de la section~\ref{sec:application_au_melange_gaussien_exemple} : les huit observations scalaires X = \{0,5 ; 1,0 ; 1,2 ; 1,8 ; 7,1 ; 7,5 ; 8,0 ; 8,3\}, qui forment visiblement deux groupes bien séparés. Appliquons cette fois l'EM variationnel avec Kmax = 3 composantes (soit une de plus que le nombre réel de groupes), un prior de Dirichlet de concentration $\alpha _{0}$ = 1/3, et des priors Normal-Wishart non informatifs ($\beta _{0}$ = 10$^{-3}$, $\nu _{0}$ = 1, $W_{0}$ = 1).
 
 L'algorithme converge en 5 à 15 itérations selon l'initialisation (critère $|\Delta \mathrm{ELBO}| < 10^{-6}$), vers la même solution dans les dix essais réalisés (graines 0 à 4, initialisation par les hyperparamètres ou par k-means). Le tableau~\ref{tab:1_5} présente les paramètres finaux obtenus pour chacune des trois composantes.
 
 \tableauGenere{t1_5}
-Ce résultat illustre de façon particulièrement nette le mécanisme théorique décrit ci-dessus. Les deux premières composantes se partagent presque également la masse de probabilité (poids 0,482 chacune), avec des moyennes de 7,724 et 1,126 qui coïncident, à $10^{-3}$ près, avec les moyennes empiriques des deux groupes et avec la solution de l'EM classique de la section~\ref{sec:application_au_melange_gaussien_exemple} (7,725 et 1,125). La troisième composante, en revanche, voit son paramètre $\alpha _{k}$ rester exactement égal à sa valeur initiale $\alpha _{0}$ = 1/3 = 0,333, signe que $N_{k}$ = $\alpha _{k}$ - $\alpha _{0}$ = 0 : aucune observation, même partiellement, ne lui a été attribuée au cours de la convergence. Cette composante est donc entièrement inactive, et le modèle retient effectivement K\_effectif = 2 composantes actives, exactement le nombre réel de groupes  un résultat que l'EM classique, avec K fixé à l'avance, ne peut pas produire de lui-même : il faudrait, pour l'EM classique, comparer explicitement les solutions à K = 2 et K = 3 au moyen d'un critère externe tel que le BIC, alors que l'EM variationnel effectue cette sélection de façon endogène, en une seule exécution.
+Ce résultat illustre de façon particulièrement nette le mécanisme théorique décrit ci-dessus. Les deux premières composantes se partagent presque également la masse de probabilité (poids 0,482 chacune), avec des moyennes de 7,724 et 1,126 qui coïncident, à $10^{-3}$ près, avec les moyennes empiriques des deux groupes et avec la solution de l'EM classique de la section~\ref{sec:application_au_melange_gaussien_exemple} (7,725 et 1,125). La troisième composante, en revanche, voit son paramètre $\alpha _{k}$ rester exactement égal à sa valeur initiale $\alpha _{0}$ = 1/3 = 0,333, signe que $N_{k}$ = $\alpha _{k}$ - $\alpha _{0}$ = 0 : aucune observation, même partiellement, ne lui a été attribuée au cours de la convergence. Cette composante est donc entièrement inactive, et le modèle retient effectivement K\_effectif = 2 composantes actives, exactement le nombre réel de groupes : un résultat que l'EM classique, avec K fixé à l'avance, ne peut pas produire de lui-même : il faudrait, pour l'EM classique, comparer explicitement les solutions à K = 2 et K = 3 au moyen d'un critère externe tel que le BIC, alors que l'EM variationnel effectue cette sélection de façon endogène, en une seule exécution.
 
 \subsection{Calcul de l'ELBO et critère de convergence}\label{sec:calcul_elbo}
 Pour le mélange gaussien bayésien sous l'hypothèse du champ moyen, l'ELBO peut être calculé analytiquement à chaque itération. Il se décompose sous la forme :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO = \mathbb{E}_{q}[\log  p(X|Z{,}\theta )] + \mathbb{E}_{q}[\log  p(Z|\pi )] + \mathbb{E}_{q}[\log  p(\pi )] + \Sigma _{k} \mathbb{E}_{q}[\log  p(\mu _{k}{,}\Lambda _{k})] - \mathbb{E}_{q}[\log  q(Z)] - \mathbb{E}_{q}[\log  q(\pi )] - \Sigma _{k} \mathbb{E}_{q}[\log  q(\mu _{k}{,}\Lambda _{k})]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO = \mathbb{E}_{q}[\log p(X|Z{,}\theta )] + \mathbb{E}_{q}[\log p(Z|\pi )] + \mathbb{E}_{q}[\log p(\pi )] + \Sigma _{k} \mathbb{E}_{q}[\log p(\mu _{k}{,}\Lambda _{k})] - \mathbb{E}_{q}[\log q(Z)] - \mathbb{E}_{q}[\log q(\pi )] - \Sigma _{k} \mathbb{E}_{q}[\log q(\mu _{k}{,}\Lambda _{k})]$\end{adjustbox}
 \tag{1.31}
 \label{eq:1_31}
 \end{equation}
@@ -625,9 +644,9 @@ Les trois méthodes suivantes répondent chacune à une limite précise de l'EM 
 \section{Conclusion du chapitre~\ref{chap:fondements}}\label{sec:conclusion_du_chapitre_1}
 Ce premier chapitre a permis de poser l'ensemble des fondements théoriques nécessaires à la compréhension des deux algorithmes centraux de ce mémoire. Nous avons vu que les modèles à variables latentes, et en particulier le modèle de mélange gaussien, fournissent un cadre unificateur dans lequel s'inscrivent naturellement l'EM classique et l'EM variationnel. L'inégalité de Jensen et la borne ELBO constituent le socle mathématique commun aux deux algorithmes, tandis que le cadre bayésien et la divergence de Kullback-Leibler permettent de comprendre précisément ce qui distingue l'approche variationnelle de l'approche classique.
 
-Ce parcours théorique n'a pas été conduit de façon purement abstraite : chaque notion introduite  la borne ELBO, la conjugaison Dirichlet--Catégorielle, le mécanisme d'élagage bayésien, la correspondance avec l'algorithme de Baum-Welch  a été illustrée par un exemple numérique (calculé à la main pour la densité du GMM et la conjugaison Dirichlet--Catégorielle ; produit par le code et vérifié pour les tableaux~\ref{tab:1_2}, \ref{tab:1_4} et~\ref{tab:1_5}), du plus simple (l'évaluation de la densité d'un GMM à deux composantes, section~\ref{sec:exemple_numerique_evaluation_de_la}) au plus élaboré (le calcul complet des quantités forward, backward et a posteriori d'un modèle de Markov caché, section~\ref{sec:baum_welch}). Cette démarche, délibérément choisie, répond à la conviction que la compréhension approfondie d'un algorithme d'inférence statistique passe nécessairement par la capacité à en dérouler, à la main ou par le calcul, chacune des étapes sur un exemple de taille réduite, avant d'en confier l'exécution à une bibliothèque logicielle  démarche qui trouve son prolongement naturel dans les implémentations from scratch présentées à la section~\ref{sec:implementation}.
+Ce parcours théorique n'a pas été conduit de façon purement abstraite : chaque notion introduite (la borne ELBO, la conjugaison Dirichlet--Catégorielle, le mécanisme d'élagage bayésien, la correspondance avec l'algorithme de Baum-Welch) a été illustrée par un exemple numérique (calculé à la main pour la densité du GMM et la conjugaison Dirichlet--Catégorielle ; produit par le code et vérifié pour les tableaux~\ref{tab:1_2}, \ref{tab:1_4} et~\ref{tab:1_5}), du plus simple (l'évaluation de la densité d'un GMM à deux composantes, section~\ref{sec:exemple_numerique_evaluation_de_la}) au plus élaboré (le calcul complet des quantités forward, backward et a posteriori d'un modèle de Markov caché, section~\ref{sec:baum_welch}). Cette démarche, délibérément choisie, répond à la conviction que la compréhension approfondie d'un algorithme d'inférence statistique passe nécessairement par la capacité à en dérouler, à la main ou par le calcul, chacune des étapes sur un exemple de taille réduite, avant d'en confier l'exécution à une bibliothèque logicielle : démarche qui trouve son prolongement naturel dans les implémentations from scratch présentées à la section~\ref{sec:implementation}.
 
-L'étude détaillée de l'EM classique a mis en évidence sa simplicité, son efficacité computationnelle et la garantie de convergence monotone qui le caractérisent, mais également ses limites majeures : nécessité de fixer K a priori, absence de quantification de l'incertitude, et sensibilité aux singularités. Les résultats non asymptotiques récents (section~\ref{sec:proprietes_em}.d) précisent ces limites : en sur-spécification équilibrée, l'EM converge lentement vers une estimation de précision $(d/n)^{1/4}$ seulement, et en sous-spécification il vise la projection de Kullback-Leibler de la vraie loi, non un paramètre vrai. L'étude de l'EM variationnel a montré que le cadre bayésien ne lève pas ces limites mais les déplace : la sélection de $K$ passe du critère externe aux hyperparamètres et à $K_{\max}$, l'incertitude devient native mais approchée et vraisemblablement trop étroite (section~\ref{sec:limites_vb}), le tout au prix d'une complexité d'implémentation et d'un coût par itération plus élevés. Les extensions modernes (SVI, inférence amortie, flux normalisants, section~\ref{sec:variantes_vb}) répondent chacune à l'une de ces limites, sans être évaluées ici. La dérivation détaillée du champ moyen variationnel pour le cas particulier du GMM bayésien (section~\ref{sec:formulation_de_l_em_variationnel}.c) a par ailleurs montré que les formules de mise à jour de l'EM variationnel, loin d'être postulées par analogie avec l'EM classique, se déduisent rigoureusement de l'application d'un principe unique  la formule générale du champ moyen  à un choix spécifique de distributions conjuguées, ce qui confère à l'ensemble de l'édifice théorique une cohérence interne que l'on ne perçoit pas toujours dans les présentations plus informelles de la littérature d'introduction.
+L'étude détaillée de l'EM classique a mis en évidence sa simplicité, son efficacité computationnelle et la garantie de convergence monotone qui le caractérisent, mais également ses limites majeures : nécessité de fixer K a priori, absence de quantification de l'incertitude, et sensibilité aux singularités. Les résultats non asymptotiques récents (section~\ref{sec:proprietes_em}.d) précisent ces limites : en sur-spécification équilibrée, l'EM converge lentement vers une estimation de précision $(d/n)^{1/4}$ seulement, et en sous-spécification il vise la projection de Kullback-Leibler de la vraie loi, non un paramètre vrai. L'étude de l'EM variationnel a montré que le cadre bayésien ne lève pas ces limites mais les déplace : la sélection de $K$ passe du critère externe aux hyperparamètres et à $K_{\max}$, l'incertitude devient native mais approchée et vraisemblablement trop étroite (section~\ref{sec:limites_vb}), le tout au prix d'une complexité d'implémentation et d'un coût par itération plus élevés. Les extensions modernes (SVI, inférence amortie, flux normalisants, section~\ref{sec:variantes_vb}) répondent chacune à l'une de ces limites, sans être évaluées ici. La dérivation détaillée du champ moyen variationnel pour le cas particulier du GMM bayésien (section~\ref{sec:formulation_de_l_em_variationnel}.c) a par ailleurs montré que les formules de mise à jour de l'EM variationnel, loin d'être postulées par analogie avec l'EM classique, se déduisent rigoureusement de l'application d'un principe unique (la formule générale du champ moyen) à un choix spécifique de distributions conjuguées, ce qui confère à l'ensemble de l'édifice théorique une cohérence interne que l'on ne perçoit pas toujours dans les présentations plus informelles de la littérature d'introduction.
 
 Le chapitre suivant expose la méthodologie de la confrontation : hypothèses de recherche, données et leur préparation, protocole, règles de décision et calibrage. Les résultats, qui vérifient empiriquement chacune des propriétés établies dans ce premier chapitre, sont présentés et interprétés au chapitre~\ref{chap:resultats}.
 
@@ -640,7 +659,7 @@ Le chapitre suivant expose la méthodologie de la confrontation : hypothèses de
 Ce chapitre décrit la manière dont la thèse du mémoire est mise à l'épreuve ; il ne présente aucun résultat. Il pose d'abord le cadre de la comparaison, théorique (section~\ref{sec:comparaison_theorique}) et algorithmique (section~\ref{sec:comparaison_algorithmique}). Il énonce ensuite les hypothèses de recherche et les tests déclarés qui les opérationnalisent (section~\ref{sec:hypotheses}). Il décrit les données et leur préparation : jeu synthétique de référence, scénarios, Iris, prix alimentaires du Cameroun et corpus de texte (section~\ref{sec:donnees}). Viennent ensuite le protocole de comparaison, les métriques et les règles de décision (section~\ref{sec:protocole}), le calibrage des paramètres (section~\ref{sec:calibrage}), l'implémentation et l'ingénierie du code (section~\ref{sec:implementation}), et enfin les menaces à la validité et les écarts au protocole (section~\ref{sec:validite}). Tous les résultats sont présentés et interprétés au chapitre~\ref{chap:resultats}.
 
 \section{Comparaison théorique}\label{sec:comparaison_theorique}
-Sur le plan théorique, l'EM classique et l'EM variationnel partagent un socle commun  la maximisation alternée d'une borne inférieure de la vraisemblance, l'ELBO  mais divergent fondamentalement sur la nature de l'objet qu'ils cherchent à estimer. L'EM classique traite les paramètres $\theta $ comme des constantes inconnues, dont on cherche l'estimateur ponctuel du maximum de vraisemblance $\hat{\theta }$ = argmax\_$\theta $ $\ell $($\theta $). L'EM variationnel, en revanche, traite $\theta $ comme une variable aléatoire dont on cherche à approximer la distribution a posteriori complète q*($\theta $), au moyen d'une famille variationnelle factorisée sous l'hypothèse du champ moyen.
+Sur le plan théorique, l'EM classique et l'EM variationnel partagent un socle commun (la maximisation alternée d'une borne inférieure de la vraisemblance, l'ELBO) mais divergent fondamentalement sur la nature de l'objet qu'ils cherchent à estimer. L'EM classique traite les paramètres $\theta $ comme des constantes inconnues, dont on cherche l'estimateur ponctuel du maximum de vraisemblance $\hat{\theta }$ = argmax\_$\theta $ $\ell $($\theta $). L'EM variationnel, en revanche, traite $\theta $ comme une variable aléatoire dont on cherche à approximer la distribution a posteriori complète q*($\theta $), au moyen d'une famille variationnelle factorisée sous l'hypothèse du champ moyen.
 
 Cette différence de nature a des conséquences directes sur l'interprétation des résultats produits par chacun des deux algorithmes. Le tableau~\ref{tab:2_1} synthétise les principales différences théoriques entre les deux approches.
 
@@ -676,14 +695,14 @@ Il convient de noter que l'EM classique peut, dans une certaine mesure, être vu
 Cette section détaille la dérivation de la correspondance énoncée ci-dessus, qui permet de replacer l'EM classique comme un cas particulier, plutôt qu'une alternative, de l'EM variationnel. Reprenons la définition de l'ELBO donnée à la section~\ref{sec:l_inegalite_de_jensen_et}, en distinguant explicitement les variables latentes Z des paramètres $\theta $ dans la distribution variationnelle jointe q(Z, $\theta $) = q(Z) q($\theta $) :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} q(\theta )) = \mathbb{E}_{q(Z)q(\theta )}[\log  p(X{,} Z | \theta )] + \mathbb{E}_{q(\theta )}[\log  p(\theta )] - \mathbb{E}_{q(Z)}[\log  q(Z)] - \mathbb{E}_{q(\theta )}[\log  q(\theta )]$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} q(\theta )) = \mathbb{E}_{q(Z)q(\theta )}[\log p(X{,} Z | \theta )] + \mathbb{E}_{q(\theta )}[\log p(\theta )] - \mathbb{E}_{q(Z)}[\log q(Z)] - \mathbb{E}_{q(\theta )}[\log q(\theta )]$\end{adjustbox}
 \tag{2.1}
 \label{eq:2_1}
 \end{equation}
 Choisissons à présent, pour la distribution variationnelle sur les paramètres, une masse de Dirac centrée en un point $\hat{\theta }$ : q($\theta $) = $\delta $($\theta $ - $\hat{\theta }$). Par définition de la mesure de Dirac, l'espérance sous q($\theta $) de toute fonction f($\theta $) se réduit simplement à l'évaluation de f au point $\hat{\theta }$, c'est-à-dire $\mathbb{E}$\_\{q($\theta $)\}[f($\theta $)] = f($\hat{\theta }$). En appliquant cette propriété à chacun des quatre termes de l'ELBO ci-dessus :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} \delta _{\hat{\theta }}) = \mathbb{E}_{q(Z)}[\log  p(X{,} Z | \hat{\theta })] + \log  p(\hat{\theta }) - \mathbb{E}_{q(Z)}[\log  q(Z)] - \log  \delta (0)$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} \delta _{\hat{\theta }}) = \mathbb{E}_{q(Z)}[\log p(X{,} Z | \hat{\theta })] + \log p(\hat{\theta }) - \mathbb{E}_{q(Z)}[\log q(Z)] - \log \delta (0)$\end{adjustbox}
 \tag{2.2}
 \label{eq:2_2}
 \end{equation}
@@ -694,20 +713,20 @@ Les deux derniers termes appellent une précaution : la masse de Dirac n'est pas
 et la constante divergente n'affecte pas la localisation de l'optimum en $(q(Z), \hat\theta)$. Reste le terme $\log p(\hat\theta)$ : avec un prior plat (impropre), il est constant et l'on obtient l'EM du maximum de vraisemblance ; \emph{sans} prior plat, on maximise l'ELBO plus $\log p(\hat\theta)$ et l'on obtient le MAP-EM (section~\ref{sec:le_map_em_isoler_l}), non le MLE-EM. L'équation~\eqref{eq:2_3} est donc exacte pour un prior plat et à $\log p(\hat\theta)$ près sinon. Ce passage à la limite est un raisonnement élémentaire, donné à des fins pédagogiques et non comme une contribution originale : la décomposition sur laquelle il repose, $L(\theta) = F(\tilde P, \theta) + \mathrm{KL}(\tilde P \,\Vert\, P_\theta)$ avec EM comme montée par coordonnées, est celle de Neal et Hinton~\cite[éq.~3, lemmes 1 et 2]{neal1998} et de Bishop~\cite[section~9.4]{bishop2006} ; l'extension à une loi sur $\theta$ est celle de l'EM variationnel (section~\ref{sec:em_variationnel}).
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} \delta _{\hat{\theta }}) \approx  \mathbb{E}_{q(Z)}[\log  p(X{,} Z | \hat{\theta })] - \mathbb{E}_{q(Z)}[\log  q(Z)] = ELBO(q(Z){,} \hat{\theta })$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle ELBO(q(Z){,} \delta _{\hat{\theta }}) \approx \mathbb{E}_{q(Z)}[\log p(X{,} Z | \hat{\theta })] - \mathbb{E}_{q(Z)}[\log q(Z)] = ELBO(q(Z){,} \hat{\theta })$\end{adjustbox}
 \tag{2.3}
 \label{eq:2_3}
 \end{equation}
-Cette dernière expression est exactement l'ELBO à paramètres fixés $\hat{\theta }$, tel que défini à la section~\ref{sec:l_inegalite_de_jensen_et} pour l'EM classique. Sa maximisation par rapport à q(Z) donne, comme établi à la section~\ref{sec:l_inegalite_de_jensen_et}, q*(Z) = p(Z | X, $\hat{\theta }$)  soit exactement l'étape E de l'EM classique (section~\ref{sec:formulation_mathematique_complete}.b) , et sa maximisation par rapport à $\hat{\theta }$, une fois q(Z) fixée à cette valeur optimale, correspond exactement à l'étape M de l'EM classique (section~\ref{sec:formulation_mathematique_complete}.c), puisque $\mathbb{E}$\_\{q(Z)\}[log p(X,Z|$\theta $)] est alors précisément la fonction Q($\theta $|$\theta ^{t}$) définie à la section~\ref{sec:formulation_mathematique_complete}.c. L'EM classique apparaît ainsi comme le cas particulier de l'EM variationnel obtenu en restreignant la famille variationnelle sur les paramètres $\theta $ aux seules masses de Dirac, c'est-à-dire à la famille la moins expressive possible  une famille qui ne peut, par construction, représenter aucune incertitude sur $\theta $, ce qui explique directement l'absence de quantification de l'incertitude relevée comme limite de l'EM classique à la section~\ref{sec:inconvenients_et_limites_de_l}. Réciproquement, l'EM variationnel décrit à la section~\ref{sec:em_variationnel} s'obtient en remplaçant cette famille de Dirac par la famille, plus riche, des distributions factorisées sous l'hypothèse du champ moyen (section~\ref{sec:formulation_de_l_em_variationnel}.a) : les deux algorithmes se déduisent donc d'un seul et même principe variationnel, appliqué à deux familles variationnelles emboîtées, l'une (Dirac) étant un cas particulier dégénéré de l'autre (champ moyen).
+Cette dernière expression est exactement l'ELBO à paramètres fixés $\hat{\theta }$, tel que défini à la section~\ref{sec:l_inegalite_de_jensen_et} pour l'EM classique. Sa maximisation par rapport à q(Z) donne, comme établi à la section~\ref{sec:l_inegalite_de_jensen_et}, q*(Z) = p(Z | X, $\hat{\theta }$), soit exactement l'étape E de l'EM classique (section~\ref{sec:formulation_mathematique_complete}.b), et sa maximisation par rapport à $\hat{\theta }$, une fois q(Z) fixée à cette valeur optimale, correspond exactement à l'étape M de l'EM classique (section~\ref{sec:formulation_mathematique_complete}.c), puisque $\mathbb{E}$\_\{q(Z)\}[log p(X,Z|$\theta $)] est alors précisément la fonction Q($\theta $|$\theta ^{t}$) définie à la section~\ref{sec:formulation_mathematique_complete}.c. L'EM classique apparaît ainsi comme le cas particulier de l'EM variationnel obtenu en restreignant la famille variationnelle sur les paramètres $\theta $ aux seules masses de Dirac, c'est-à-dire à la famille la moins expressive possible : une famille qui ne peut, par construction, représenter aucune incertitude sur $\theta $, ce qui explique directement l'absence de quantification de l'incertitude relevée comme limite de l'EM classique à la section~\ref{sec:inconvenients_et_limites_de_l}. Réciproquement, l'EM variationnel décrit à la section~\ref{sec:em_variationnel} s'obtient en remplaçant cette famille de Dirac par la famille, plus riche, des distributions factorisées sous l'hypothèse du champ moyen (section~\ref{sec:formulation_de_l_em_variationnel}.a) : les deux algorithmes se déduisent donc d'un seul et même principe variationnel, appliqué à deux familles variationnelles emboîtées, l'une (Dirac) étant un cas particulier dégénéré de l'autre (champ moyen).
 
 \subsection{Trois niveaux d'inférence : MLE, MAP et Bayes complet}\label{sec:trois_niveaux_d_inference_mle}
 La dérivation de la section~\ref{sec:de_l_energie_libre_de} permet de situer précisément l'EM classique et l'EM variationnel au sein d'une hiérarchie plus large de trois niveaux d'inférence statistique, qu'il est utile de distinguer explicitement, tant la confusion entre eux est fréquente dans la littérature d'introduction à l'apprentissage automatique.
 
-\textbf{Premier niveau : le maximum de vraisemblance (MLE). }C'est le niveau auquel opère l'EM classique tel que présenté à la section~\ref{sec:em_classique} : on cherche $\hat{\theta }$\_MLE = argmax\_$\theta $ p(X|$\theta $), sans faire intervenir de prior p($\theta $) du tout. C'est l'estimateur le plus simple, mais aussi le plus sujet au surapprentissage en présence de peu de données, puisque rien ne pénalise les valeurs de $\theta $ qui ajustent excessivement le bruit d'échantillonnage  c'est notamment ce mécanisme qui explique la propension de l'EM classique aux singularités décrite à la section~\ref{sec:inconvenients_et_limites_de_l}.
+\textbf{Premier niveau : le maximum de vraisemblance (MLE). }C'est le niveau auquel opère l'EM classique tel que présenté à la section~\ref{sec:em_classique} : on cherche $\hat{\theta }$\_MLE = argmax\_$\theta $ p(X|$\theta $), sans faire intervenir de prior p($\theta $) du tout. C'est l'estimateur le plus simple, mais aussi le plus sujet au surapprentissage en présence de peu de données, puisque rien ne pénalise les valeurs de $\theta $ qui ajustent excessivement le bruit d'échantillonnage : c'est notamment ce mécanisme qui explique la propension de l'EM classique aux singularités décrite à la section~\ref{sec:inconvenients_et_limites_de_l}.
 
-\textbf{Deuxième niveau : le maximum a posteriori (MAP). }Ce niveau intermédiaire introduit un prior p($\theta $), mais continue de ne retenir qu'une estimation ponctuelle : $\hat{\theta }$\_MAP = argmax\_$\theta $ p($\theta $|X) = argmax\_$\theta $ [p(X|$\theta $) p($\theta $)]. Le MAP peut se voir comme une régularisation du MLE  par exemple, un prior gaussien centré en zéro sur les paramètres d'un modèle linéaire donne lieu, au MAP, à la régularisation dite de Tikhonov (ridge regression). Le MAP-EM, qui maximise à l'étape M non plus $Q(\theta|\theta^t)$ seule mais $Q(\theta|\theta^t) + \log p(\theta)$, est développé à la section~\ref{sec:le_map_em_isoler_l} ; il est implémenté (fonction \texttt{map\_em}) et intégré à toutes les comparaisons, car il isole l'effet du prior de celui de l'inférence bayésienne complète.
+\textbf{Deuxième niveau : le maximum a posteriori (MAP). }Ce niveau intermédiaire introduit un prior p($\theta $), mais continue de ne retenir qu'une estimation ponctuelle : $\hat{\theta }$\_MAP = argmax\_$\theta $ p($\theta $|X) = argmax\_$\theta $ [p(X|$\theta $) p($\theta $)]. Le MAP peut se voir comme une régularisation du MLE : par exemple, un prior gaussien centré en zéro sur les paramètres d'un modèle linéaire donne lieu, au MAP, à la régularisation dite de Tikhonov (ridge regression). Le MAP-EM, qui maximise à l'étape M non plus $Q(\theta|\theta^t)$ seule mais $Q(\theta|\theta^t) + \log p(\theta)$, est développé à la section~\ref{sec:le_map_em_isoler_l} ; il est implémenté (fonction \texttt{map\_em}) et intégré à toutes les comparaisons, car il isole l'effet du prior de celui de l'inférence bayésienne complète.
 
-\textbf{Troisième niveau : l'inférence bayésienne complète. }C'est le niveau auquel opère l'EM variationnel : on ne retient plus une estimation ponctuelle de $\theta $, mais on caractérise sa distribution a posteriori complète p($\theta $|X)  ou, dans le cas de l'EM variationnel, son approximation q*($\theta $). Ce troisième niveau seul permet la quantification de l'incertitude mise en avant à la section~\ref{sec:avantages_de_l_em_variationnel} : les deux premiers niveaux, MLE et MAP, ne produisant chacun qu'un unique point de l'espace des paramètres, ne permettent structurellement aucune caractérisation de l'incertitude associée à ce point.
+\textbf{Troisième niveau : l'inférence bayésienne complète. }C'est le niveau auquel opère l'EM variationnel : on ne retient plus une estimation ponctuelle de $\theta $, mais on caractérise sa distribution a posteriori complète p($\theta $|X) ou, dans le cas de l'EM variationnel, son approximation q*($\theta $). Ce troisième niveau seul permet la quantification de l'incertitude mise en avant à la section~\ref{sec:avantages_de_l_em_variationnel} : les deux premiers niveaux, MLE et MAP, ne produisant chacun qu'un unique point de l'espace des paramètres, ne permettent structurellement aucune caractérisation de l'incertitude associée à ce point.
 
 Le tableau~\ref{tab:2_2} synthétise cette hiérarchie à trois niveaux, qui complète la comparaison à deux termes (classique / variationnel) menée jusqu'ici dans ce chapitre en y insérant le niveau intermédiaire du MAP, développé et implémenté dans ce mémoire (section~\ref{sec:le_map_em_isoler_l}), utile à la compréhension d'ensemble du paysage des méthodes d'estimation pour les modèles à variables latentes.
 
@@ -779,7 +798,7 @@ Un second aspect du comportement numérique concerne le conditionnement des matr
 Lorsque l'on utilise l'EM classique, la sélection du nombre de composantes K repose généralement sur des critères d'information calculés a posteriori, après avoir exécuté l'algorithme pour plusieurs valeurs candidates de K. Les critères les plus couramment employés sont le critère d'information bayésien (BIC), le critère d'information d'Akaike (AIC), et le critère de vraisemblance classifiante intégrée (ICL), définis respectivement par :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle BIC(K) = -2 \ell (\hat{\theta }K) + p(K) \log  N$\end{adjustbox}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle BIC(K) = -2 \ell (\hat{\theta }K) + p(K) \log N$\end{adjustbox}
 \tag{2.4}
 \label{eq:2_4}
 \end{equation}
@@ -1376,7 +1395,7 @@ Le verdict de chaque décision suit la règle déclarée à la section~\ref{sec:
 Le tableau~\ref{tab:2_17} remplace les anciennes listes d'avantages et d'inconvénients par une grille « axe $\times$ preuve » : chaque ligne renvoie à une expérience, à un théorème, ou porte la mention « non testé ».
 
 \tableauGenere{grille_axe_preuve}
-Cette synthèse met en évidence que le choix entre les deux algorithmes ne doit pas être envisagé comme un choix entre une méthode « meilleure » et une méthode « moins bonne » dans l'absolu, mais comme un arbitrage dépendant du contexte applicatif  arbitrage que précisent les recommandations de la section~\ref{sec:recommandations}. Aucune ligne de la grille n'autorise à parler de supériorité.
+Cette synthèse met en évidence que le choix entre les deux algorithmes ne doit pas être envisagé comme un choix entre une méthode « meilleure » et une méthode « moins bonne » dans l'absolu, mais comme un arbitrage dépendant du contexte applicatif : arbitrage que précisent les recommandations de la section~\ref{sec:recommandations}. Aucune ligne de la grille n'autorise à parler de supériorité.
 
 \section{Portée : domaines non testés}\label{sec:portee}
 \subsection{Vision et bio-informatique (revue de la littérature)}\label{sec:vision_et_bio_informatique_revue}
@@ -1462,7 +1481,7 @@ En définitive, le VB ne « bat » pas l'EM : il déplace la sélection de $K$ v
 \markboth{ANNEXES}{ANNEXES}
 \section*{Annexe A : Code source}
 \addcontentsline{toc}{section}{Annexe A : Code source}
-Les résultats de ce mémoire sont produits par les fichiers Python suivants : \texttt{algorithmes.py} (EM classique, MAP-EM, EM variationnel, ELBO, variantes, Baum-Welch, LDA, pLSA, métriques), \texttt{risque.py} (loi prédictive du VB, test de Diebold--Mariano), \texttt{statistique.py} (Wilcoxon exact, TOST, Holm, bootstrap), \texttt{comparaison.py} (protocole des bras, statistiques de comparaison), \texttt{hypotheses.py} (hypothèses déclarées), \texttt{parametres.py} et \texttt{calibrage.py} (registre et calibrage des paramètres), \texttt{scenarios.py} (scénarios synthétiques S1 à S10), \texttt{etape\_validation.py}, \texttt{etape\_illustrations.py} et \texttt{etape\_chronometrage.py} (validations du chapitre 1 et expériences du chapitre 2), \texttt{donnees.py} et \texttt{etape\_prix.py} (cas pratique des prix alimentaires), \texttt{etape\_texte.py} (comparaison pLSA contre LDA), \texttt{figures.py} et \texttt{tex\_tables.py} (figures et tableaux \LaTeX{} produits depuis les résultats), enfin \texttt{run.py}, \texttt{persistance.py} et \texttt{superviseur.py} (orchestration reprenable après interruption). Le dépôt complet, avec son jeu de tests (\texttt{tests/}), est publié sur GitHub (section A.1) ; l'étiquette Git et le DOI Zenodo de la version définitive restent à créer au moment de l'archivage. Le tableau suivant indique, pour chaque fonction de la bibliothèque, la section et l'équation correspondantes.
+Les résultats de ce mémoire sont produits par les fichiers Python suivants : \texttt{algorithmes.py} (EM classique, MAP-EM, EM variationnel, ELBO, variantes, Baum-Welch, LDA, pLSA, métriques), \texttt{risque.py} (loi prédictive du VB, test de Diebold--Mariano), \texttt{statistique.py} (Wilcoxon exact, TOST, Holm, bootstrap), \texttt{comparaison.py} (protocole des bras, statistiques de comparaison), \texttt{hypotheses.py} (hypothèses déclarées), \texttt{parametres.py} et \texttt{calibrage.py} (registre et calibrage des paramètres), \texttt{scenarios.py} (scénarios synthétiques S1 à S10), \texttt{etape\_validation.py}, \texttt{etape\_illustrations.py} et \texttt{etape\_chronometrage.py} (validations du chapitre~\ref{chap:fondements} et expériences du chapitre~\ref{chap:methodologie}), \texttt{donnees.py} et \texttt{etape\_prix.py} (cas pratique des prix alimentaires), \texttt{etape\_texte.py} (comparaison pLSA contre LDA), \texttt{figures.py} et \texttt{tex\_tables.py} (figures et tableaux \LaTeX{} produits depuis les résultats), enfin \texttt{run.py}, \texttt{persistance.py} et \texttt{superviseur.py} (orchestration reprenable après interruption). Le dépôt complet, avec son jeu de tests (\texttt{tests/}), est publié sur GitHub (section A.1) ; l'étiquette Git et le DOI Zenodo de la version définitive restent à créer au moment de l'archivage. Le tableau suivant indique, pour chaque fonction de la bibliothèque, la section et l'équation correspondantes.
 
 \begin{table}[H]
 \centering
@@ -1509,9 +1528,9 @@ Le code complet (environ 1\,400 lignes pour \texttt{algorithmes.py}, 250 pour \t
 \end{center}
 
 \subsection*{A.2 Extraits commentés}
-Les trois extraits suivants sont copiés sans modification du code exécuté. Ils montrent la traduction directe des équations en calcul tensoriel : toutes les relances (dimension \texttt{B}) sont traitées en un seul lot, et les responsabilités sont normalisées en log-espace (équation 1.18).
+Les trois extraits suivants sont copiés sans modification du code exécuté. Ils montrent la traduction directe des équations en calcul tensoriel : toutes les relances (dimension \texttt{B}) sont traitées en un seul lot, et les responsabilités sont normalisées en log-espace (équation~\ref{eq:1_18}).
 
-\textbf{Étape E de l'EM classique} (\texttt{algorithmes.py}, équation 1.15).
+\textbf{Étape E de l'EM classique} (\texttt{algorithmes.py}, équation~\ref{eq:1_15}).
 \begin{lstlisting}[language=Python]
 def _etape_e_lot(dp: "_Prep", pi: Tensor, mu: Tensor, cov: Tensor):
     """Étape E (1.15) en log-espace pour toutes les relances : (r (B,N,K), log p(x_n | theta) (B,N), ok (B,))."""
@@ -1528,7 +1547,7 @@ def _etape_e_lot(dp: "_Prep", pi: Tensor, mu: Tensor, cov: Tensor):
     return r, ln, ok
 \end{lstlisting}
 
-\textbf{Étape E de l'EM variationnel} (\texttt{algorithmes.py}, équations 1.27 et 1.30). Le terme $\mathbb{E}[\log \pi_k] = \psi(\alpha_k) - \psi(\sum_j \alpha_j)$ porte le mécanisme d'élagage de la section 1.7.4.
+\textbf{Étape E de l'EM variationnel} (\texttt{algorithmes.py}, équations~\ref{eq:1_27} et \ref{eq:1_30}). Le terme $\mathbb{E}[\log \pi_k] = \psi(\alpha_k) - \psi(\sum_j \alpha_j)$ porte le mécanisme d'élagage de la section~\ref{sec:elagage}.
 \begin{lstlisting}[language=Python]
 def _etape_e_var_lot(dp, P):
     """Étape E variationnelle, équation (1.27), avec la forme quadratique (1.30), en lot : (r (B,N,K), log_norm (B,N))."""
@@ -1546,7 +1565,7 @@ def _etape_e_var_lot(dp, P):
     return r, ln
 \end{lstlisting}
 
-\textbf{Variable du cas pratique} (\texttt{donnees.py}, écart causal du log-prix à son niveau des douze mois précédents, section 3.1.1).
+\textbf{Variable du cas pratique} (\texttt{donnees.py}, écart causal du log-prix à son niveau des douze mois précédents, section~\ref{sec:prix_methodo}).
 \begin{lstlisting}[language=Python]
 def ecart(m, c, t):
     s = serie.get((m, c), {})
@@ -1566,7 +1585,7 @@ Le corpus (sous-ensemble de 20 Newsgroups) est lu et prétraité par \texttt{don
 
 \section*{Annexe B : Détail du calcul de l'ELBO pour le GMM bayésien}
 \addcontentsline{toc}{section}{Annexe B : Détail du calcul de l'ELBO pour le GMM bayésien}
-Cette annexe donne l'implémentation, en PyTorch, du calcul exact de l'ELBO de l'équation (1.31) (Bishop, 2006, éq. 10.70 à 10.77). Les sept termes sont : $\mathbb{E}[\log p(X|Z,\mu ,\Lambda )]$, $\mathbb{E}[\log p(Z|\pi )]$, $\mathbb{E}[\log p(\pi )]$ et $\mathbb{E}[\log p(\mu ,\Lambda )]$ (partie vraisemblance et priors), puis $-\mathbb{E}[\log q(Z)]$, $-\mathbb{E}[\log q(\pi )]$ et $-\mathbb{E}[\log q(\mu ,\Lambda )]$ (entropies des facteurs variationnels). La fonction \texttt{\_ln\_B} calcule la constante de normalisation de la loi de Wishart ; \texttt{\_attendus} calcule $\mathbb{E}[\log |\Lambda _{k}|]$ (équation 1.29).
+Cette annexe donne l'implémentation, en PyTorch, du calcul exact de l'ELBO de l'équation~\eqref{eq:1_31} (Bishop, 2006, éq. 10.70 à 10.77). Les sept termes sont : $\mathbb{E}[\log p(X|Z,\mu ,\Lambda )]$, $\mathbb{E}[\log p(Z|\pi )]$, $\mathbb{E}[\log p(\pi )]$ et $\mathbb{E}[\log p(\mu ,\Lambda )]$ (partie vraisemblance et priors), puis $-\mathbb{E}[\log q(Z)]$, $-\mathbb{E}[\log q(\pi )]$ et $-\mathbb{E}[\log q(\mu ,\Lambda )]$ (entropies des facteurs variationnels). La fonction \texttt{\_ln\_B} calcule la constante de normalisation de la loi de Wishart ; \texttt{\_attendus} calcule $\mathbb{E}[\log |\Lambda _{k}|]$ (équation~\ref{eq:1_29}).
 
 \begin{lstlisting}[language=Python]
 def _ln_B(W, nu, D):
@@ -1621,7 +1640,7 @@ def elbo_gmm_bayesien(r, Nk, xbar, Sk, P, pr: PrioriNW):
     q_muLam = (0.5 * Elogdet + 0.5 * D * torch.log(beta / (2 * math.pi)) - 0.5 * D - H).sum()
     return float(e_x + e_z + e_pi + e_muLam - q_z - q_pi - q_muLam)
 \end{lstlisting}
-\begin{center}\small\emph{Extrait de code : calcul de l'ELBO du GMM bayésien (équation 1.31)}\end{center}
+\begin{center}\small\emph{Extrait de code : calcul de l'ELBO du GMM bayésien (équation~\ref{eq:1_31})}\end{center}
 
 \section*{Annexe C : Table de correspondance des symboles mathématiques}
 \addcontentsline{toc}{section}{Annexe C : Table de correspondance des symboles mathématiques}
@@ -1679,42 +1698,42 @@ Toutes les graines sont dérivées de façon déterministe du rôle de chaque ti
 
 Le protocole est entièrement scripté : \texttt{python run.py} réalise les expériences, écrit les tableaux (fichiers \texttt{.csv}) et les figures (\texttt{.html} interactifs et \texttt{.png}) ; la marche à suivre figure dans \texttt{LANCEMENT.md}.
 
-\section*{Annexe F : Registre des paramètres}
-\addcontentsline{toc}{section}{Annexe F : Registre des paramètres}
+\section*{Annexe E : Registre des paramètres}
+\addcontentsline{toc}{section}{Annexe E : Registre des paramètres}
 Chaque paramètre utilisé par le code, avec sa valeur, son statut, sa justification, ses références et l'étude de calibrage qui le fixe (section~\ref{sec:calibrage}).
 
 \tableauGenere{registre_parametres}
 
-\section*{Annexe E : Rappels mathématiques utilisés dans les dérivations}
-\addcontentsline{toc}{section}{Annexe E : Rappels mathématiques utilisés dans les dérivations}
-Cette dernière annexe rassemble, à des fins de référence, les principales définitions et identités de calcul matriciel et de statistique bayésienne mobilisées dans les dérivations du chapitre 1 (sections 1.6.2.d et 1.7.3.c) et de la section 2.1.1, afin que le mémoire reste autonome et ne nécessite pas de recherche bibliographique complémentaire pour en suivre le détail des calculs.
+\section*{Annexe F : Rappels mathématiques utilisés dans les dérivations}
+\addcontentsline{toc}{section}{Annexe F : Rappels mathématiques utilisés dans les dérivations}
+Cette dernière annexe rassemble, à des fins de référence, les principales définitions et identités de calcul matriciel et de statistique bayésienne mobilisées dans les dérivations du chapitre~\ref{chap:fondements} (sections~\ref{sec:formulation_mathematique_complete}.d et \ref{sec:formulation_de_l_em_variationnel}.c) et de la section~\ref{sec:de_l_energie_libre_de}, afin que le mémoire reste autonome et ne nécessite pas de recherche bibliographique complémentaire pour en suivre le détail des calculs.
 
-\subsection*{E.1 Identités de calcul matriciel}
-\textbf{Dérivée du logarithme d'un déterminant. }Pour une matrice symétrique définie positive A, on a $\partial $/$\partial A$ log|A| = ($A^{-1}$)$^{T}$ = $A^{-1}$ (la dernière égalité utilisant la symétrie de A). Cette identité est utilisée à la section 1.6.2.d pour dériver la mise à jour de la covariance $\Sigma _{k}$.
+\subsection*{F.1 Identités de calcul matriciel}
+\textbf{Dérivée du logarithme d'un déterminant. }Pour une matrice symétrique définie positive A, on a $\partial $/$\partial A$ log|A| = ($A^{-1}$)$^{T}$ = $A^{-1}$ (la dernière égalité utilisant la symétrie de A). Cette identité est utilisée à la section~\ref{sec:formulation_mathematique_complete}.d pour dériver la mise à jour de la covariance $\Sigma _{k}$.
 
-\textbf{Dérivée d'une forme quadratique. }Pour un vecteur x et une matrice symétrique A, on a $\partial $/$\partial A$ ($x^{T}Ax$) = $xx^{T}$. Combinée à l'identité précédente, cette formule permet d'annuler le gradient de la fonction Q par rapport à la matrice de précision $\Sigma _{k}^{-1}$, comme détaillé à la section 1.6.2.d.
+\textbf{Dérivée d'une forme quadratique. }Pour un vecteur x et une matrice symétrique A, on a $\partial $/$\partial A$ ($x^{T}Ax$) = $xx^{T}$. Combinée à l'identité précédente, cette formule permet d'annuler le gradient de la fonction Q par rapport à la matrice de précision $\Sigma _{k}^{-1}$, comme détaillé à la section~\ref{sec:formulation_mathematique_complete}.d.
 
-\textbf{Trace et forme quadratique. }Pour tout vecteur x et toute matrice A, la forme quadratique $x^{T}Ax$ peut se réécrire comme une trace : $x^{T}Ax$ = tr($Axx^{T}$) = tr(A $xx^{T}$), ce qui permet de faire commuter certains calculs d'espérance avec l'opérateur trace  une manipulation fréquente, bien que non utilisée explicitement dans les dérivations du chapitre 1, mais standard dans la littérature de l'inférence variationnelle pour les modèles gaussiens.
+\textbf{Trace et forme quadratique. }Pour tout vecteur x et toute matrice A, la forme quadratique $x^{T}Ax$ peut se réécrire comme une trace : $x^{T}Ax$ = tr($Axx^{T}$) = tr(A $xx^{T}$), ce qui permet de faire commuter certains calculs d'espérance avec l'opérateur trace : une manipulation fréquente, bien que non utilisée explicitement dans les dérivations du chapitre~\ref{chap:fondements}, mais standard dans la littérature de l'inférence variationnelle pour les modèles gaussiens.
 
-\subsection*{E.2 La distribution de Wishart}
-La distribution de Wishart $\mathcal{W}$(W, $\nu $), utilisée à la section 1.7.3 comme composante du prior Normal-Wishart sur la matrice de précision $\Lambda _{k}$, généralise la distribution du $\chi ^{2}$ à des matrices. Sa densité, pour une matrice symétrique définie positive $\Lambda $ de dimension $D\times D$, est proportionnelle à :
+\subsection*{F.2 La distribution de Wishart}
+La distribution de Wishart $\mathcal{W}$(W, $\nu $), utilisée à la section~\ref{sec:formulation_de_l_em_variationnel} comme composante du prior Normal-Wishart sur la matrice de précision $\Lambda _{k}$, généralise la distribution du $\chi ^{2}$ à des matrices. Sa densité, pour une matrice symétrique définie positive $\Lambda $ de dimension $D\times D$, est proportionnelle à :
 
 \begin{equation}
-\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \mathcal{W}(\Lambda  | W{,} \nu ) \propto  |\Lambda |^{(\nu -D-1)/2} \exp [-\tfrac{1}{2} \tr (W^{-1}\Lambda )]$\end{adjustbox}
-\tag{E.1}
+\begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \mathcal{W}(\Lambda | W{,} \nu ) \propto |\Lambda |^{(\nu -D-1)/2} \exp [-\tfrac{1}{2} \tr (W^{-1}\Lambda )]$\end{adjustbox}
+\tag{F.1}
 \label{eq:G_1}
 \end{equation}
-où W est la matrice d'échelle ($D\times D$, symétrique définie positive) et $\nu $ > D - 1 le nombre de degrés de liberté. L'espérance de cette distribution vaut $\mathbb{E}$[$\Lambda $] = $\nu W$, et l'espérance de son logarithme de déterminant, utilisée à l'équation de la section 1.7.3.e, s'exprime au moyen de la fonction digamma multivariée : $\mathbb{E}$[log|$\Lambda $|] = $\Sigma _{j=1}^{D}$ $\psi $[($\nu $+1-j)/2] + D log 2 + log|W|, formule qui se déduit de la fonction génératrice des moments de la distribution de Wishart.
+où W est la matrice d'échelle ($D\times D$, symétrique définie positive) et $\nu $ > D - 1 le nombre de degrés de liberté. L'espérance de cette distribution vaut $\mathbb{E}$[$\Lambda $] = $\nu W$, et l'espérance de son logarithme de déterminant, utilisée à l'équation de la section~\ref{sec:formulation_de_l_em_variationnel}.e, s'exprime au moyen de la fonction digamma multivariée : $\mathbb{E}$[log|$\Lambda $|] = $\Sigma _{j=1}^{D}$ $\psi $[($\nu $+1-j)/2] + D log 2 + log|W|, formule qui se déduit de la fonction génératrice des moments de la distribution de Wishart.
 
-\subsection*{E.3 La distribution de Dirichlet}
-La distribution de Dirichlet Dir($\alpha _{1}$, \ldots{}, $\alpha K$), utilisée à la section 1.4.2 comme prior sur les poids de mélange, est la généralisation multivariée de la distribution Bêta au simplexe de dimension K-1. Sa densité s'écrit p($\pi $ | $\alpha $) $\propto $ $\prod _{k}$ $\pi _{k}$\textasciicircum{}\{$\alpha _{k}$-1\}, sous la contrainte $\Sigma _{k}$ $\pi _{k}$ = 1, $\pi _{k}$ $\geq $ 0. Son espérance vaut :
+\subsection*{F.3 La distribution de Dirichlet}
+La distribution de Dirichlet Dir($\alpha _{1}$, \ldots{}, $\alpha K$), utilisée à la section~\ref{sec:le_theoreme_de_bayes_et} comme prior sur les poids de mélange, est la généralisation multivariée de la distribution Bêta au simplexe de dimension K-1. Sa densité s'écrit p($\pi $ | $\alpha $) $\propto $ $\prod _{k}$ $\pi _{k}$\textasciicircum{}\{$\alpha _{k}$-1\}, sous la contrainte $\Sigma _{k}$ $\pi _{k}$ = 1, $\pi _{k}$ $\geq $ 0. Son espérance vaut :
 
 \begin{equation}
 \begin{adjustbox}{max width=0.92\linewidth}$\displaystyle \mathbb{E}[\pi _{k}] = \alpha _{k} / \Sigma _{j} \alpha _{j}$\end{adjustbox}
-\tag{E.2}
+\tag{F.2}
 \label{eq:G_2}
 \end{equation}
-et l'espérance de son logarithme  utilisée à l'équation de la section 1.7.3.e  s'exprime, comme pour la Wishart, au moyen de la fonction digamma : $\mathbb{E}$[log $\pi _{k}$] = $\psi $($\alpha _{k}$) - $\psi $($\Sigma _{j}$ $\alpha _{j}$). Cette formule intervient dans l'étape E variationnelle (équation 1.27) ; l'exemple de la section 1.4.4, avec $\alpha $ = (8, 5, 2), n'en utilise que l'espérance $\mathbb{E}$[$\pi _{k}$] = $\alpha _{k}$ / $\Sigma _{j}$ $\alpha _{j}$.
+et l'espérance de son logarithme (utilisée à l'équation de la section~\ref{sec:formulation_de_l_em_variationnel}.e) s'exprime, comme pour la Wishart, au moyen de la fonction digamma : $\mathbb{E}$[log $\pi _{k}$] = $\psi $($\alpha _{k}$) - $\psi $($\Sigma _{j}$ $\alpha _{j}$). Cette formule intervient dans l'étape E variationnelle (équation~\ref{eq:1_27}) ; l'exemple de la section~\ref{sec:exemple_numerique_illustratif_conjugaison_dirichlet}, avec $\alpha $ = (8, 5, 2), n'en utilise que l'espérance $\mathbb{E}$[$\pi _{k}$] = $\alpha _{k}$ / $\Sigma _{j}$ $\alpha _{j}$.
 
-\subsection*{E.4 La fonction digamma}
-La fonction digamma $\psi $(x) = d/dx log $\Gamma $(x), dérivée logarithmique de la fonction Gamma, apparaît systématiquement dans les espérances de logarithmes de variables aléatoires des familles Dirichlet, Wishart et Gamma, en raison de la forme exponentielle de la famille exponentielle sous-jacente à ces distributions. Elle ne possède pas de forme fermée élémentaire, mais admet le développement asymptotique $\psi $(x) $\approx $ log(x) - 1/(2x) pour x grand, et est implémentée numériquement dans torch.special.digamma, utilisée dans les implémentations du chapitre 3 (sections 3.2.1 et 3.3.1) : le code n'utilise ni SciPy ni NumPy.
+\subsection*{F.4 La fonction digamma}
+La fonction digamma $\psi $(x) = d/dx log $\Gamma $(x), dérivée logarithmique de la fonction Gamma, apparaît systématiquement dans les espérances de logarithmes de variables aléatoires des familles Dirichlet, Wishart et Gamma, en raison de la forme exponentielle de la famille exponentielle sous-jacente à ces distributions. Elle ne possède pas de forme fermée élémentaire, mais admet le développement asymptotique $\psi $(x) $\approx $ log(x) - 1/(2x) pour x grand, et est implémentée numériquement dans torch.special.digamma, utilisée dans l'implémentation de l'EM variationnel (section~\ref{sec:impl_vb}) : le code n'utilise ni SciPy ni NumPy.

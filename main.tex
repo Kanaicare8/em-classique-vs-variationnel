@@ -39,6 +39,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theoreme}{Théorème}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}[theoreme]{Définition}
 \numberwithin{equation}{chapter}
 \providecommand{\textsubscript}[1]{\ensuremath{{}_{\text{#1}}}}
 \DeclareMathOperator{\tr}{tr}

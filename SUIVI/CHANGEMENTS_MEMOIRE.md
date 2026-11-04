@@ -46,3 +46,20 @@ et Peel (2000), McLachlan et Krishnan (2008). Décision de l'étudiant : les cit
 
 Sauvegardes : `sauvegardes/body_*_avant_bibtex.tex`, `sauvegardes/introduction_*.tex`. Compilation :
 `pdflatex`, `biber`, `pdflatex` ×2 sans erreur ni citation indéfinie, 124 pages.
+
+## 2026-11-04 (forme, P-21)
+
+| Section | Changement | Point du plan |
+|---|---|---|
+| Tout le document | 190 renvois internes saisis à la main (sections, équations, tableaux, chapitres) remplacés par des renvois automatiques, d'après les numéros actuels ; 64 sections et les 3 chapitres étiquetés ; renvois vers des sections d'ouvrages cités laissés tels quels | P-21 (T-07) |
+| Annexes | deux renvois périmés corrigés (variable du cas pratique : section de méthodologie, pas « 3.1.1 » ; digamma : implémentation du VB, pas « chapitre 3, sections 3.2.1 et 3.3.1 ») | T-04 |
+| Annexes E et F | lettres échangées pour suivre l'ordre du document (E : registre ; F : rappels mathématiques, F.1 à F.4) | P-21 (T-11) |
+| Texte | 28 phrases où un tiret d'incise avait été retiré (double espace) : parenthèses ou deux-points ; doubles espaces des formules réduits | P-21 (T-08) |
+| Chap. 1 | environnements `theoreme` (amsthm) : Jensen (hypothèses d'intégrabilité ; condition d'égalité énoncée pour f strictement concave), Gibbs, convergence de l'EM, Rousseau et Mengersen (énoncé simplifié) | P-21 (T-09), P-14 |
+
+**À vérifier par l'étudiant** : l'énoncé du théorème de Wu (1983). La clause « ou si la suite elle-même est
+convergente » (tautologique) a été retirée ; la condition exacte de convergence de la suite (par exemple
+‖θ^{t+1} − θ^t‖ → 0 et points stationnaires isolés) n'a pas été ajoutée, faute d'avoir lu l'article.
+**À vérifier au lot 4** : l'exemple numérique de la section 1.7.5 (« 5 à 15 itérations », « dix essais, graines 0 à
+4 ») doit correspondre aux sorties de l'étape de validation.
+Compilation : 125 pages, sans erreur ; renvois non définis : tableaux encore à générer seulement.

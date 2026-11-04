@@ -22,12 +22,13 @@ identifiant : P-xx (point du plan), D-xx (décision), E-xx (expérience).
 | `CANEVAS_ECOLE.md` | plan imposé par l'école (transcription) | créé le 2026-11-04 |
 | `CHANGEMENTS_MEMOIRE.md` | modifications du document, par section | créé le 2026-11-04 |
 
-## État du jour (2026-11-04 soir, phase 4 : lots 1 et 2 faits, lot 5 commencé)
+## État du jour (2026-11-04 soir, phase 4)
 
-Code poussé : `315a21c` (tiers), `9ece8ce` (D-04 à D-06, P-17), `f73142e` (D-07, P-10). À récupérer sur l'instance avant
-la vague 6 (E-01, mise à jour 2). Mémoire : corrections factuelles et mathématiques, écarts au protocole déclarés,
-lectures de l'ancienne chaîne retirées (`CHANGEMENTS_MEMOIRE.md`). Reste au lot 5 : P-15 (annexes A et D), P-19 et
-P-20 (canevas, volume). Lot 6 : P-18 (BibTeX IEEE), P-21 (forme). À vérifier par l'étudiant : Steinley 2004.
+Code : lots 1 et 2 faits et poussés (`9ece8ce`, `f73142e`), à récupérer sur l'instance avant la vague 6 (E-01).
+Mémoire : corrections (P-05, P-09, P-12 à P-16), annexes (P-15), bibliographie IEEE (P-18), forme (P-21) faites.
+Reste : P-19 et P-20 (structure selon le canevas et volume), en attente d'une décision de l'étudiant sur la forme de
+la revue de littérature ; lot 3 (calculs) puis lot 4 (résultats) ; 4 entrées bibliographiques non citées à trancher ;
+Steinley 2004 et énoncé de Wu à vérifier.
 
 1. Document : `main.tex` + `body.tex` (35 224 mots) + `introduction.tex` ; PDF compilé du 27 octobre, 125 pages.
 2. Plan actuel : introduction ; partie I (revue, chap. 1 fondements théoriques) ; chap. 2 méthodologie ; chap. 3 résultats et discussion ; conclusion ; bibliographie annoncée IEEE ; annexes A à F.

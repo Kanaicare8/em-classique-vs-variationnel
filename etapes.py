@@ -19,6 +19,7 @@ from __future__ import annotations
 import csv
 import importlib
 import os
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -76,10 +77,12 @@ def executer_unite(u: Unite, rapide: bool) -> str:
     if mag.complete(u.cle):
         return u.cle
     f = getattr(importlib.import_module(u.module), u.fonction)
+    t0 = time.perf_counter()
     res = f(Memo(mag, u.cle), rapide=rapide, **u.kwargs)
     res.setdefault("lignes", [])
     res.setdefault("artefacts", {})
     res["cle"] = u.cle
+    res["duree_s"] = time.perf_counter() - t0      # durée murale de l'unité (sert au plafond de budget, D-05)
     mag.ecrire(u.cle, res)
     PE.Journal(mag.dossier.parent / "_journal").ecrire(etape=u.etape, unite=u.cle, statut="terminee")
     return u.cle

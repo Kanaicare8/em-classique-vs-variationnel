@@ -107,7 +107,7 @@ def unite_scenario(memo, rapide, scenario, parametre, fabrique, k_vrai, k_choisi
             "ll_test": C.logdens_plugin(res, Xt),
             "ll_test_predictive": C.logdens_predictive_vb(res, Xt) if est_vb else float("nan"),
             "degenere": float(res["degenere"]), "petite_composante": float(res.get("petite_composante", False)),
-            "plancher_regularisation": float(res.get("plancher_regularisation", False)),
+            "effondrement": float(res.get("effondrement", False)),
             "converge": float(res["converge"]), "n_iter": res["n_iter"], "temps_s": res["temps_total"]})
         artefacts["ajustements"][nom] = PE.resume_ajustement(res)
     return {"lignes": lignes, "artefacts": artefacts}
@@ -196,7 +196,7 @@ def agreger(rapide: bool):
         lignes_res.append({"scenario": sc, "parametre": par, "bras": br, "n": len(ls),
                            **{m: _moy([x[m] for x in ls]) for m in ("k_hat", "erreur_k", "ARI", "ll_test", "ll_test_predictive",
                                                                       "degenere", "petite_composante",
-                                                                      "plancher_regularisation", "converge", "temps_s")}})
+                                                                      "effondrement", "converge", "temps_s")}})
     E.ecrire_csv("scenarios_resume", lignes_res, rapide)
     # décisions confirmatoires : famille « scenarios », un test déclaré par hypothèse, Holm sur la famille
     hyp = [{"id": h.id, "axe": h.axe, "enonce": h.enonce, "test": h.test, "marge": HY.marge(h),

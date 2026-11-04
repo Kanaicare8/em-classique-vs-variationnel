@@ -18,6 +18,7 @@ Toutes les évaluations intermédiaires sont conservées dans le magasin (repris
 
 from __future__ import annotations
 
+import importlib
 import json
 import math
 import os
@@ -605,15 +606,23 @@ def unite_marges(memo, rapide, jeu):
 
 
 def fin_marges(memo, rapide):
+    """
+    Contrôle des marges d'équivalence (décision D-04) : les marges sont fixées a priori dans le registre
+    (« marges_equivalence ») ; cette étude mesure seulement le bruit d'optimisation (quantile à 95 % de l'écart absolu
+    entre deux ajustements du même bras, graines différentes, mêmes données) et vérifie que chaque marge le dépasse.
+    """
     L = E.lignes("calibrage", rapide, "marges/")
-    val = {}
+    marges = PARAM.valeur("marges_equivalence")
+    bruit, controle = {}, {}
     for m in ("ARI", "LL"):
         v = torch.tensor([l[f"ecart_{m}"] for l in L if f"ecart_{m}" in l and l[f"ecart_{m}"] == l[f"ecart_{m}"]],
                          dtype=torch.float64)
-        val[m] = max(0.001, float(torch.quantile(v, 0.95))) if len(v) else 0.001
-    return _ecrire("marges", {"marges_equivalence": val},
-                   "quantile à 95 % de l'écart absolu entre deux ajustements du même bras (graines différentes, mêmes données), "
-                   "tous jeux et bras confondus ; plancher 0,001", {"n_paires": len(L)})
+        bruit[m] = float(torch.quantile(v, 0.95)) if len(v) else float("nan")
+        controle[m] = "marge > bruit" if bruit[m] < float(marges[m]) else "ATTENTION : marge <= bruit d'optimisation"
+    return _ecrire("marges", {"bruit_optimisation": bruit},
+                   "contrôle seulement (D-04) : quantile à 95 % de l'écart absolu entre deux ajustements du même bras "
+                   "(graines différentes, mêmes données), tous jeux et bras confondus, comparé aux marges fixées a priori",
+                   {"n_paires": len(L), "marges": marges, "controle": controle})
 
 
 def _plus_petit(grille, ecart_type_de):
@@ -719,21 +728,34 @@ def unites_pilotes(rapide, dep):
     return us
 
 
+def _marge_puissance(d, h):
+    """Écart vrai de l'analyse de puissance : la marge déclarée, sinon 0,5 écart-type des différences pilotes."""
+    if h.test == "equivalence" or h.marge:
+        return HY.marge(h)
+    return float(PARAM.valeur("effet_standardise")) * float(torch.tensor(d, dtype=torch.float64).std()) if len(d) >= 2 else None
+
+
+def _puissance(d, h, m, alpha, marge, R):
+    return S.puissance_simulee(d, R, h.test, marge, alpha / m, n_sim=N_SIM_PUISSANCE, graine=_g("puissance", h.id, R))
+
+
 def _r_requis(d, h, m, alpha):
-    """Plus petit R de la grille avec une puissance >= 0,8 au niveau alpha / m (première étape de Holm), par dichotomie."""
-    if h.test == "equivalence":
-        marge = HY.marge(h)
-    else:
-        marge = HY.marge(h) if h.marge else float(PARAM.valeur("effet_standardise")) * float(torch.tensor(d).std())
+    """
+    Plus petit R de la grille avec une puissance >= 0,8 au niveau alpha / m (première étape de Holm), par dichotomie.
+    Rend (R, puissance, remarque). R = None si les différences pilotes sont toutes identiques (décision D-05, option B) :
+    l'hypothèse est alors décidée sans ambiguïté par le TOST (cas se = 0) ou rapportée « sans variance », et ne fixe pas R.
+    """
+    if len(d) >= 2 and float(torch.tensor(d, dtype=torch.float64).std()) == 0.0:
+        return None, float("nan"), "sans variance : exclue du maximum (D-05)"
+    marge = _marge_puissance(d, h)
     if marge is None or marge <= 0 or len(d) < 2:
-        return GRILLE_R[-1], float("nan"), "pilote sans variance"
+        return GRILLE_R[-1], float("nan"), "pilote insuffisant"
     lo, hi = 0, len(GRILLE_R) - 1
     pw = {}
 
     def p(i):
         if i not in pw:
-            pw[i] = S.puissance_simulee(d, GRILLE_R[i], h.test, marge, alpha / m, n_sim=N_SIM_PUISSANCE,
-                                        graine=_g("puissance", h.id, GRILLE_R[i]))
+            pw[i] = _puissance(d, h, m, alpha, marge, GRILLE_R[i])
         return pw[i]
     if p(hi) < PUISSANCE_CIBLE:
         return GRILLE_R[-1], p(hi), "plafond atteint"
@@ -751,20 +773,70 @@ def fin_puissance(memo, rapide):
     lignes = {"scenarios": E.lignes("calibrage", rapide, "puissance/pilote/scenarios/"),
               "prix": E.lignes("calibrage", rapide, "puissance/pilote/prix/"),
               "texte": E.lignes("calibrage", rapide, "puissance/pilote/texte/")}
-    val, det = {}, []
+    val, det, hyp = {}, [], []
     for fam in ("scenarios", "prix", "texte"):
         hs = HY.famille(fam)
         for h in hs:
             d = HY.diffs(h, lignes[fam])
             R, pw, note = _r_requis(d, h, len(hs), alpha)
             cle = _cle_replication(h)
-            val[cle] = max(val.get(cle, 0), R)
-            det.append({"id": h.id, "cle": cle, "n_pilote": len(d), "R": R, "puissance": pw, "remarque": note})
+            val[cle] = max(val.get(cle, GRILLE_R[0]), R if R is not None else GRILLE_R[0])
+            hyp.append((h, d, len(hs), cle))
+            det.append({"id": h.id, "cle": cle, "n_pilote": len(d), "R_requis": R, "puissance_requise": pw, "remarque": note})
     val.setdefault("prix_sensibilite", val.get("prix_sous", GRILLE_R[-1]))
+    durees = {c: [r.get("duree_s") for r in E.resultats("calibrage", rapide, f"puissance/pilote/{p}")]
+              for c, p in (("scenarios", "scenarios/"), ("texte", "texte/"), ("prix_sous", "prix/sous/"),
+                           ("prix_semi", "prix/semi/"), ("prix_sensibilite", "prix/sensibilite/"))}
+    val, budget = _plafond_budget(val, durees)
+    for (h, d, m, cle), x in zip(hyp, det):                  # puissance obtenue au R retenu
+        x["R_retenu"] = val[cle]
+        marge = _marge_puissance(d, h)
+        x["puissance_obtenue"] = (_puissance(d, h, m, alpha, marge, val[cle])
+                                  if x["R_requis"] is not None and marge and marge > 0 and len(d) >= 2 else float("nan"))
     return _ecrire("puissance", {"replications": val},
                    "par clé, maximum sur les hypothèses de la famille du plus petit R (grille 10 à 200) donnant une puissance "
-                   "simulée >= 0,8 au niveau alpha / m (première étape de Holm) ; équivalence : différences du pilote recentrées "
-                   "à 0 ; différence : recentrées à la marge (ou à 0,5 écart-type)", {"hypotheses": det})
+                   "simulée >= 0,8 au niveau alpha / m (première étape de Holm), hors hypothèses sans variance pilote ; "
+                   "puis plafond commun par le budget de temps « budget_replications » (D-05) ; équivalence : différences "
+                   "du pilote recentrées à 0 ; différence : recentrées à la marge (ou à 0,5 écart-type)",
+                   {"hypotheses": det, "budget": budget})
+
+
+_UNITES_REPLIQUEES = {"scenarios": ("scenarios", ("",)), "prix_sous": ("etape_prix", ("sous/",)),
+                      "prix_semi": ("etape_prix", ("semi/", "couverture/")),
+                      "prix_sensibilite": ("etape_prix", ("sensibilite/",)), "texte": ("etape_texte", ("V=",))}
+
+
+def _unites_par_replication(cle):
+    """Nombre d'unités confirmatoires d'une réplication (clés finissant par rep=000) pour une clé de « replications »."""
+    module, prefixes = _UNITES_REPLIQUEES[cle]
+    us = importlib.import_module(module).unites(False)
+    return sum(1 for u in us if u.cle.endswith("rep=000") and u.cle.startswith(prefixes))
+
+
+def _plafond_budget(val, durees):
+    """
+    Décision D-05, option C. Temps estimé d'une réplication d'une clé = unités confirmatoires par réplication x durée
+    moyenne des unités pilotes de la clé (durées mesurées par etapes.executer_unite). Si le temps total dépasse
+    « budget_replications », toutes les clés sont réduites dans la même proportion (arrondi inférieur à la grille,
+    au moins GRILLE_R[0]). Approximation déclarée : les unités sans pilote (S8 à S10, couverture) sont comptées à la
+    durée moyenne des unités pilotes de leur clé. Rend (valeurs retenues, détail).
+    """
+    b = PARAM.valeur("budget_replications")
+    budget_s = float(b["heures_instance"]) * 3600 * int(b["travailleurs"])
+    cout = {}
+    for cle in val:
+        d = [x for x in durees.get(cle, []) if x is not None]
+        if not d:
+            return val, {"budget_s": budget_s, "remarque": f"durées pilotes absentes ({cle}) : aucun plafond appliqué"}
+        cout[cle] = _unites_par_replication(cle) * sum(d) / len(d)
+    total = sum(val[c] * cout[c] for c in val)
+    det = {"budget_s": budget_s, "cout_par_replication_s": cout, "total_requis_s": total, "R_requis": dict(val)}
+    if total <= budget_s:
+        det["facteur"] = 1.0
+        return val, det
+    f = budget_s / total
+    det["facteur"] = f
+    return {c: max([g for g in GRILLE_R if g <= f * R] or [GRILLE_R[0]]) for c, R in val.items()}, det
 
 
 # ------------------------------------------------------------------------------ étape

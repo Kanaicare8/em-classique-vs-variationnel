@@ -221,6 +221,40 @@ def _verrouiller(rapide: bool):
     return f
 
 
+def _ecrire_environnement(choix, a):
+    """
+    Machine et logiciels du lancement (point P-17) : resultats/environnement.json (dernier lancement) et une ligne de
+    plus dans resultats/environnement_historique.jsonl. Sans effet sur les calculs.
+    """
+    import json
+    import platform
+    import subprocess
+    from datetime import datetime
+    from pathlib import Path
+    import torch
+    mem = None
+    try:
+        with open("/proc/meminfo") as f:
+            mem = round(int(f.readline().split()[1]) / 1024 ** 2, 1)          # MemTotal, Go
+    except OSError:
+        pass
+    try:
+        commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True,
+                                cwd=Path(__file__).parent, timeout=10).stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        commit = None
+    env = {"date": datetime.now().isoformat(timespec="seconds"), "etapes": choix, "rapide": a.rapide,
+           "travailleurs": a.travailleurs, "sous_travailleurs": os.environ.get("ICARE_SOUS_TRAVAILLEURS"),
+           "commit": commit, "systeme": platform.platform(), "processeur": platform.processor() or platform.machine(),
+           "coeurs_logiques": os.cpu_count(), "memoire_go": mem, "python": platform.python_version(),
+           "torch": torch.__version__, "fils_torch_principal": torch.get_num_threads()}
+    d = Path(__file__).parent / "resultats"
+    d.mkdir(exist_ok=True)
+    (d / "environnement.json").write_text(json.dumps(env, ensure_ascii=False, indent=1), encoding="utf-8")
+    with open(d / "environnement_historique.jsonl", "a", encoding="utf-8") as f:
+        f.write(json.dumps(env, ensure_ascii=False) + "\n")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("etapes", nargs="*", choices=ORDRE + [[]], default=[])
@@ -246,6 +280,7 @@ def main():
             importlib.import_module("figures").produire(a.rapide)
         return
     verrou = _verrouiller(a.rapide)
+    _ecrire_environnement(choix, a)
     PE.installer_arret_propre()
     PE.desactiver_selection_console()
     with PE.empecher_veille():

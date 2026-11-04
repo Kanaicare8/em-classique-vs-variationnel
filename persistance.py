@@ -326,7 +326,7 @@ def resume_ajustement(res: dict, avec_r: bool = True) -> dict:
     responsabilités (float32), historiques, indicateurs et relances.
     """
     garder = ("pi", "mu", "m", "cov", "alpha", "Nk", "loglik", "crit", "elbo", "ll_hist", "hist", "n_iter", "converge",
-              "bic", "aic", "icl", "entropie", "n_params", "degenere", "petite_composante", "plancher_regularisation",
+              "bic", "aic", "icl", "entropie", "n_params", "degenere", "petite_composante", "effondrement",
               "temps", "temps_par_iter", "cov_type", "critere_nom", "relances", "k_hat", "temps_total", "log_posteriori",
               "critere_par_k", "temps_balayage", "k_echecs", "reg", "echec", "elbo_hist", "n_actives")
     out = {k: res[k] for k in garder if k in res}

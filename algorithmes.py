@@ -564,25 +564,24 @@ def _em_lot(dp, K, cov_type, n_iter, tol, reg, init, graines, prior=None, instan
     return etat
 
 
-def indicateurs_degenerescence(cov: Tensor, Nk: Tensor, D: int, reg: float):
+SEUIL_EFFONDREMENT = 1e-6     # valeur propre minimale relative à la trace (décision D-06, définition du chapitre 2)
+
+
+def indicateurs_degenerescence(cov: Tensor, Nk: Tensor, D: int):
     """
-    Deux indicateurs distincts, par composante non éteinte (N_k >= 1) :
-      petite      : 1 <= N_k < D + 1. Avec moins de D + 1 points, la covariance empirique est de rang
-                    au plus N_k - 1 < D : l'estimateur du maximum de vraisemblance est singulier (fait algébrique).
-      plancher    : la plus petite valeur propre de Sigma_k est au plus 2 reg, c'est-à-dire que la
-                    régularisation (+ reg I) fournit au moins la moitié de la plus petite variance : la
-                    composante s'est effondrée sur un sous-espace et n'est tenue que par le plancher.
-                    Ce critère n'est défini que si reg > 0 (EM et MAP-EM) ; pour le VB il vaut faux.
-    Retourne (petite, plancher), deux masques (K,).
+    Deux indicateurs, par composante non éteinte (N_k >= 1), avec le MÊME critère pour tous les bras (EM, MAP-EM, VB ;
+    décision D-06), appliqué à la covariance plug-in finale de chaque bras :
+      petite       : 1 <= N_k < D + 1. Avec moins de D + 1 points, la covariance empirique est de rang
+                     au plus N_k - 1 < D : l'estimateur du maximum de vraisemblance est singulier (fait algébrique).
+      effondrement : la plus petite valeur propre de Sigma_k est inférieure à 1e-6 fois sa trace : la composante
+                     s'est effondrée sur un sous-espace.
+    Retourne (petite, effondrement), deux masques (K,).
     """
     non_eteinte = Nk >= 1.0
     petite = non_eteinte & (Nk < D + 1)
-    if reg > 0:
-        vp_min = torch.linalg.eigvalsh(cov).min(dim=-1).values
-        plancher = non_eteinte & (vp_min <= 2.0 * reg)
-    else:
-        plancher = torch.zeros_like(non_eteinte)
-    return petite, plancher
+    vp = torch.linalg.eigvalsh(cov)
+    effondrement = non_eteinte & (vp.min(dim=-1).values < SEUIL_EFFONDREMENT * vp.sum(dim=-1))
+    return petite, effondrement
 
 
 def _finaliser_em(lot, dp, K, cov_type, t0, reg, prior=None, graines=None):
@@ -600,14 +599,14 @@ def _finaliser_em(lot, dp, K, cov_type, t0, reg, prior=None, graines=None):
     pi, mu, cov, r = (lot["params"]["pi"][b], lot["params"]["mu"][b] + dp.c, lot["params"]["cov"][b], lot["r"][b])
     p = nb_parametres(K, D, cov_type)
     Nk = r.sum(0)
-    petite, plancher = indicateurs_degenerescence(cov, Nk, D, reg)
+    petite, effondre = indicateurs_degenerescence(cov, Nk, D)
     temps = time.perf_counter() - t0
     res = {"pi": pi, "mu": mu, "cov": cov, "r": r, "loglik": float(ll[b]),
            "ll_hist": lot["hist"][:comp[b], b].tolist(), "n_iter": int(n_it[b]), "converge": bool(lot["converge"][b]),
            "Nk": Nk, "labels": r.argmax(1), "n_params": p, "bic": bic(float(ll[b]), p, N), "aic": aic(float(ll[b]), p),
            "icl": icl(float(ll[b]), p, N, r), "entropie": entropie_affectation(r),
-           "petite_composante": bool(petite.any()), "plancher_regularisation": bool(plancher.any()),
-           "degenere": bool((petite | plancher).any()), "degenere_composantes": petite | plancher,
+           "petite_composante": bool(petite.any()), "effondrement": bool(effondre.any()),
+           "degenere": bool((petite | effondre).any()), "degenere_composantes": petite | effondre,
            "temps": temps, "cov_type": cov_type, "reg": reg, "temps_par_iter": temps / max(lot["passages"], 1),
            "relances": {"critere": ll.tolist(), "n_iter": n_it.tolist(), "converge": lot["converge"].tolist(),
                         "echec": lot["echec"].tolist(), "meilleure": b, "graines": list(graines) if graines else None}}
@@ -1055,7 +1054,7 @@ def em_variationnel(X, Kmax, priori: PrioriNW | None = None, alpha0=None, cov_ty
     else:
         cov = torch.diag_embed(P["b"] / P["a"])
     Nk = r.sum(0)
-    petite, plancher = indicateurs_degenerescence(cov, Nk, D, 0.0)
+    petite, effondre = indicateurs_degenerescence(cov, Nk, D)
     temps = time.perf_counter() - t0
     hist = lot["hist"][:comp[b], b].tolist()
     return {"P": P, "r": r, "crit": float(crit[b]), "hist": hist, "n_iter": int(lot["n_m"][b]),
@@ -1064,8 +1063,8 @@ def em_variationnel(X, Kmax, priori: PrioriNW | None = None, alpha0=None, cov_ty
             "n_actives": int((Nk >= 1.0).sum()),
             "elbo_hist": hist if cov_type == "full" else None, "elbo": float(crit[b]) if cov_type == "full" else None,
             "critere_nom": "elbo" if cov_type == "full" else "approximation_log_norm",
-            "petite_composante": bool(petite.any()), "plancher_regularisation": bool(plancher.any()),
-            "degenere": bool((petite | plancher).any()), "degenere_composantes": petite | plancher,
+            "petite_composante": bool(petite.any()), "effondrement": bool(effondre.any()),
+            "degenere": bool((petite | effondre).any()), "degenere_composantes": petite | effondre,
             "temps": temps, "temps_par_iter": temps / max(lot["passages"], 1), "priori": pr, "cov_type": cov_type,
             "relances": {"critere": crit.tolist(), "n_iter": lot["n_m"].tolist(), "converge": lot["converge"].tolist(),
                          "echec": lot["echec"].tolist(), "meilleure": b, "graines": graines}}

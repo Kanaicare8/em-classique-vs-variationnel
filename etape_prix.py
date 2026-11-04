@@ -114,7 +114,7 @@ def unite_sous(memo, rapide, N, rep, etape_reference="prix"):
             "ll_test": C.logdens_plugin(res, Xte),
             "ll_test_predictive": C.logdens_predictive_vb(res, Xte) if nom.startswith("VB") else float("nan"),
             "degenere": float(res["degenere"]), "petite_composante": float(res.get("petite_composante", False)),
-            "plancher_regularisation": float(res.get("plancher_regularisation", False)),
+            "effondrement": float(res.get("effondrement", False)),
             "converge": float(res["converge"]), "n_iter": res["n_iter"], "temps_s": res["temps_total"]})
         ajust[nom] = PE.resume_ajustement(res, avec_r=False)
     return {"lignes": lignes, "artefacts": {"idx_apprentissage": idx, "ajustements": ajust}}

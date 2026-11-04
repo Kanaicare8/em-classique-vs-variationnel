@@ -68,6 +68,9 @@ REFERENCES = {
                     "AISTATS, PMLR 51, 240-248, 2016",
     "lakens2017": "D. Lakens, Equivalence tests: a practical primer for t tests, correlations, and meta-analyses, "
                   "Soc. Psychol. Personal. Sci. 8(4), 355-362, 2017",
+    "lakens2018": "D. Lakens, A. M. Scheel, P. M. Isager, Equivalence testing for psychological research: a tutorial, "
+                  "Adv. Methods Pract. Psychol. Sci. 1(2), 259-269, 2018",
+    "steinley2004": "D. Steinley, Properties of the Hubert-Arabie adjusted Rand index, Psychol. Methods 9(3), 386-396, 2004",
     "pedregosa2011": "F. Pedregosa et al., Scikit-learn: Machine learning in Python, JMLR 12, 2825-2830, 2011",
     "porter1980": "M. F. Porter, An algorithm for suffix stripping, Program 14(3), 130-137, 1980",
     "robbins1951": "H. Robbins, S. Monro, A stochastic approximation method, Ann. Math. Statist. 22(3), 400-407, 1951",
@@ -144,10 +147,16 @@ _p("priors_vb_calibres", {f: {"alpha0": 0.1, "beta0": 1.0, "nu0_plus": 0.0, "ech
 # ------------------------------------------------------------------------------ inférence statistique
 _p("alpha_test", 0.05, "plan", "Niveau des tests, déclaré dans le plan ; contrôle du risque familial par la procédure de Holm.",
    references=("holm1979",))
-_p("marges_equivalence", {"ARI": 0.03, "LL": 0.02}, "donnees",
-   "Plus petite différence d'intérêt (Lakens 2017) : quantile à 95 % de l'écart absolu entre deux ajustements de la MÊME "
-   "méthode avec des graines différentes sur les mêmes données (plancher de bruit d'optimisation), avec un plancher de 0,001 ; "
-   "un écart inférieur n'est pas attribuable à la méthode.", references=("lakens2017", "schuirmann1987"), calibrage="marges")
+_p("marges_equivalence", {"ARI": 0.05, "LL": 0.05}, "plan",
+   "Plus petite différence d'intérêt (SESOI), fixée avant tout résultat confirmatoire par l'importance pratique "
+   "(Lakens, Scheel et Isager 2018 ; décision D-04 du 2026-11-04, écart déclaré à la règle antérieure fondée sur le bruit "
+   "d'optimisation). ARI : 0,05, soit la moitié de la largeur d'une classe de l'échelle de qualité de récupération "
+   "usuelle (0,65 / 0,80 / 0,90, attribuée à Steinley 2004 : à vérifier dans l'article) ; un écart inférieur ne peut "
+   "pas faire franchir plus d'une frontière de classe. Log-vraisemblance moyenne par observation : 0,05 nat, soit "
+   "log(1,05) arrondi : la densité prédictive d'une méthode dépasse celle de l'autre d'au plus 5 % en moyenne "
+   "géométrique, le même seuil relatif de 5 % que pour l'ARI. Sensibilité rapportée à la moitié et au double. Le bruit "
+   "d'optimisation (étude « marges ») est rapporté comme contrôle : la marge doit le dépasser.",
+   references=("lakens2018", "steinley2004", "schuirmann1987"))
 _p("marge_k", 0.5, "mathematique",
    "Marge d'équivalence sur l'erreur moyenne de K : K est entier, un écart moyen inférieur à 0,5 signifie que la "
    "majorité des réplications ne diffèrent pas d'une composante entière.")
@@ -168,9 +177,17 @@ _p("taille_pilote", 10, "plan",
    "les données du pilote ne sont pas réutilisées dans les tests confirmatoires (graines disjointes).",
    references=("lakens2017",))
 _p("replications", {"scenarios": 30, "prix_sous": 40, "prix_semi": 60, "prix_sensibilite": 20, "texte": 10}, "benchmark",
-   "Nombre de réplications : puissance d'au moins 0,8 du test déclaré (TOST à la marge calibrée, ou Wilcoxon pour un écart "
-   "égal à la marge) au niveau corrigé, d'après la variance des différences observée dans le pilote (Lakens 2017).",
+   "Nombre de réplications : puissance d'au moins 0,8 du test déclaré (TOST à la marge fixée, ou Wilcoxon pour un écart "
+   "égal à la marge) au niveau corrigé, d'après la variance des différences observée dans le pilote (Lakens 2017). "
+   "Décision D-05 : une hypothèse dont les différences pilotes sont toutes identiques (sans variance) ne fixe pas R ; "
+   "R est ensuite plafonné par « budget_replications », la puissance obtenue étant rapportée.",
    references=("lakens2017",), calibrage="puissance")
+_p("budget_replications", {"heures_instance": 96, "travailleurs": 31, "jusqu_au": "2026-11-15"}, "plan",
+   "Plafond de temps des étapes répliquées (décision D-05, option C) : 96 heures de l'instance de 32 coeurs (31 processus "
+   "de calcul), soit 4 des 7 jours prévus pour les calculs confirmatoires et environ 17 $ au tarif de 0,177 $/h, le reste "
+   "étant gardé pour les autres étapes et les reprises. Si le R requis par la puissance dépasse ce budget, toutes les clés "
+   "sont réduites dans la même proportion (arrondi à la grille) et la puissance obtenue est rapportée pour chaque "
+   "hypothèse.")
 
 _p("repetitions_chronometrage", 20, "plan",
    "Répétitions de chaque mesure de temps (un seul processus, un seul fil) : avec 20 mesures, l'intervalle entre les 6e et "

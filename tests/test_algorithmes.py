@@ -76,14 +76,15 @@ def test_t13_icl_choisit_3_groupes():
 
 
 def test_t14_degenerescence():
-    """Deux indicateurs : petite composante (1 <= N_k < D + 1) et effondrement sur le plancher de régularisation."""
-    cov = torch.stack([torch.eye(2), torch.diag(torch.tensor([1.0, 1.5e-6]))])
-    petite, plancher = A.indicateurs_degenerescence(cov, torch.tensor([50.0, 50.0]), 2, reg=1e-6)
-    assert petite.tolist() == [False, False] and plancher.tolist() == [False, True]
-    petite, _ = A.indicateurs_degenerescence(cov[:1], torch.tensor([2.0]), 2, reg=1e-6)    # 1 <= N_k < D + 1
+    """Deux indicateurs, même critère pour tous les bras (D-06) : petite composante (1 <= N_k < D + 1) et effondrement
+    (valeur propre minimale < 1e-6 x trace)."""
+    cov = torch.stack([torch.eye(2), torch.diag(torch.tensor([1.0, 0.5e-6])), torch.diag(torch.tensor([1.0, 2e-6]))])
+    petite, effondre = A.indicateurs_degenerescence(cov, torch.tensor([50.0, 50.0, 50.0]), 2)
+    assert petite.tolist() == [False, False, False] and effondre.tolist() == [False, True, False]
+    petite, _ = A.indicateurs_degenerescence(cov[:1], torch.tensor([2.0]), 2)    # 1 <= N_k < D + 1
     assert petite.tolist() == [True]
-    petite, plancher = A.indicateurs_degenerescence(cov, torch.tensor([0.4, 0.2]), 2, reg=1e-6)   # éteintes
-    assert petite.tolist() == [False, False] and plancher.tolist() == [False, False]
+    petite, effondre = A.indicateurs_degenerescence(cov, torch.tensor([0.4, 0.2, 0.1]), 2)   # éteintes
+    assert petite.tolist() == [False, False, False] and effondre.tolist() == [False, False, False]
     X, _ = A.jeu_reference(42)
     assert A.em_classique(X, 3)["degenere"] is False
 

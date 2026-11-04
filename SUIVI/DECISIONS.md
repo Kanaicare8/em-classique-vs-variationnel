@@ -182,3 +182,22 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
 - **Conséquence pour la soutenance** : si le jury cite un travail qui comble une des lacunes, la réponse est que le
   constat porte sur les sources citées, et que le protocole de ce mémoire (critère d'arrêt commun, base EM-BIC, tests
   déclarés) reste sa contribution.
+
+## D-14 Relances et sensibilité au vocabulaire de l'étape texte (2026-11-05)
+
+- **Contexte** (session de l'instance) : la règle « n_init » donne 200 relances pour le texte (pLSA : p = 0,005 de
+  retrouver la même solution, plafond atteint) ; l'étape confirmatoire texte (93 unités, jusqu'à 1 000 documents, plus
+  d'une heure par ajustement) représenterait environ 37 000 ajustements, hors budget.
+- **Options présentées** : règle par l'écart au meilleur (recommandée) ; plafond fixe à 10 ; garder 200 et augmenter
+  le budget (80 $ ou plus). Pour le vocabulaire : garder 500 et 3 000 avec 3 réplications (recommandé) ; tel quel ;
+  retirer.
+- **Réponse de l'étudiant** : « fais ce qu'on demande de faire », comprise comme : appliquer les recommandations.
+- **Règle retenue** : paramètre `n_init_texte_confirmatoire`, par algorithme, plus petit n ≤ 20 tel que la meilleure
+  de n relances (tirées parmi les 200 relances pilotes de `n_init/texte`) soit à moins de 0,1 % du meilleur critère
+  pilote avec probabilité ≥ 0,99 ; LDA : maximum sur les trois alpha. Calculé par l'unité `fin/n_init_texte`, sans
+  nouvel ajustement ; les pilotes de puissance texte l'attendent. `fin/texte` (recherche LDA, en cours) garde 200.
+  Tailles de vocabulaire 500 et 3 000 : 3 réplications ; HT1 (taille principale) inchangé.
+- **Impact** : au plus 20 relances au lieu de 200 (au moins 10 fois moins d'ajustements) ; unités texte de sensibilité
+  ramenées de 6 × R à 18. Écart au protocole (6) déclaré au chapitre 3. Commit `5bd4fe7`.
+- **Limite déclarée** : la règle est estimée sur le pilote à 200 documents ; la difficulté peut être plus grande à
+  1 000 documents.

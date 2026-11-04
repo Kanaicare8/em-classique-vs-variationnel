@@ -33,6 +33,7 @@ Une ligne par action : date ; ce qui a été fait ; pourquoi (P-xx, D-xx ou phas
 | 2026-11-04 | Restructuration selon le canevas (option A) : chapitre 2 état de l'art, sections du canevas en méthodologie et résultats, annexe G, introduction | D-10, P-19, P-20 | `body.tex`, `introduction.tex` ; sauvegarde `sauvegardes/body_*_avant_structure.tex` | compilation sans erreur, 135 pages, corps jusqu'à la page 101 ; tableau du chapitre 2 vérifié à l'image | chapitre 2 à relire par l'étudiant |
 | 2026-11-04 | Réponse de l'étudiant : seul le contenu principal compte dans les 112 pages | D-12 | `DECISIONS.md` | | marge d'environ 11 pages |
 | 2026-11-04 | Points 2 et 3 : vérification de Steinley 2004 (échelle non confirmée, retirée) et de Wu 1983 (résumé : cas unimodal) ; 4 entrées citées ; relecture critique du chapitre 2 (5 corrections) | P-18, D-04, demande de l'étudiant | `body.tex`, `introduction.tex`, `parametres.py` | recherche web ; compilation sans erreur ni citation indéfinie, 136 pages, corps jusqu'à la page 101 | détail dans `CHANGEMENTS_MEMOIRE.md` |
+| 2026-11-04 | D-13 : lacunes de la littérature reformulées (« nous n'avons pas trouvé, dans les sources citées »), section 2.6, synthèse 2.8, introduction de la méthodologie | D-13 | `body.tex` | compilation sans erreur | aucune vérification restante pour l'étudiant sur les sources |
 
 ## Inventaire du 2026-11-04 (phase 0)
 

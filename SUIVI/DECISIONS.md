@@ -169,3 +169,16 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
   bibliographie et les annexes n'entrent pas dans les 112 pages.
 - **Impact** : le corps se termine à la page 101 (compilation du 2026-11-04) ; marge d'environ 11 pages pour les
   tableaux et figures des résultats (lot 4). Pas d'allègement supplémentaire pour l'instant ; contrôle du volume au lot 4.
+
+## D-13 Vérifications que l'étudiant ne peut pas faire (2026-11-04)
+
+- **Contexte** : l'étudiant ne peut pas lire Wu (1983) ni vérifier ce que contiennent toutes les sources citées ;
+  consigne : « gère comme tu peux ».
+- **Décision prise par Claude** : (1) le théorème de Wu ne contient que ce qui est vérifié (résumé de l'article pour le
+  cas unimodal ; reformulations secondaires pour la convergence de la vraisemblance et des points d'accumulation) ; aucune
+  condition supplémentaire n'est ajoutée. (2) Les lacunes de la littérature (section 2.6), la synthèse (2.8) et
+  l'introduction de la méthodologie sont formulées comme « nous n'avons pas trouvé, dans les sources citées… », vraies
+  même si une source contient davantage. (3) L'échelle de Steinley reste retirée.
+- **Conséquence pour la soutenance** : si le jury cite un travail qui comble une des lacunes, la réponse est que le
+  constat porte sur les sources citées, et que le protocole de ce mémoire (critère d'arrêt commun, base EM-BIC, tests
+  déclarés) reste sa contribution.

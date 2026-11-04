@@ -125,13 +125,35 @@ def purete(theta, y):
     return sum(int(torch.bincount(y[z == k]).max()) for k in range(theta.shape[1]) if (z == k).any()) / len(y)
 
 
-def _meilleur(f, n_init, base):
-    meilleur = None
+def _critere(r):
+    return r["ll_hist"][-1] if "ll_hist" in r else r["bornes"][-1]
+
+
+def _meilleur(f, n_init, base, memo=None, nom=""):
+    """
+    Meilleure de n_init relances f(base + s) (plus grand critère ; à égalité, la première).
+    memo : le critère de chaque relance est mémorisé dès qu'elle finit (clé <nom>/relances/s=<s>), pour qu'un arrêt ne
+    perde qu'une relance (à 1 000 documents, une LDA dépasse l'heure). Sans interruption, la meilleure relance reste en
+    mémoire ; après une reprise, si la meilleure fait partie des relances relues, elle est réajustée avec sa graine, ce
+    qui redonne exactement le même ajustement.
+    """
+    meilleur = None                                     # (critère, ajustement ou None si relu, s)
     for s in range(n_init):
-        r = f(base + s)
-        crit = r["ll_hist"][-1] if "ll_hist" in r else r["bornes"][-1]
+        if memo is None:
+            r = f(base + s)
+            crit = _critere(r)
+        else:
+            calcule = {}
+
+            def relance(s=s):
+                calcule["r"] = f(base + s)
+                return {"c": _critere(calcule["r"])}
+            crit = memo(f"{nom}/relances/s={s}", relance)["c"]
+            r = calcule.get("r")
         if meilleur is None or crit > meilleur[0]:
-            meilleur = (crit, r)
+            meilleur = (crit, r, s)
+    if meilleur[1] is None:
+        return f(base + meilleur[2])
     return meilleur[1]
 
 
@@ -147,9 +169,10 @@ def unite_echantillon(memo, rapide, V, N, rep, etape_corpus="texte"):
     n_ld = min(int(relances["LDA"]), 2 if rapide else 10 ** 9)
     base = PE.graine("texte", "ajustement", V, N, rep) % 2 ** 31
     hyp = PARAM.valeur("lda_hyper")
-    pl = memo("pLSA", lambda: _meilleur(lambda g: A.plsa_em(c_tr, K, graine=g), n_pl, base))
+    pl = memo("pLSA", lambda: _meilleur(lambda g: A.plsa_em(c_tr, K, graine=g), n_pl, base, memo, "pLSA"))
     ld = memo("LDA", lambda: _meilleur(lambda g: A.lda_variationnel(c_tr, K, alpha=float(hyp["alpha"]),
-                                                                    lissage=float(hyp["lissage"]), graine=g), n_ld, base))
+                                                                    lissage=float(hyp["lissage"]), graine=g), n_ld, base,
+                                       memo, "LDA"))
     obs_te, ev_te = separer_moitie(c_te, PE.graine("texte", "moitie_test"))
     obs_tr, ev_tr = separer_moitie(c_tr, PE.graine("texte", "moitie_app", V, N, rep))
     lignes = []

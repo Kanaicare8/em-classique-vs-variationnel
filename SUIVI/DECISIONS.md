@@ -162,3 +162,10 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
   bit à bit par `outils/verifier_parallele.py`) : si `fin/texte` est la seule unité de la vague 5 encore en cours,
   relancer avec `ICARE_SOUS_TRAVAILLEURS=31` ; si une autre unité de la vague tourne encore, 24. Les sous-calculs déjà
   écrits sont relus.
+
+## D-12 Ce que comptent les 112 pages (2026-11-04)
+
+- **Réponse de l'étudiant** : seul le contenu principal compte (introduction générale à conclusion générale) ; la
+  bibliographie et les annexes n'entrent pas dans les 112 pages.
+- **Impact** : le corps se termine à la page 101 (compilation du 2026-11-04) ; marge d'environ 11 pages pour les
+  tableaux et figures des résultats (lot 4). Pas d'allègement supplémentaire pour l'instant ; contrôle du volume au lot 4.

@@ -31,6 +31,7 @@ Une ligne par action : date ; ce qui a été fait ; pourquoi (P-xx, D-xx ou phas
 | 2026-11-04 | P-21 : renvois automatiques (190), annexes E/F, doubles espaces (28 phrases), environnements de théorèmes | P-21 | `body.tex`, `introduction.tex`, `main.tex` ; sauvegardes `sauvegardes/*_avant_renvois.tex` | essai à blanc de chaque conversion relu (cible et titre) ; compilation sans erreur, 125 pages | énoncé de Wu à vérifier par l'étudiant |
 | 2026-11-04 | Choix de l'étudiant : structure A (D-10). Retours de la session de l'instance traités : tests isolés du calibrage (commit `de26220`), test d'équivalence à réglages explicites, consignes pour l'essai rapide ancien et fin/texte (D-11) | D-10, D-11, N-04 | `parametres.py`, `tests/conftest.py`, `tests/test_etapes.py`, `tests/test_equivalence_lots.py`, `EXPERIENCES/E-01.md` | `py_compile` ; tests non lancés (règle 4) | à lancer sur l'instance |
 | 2026-11-04 | Restructuration selon le canevas (option A) : chapitre 2 état de l'art, sections du canevas en méthodologie et résultats, annexe G, introduction | D-10, P-19, P-20 | `body.tex`, `introduction.tex` ; sauvegarde `sauvegardes/body_*_avant_structure.tex` | compilation sans erreur, 135 pages, corps jusqu'à la page 101 ; tableau du chapitre 2 vérifié à l'image | chapitre 2 à relire par l'étudiant |
+| 2026-11-04 | Réponse de l'étudiant : seul le contenu principal compte dans les 112 pages | D-12 | `DECISIONS.md` | | marge d'environ 11 pages |
 
 ## Inventaire du 2026-11-04 (phase 0)
 

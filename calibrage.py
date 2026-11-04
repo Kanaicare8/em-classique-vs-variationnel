@@ -359,6 +359,50 @@ def unite_n_init_texte(memo, rapide):
 FAMILLE_JEU = {"synthetique": "synthetique", "iris": "iris", "prix": "prix"}
 
 
+ECART_RELANCES_TEXTE = 1e-3     # écart relatif toléré au meilleur des 200 relances (D-14)
+PLAFOND_RELANCES_TEXTE = 20
+TIRAGES_RELANCES_TEXTE = 4000
+
+
+def fin_n_init_texte(memo, rapide):
+    """
+    Décision D-14 : relances des étapes confirmatoires du texte, par algorithme, à partir des critères des relances
+    pilotes déjà calculées (n_init/texte/_sous/<cas>/s=<s>) : plus petit n <= 20 tel que P(meilleur de n relances tirées
+    parmi le pilote >= meilleur du pilote - 0,1 % |meilleur|) >= 0,99. Aucun nouvel ajustement.
+    """
+    n_pil = 10 if rapide else RELANCES_PILOTE
+    esp = PARAM.valeur("espace_lda")
+    cas = [("pLSA", None)] + [(f"LDA-alpha={a}", a) for a in (esp["alpha"][0], math.sqrt(esp["alpha"][0] * esp["alpha"][1]),
+                                                               esp["alpha"][1])]
+    mag = _mag(rapide)
+    val, det = {}, {}
+    for nom, _ in cas:
+        c = torch.tensor([mag.lire(f"n_init/texte/_sous/{nom}/s={s}")["c"] for s in range(n_pil)], dtype=torch.float64)
+        c = c[torch.isfinite(c)]
+        best = float(c.max())
+        seuil = best - ECART_RELANCES_TEXTE * abs(best)
+        retenu, proba = PLAFOND_RELANCES_TEXTE, None
+        probas = {}
+        for n in range(1, min(PLAFOND_RELANCES_TEXTE, len(c)) + 1):
+            g = A.generateur(_g("n_init_texte_conf", nom, n))
+            ok = sum(float(c[torch.randperm(len(c), generator=g)[:n]].max()) >= seuil for _ in range(TIRAGES_RELANCES_TEXTE))
+            probas[n] = ok / TIRAGES_RELANCES_TEXTE
+            if probas[n] >= 0.99:
+                retenu, proba = n, probas[n]
+                break
+        if proba is None:
+            proba = probas[max(probas)]
+        algo = "pLSA" if nom == "pLSA" else "LDA"
+        if retenu > val.get(algo, 0):
+            val[algo] = retenu
+        det[nom] = {"n": retenu, "probabilite": proba, "meilleur": best, "relances_pilote": int(len(c)),
+                    "part_dans_l_ecart": float((c >= seuil).double().mean())}
+    return _ecrire("n_init_texte", {"n_init_texte_confirmatoire": val},
+                   "D-14 : par algorithme, plus petit n <= 20 tel que la meilleure de n relances (tirées sans remise parmi les "
+                   "relances pilotes) soit à moins de 0,1 % du meilleur critère pilote avec probabilité >= 0,99 ; LDA : "
+                   "maximum sur les trois valeurs de alpha", det)
+
+
 def fin_n_init(memo, rapide):
     L = E.lignes("calibrage", rapide, "n_init/")
     val, det = {}, {}
@@ -807,10 +851,18 @@ _UNITES_REPLIQUEES = {"scenarios": ("scenarios", ("",)), "prix_sous": ("etape_pr
 
 
 def _unites_par_replication(cle):
-    """Nombre d'unités confirmatoires d'une réplication (clés finissant par rep=000) pour une clé de « replications »."""
+    """
+    (unités confirmatoires par réplication, unités en nombre fixe) pour une clé de « replications ». Texte (D-14) : seules
+    les unités de la taille de vocabulaire principale suivent R ; celles des tailles de sensibilité sont en nombre fixe.
+    """
     module, prefixes = _UNITES_REPLIQUEES[cle]
     us = importlib.import_module(module).unites(False)
-    return sum(1 for u in us if u.cle.endswith("rep=000") and u.cle.startswith(prefixes))
+    if cle == "texte":
+        p0 = f"V={int(PARAM.valeur('vocabulaire')['taille'])}/"
+        par = sum(1 for u in us if u.cle.endswith("rep=000") and u.cle.startswith(p0))
+        fixe = sum(1 for u in us if u.cle.startswith("V=") and not u.cle.startswith(p0))
+        return par, fixe
+    return sum(1 for u in us if u.cle.endswith("rep=000") and u.cle.startswith(prefixes)), 0
 
 
 def _plafond_budget(val, durees):
@@ -823,18 +875,21 @@ def _plafond_budget(val, durees):
     """
     b = PARAM.valeur("budget_replications")
     budget_s = float(b["heures_instance"]) * 3600 * int(b["travailleurs"])
-    cout = {}
+    cout, fixe = {}, 0.0
     for cle in val:
         d = [x for x in durees.get(cle, []) if x is not None]
         if not d:
             return val, {"budget_s": budget_s, "remarque": f"durées pilotes absentes ({cle}) : aucun plafond appliqué"}
-        cout[cle] = _unites_par_replication(cle) * sum(d) / len(d)
-    total = sum(val[c] * cout[c] for c in val)
-    det = {"budget_s": budget_s, "cout_par_replication_s": cout, "total_requis_s": total, "R_requis": dict(val)}
+        par, n_fixe = _unites_par_replication(cle)
+        cout[cle] = par * sum(d) / len(d)
+        fixe += n_fixe * sum(d) / len(d)
+    total = fixe + sum(val[c] * cout[c] for c in val)
+    det = {"budget_s": budget_s, "cout_par_replication_s": cout, "cout_fixe_s": fixe, "total_requis_s": total,
+           "R_requis": dict(val)}
     if total <= budget_s:
         det["facteur"] = 1.0
         return val, det
-    f = budget_s / total
+    f = max(0.0, budget_s - fixe) / (total - fixe)
     det["facteur"] = f
     return {c: max([g for g in GRILLE_R if g <= f * R] or [GRILLE_R[0]]) for c, R in val.items()}, det
 
@@ -866,7 +921,8 @@ def unites(rapide: bool):
     us += [U(f"marges/{j}", "unite_marges", dep=v5, jeu=j) for j in Jm]
     us.append(U("fin/marges", "fin_marges", dep=[f"marges/{j}" for j in Jm]))
     us.append(U("fin/monte_carlo", "unite_monte_carlo", dep=v5 + ("fin/marges",)))
-    v6 = v5 + ("fin/marges", "fin/monte_carlo")
+    us.append(U("fin/n_init_texte", "fin_n_init_texte", dep=("n_init/texte",)))         # D-14, avant les pilotes texte
+    v6 = v5 + ("fin/marges", "fin/monte_carlo", "fin/n_init_texte")
     pil = unites_pilotes(rapide, v6)
     us += pil
     us.append(U("fin/puissance", "fin_puissance", dep=[u.cle for u in pil]))

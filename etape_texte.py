@@ -142,12 +142,14 @@ def unite_echantillon(memo, rapide, V, N, rep, etape_corpus="texte"):
     sel = cor["reservoir"][torch.randperm(len(cor["reservoir"]), generator=A.generateur(PE.graine("texte", V, N, rep)))[:N]]
     c_tr, y_tr = comptes[sel], y[sel]
     c_te, y_te = comptes[cor["test"]], y[cor["test"]]
-    n_init = min(int(PARAM.valeur("n_init")["texte"]), 2 if rapide else 10 ** 9)
+    relances = PARAM.valeur("n_init_texte_confirmatoire")          # D-14 : par algorithme
+    n_pl = min(int(relances["pLSA"]), 2 if rapide else 10 ** 9)
+    n_ld = min(int(relances["LDA"]), 2 if rapide else 10 ** 9)
     base = PE.graine("texte", "ajustement", V, N, rep) % 2 ** 31
     hyp = PARAM.valeur("lda_hyper")
-    pl = memo("pLSA", lambda: _meilleur(lambda g: A.plsa_em(c_tr, K, graine=g), n_init, base))
+    pl = memo("pLSA", lambda: _meilleur(lambda g: A.plsa_em(c_tr, K, graine=g), n_pl, base))
     ld = memo("LDA", lambda: _meilleur(lambda g: A.lda_variationnel(c_tr, K, alpha=float(hyp["alpha"]),
-                                                                    lissage=float(hyp["lissage"]), graine=g), n_init, base))
+                                                                    lissage=float(hyp["lissage"]), graine=g), n_ld, base))
     obs_te, ev_te = separer_moitie(c_te, PE.graine("texte", "moitie_test"))
     obs_tr, ev_tr = separer_moitie(c_tr, PE.graine("texte", "moitie_app", V, N, rep))
     lignes = []
@@ -168,11 +170,12 @@ def unites(rapide: bool):
     V0 = int(PARAM.valeur("vocabulaire")["taille"])
     tailles = (V0,) if rapide else (V0, int(PARAM.valeur("vocabulaire")["sensibilite"][0]),
                                     int(PARAM.valeur("vocabulaire")["sensibilite"][1]))
+    R_sens = min(R, int(PARAM.valeur("replications_vocabulaire")))   # D-14 : tailles de sensibilité, descriptives
     us = []
     for V in tailles:
         us.append(E.Unite("texte", f"corpus/V={V}", "etape_texte", "unite_corpus", dict(V=V)))
         for N in EFFECTIFS:
-            for r in range(R):
+            for r in range(R if V == V0 else R_sens):
                 us.append(E.Unite("texte", f"V={V}/N={N}/rep={r:03d}", "etape_texte", "unite_echantillon",
                                   dict(V=V, N=N, rep=r), depend=(f"corpus/V={V}",)))
     return us

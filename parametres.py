@@ -118,6 +118,17 @@ _p("n_init", {"synthetique": 10, "iris": 10, "prix": 10, "texte": 10}, "benchmar
    "optimum (à 10 fois la tolérance d'arrêt près) soit au moins 0,99, soit ceil(ln 0,01 / ln(1 - p)) où p est estimé "
    "par 200 relances pilotes, pour le plus difficile des algorithmes comparés ; plafonné à la taille du pilote (200), "
    "la probabilité résiduelle étant alors rapportée.", references=("biernacki2003",), calibrage="n_init")
+_p("n_init_texte_confirmatoire", {"pLSA": 10, "LDA": 10}, "benchmark",
+   "Relances des étapes confirmatoires du texte et de leurs pilotes (décision D-14 du 2026-11-05, écart déclaré) : la "
+   "règle « n_init » demande que la même solution soit retrouvée, ce qui, pour la pLSA aux nombreux optima de qualité "
+   "voisine, impose le plafond de 200 et un coût hors budget. Règle : par algorithme, plus petit n (au plus 20) tel que "
+   "la meilleure de n relances atteigne, avec une probabilité d'au moins 0,99, un critère à moins de 0,1 % (relatif) de "
+   "la meilleure des 200 relances du pilote n_init/texte (tirages de n relances parmi les 200) ; LDA : maximum sur les "
+   "trois valeurs de alpha du pilote. La recherche LDA du calibrage (fin/texte) garde n_init[\"texte\"].",
+   calibrage="n_init_texte")
+_p("replications_vocabulaire", 3, "plan",
+   "Réplications des tailles de vocabulaire de sensibilité (500 et 3000 mots) dans l'étape texte (décision D-14) : "
+   "sensibilité descriptive ; le test HT1 porte sur la taille principale, qui garde toutes ses réplications.")
 
 # ------------------------------------------------------------------------------ composantes actives, dégénérescence
 _p("seuil_actif", 0.01, "plan",

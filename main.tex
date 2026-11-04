@@ -131,6 +131,8 @@
 \newcommand{\tableauGenere}[1]{%
   \IfFileExists{tables/#1.tex}{\input{tables/#1}}{%
     \par\medskip\noindent\fbox{\parbox{0.92\linewidth}{\small Tableau « \detokenize{#1} » à générer : exécuter le code, puis \texttt{python tex\_tables.py}.}}\par\medskip}}
+% \lectureGeneree{nom} inclut tables/lecture_nom.tex : lecture factuelle écrite par tex_tables.py depuis les résultats
+\newcommand{\lectureGeneree}[1]{\IfFileExists{tables/lecture_#1.tex}{\par\input{tables/lecture_#1}\par}{}}
 
 \title{Comparaison entre l'algorithme EM classique et l'EM variationnel}
 \author{KANA TIODONG ICARE BRICHEL}

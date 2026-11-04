@@ -64,3 +64,73 @@ def test_reprise_exacte_apres_interruption_brutale(tmp_path):
     assert repris["n_iter"] == ref["n_iter"]
     assert repris["loglik"] == ref["loglik"]
     assert torch.equal(repris["mu"], ref["mu"])
+
+
+def test_fichier_tronque_mis_en_quarantaine(tmp_path):
+    """Un fichier d'unité tronqué (coupure pendant une copie, disque plein) n'est pas compté comme fait."""
+    m = P.Magasin("essai", tmp_path)
+    m.ecrire("u", {"x": torch.arange(1000)})
+    assert m.complete("u")
+    p = m.chemin("u")
+    p.write_bytes(p.read_bytes()[:-30])                    # fin d'archive arrachée
+    assert not P.fichier_complet(p)
+    assert not m.complete("u") and not p.exists()
+    assert len(list((m.dossier / "_quarantaine").iterdir())) == 1
+    assert m.cles() == []
+
+
+def test_temporaires_orphelins_supprimes(tmp_path):
+    m = P.Magasin("essai", tmp_path)
+    m.ecrire("a", {"x": 1})
+    orphelin = m.dossier / "b.pt.tmp1234"
+    orphelin.write_bytes(b"partiel")
+    os.utime(orphelin, (0, 0))
+    assert m.nettoyer_temporaires() == 1 and not orphelin.exists() and m.complete("a")
+
+
+# ------------------------------------------------------------------------------ orchestrateur : processus tué
+def unite_tuee_une_fois(memo, rapide, marque):
+    """Meurt brutalement au premier lancement (comme un manque de mémoire ou un plantage natif), réussit ensuite."""
+    if not os.path.exists(marque):
+        open(marque, "w").close()
+        os._exit(9)
+    return {"lignes": [{"v": 1}]}
+
+
+def unite_normale(memo, rapide):
+    return {"lignes": [{"v": 2}]}
+
+
+def test_pool_recree_apres_processus_tue(tmp_path, monkeypatch):
+    import etapes as E
+    import run
+    monkeypatch.setenv("ICARE_MAGASIN", str(tmp_path))
+    us = [E.Unite("essai", "tuee", __name__, "unite_tuee_une_fois", {"marque": str(tmp_path / "marque")}),
+          E.Unite("essai", "normale", __name__, "unite_normale")]
+    monkeypatch.setattr(run, "unites_de", lambda etape, rapide: us)
+    monkeypatch.setitem(run.MODULES, "essai", __name__)
+    assert run.executer_etape("essai", True, travailleurs=2, tentatives=3)
+    assert sorted(l["v"] for l in E.lignes("essai", True)) == [1, 2]
+    assert "BrokenProcessPool" in (tmp_path / "magasin_rapide" / "_journal" / "erreurs.log").read_text(encoding="utf-8")
+
+
+def agreger(rapide):
+    pass
+
+
+def test_ecriture_atomique_resiste_au_verrou_passager(tmp_path):
+    """Sous Windows, os.replace est refusé tant qu'un lecteur (superviseur, antivirus) tient le fichier ouvert :
+    l'écriture attend que le verrou se lève ; un battement bloqué en permanence est sauté sans arrêter le calcul."""
+    import threading
+    import time as _t
+    cible = tmp_path / "_battement.json"
+    cible.write_text("{}", encoding="utf-8")
+    h = open(cible, "rb")                                   # verrou de lecture, comme le superviseur
+    threading.Timer(0.3, h.close).start()                  # levé après 0,3 s
+    P._ecrire_atomique(cible, lambda f: f.write(b'{"ok": 1}'))
+    assert cible.read_text(encoding="utf-8") == '{"ok": 1}'
+    with open(cible, "rb"):                                # verrou permanent pendant le battement
+        t0 = _t.time()
+        P.battement(tmp_path, actif=True)                  # ne lève pas
+        assert _t.time() - t0 < 5
+    assert not list(tmp_path.glob("*.tmp*"))               # aucun fichier temporaire orphelin

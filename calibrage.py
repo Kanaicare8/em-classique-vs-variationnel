@@ -4,10 +4,10 @@
 ================================================================================
 
 Sept vagues, enchaînées par dépendances (une unité ne lit que des valeurs déjà calibrées par une vague antérieure) :
-  V1  kmeans/<jeu>, spatial              plafond de Lloyd ; portée du variogramme (taille des blocs spatiaux)
+  V1  kmeans/<jeu>                       plafond de Lloyd
   V2  tolerance/<jeu>                    tolérance relative et plafond d'étapes M
-  V3  regularisation/<jeu>               régularisation des covariances (validation croisée)
-  V4  n_init/<jeu>, hmm                  nombre de relances par famille ; nombre d'états du HMM (BIC)
+  V3  regularisation/<jeu>               régularisation des covariances (validation croisée ; blocs temporels pour les prix)
+  V4  n_init/<jeu>                       nombre de relances par famille
   V5  priors/<famille>, texte, variantes recherche aléatoire + divisions successives (successive halving)
   V6  marges/<jeu>, monte_carlo          marges d'équivalence (bruit d'optimisation) ; tailles Monte Carlo
   V7  puissance/pilote/..., puissance    réplications pilotes (graines disjointes) et puissance simulée
@@ -81,15 +81,20 @@ def jeux(rapide):
     out = [(f"synthetique/{sc}/{par}", "synthetique") for sc, par, *_ in _points_scenarios()]
     if rapide:
         out = out[:3]
-    out += [("iris", "iris"), ("sp500", "sp500")]
-    out += [(f"climat/D=5/N={n}", "climat") for n in ((500,) if rapide else (30, 60, 120, 500, 2000))]
-    if not rapide:
-        out.append(("climat/D=20/N=500", "climat"))
+    out += [("iris", "iris")]
+    out += [(f"prix/N={n}", "prix") for n in ((250,) if rapide else (60, 120, 250, 562))]
     return out
 
 
+K_REF_PRIX_CALIBRAGE = 4          # K des pilotes de calibrage pour les prix : les quatre phases usuelles d'alerte (k_max = 2 x 4)
+
+
 def charger_jeu(nom, rep=0):
-    """(X_apprentissage, X_test, k_ref, kmax, etiquettes ou None). Données tirées avec des graines propres au calibrage."""
+    """
+    (X_apprentissage, X_test, k_ref, kmax, etiquettes ou None). Données tirées avec des graines propres au calibrage.
+    Prix : uniquement la période d'APPRENTISSAGE ; le sous-échantillon est remis dans l'ordre du temps (plis temporels
+    contigus) et le « test » du calibrage est le reste de l'apprentissage (jamais la période de test).
+    """
     if nom.startswith("synthetique/"):
         import scenarios as SC
         _, sc, par = nom.split("/", 2)
@@ -101,18 +106,13 @@ def charger_jeu(nom, rep=0):
         X, y = DO.charger_iris()
         perm = torch.randperm(len(X), generator=A.generateur(_g("iris", rep)))
         return X[perm], X[perm], 3, int(PARAM.valeur("k_max")["synthetique"]), y[perm]
-    if nom == "sp500":
-        import etape_sp500 as SP
-        x, xt, _ = SP.donnees()
-        return x, xt, 2, int(PARAM.valeur("k_max")["sp500"]), None
-    if nom.startswith("climat/"):
-        import donnees_geo as G
-        D = int(nom.split("/")[1][2:])
-        N = int(nom.split("/")[2][2:])
-        d = G.charger_climat(D)
-        X = G.standardiser(d["X"])
-        perm = torch.randperm(len(X), generator=A.generateur(_g(nom, rep)))
-        return X[perm[:N]], X[perm[N:N + 2000]], 5, int(PARAM.valeur("k_max")["climat"]), d["koppen"][perm[:N]]
+    if nom.startswith("prix/"):
+        import etape_prix as P
+        Xtr, _, _ = P.donnees()
+        N = min(int(nom.split("=")[1]), len(Xtr))
+        perm = torch.randperm(len(Xtr), generator=A.generateur(_g(nom, rep)))
+        idx, reste = perm[:N].sort().values, perm[N:]
+        return Xtr[idx], Xtr[reste] if len(reste) else Xtr[idx], K_REF_PRIX_CALIBRAGE, int(PARAM.valeur("k_max")["prix"]), None
     raise KeyError(nom)
 
 
@@ -120,7 +120,7 @@ def _taille_pilote(rapide):
     return 3 if rapide else int(PARAM.valeur("taille_pilote"))
 
 
-# ------------------------------------------------------------------------------ V1 : k-means, spatial
+# ------------------------------------------------------------------------------ V1 : k-means
 def unite_kmeans(memo, rapide, jeu):
     X, _, k_ref, kmax, _ = charger_jeu(jeu)
     n = 20 if rapide else RELANCES_PILOTE
@@ -142,52 +142,6 @@ def fin_kmeans(memo, rapide):
     return _ecrire("kmeans", {"kmeans_n_iter_max": plafond},
                    "plus petit multiple de 100 tel qu'au plus 1 % des exécutions de Lloyd l'atteignent",
                    {"n_executions": len(its), "iterations_max": int(t.max()), "part_au_plafond": float((t >= plafond).double().mean())})
-
-
-def unite_spatial(memo, rapide):
-    """
-    Variogramme empirique EXHAUSTIF (toutes les paires, par blocs de lignes) des variables standardisées (D = 5) :
-    gamma(h) = moyenne de ||x_i - x_j||² / (2 D). Pour des variables réduites, le palier vaut 1 (paires indépendantes).
-    Portée pratique : plus petite distance où gamma atteint 95 % du palier, cherchée jusqu'à la moitié de la distance maximale.
-    Largeur des classes de distance : médiane de la distance au plus proche voisin (pas de la grille).
-    """
-    import donnees_geo as G
-    d = G.charger_climat(5)
-    X = G.standardiser(d["X"])
-    km = d["km"].double()
-    N, D = X.shape
-    lot = 256 if not rapide else 64
-    idx = range(0, N, lot) if not rapide else range(0, min(N, 2048), lot)
-    pp = []
-    for i in range(0, N, 2048):
-        dd = torch.cdist(km[i:i + 2048], km)
-        dd[dd == 0] = float("inf")
-        pp.append(dd.min(1).values)
-    pas = float(torch.cat(pp).median())
-    dmax = float(max(torch.cdist(km[i:i + 2048], km).max() for i in range(0, N, 2048)))
-    nb = int(dmax / pas) + 2
-    somme = torch.zeros(nb, dtype=torch.float64)
-    eff = torch.zeros(nb, dtype=torch.float64)
-    for i in idx:
-        h = torch.cdist(km[i:i + lot], km)
-        sq = torch.cdist(X[i:i + lot], X).pow(2) / (2 * D)
-        c = (h / pas).floor().long().clamp(max=nb - 1)
-        somme += torch.bincount(c.flatten(), weights=sq.flatten(), minlength=nb)
-        eff += torch.bincount(c.flatten(), minlength=nb).double()
-    gam = somme / eff.clamp(min=1)
-    centres = (torch.arange(nb, dtype=torch.float64) + 0.5) * pas
-    utile = (centres <= dmax / 2) & (eff > 0) & (centres > pas)
-    ok = (gam >= 0.95) & utile
-    portee = float(centres[ok][0] + pas / 2) if ok.any() else dmax / 2
-    return {"lignes": [{"pas_km": pas, "portee_km": portee, "distance_max_km": dmax}],
-            "artefacts": {"h": centres, "gamma": gam, "effectifs": eff, "pas": pas, "portee": portee}}
-
-
-def fin_spatial(memo, rapide):
-    a = _mag(rapide).lire("spatial")["artefacts"]
-    return _ecrire("spatial", {"taille_bloc_km": a["portee"]},
-                   "portée pratique du variogramme exhaustif des variables standardisées (95 % du palier unité), "
-                   "bornée par la moitié de la distance maximale", {"pas_km": a["pas"]})
 
 
 # ------------------------------------------------------------------------------ V2 : tolérance
@@ -250,15 +204,14 @@ def fin_tolerance(memo, rapide):
 # ------------------------------------------------------------------------------ V3 : régularisation
 def _plis_jeu(jeu, X, rapide):
     n_plis = int(PARAM.valeur("n_plis"))
-    if jeu.startswith("climat/"):
-        import donnees_geo as G
-        D = int(jeu.split("/")[1][2:])
-        N = int(jeu.split("/")[2][2:])
-        d = G.charger_climat(D)
-        perm = torch.randperm(len(d["X"]), generator=A.generateur(_g(jeu, 0)))[:N]
-        blocs = C.blocs_spatiaux(d["km"][perm], float(PARAM.valeur("taille_bloc_km")))
-        return C.plis_par_blocs(blocs, n_plis, _g("plis", jeu)), n_plis
+    if jeu.startswith("prix/"):
+        return plis_temporels(len(X), n_plis), n_plis                      # X est dans l'ordre du temps (charger_jeu)
     return torch.randperm(len(X), generator=A.generateur(_g("plis", jeu))) % n_plis, n_plis
+
+
+def plis_temporels(n, n_plis):
+    """Plis par blocs CONTIGUS d'observations ordonnées dans le temps (validation croisée par blocs, Roberts et al. 2017)."""
+    return torch.arange(n) * n_plis // n
 
 
 def unite_regularisation(memo, rapide, jeu):
@@ -301,12 +254,12 @@ def fin_regularisation(memo, rapide):
     meilleur = min(moy.values())
     choix = min(r for r, m in moy.items() if m == meilleur)
     return _ecrire("regularisation", {"reg_covariance": choix},
-                   "rang moyen minimal de la log-vraisemblance hors pli (validation croisée ; plis spatiaux par blocs pour le "
-                   "climat), sur tous les jeux, K de référence et Kmax, graines pilotes ; à égalité, la plus petite valeur",
+                   "rang moyen minimal de la log-vraisemblance hors pli (validation croisée ; plis temporels contigus pour les "
+                   "prix), sur tous les jeux, K de référence et Kmax, graines pilotes ; à égalité, la plus petite valeur",
                    {"rang_moyen": {str(k): v for k, v in moy.items()}, "n_comparaisons": len(rangs[GRILLE_REG[0]])})
 
 
-# ------------------------------------------------------------------------------ V4 : n_init, HMM
+# ------------------------------------------------------------------------------ V4 : n_init
 def _p_succes(criteres, tol):
     c = torch.tensor([x for x in criteres if x == x and x != float("-inf")], dtype=torch.float64)
     best = float(c.max())
@@ -399,7 +352,7 @@ def unite_n_init_texte(memo, rapide):
     return {"lignes": lignes}
 
 
-FAMILLE_JEU = {"synthetique": "synthetique", "iris": "iris", "sp500": "sp500", "climat": "climat"}
+FAMILLE_JEU = {"synthetique": "synthetique", "iris": "iris", "prix": "prix"}
 
 
 def fin_n_init(memo, rapide):
@@ -413,29 +366,6 @@ def fin_n_init(memo, rapide):
                    "par famille, maximum sur les jeux et les algorithmes de ceil(ln 0,01 / ln(1 - p)), p = part des relances "
                    "pilotes à moins de 10 fois la tolérance (relative) du meilleur critère ; plafond = taille du pilote",
                    {"cas_determinant": det, "taille_pilote": RELANCES_PILOTE})
-
-
-def unite_hmm(memo, rapide):
-    import etape_sp500 as SP
-    x, _, _ = SP.donnees()
-    x = x.flatten()
-    T = len(x)
-    n = min(int(PARAM.valeur("n_init")["sp500"]), 3 if rapide else 10 ** 9)
-    lignes = []
-    for S_ in range(1, 6):
-        fits = [memo(f"S={S_}/s={s}", lambda s=s: {"ll": A.baum_welch([x], S_, emission="gauss", graine=_g("hmm", S_, s))["loglik"]})
-                for s in range(n)]
-        ll = max(f["ll"] for f in fits)
-        p = S_ * (S_ - 1) + (S_ - 1) + 2 * S_
-        lignes.append({"S": S_, "loglik": ll, "n_parametres": p, "BIC": -2 * ll + p * math.log(T)})
-    return {"lignes": lignes}
-
-
-def fin_hmm(memo, rapide):
-    L = E.lignes("calibrage", rapide, "hmm")
-    b = min(L, key=lambda l: l["BIC"])
-    return _ecrire("hmm", {"hmm_etats": b["S"]}, "nombre d'états minimisant le BIC sur la période d'apprentissage (S = 1 à 5)",
-                   {"bic": {str(l["S"]): l["BIC"] for l in L}})
 
 
 # ------------------------------------------------------------------------------ V5 : recherches heuristiques
@@ -467,26 +397,13 @@ def _taches_priors(famille, rapide):
     if famille == "synthetique":
         noms = [n for n, f in jeux(rapide) if f == "synthetique"]
         return [lambda n=n: charger_jeu(n, rep=1)[:2] for n in noms]
-    if famille == "sp500":
-        import etape_sp500 as SP
-        x, _, _ = SP.donnees()
+    if famille == "prix":
+        import etape_prix as P
+        x, _, _ = P.donnees()                                 # période d'apprentissage seule, dans l'ordre du temps
         n_plis = int(PARAM.valeur("n_plis"))
-        b = torch.arange(len(x)) * n_plis // len(x)           # blocs temporels contigus
+        b = plis_temporels(len(x), n_plis)
         return [lambda f=f: (x[b != f], x[b == f]) for f in range(n_plis)]
-    import donnees_geo as G
-    d = G.charger_climat(5)
-    X = G.standardiser(d["X"])
-    n_plis = int(PARAM.valeur("n_plis"))
-    taches = []
-    for rep in range(1 if rapide else 2):
-        pli = C.plis_par_blocs(C.blocs_spatiaux(d["km"], float(PARAM.valeur("taille_bloc_km"))), n_plis, _g("priors_plis", rep))
-        for f in range(n_plis):
-            def t(f=f, rep=rep, pli=pli):
-                tr = (pli != f).nonzero().flatten()
-                tr = tr[torch.randperm(len(tr), generator=A.generateur(_g("priors_tr", rep, f)))[:2000]]
-                return X[tr], X[pli == f]
-            taches.append(t)
-    return taches
+    raise KeyError(famille)
 
 
 def unite_priors(memo, rapide, famille):
@@ -514,8 +431,8 @@ def fin_priors(memo, rapide):
         val[fam], ev[fam] = r["artefacts"]["meilleure"], r["artefacts"]["evaluations"]
     return _ecrire("priors", {"priors_vb_calibres": val},
                    "par famille : recherche aléatoire (64 configurations dont le jeu empirique) puis divisions successives, "
-                   "score = log-vraisemblance prédictive moyenne de validation (plis spatiaux pour le climat, blocs temporels "
-                   "pour le S&P 500, jeux indépendants pour les scénarios)", {"evaluations": ev})
+                   "score = log-vraisemblance prédictive moyenne de validation (blocs temporels contigus de la période "
+                   "d'apprentissage pour les prix, jeux indépendants pour les scénarios)", {"evaluations": ev})
 
 
 def _corpus(rapide):
@@ -612,7 +529,7 @@ def unite_variantes(memo, rapide):
 def unite_marges(memo, rapide, jeu):
     """Deux ajustements de chaque bras sur les MÊMES données, graines d'ajustement différentes."""
     X, Xt, k_ref, kmax, y = charger_jeu(jeu)
-    fam = "climat" if jeu.startswith("climat") else "synthetique"
+    fam = "prix" if jeu.startswith("prix") else "synthetique"
     n_init = min(int(PARAM.valeur("n_init")[fam]), 2 if rapide else 10 ** 9)
     bras = ("EM-BIC", "EM-Kmax", "VB-emp", "VB-cal")
     sorties = [C.bras_protocole(X, k_ref, kmax, n_init, _g("marges", jeu, s), fam, bras=bras,
@@ -650,8 +567,7 @@ def _plus_petit(grille, ecart_type_de):
 
 
 def unite_monte_carlo(memo, rapide):
-    import risque as R
-    import etape_sp500 as SP
+    import etape_prix as P
     rep = 5 if rapide else REPETITIONS_MC
     det = {}
     # n_bootstrap_ic : bornes de l'intervalle bootstrap de la moyenne des différences appariées du pilote de marges
@@ -661,50 +577,44 @@ def unite_monte_carlo(memo, rapide):
         b = torch.tensor([S.ic_bootstrap(d, B, graine=_g("mc_ic", B, r))[1:] for r in range(rep)])
         return float(b.std(0).max())
     n_ic, det["n_bootstrap_ic"] = _plus_petit((500, 1000, 2000, 5000, 10000, 20000, 50000), sd_ic)
-    # n_tirages_posterieur et n_simulation_var : VB à priors empiriques sur l'apprentissage du S&P 500
-    x, _, _ = SP.donnees()
-    kmax = int(PARAM.valeur("k_max")["sp500"])
-    vb = memo("vb_sp500", lambda: PE.resume_ajustement(A.em_variationnel(x, kmax, priori=A.priori_empirique(x, 1.0 / kmax),
-                                                                         n_init=int(PARAM.valeur("n_init")["sp500"]),
-                                                                         graine=_g("mc_vb")), avec_r=False))
-    a = PARAM.valeur("niveaux_var")[-1]
+    # n_tirages_posterieur : bornes à 5 % et 95 % des poids pi_k sous q (VB à priors empiriques, apprentissage des prix)
+    x, _, _ = P.donnees()
+    kmax = int(PARAM.valeur("k_max")["prix"])
+    n_init = int(PARAM.valeur("n_init")["prix"])
+    vb = memo("vb_prix", lambda: PE.resume_ajustement(A.em_variationnel(x, kmax, priori=A.priori_empirique(x, 1.0 / kmax),
+                                                                       n_init=n_init, graine=_g("mc_vb")), avec_r=False))
+    q90 = torch.tensor([0.05, 0.95], dtype=torch.float64)
 
     def sd_post(n):
         b = []
         for r in range(rep):
-            pi, mu, sg = R.echantillonner_posterieur_gmm_1d(vb["P"], n, graine=_g("mc_post", n, r))
-            q = R.quantile_melange_gauss(a, pi, mu, sg)
-            b.append([float(torch.quantile(q, 0.025)), float(torch.quantile(q, 0.975))])
-        return float(torch.tensor(b).std(0).max())
+            pis, _, _ = P.tirages_q(vb["P"], n, _g("mc_post", n, r))
+            b.append(torch.quantile(pis, q90, dim=0).flatten())
+        return float(torch.stack(b).std(0).max())
     n_post, det["n_tirages_posterieur"] = _plus_petit((1000, 2000, 4000, 8000, 16000, 32000), sd_post)
-
-    def sd_var(n):
-        return float(torch.tensor([R.var_es_student_melange(vb["P"], a, n=n, graine=_g("mc_var", n, r))
-                                   for r in range(rep)]).std(0).max())
-    n_var, det["n_simulation_var"] = _plus_petit((10_000, 50_000, 200_000, 500_000, 1_000_000, 2_000_000), sd_var)
-    # n_bootstrap_modele : pilote de réplicats bootstrap (démarrage chaud) de la VaR, puis rééchantillonnage des réplicats
-    em = memo("em_sp500", lambda: PE.resume_ajustement(A.em_classique(x, 2, n_init=int(PARAM.valeur("n_init")["sp500"]),
-                                                                      graine=_g("mc_em")), avec_r=False))
+    # n_bootstrap_modele : pilote de réplicats bootstrap (démarrage chaud, alignement hongrois) des poids de l'EM à
+    # K_REF_PRIX_CALIBRAGE, puis rééchantillonnage des réplicats
+    em = memo("em_prix", lambda: PE.resume_ajustement(A.em_classique(x, K_REF_PRIX_CALIBRAGE, n_init=n_init,
+                                                                     graine=_g("mc_em")), avec_r=False))
     nb = 50 if rapide else 400
 
     def rep_boot(b):
         ib = torch.randint(len(x), (len(x),), generator=A.generateur(_g("mc_boot", b)))
         eb = C.em_demarrage_chaud(x[ib], em)
-        return {"q": float(R.quantile_melange_gauss(a, eb["pi"], eb["mu"].reshape(-1), eb["cov"].reshape(-1).sqrt())[0])}
-    pilote = torch.tensor([memo(f"boot/b={b}", lambda b=b: rep_boot(b))["q"] for b in range(nb)], dtype=torch.float64)
+        return {"pi": eb["pi"][A.hongrois(torch.cdist(em["mu"], eb["mu"]).pow(2))]}
+    pilote = torch.stack([memo(f"boot/b={b}", lambda b=b: rep_boot(b))["pi"] for b in range(nb)])
 
     def sd_boot(B):
         b = []
         for r in range(rep):
             e = pilote[torch.randint(nb, (B,), generator=A.generateur(_g("mc_boot_re", B, r)))]
-            b.append([float(torch.quantile(e, 0.025)), float(torch.quantile(e, 0.975))])
-        return float(torch.tensor(b).std(0).max())
+            b.append(torch.quantile(e, q90, dim=0).flatten())
+        return float(torch.stack(b).std(0).max())
     n_bm, det["n_bootstrap_modele"] = _plus_petit((200, 500, 1000, 2000, 5000, 10000), sd_boot)
-    return _ecrire("monte_carlo", {"n_bootstrap_ic": n_ic, "n_tirages_posterieur": n_post, "n_simulation_var": n_var,
-                                   "n_bootstrap_modele": n_bm},
+    return _ecrire("monte_carlo", {"n_bootstrap_ic": n_ic, "n_tirages_posterieur": n_post, "n_bootstrap_modele": n_bm},
                    "plus petite taille de la grille telle que l'écart-type Monte Carlo des bornes (20 répétitions) soit au plus "
-                   "5e-4 (moitié de la 3e décimale affichée) ; bootstrap de modèle : rééchantillonnage d'un pilote de 400 réplicats",
-                   {"ecart_type_obtenu": det})
+                   "5e-4 (moitié de la 3e décimale affichée) ; bornes à 5 et 95 % des poids (couverture à 90 %) ; bootstrap de "
+                   "modèle : rééchantillonnage d'un pilote de 400 réplicats", {"ecart_type_obtenu": det})
 
 
 # ------------------------------------------------------------------------------ V7 : puissance
@@ -713,13 +623,13 @@ def _cle_replication(h):
         return "scenarios"
     if h.famille == "texte":
         return "texte"
-    return {"semi": "climat_semi", "sous": "climat_sous", "d20": "climat_d20"}[h.filtre["plan"]]
+    return {"semi": "prix_semi", "sous": "prix_sous", "sensibilite": "prix_sensibilite"}[h.filtre["plan"]]
 
 
 def unites_pilotes(rapide, dep):
     import scenarios as SC
     R = _taille_pilote(rapide)
-    us = [E.Unite("calibrage", "reference", "etape_climat", "unite_reference", depend=dep)]
+    us = [E.Unite("calibrage", "reference", "etape_prix", "unite_reference", depend=dep)]
     pts = {(h.filtre["scenario"], h.filtre.get("parametre")) for h in HY.famille("scenarios")}
     for sc, par, fab, kv, kc in SC._plan(False):
         if (sc, par) in pts or (sc, None) in pts:
@@ -727,18 +637,21 @@ def unites_pilotes(rapide, dep):
                 us.append(E.Unite("calibrage", f"puissance/pilote/scenarios/{sc}/{par}/rep={r:03d}", "scenarios", "unite_scenario",
                                   dict(scenario=sc, parametre=par, fabrique=fab, k_vrai=kv, k_choisi=kc,
                                        rep=DECALAGE_PILOTE + r), depend=dep))
-    for h in HY.famille("climat"):
+    for h in HY.famille("prix"):
         for r in range(R):
-            pl, N = h.filtre["plan"], int(h.filtre["N"])
-            cle = f"puissance/pilote/climat/{pl}/N={N}/rep={r:03d}"
+            pl = h.filtre["plan"]
+            if pl == "sensibilite":
+                cle = f"puissance/pilote/prix/sensibilite/rep={r:03d}"
+                if not any(u.cle == cle for u in us):
+                    us.append(E.Unite("calibrage", cle, "etape_prix", "unite_sensibilite", dict(rep=DECALAGE_PILOTE + r),
+                                      depend=dep))
+                continue
+            N = int(h.filtre["N"])
+            cle = f"puissance/pilote/prix/{pl}/N={N}/rep={r:03d}"
             if any(u.cle == cle for u in us):
                 continue
-            if pl == "semi":
-                us.append(E.Unite("calibrage", cle, "etape_climat", "unite_semi",
-                                  dict(N=N, rep=DECALAGE_PILOTE + r, etape_reference="calibrage"), depend=dep + ("reference",)))
-            else:
-                us.append(E.Unite("calibrage", cle, "etape_climat", "unite_sous",
-                                  dict(N=N, rep=DECALAGE_PILOTE + r, D=20 if pl == "d20" else 5), depend=dep))
+            us.append(E.Unite("calibrage", cle, "etape_prix", "unite_semi" if pl == "semi" else "unite_sous",
+                              dict(N=N, rep=DECALAGE_PILOTE + r, etape_reference="calibrage"), depend=dep + ("reference",)))
     V0 = int(PARAM.valeur("vocabulaire")["taille"])
     for h in HY.famille("texte"):
         for r in range(R):
@@ -778,13 +691,10 @@ def _r_requis(d, h, m, alpha):
 def fin_puissance(memo, rapide):
     alpha = float(PARAM.valeur("alpha_test"))
     lignes = {"scenarios": E.lignes("calibrage", rapide, "puissance/pilote/scenarios/"),
-              "climat": E.lignes("calibrage", rapide, "puissance/pilote/climat/"),
+              "prix": E.lignes("calibrage", rapide, "puissance/pilote/prix/"),
               "texte": E.lignes("calibrage", rapide, "puissance/pilote/texte/")}
-    for l in lignes["climat"]:
-        if l.get("plan") == "semi" and "k_hat" in l:
-            l.setdefault("erreur_k", abs(l["k_hat"] - 5))
     val, det = {}, []
-    for fam in ("scenarios", "climat", "texte"):
+    for fam in ("scenarios", "prix", "texte"):
         hs = HY.famille(fam)
         for h in hs:
             d = HY.diffs(h, lignes[fam])
@@ -792,21 +702,20 @@ def fin_puissance(memo, rapide):
             cle = _cle_replication(h)
             val[cle] = max(val.get(cle, 0), R)
             det.append({"id": h.id, "cle": cle, "n_pilote": len(d), "R": R, "puissance": pw, "remarque": note})
-    val["climat_sensibilite"] = val.get("climat_sous", GRILLE_R[-1])
+    val.setdefault("prix_sensibilite", val.get("prix_sous", GRILLE_R[-1]))
     return _ecrire("puissance", {"replications": val},
                    "par clé, maximum sur les hypothèses de la famille du plus petit R (grille 10 à 200) donnant une puissance "
                    "simulée >= 0,8 au niveau alpha / m (première étape de Holm) ; équivalence : différences du pilote recentrées "
-                   "à 0 ; différence : recentrées à la marge (ou à 0,5 écart-type) ; climat_sensibilite = climat_sous "
-                   "(même plan de sous-échantillonnage)", {"hypotheses": det})
+                   "à 0 ; différence : recentrées à la marge (ou à 0,5 écart-type)", {"hypotheses": det})
 
 
 # ------------------------------------------------------------------------------ étape
 def unites(rapide: bool):
     U = lambda c, f, dep=(), **k: E.Unite("calibrage", c, "calibrage", f, k, depend=tuple(dep))
     J = [n for n, _ in jeux(rapide)]
-    us = [U(f"kmeans/{j}", "unite_kmeans", jeu=j) for j in J] + [U("spatial", "unite_spatial")]
-    us += [U("fin/kmeans", "fin_kmeans", dep=[f"kmeans/{j}" for j in J]), U("fin/spatial", "fin_spatial", dep=["spatial"])]
-    v1 = ("fin/kmeans", "fin/spatial")
+    us = [U(f"kmeans/{j}", "unite_kmeans", jeu=j) for j in J]
+    us += [U("fin/kmeans", "fin_kmeans", dep=[f"kmeans/{j}" for j in J])]
+    v1 = ("fin/kmeans",)
     us += [U(f"tolerance/{j}", "unite_tolerance", dep=v1, jeu=j) for j in J]
     us.append(U("fin/tolerance", "fin_tolerance", dep=[f"tolerance/{j}" for j in J]))
     v2 = v1 + ("fin/tolerance",)
@@ -818,14 +727,12 @@ def unites(rapide: bool):
     us += [U(f"n_init/{j}", "unite_n_init", dep=v3, jeu=j) for j in J]
     us.append(U("n_init/texte", "unite_n_init_texte", dep=v3 + (f"corpus/V={V0}",)))
     us.append(U("fin/n_init", "fin_n_init", dep=[f"n_init/{j}" for j in J] + ["n_init/texte"]))
-    v4a = v3 + ("fin/n_init",)
-    us += [U("hmm", "unite_hmm", dep=v4a), U("fin/hmm", "fin_hmm", dep=["hmm"])]
-    v4 = v4a + ("fin/hmm",)
-    us += [U(f"priors/{f}", "unite_priors", dep=v4, famille=f) for f in ("synthetique", "climat", "sp500")]
-    us.append(U("fin/priors", "fin_priors", dep=[f"priors/{f}" for f in ("synthetique", "climat", "sp500")]))
+    v4 = v3 + ("fin/n_init",)
+    us += [U(f"priors/{f}", "unite_priors", dep=v4, famille=f) for f in ("synthetique", "prix")]
+    us.append(U("fin/priors", "fin_priors", dep=[f"priors/{f}" for f in ("synthetique", "prix")]))
     us += [U("fin/texte", "unite_texte", dep=v4 + (f"corpus/V={V0}",)), U("fin/variantes", "unite_variantes", dep=v4)]
     v5 = v4 + ("fin/priors", "fin/texte", "fin/variantes")
-    Jm = [j for j in J if j.startswith(("synthetique/", "climat/"))]        # jeux munis d'une partition de référence
+    Jm = [j for j in J if j.startswith(("synthetique/", "prix/"))]          # écart d'ARI (synthétique) et de LL (tous)
     us += [U(f"marges/{j}", "unite_marges", dep=v5, jeu=j) for j in Jm]
     us.append(U("fin/marges", "fin_marges", dep=[f"marges/{j}" for j in Jm]))
     us.append(U("fin/monte_carlo", "unite_monte_carlo", dep=v5 + ("fin/marges",)))
@@ -838,12 +745,7 @@ def unites(rapide: bool):
 
 def agreger(rapide: bool):
     E.ecrire_csv("calibrage_registre", PARAM.tableau(), rapide)
-    for pre in ("tolerance/", "regularisation/", "n_init/", "marges/", "hmm"):
+    for pre in ("tolerance/", "regularisation/", "n_init/", "marges/"):
         L = E.lignes("calibrage", rapide, pre)
         if L:
             E.ecrire_csv("calibrage_" + pre.strip("/"), L, rapide)
-    sp = _mag(rapide).lire("spatial")
-    if sp is not None:
-        a = sp["artefacts"]
-        E.ecrire_csv("calibrage_variogramme", [{"h_km": float(h), "gamma": float(g), "paires": float(e)}
-                                               for h, g, e in zip(a["h"], a["gamma"], a["effectifs"]) if e > 0], rapide)

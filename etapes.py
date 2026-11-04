@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import csv
 import importlib
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -37,6 +38,9 @@ class Unite:
 
 
 def racine_magasin(rapide: bool) -> Path:
+    """Variable ICARE_MAGASIN : autre emplacement (autre disque, tests), hérité par les processus de travail."""
+    if os.environ.get("ICARE_MAGASIN"):
+        return Path(os.environ["ICARE_MAGASIN"]) / ("magasin_rapide" if rapide else "magasin")
     return RACINE / "resultats" / ("magasin_rapide" if rapide else "magasin")
 
 
@@ -69,7 +73,7 @@ def executer_unite(u: Unite, rapide: bool) -> str:
     import torch
     torch.set_num_threads(1)
     mag = magasin(u.etape, rapide)
-    if mag.existe(u.cle):
+    if mag.complete(u.cle):
         return u.cle
     f = getattr(importlib.import_module(u.module), u.fonction)
     res = f(Memo(mag, u.cle), rapide=rapide, **u.kwargs)

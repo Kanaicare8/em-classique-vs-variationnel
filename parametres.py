@@ -104,7 +104,7 @@ _p("kmeans_n_iter_max", 100, "benchmark",
    "les jeux du protocole ; le plafond est relevé (par pas de 100) tant qu'elle dépasse 1 %.", calibrage="kmeans")
 
 # ------------------------------------------------------------------------------ relances
-_p("n_init", {"synthetique": 10, "iris": 10, "sp500": 10, "climat": 10, "texte": 10}, "benchmark",
+_p("n_init", {"synthetique": 10, "iris": 10, "prix": 10, "texte": 10}, "benchmark",
    "Par famille de données : nombre de relances tel que la probabilité qu'au moins une relance atteigne le meilleur "
    "optimum (à 10 fois la tolérance d'arrêt près) soit au moins 0,99, soit ceil(ln 0,01 / ln(1 - p)) où p est estimé "
    "par 200 relances pilotes, pour le plus difficile des algorithmes comparés ; plafonné à la taille du pilote (200), "
@@ -113,9 +113,10 @@ _p("n_init", {"synthetique": 10, "iris": 10, "sp500": 10, "climat": 10, "texte":
 # ------------------------------------------------------------------------------ composantes actives, dégénérescence
 _p("seuil_actif", 0.01, "plan",
    "Composante active si N_k / N >= 1 % (plan de recherche) ; sensibilité aux seuils 0,5 %, 5 % et N_k >= 1 rapportée (scénario S10).")
-_p("k_max", {"synthetique": 6, "climat": 10, "sp500": 6}, "plan",
-   "Nombre maximal de composantes du plan (au moins deux fois le K de référence) ; la dépendance à Kmax est un objet "
-   "d'étude (Iris, sections 2.3.11), non un réglage.")
+_p("k_max", {"synthetique": 6, "prix": 8}, "plan",
+   "Nombre maximal de composantes du plan (au moins deux fois le K de référence ; prix : 8, soit le double des quatre "
+   "régimes que distinguent les phases usuelles d'alerte sur les prix, normal, stress, alerte et crise) ; la dépendance "
+   "à Kmax est un objet d'étude (Iris, sections 2.3.11), non un réglage.")
 
 # ------------------------------------------------------------------------------ priors
 _p("alpha0_map", 1.0, "mathematique",
@@ -133,10 +134,10 @@ _p("espace_priors", {"alpha0": (1e-3, 10.0), "beta0": (1e-4, 1e2), "nu0_plus": (
    "s'étend de deux ordres de grandeur au moins de part et d'autre ; nu0 > D - 1 garantit une loi de Wishart propre "
    "(Bishop 2006, section 2.3.6). Les illustrations de sensibilité parcourent les mêmes bornes.", references=("bishop2006",))
 _p("priors_vb_calibres", {f: {"alpha0": 0.1, "beta0": 1.0, "nu0_plus": 0.0, "echelle_w0": 1.0}
-                          for f in ("synthetique", "climat", "sp500")}, "recherche",
+                          for f in ("synthetique", "prix")}, "recherche",
    "Bras VB-cal et MAP-cal : hyperparamètres choisis par recherche aléatoire puis divisions successives (successive halving) "
    "sur l'espace « espace_priors », en maximisant la log-vraisemblance prédictive moyenne en validation croisée sur les données d'apprentissage, "
-   "séparément pour chaque famille de données (plis spatiaux par blocs pour le climat). Toutes les évaluations sont conservées "
+   "séparément pour chaque famille de données (plis temporels par blocs d'années pour les prix). Toutes les évaluations sont conservées "
    "pour l'analyse de sensibilité (configurations plausibles).",
    references=("bergstra2012", "jamieson2016"), calibrage="priors")
 
@@ -154,12 +155,10 @@ _p("n_bootstrap_ic", 2000, "benchmark",
    "Nombre de rééchantillonnages des intervalles bootstrap : erreur Monte Carlo des bornes inférieure à la moitié de la "
    "dernière décimale affichée (3 décimales), estimée par répétition du bootstrap.", calibrage="monte_carlo")
 _p("n_bootstrap_modele", 1000, "benchmark",
-   "Nombre de réplicats bootstrap des intervalles de paramètres et de VaR : même règle de précision Monte Carlo.",
-   calibrage="monte_carlo")
+   "Nombre de réplicats bootstrap des intervalles de paramètres (couverture) et de la probabilité d'alerte : même règle "
+   "de précision Monte Carlo.", calibrage="monte_carlo")
 _p("n_tirages_posterieur", 4000, "benchmark",
    "Tirages a posteriori pour les intervalles de crédibilité : même règle de précision Monte Carlo.", calibrage="monte_carlo")
-_p("n_simulation_var", 200000, "benchmark",
-   "Tirages Monte Carlo de la VaR et de l'ES prédictives : même règle de précision Monte Carlo.", calibrage="monte_carlo")
 _p("effet_standardise", 0.5, "source",
    "Hypothèses de différence sans marge naturelle (taux d'ajustements dégénérés, écart relatif de perplexité) : la puissance "
    "est calculée pour un écart vrai égal à 0,5 écart-type des différences appariées du pilote (effet « moyen » de Cohen) ; "
@@ -168,8 +167,7 @@ _p("taille_pilote", 10, "plan",
    "Réplications pilotes servant à estimer la variance des différences appariées avant le calcul de puissance ; "
    "les données du pilote ne sont pas réutilisées dans les tests confirmatoires (graines disjointes).",
    references=("lakens2017",))
-_p("replications", {"scenarios": 30, "climat_sous": 40, "climat_semi": 60, "climat_d20": 40, "climat_sensibilite": 20,
-                    "texte": 10}, "benchmark",
+_p("replications", {"scenarios": 30, "prix_sous": 40, "prix_semi": 60, "prix_sensibilite": 20, "texte": 10}, "benchmark",
    "Nombre de réplications : puissance d'au moins 0,8 du test déclaré (TOST à la marge calibrée, ou Wilcoxon pour un écart "
    "égal à la marge) au niveau corrigé, d'après la variance des différences observée dans le pilote (Lakens 2017).",
    references=("lakens2017",), calibrage="puissance")
@@ -179,12 +177,23 @@ _p("repetitions_chronometrage", 20, "plan",
    "15e statistiques d'ordre contient la médiane avec une probabilité 1 - 2 P(Bin(20 ; 0,5) <= 5) = 0,959, sans hypothèse "
    "de loi ; l'intervalle bootstrap de la médiane du rapport des temps est rapporté.")
 
-# ------------------------------------------------------------------------------ cas climatique
-_p("taille_bloc_km", 100.0, "donnees",
-   "Côté des blocs de la validation croisée spatiale : au moins la portée de l'autocorrélation spatiale (Roberts et al. 2017). "
-   "Portée pratique = plus petite distance où le variogramme empirique exhaustif des variables standardisées atteint 95 % de "
-   "son palier ; pour des variables réduites, E||x_i - x_j||² / (2D) = 1 pour deux points indépendants, le palier vaut donc 1.",
-   references=("roberts2017",), calibrage="spatial")
+# ------------------------------------------------------------------------------ cas pratique : prix alimentaires du Cameroun
+_p("prix_fenetre_mois", 12, "plan",
+   "Fenêtre du niveau de référence de chaque prix : les douze mois précédents (une année complète, ce qui neutralise la "
+   "saisonnalité agricole moyenne) ; la variable est l'écart du log-prix du mois à la moyenne des log-prix relevés dans la fenêtre.")
+_p("prix_releves_min", 3, "plan",
+   "Nombre minimal de relevés dans la fenêtre pour définir l'écart (un trimestre de relevés sur douze mois) : règle fixée "
+   "avant toute estimation, d'après la seule couverture des séries (relevés manquants fréquents).")
+_p("prix_facteur_pic", 3.0, "plan",
+   "Nettoyage des erreurs de saisie : un relevé est écarté s'il diffère d'un facteur au moins 3, dans le même sens, du "
+   "relevé du mois précédent ET de celui du mois suivant (pic isolé d'un mois, aller-retour, typique d'une virgule décalée). "
+   "Un triplement suivi d'un retour en un mois n'est pas plausible pour une denrée de base au détail (la plus forte hausse "
+   "mensuelle citée par les bulletins du PAM pour le maïs de l'Extrême-Nord est de 24 %, août 2023). Règle fixée avant tout "
+   "ajustement ; les relevés écartés sont listés (tableau prix_releves_ecartes).")
+_p("prix_fin_apprentissage", "2023-12", "plan",
+   "Validation temporelle : apprentissage jusqu'à décembre 2023 inclus, test de janvier 2024 à la fin de l'extrait. Date "
+   "choisie avant toute estimation, d'après le seul nombre d'observations (environ moitié-moitié), pour que l'évaluation "
+   "porte sur des mois postérieurs à tout l'apprentissage (Roberts et al. 2017).", references=("roberts2017",))
 _p("n_plis", 5, "plan", "Nombre de plis de la validation croisée par blocs (plan) ; l'affectation des blocs aux plis est tirée au hasard.")
 
 # ------------------------------------------------------------------------------ texte
@@ -203,7 +212,7 @@ _p("vocabulaire", {"taille": 1500, "df_min": 5, "df_max": 0.5, "longueur_min_mot
    "3 lettres après racinisation de Porter (1980), documents d'au moins 20 mots retenus. Ce n'est pas un réglage optimisé : "
    "la sensibilité des conclusions à la taille du vocabulaire (500 et 3000 mots) est mesurée.", references=("porter1980",))
 
-# ------------------------------------------------------------------------------ variantes et finance
+# ------------------------------------------------------------------------------ variantes stochastiques
 _p("espace_variantes", {"kappa": (0.5, 1.0), "t0": (1.0, 1000.0), "lot": (10, 150), "epoques": (1, 50),
                         "sem_n_iter": (50, 1000), "sem_part_burn": (0.0, 0.9), "tau": (1.0, 1000.0)}, "plan",
    "Espace de recherche des variantes stochastiques : kappa dans ]0,5 ; 1] (conditions de Robbins et Monro sur les pas) ; "
@@ -214,9 +223,6 @@ _p("variantes_stochastiques", {"sem_burn": 50, "sem_n_iter": 150, "online_kappa"
    "Pas et tailles de lot de la SVI et de l'EM online, burn-in du SEM : recherche sur la log-vraisemblance de validation, "
    "kappa contraint à ]0,5 ; 1] (conditions de Robbins et Monro).", references=("robbins1951", "cappe2009", "hoffman2013"),
    calibrage="variantes")
-_p("hmm_etats", 2, "benchmark", "Nombre d'états du HMM choisi par BIC sur la période d'apprentissage (S de 1 à 5).",
-   references=("schwarz1978",), calibrage="hmm")
-_p("niveaux_var", (0.05, 0.01), "plan", "Niveaux de VaR du plan (1 % et 5 %).")
 
 # ------------------------------------------------------------------------------ exécution
 _p("elements_lot_max", 30_000_000, "performance",

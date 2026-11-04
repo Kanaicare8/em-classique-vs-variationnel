@@ -280,130 +280,144 @@ def decisions_scenarios(rapide):
     return _foret("scenarios_decisions", rapide)
 
 
-def decisions_climat(rapide):
-    return _foret("climat_decisions", rapide)
+def decisions_prix(rapide):
+    return _foret("prix_decisions", rapide)
 
 
 def decisions_texte(rapide):
     return _foret("texte_decisions", rapide)
 
 
-# ------------------------------------------------------------------------------ climat
-def _carte(lon, lat, valeurs, discret, titre_barre=""):
-    if discret:
-        fig = go.Figure()
-        cl = sorted(set(int(v) for v in valeurs.tolist()), key=lambda k: -int((valeurs == k).sum()))
-        for i, k in enumerate(cl):
-            m = valeurs == k
-            fig.add_scattergl(x=lon[m].tolist(), y=lat[m].tolist(), mode="markers", name=f"classe {i + 1}",
-                              marker=dict(size=3, symbol="square", color=SERIES[i] if i < len(SERIES) else "#9a9a96"))
-    else:
-        fig = go.Figure(go.Scattergl(x=lon.tolist(), y=lat.tolist(), mode="markers",
-                                     marker=dict(size=3, symbol="square", color=valeurs.tolist(), colorscale=SEQUENTIEL,
-                                                 colorbar=dict(title=titre_barre))))
+# ------------------------------------------------------------------------------ cas pratique : prix alimentaires
+SYMBOLES = ["circle", "diamond", "square", "triangle-up", "cross", "star"]
+
+
+def _alerte(rapide):
+    return _unite("prix", "alerte", rapide)["artefacts"]
+
+
+def prix_marches(rapide):
+    """Carte des marchés (longitude, latitude) : couleur et symbole par région, taille selon le nombre d'observations."""
+    a = _alerte(rapide)
+    n = torch.bincount(a["marche"], minlength=len(a["marches"]))
+    regions = sorted({a["regions"][i] for i in range(len(n)) if n[i] > 0},           # régions observées seulement
+                     key=lambda r: -sum(int(n[i]) for i, x in enumerate(a["regions"]) if x == r))
+    fig = go.Figure()
+    for j, reg in enumerate(regions):
+        idx = [i for i, x in enumerate(a["regions"]) if x == reg and n[i] > 0]
+        fig.add_scatter(x=[float(a["lon"][i]) for i in idx], y=[float(a["lat"][i]) for i in idx], mode="markers", name=reg,
+                        marker=dict(size=[8 + 2.5 * math.sqrt(int(n[i])) for i in idx], color=SERIES[j], symbol=SYMBOLES[j],
+                                    opacity=0.85, line=dict(color="white", width=2)),
+                        customdata=[[a["marches"][i], int(n[i])] for i in idx],
+                        hovertemplate="%{customdata[0]}<br>%{customdata[1]} observations<extra>" + reg + "</extra>")
+    for i in torch.argsort(n, descending=True)[:6].tolist():
+        fig.add_annotation(x=float(a["lon"][i]), y=float(a["lat"][i]), text=a["marches"][i], showarrow=False, yshift=16,
+                           font=dict(size=11, color=ENCRE_2))
     fig.update_xaxes(title_text="longitude (°)")
     fig.update_yaxes(title_text="latitude (°)", scaleanchor="x", scaleratio=1)
-    return fig
+    return style(fig, 760, 820)
 
 
-def climat_classes(rapide):
-    a = _unite("climat", "cartes", rapide)["artefacts"]
-    noms = [n for n in ("EM-BIC", "VB-emp", "VB-cal") if n in a]
-    fig = make_subplots(rows=1, cols=len(noms), shared_yaxes=True, horizontal_spacing=0.03,
-                        subplot_titles=[f"{n} (K̂ = {a[n]['k_hat']})" for n in noms])
-    for j, n in enumerate(noms, start=1):
-        for tr in _carte(a["lon"], a["lat"], a[n]["classe"].long(), True).data:
-            tr.showlegend = j == 1
-            fig.add_trace(tr, row=1, col=j)
-    fig.update_xaxes(title_text="longitude (°)")
-    fig.update_yaxes(title_text="latitude (°)", col=1)
-    return style(fig, 1300, 560)
+def prix_selection(rapide):
+    """BIC de l'EM selon K (référence) et poids des composantes du VB à priors empiriques : deux mesures, deux panneaux."""
+    ref = _unite("prix", "reference", rapide)["artefacts"]
+    c = _unite("prix", "complet", rapide)["artefacts"]["ajustements"]
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+                        subplot_titles=("EM : BIC selon K (plus bas = meilleur)", "VB-emp : poids des composantes (Kmax)"))
+    ks = sorted(int(k) for k in ref["critere_par_k"])
+    fig.add_scatter(x=ks, y=[ref["critere_par_k"][str(k)] for k in ks], mode="lines+markers", name="BIC (EM)",
+                    line=dict(color=COULEUR["EM-BIC"], width=2), marker=dict(size=9), row=1, col=1)
+    fig.add_annotation(x=ref["K_ref"], y=ref["critere_par_k"][str(ref["K_ref"])], text=f"K_ref = {ref['K_ref']}", showarrow=True,
+                       arrowhead=0, ay=-30, font=dict(color=ENCRE_2), row=1, col=1)
+    if "VB-emp" in c:
+        p = sorted(c["VB-emp"]["pi"].tolist(), reverse=True)
+        fig.add_bar(x=[str(i + 1) for i in range(len(p))], y=p, name="poids (VB-emp)", marker_color=COULEUR["VB-emp"],
+                    text=[f"{v:.3f}" for v in p], textposition="outside", textfont=dict(color=ENCRE_2), row=1, col=2)
+    fig.update_xaxes(title_text="K", dtick=1, col=1)
+    fig.update_xaxes(title_text="composante (ordre décroissant)", col=2)
+    return style(fig, 1150, 520)
 
 
-def climat_incertitude(rapide):
-    a = _unite("climat", "cartes", rapide)["artefacts"]
-    noms = [n for n in ("EM-BIC", "VB-emp") if n in a]
-    fig = make_subplots(rows=1, cols=len(noms), shared_yaxes=True, horizontal_spacing=0.03,
-                        subplot_titles=[f"{n} : entropie des responsabilités" for n in noms])
-    vmax = max(float(a[n]["entropie"].max()) for n in noms)
-    for j, n in enumerate(noms, start=1):
-        tr = _carte(a["lon"], a["lat"], a[n]["entropie"], False, "entropie").data[0]
-        tr.marker.cmin, tr.marker.cmax = 0.0, vmax
-        tr.marker.showscale = j == len(noms)
-        fig.add_trace(tr, row=1, col=j)
-    fig.update_xaxes(title_text="longitude (°)")
-    fig.update_yaxes(title_text="latitude (°)", col=1)
-    return style(fig, 1100, 560, legende=False)
+def _marches_suivis(a, n=3):
+    """Les n marchés les plus observés pendant la période de test."""
+    t = torch.bincount(a["marche"][~a["app"]], minlength=len(a["marches"]))
+    return torch.argsort(t, descending=True)[:n].tolist()
 
 
-def variogramme(rapide):
-    a = _unite("calibrage", "spatial", rapide)["artefacts"]
-    m = a["effectifs"] > 0
-    fig = go.Figure(go.Scatter(x=a["h"][m].tolist(), y=a["gamma"][m].tolist(), mode="lines", line=dict(color=SERIES[0], width=2),
-                               name="variogramme empirique"))
-    fig.add_hline(y=0.95, line=dict(color=ENCRE_2, dash="dot"), annotation_text="95 % du palier",
-                  annotation_font_color=ENCRE_2)
-    fig.add_vline(x=a["portee"], line=dict(color=SERIES[1], dash="dash"), annotation_text=f"portée {a['portee']:.0f} km",
-                  annotation_font_color=ENCRE_2)
-    fig.update_xaxes(title_text="distance (km)")
-    fig.update_yaxes(title_text="γ(h), variables standardisées")
-    return style(fig, legende=False)
+def prix_alerte(rapide):
+    """
+    Pour trois marchés : en haut, l'écart du prix du maïs à son niveau récent ; en bas, la probabilité du régime de
+    tension (EM-BIC : bootstrap ; VB-emp : crédibilité ; bandes à 90 %). Deux mesures, deux rangées : pas de double axe.
+    """
+    import donnees as DO
+    a = _alerte(rapide)
+    choix = _marches_suivis(a)
+    fin = DO.mois_texte(int(a["mois"][a["app"]].max()))
+    fig = make_subplots(rows=2, cols=len(choix), shared_xaxes=True, vertical_spacing=0.08, horizontal_spacing=0.05,
+                        subplot_titles=[a["marches"][m] for m in choix], row_heights=[0.4, 0.6])
+    for j, m in enumerate(choix, start=1):
+        sel = (a["marche"] == m).nonzero().flatten()
+        x = [DO.mois_texte(int(t)) + "-15" for t in a["mois"][sel]]
+        fig.add_scatter(x=x, y=a["X_origine"][sel, 0].tolist(), mode="lines+markers", name="écart du maïs (log)",
+                        line=dict(color=SERIES[2], width=2), marker=dict(size=8), showlegend=j == 1, legendgroup="mais",
+                        row=1, col=j)
+        for nom in ("EM-BIC", "VB-emp"):
+            if nom not in a:
+                continue
+            p, ic = a[nom]["proba"][sel], a[nom]["ic"][:, sel]
+            fig.add_scatter(x=x + x[::-1], y=ic[1].tolist() + ic[0].tolist()[::-1], fill="toself", mode="lines",
+                            line=dict(width=0), fillcolor=COULEUR[nom], opacity=0.18, hoverinfo="skip", showlegend=False,
+                            legendgroup=nom, row=2, col=j)
+            fig.add_scatter(x=x, y=p.tolist(), mode="lines+markers", name=f"P(tension), {nom}", legendgroup=nom,
+                            line=dict(color=COULEUR[nom], width=2), marker=dict(size=8), showlegend=j == 1, row=2, col=j,
+                            hovertemplate="%{x|%Y-%m}<br>P(tension) %{y:.2f}<extra>" + nom + "</extra>")
+        for r in (1, 2):
+            fig.add_vline(x=fin + "-28", line=dict(color=ENCRE_2, dash="dot", width=1), row=r, col=j)
+    fig.add_hline(y=0.5, line=dict(color=ENCRE_2, dash="dash", width=1), row=2, col="all")
+    fig.update_yaxes(title_text="écart (log)", col=1, row=1)
+    fig.update_yaxes(range=[0, 1], row=2)
+    fig.update_yaxes(title_text="probabilité", row=2, col=1)
+    return style(fig, 1350, 680)
 
 
-# ------------------------------------------------------------------------------ S&P 500
-def sp500_distribution(rapide):
-    import etape_sp500 as SP
-    import risque as R
-    x, _, _ = SP.donnees()
-    x = x.flatten()
-    mag = E.magasin("sp500", rapide)
-    K, em = SP._k_bic(rapide)
-    fe = em[K]["artefacts"]["ajustement"]
-    st = _unite("sp500", "student", rapide)["artefacts"]
-    g = torch.linspace(float(x.min()), float(x.max()), 400, dtype=torch.float64)
+def prix_alerte_mois(rapide):
+    """Part mensuelle des observations en alerte (P(tension) > 0,5), tous marchés, selon EM-BIC et VB-emp."""
+    import donnees as DO
+    a = _alerte(rapide)
+    mois = torch.unique(a["mois"])
     fig = go.Figure()
-    fig.add_histogram(x=x.tolist(), histnorm="probability density", nbinsx=120, name="rendements observés",
-                      marker=dict(color="#c9d6ea", line=dict(color="white", width=1)))
-    fig.add_scatter(x=g.tolist(), y=torch.distributions.Normal(x.mean(), x.std()).log_prob(g).exp().tolist(), mode="lines",
-                    name="gaussienne", line=dict(color=SERIES[3], width=2))
-    fig.add_scatter(x=g.tolist(), y=R.log_densite_gauss_1d(g, fe["pi"], fe["mu"].reshape(-1), fe["cov"].reshape(-1).sqrt()).exp().tolist(),
-                    mode="lines", name=f"mélange EM-BIC (K = {K})", line=dict(color=COULEUR["EM"], width=2))
-    fig.add_scatter(x=g.tolist(), y=SP._student_logpdf(g, st["mu"], st["s"], st["nu"]).exp().tolist(), mode="lines",
-                    name="Student", line=dict(color=SERIES[2], width=2, dash="dash"))
-    vb = mag.lire("vb/emp")
-    if vb is not None:
-        fig.add_scatter(x=g.tolist(), y=R.log_predictive_variationnel(g.reshape(-1, 1), vb["artefacts"]["ajustement"]["P"]).exp().tolist(),
-                        mode="lines", name="VB, densité prédictive", line=dict(color=COULEUR["VB"], width=2))
-    fig.update_xaxes(title_text="rendement quotidien (%)")
-    fig.update_yaxes(title_text="densité", type="log")
-    return style(fig, 1000, 560)
-
-
-def sp500_var(rapide):
-    import etape_sp500 as SP
-    _, x_te, dates = SP.donnees()
-    prev, _ = SP._previsions(rapide)
-    a = min(prev["Gaussienne"])
-    r = x_te.flatten()
-    fig = go.Figure()
-    fig.add_scatter(x=dates, y=r.tolist(), mode="lines", name="rendement", line=dict(color="#9a9a96", width=1))
-    for i, nom in enumerate(("Gaussienne", "EM-BIC (plug-in)", "VB-emp (prédictive)", "GARCH(1,1)-t", "HMM filtré")):
-        if nom in prev:
-            fig.add_scatter(x=dates, y=prev[nom][a][0].tolist(), mode="lines", name=f"VaR {a:.0%}, {nom}",
-                            line=dict(color=SERIES[i], width=2))
-    fig.update_xaxes(title_text="date")
-    fig.update_yaxes(title_text="rendement quotidien (%)")
-    return style(fig, 1200, 560)
+    for nom in ("EM-BIC", "VB-emp"):
+        if nom in a:
+            al = (a[nom]["proba"] > 0.5).double()
+            fig.add_scatter(x=[DO.mois_texte(int(t)) + "-15" for t in mois], y=[float(al[a["mois"] == t].mean()) for t in mois],
+                            mode="lines+markers", name=nom, line=dict(color=COULEUR[nom], width=2), marker=dict(size=8),
+                            hovertemplate="%{x|%Y-%m}<br>part en alerte %{y:.0%}<extra>" + nom + "</extra>")
+    fig.add_vline(x=DO.mois_texte(int(a["mois"][a["app"]].max())) + "-28", line=dict(color=ENCRE_2, dash="dot", width=1),
+                  annotation_text="fin de l'apprentissage", annotation_font_color=ENCRE_2)
+    fig.update_xaxes(title_text="mois")
+    fig.update_yaxes(title_text="part des marchés en alerte", tickformat=".0%", range=[0, 1])
+    return style(fig, 1100, 500)
 
 
 # ------------------------------------------------------------------------------ production
 FIGURES = {
     "fig01": em_8_points, "fig02": bic_aic, "fig03": jeu_reference, "fig04": ellipses, "fig05": poids, "fig06": alpha0,
     "fig07": scalabilite, "fig08": convergence, "fig09": initialisation, "fig10": covariance, "fig11": iris,
-    "fig12": decisions_scenarios, "climat_classes": climat_classes, "climat_incertitude": climat_incertitude,
-    "climat_decisions": decisions_climat, "climat_variogramme": variogramme, "fig13": sp500_distribution,
-    "fig15": sp500_var, "texte_decisions": decisions_texte,
+    "fig12": decisions_scenarios, "prix_marches": prix_marches, "prix_selection": prix_selection,
+    "prix_alerte": prix_alerte, "prix_alerte_mois": prix_alerte_mois, "prix_decisions": decisions_prix,
+    "texte_decisions": decisions_texte,
 }
+
+
+def _ecrire_png(fig, chemin, essais=3):
+    """Export PNG par kaleido (navigateur sans interface) : le navigateur échoue parfois à se fermer ; on relance."""
+    for i in range(1, essais + 1):
+        try:
+            fig.write_image(chemin, scale=2)
+            return
+        except RuntimeError:
+            if i == essais:
+                raise
 
 
 def produire(rapide: bool = False):
@@ -415,10 +429,12 @@ def produire(rapide: bool = False):
     for nom, f in FIGURES.items():
         try:
             fig = f(rapide)
-            fig.write_image(dest / f"{nom}.png", scale=2)
             fig.write_html(SORTIE / "html" / f"{nom}{'_rapide' if rapide else ''}.html", include_plotlyjs="cdn")
+            _ecrire_png(fig, dest / f"{nom}.png")
         except (LookupError, KeyError, TypeError) as ex:
             manquantes.append(f"{nom} ({type(ex).__name__}: {ex})")
+        except Exception as ex:                       # une figure en échec ne bloque pas les autres
+            manquantes.append(f"{nom} (ERREUR {type(ex).__name__}: {str(ex)[:200]})")
         barre.avancer(info=nom)
     barre.fermer()
     if manquantes:

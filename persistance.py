@@ -14,7 +14,13 @@ PERSISTANCE : points de reprise, artefacts et graines
   * Graines dérivées : graine(*rôle) donne une graine indépendante pour chaque rôle (données,
     ajustement, bootstrap, ...), au lieu de réutiliser la même graine pour plusieurs tirages.
   * Arrêt propre : un premier Ctrl+C (ou SIGTERM) demande l'arrêt après l'unité en cours ; un
-    second interrompt immédiatement, sans corrompre le magasin.
+    second interrompt immédiatement, sans corrompre le magasin. Les processus de travail ignorent
+    Ctrl+C (ignorer_interruption) : sous Windows le signal atteint tout le groupe de la console.
+  * Intégrité : une unité ne compte comme faite que si son fichier est une archive torch complète
+    (enregistrement de fin d'archive zip présent) ; un fichier tronqué est mis en quarantaine
+    (_quarantaine/) et l'unité recalculée. Les fichiers temporaires orphelins sont supprimés.
+  * Veille : empecher_veille() interdit la mise en veille de Windows pendant un calcul.
+  * Battement : battement() écrit l'heure et l'avancement dans _battement.json (lu par superviseur.py).
 """
 
 from __future__ import annotations
@@ -41,14 +47,30 @@ def graine(*role) -> int:
 
 
 # ------------------------------------------------------------------------------ écriture atomique
-def _ecrire_atomique(chemin: Path, ecrire) -> None:
+def _ecrire_atomique(chemin: Path, ecrire, essais: int = 20) -> None:
+    """
+    Écrit dans un fichier temporaire puis le substitue au fichier final. Sous Windows, la substitution est refusée
+    (PermissionError) tant qu'un autre processus a le fichier final ouvert : lecteur (superviseur), antivirus,
+    indexation. Ce verrou est passager : on réessaie avec une attente croissante (au total environ 10 s) avant d'abandonner.
+    """
     chemin.parent.mkdir(parents=True, exist_ok=True)
     tmp = chemin.with_name(chemin.name + f".tmp{os.getpid()}")
     with open(tmp, "wb") as f:
         ecrire(f)
         f.flush()
         os.fsync(f.fileno())
-    os.replace(tmp, chemin)
+    for i in range(essais):
+        try:
+            os.replace(tmp, chemin)
+            return
+        except PermissionError:
+            if i == essais - 1:
+                try:
+                    tmp.unlink()
+                except OSError:
+                    pass
+                raise
+            time.sleep(min(0.05 * (i + 1), 1.0))
 
 
 def _nettoyer(obj):
@@ -76,6 +98,22 @@ def charger(chemin: Path):
     return torch.load(Path(chemin), weights_only=True)
 
 
+_FIN_ZIP = b"PK\x05\x06"          # enregistrement de fin de répertoire central : présent seulement si l'archive est complète
+
+
+def fichier_complet(chemin: Path) -> bool:
+    """Contrôle rapide (sans désérialiser) : le fichier torch.save est une archive zip terminée."""
+    try:
+        taille = os.path.getsize(chemin)
+        if taille < 22:
+            return False
+        with open(chemin, "rb") as f:
+            f.seek(max(0, taille - 1024))
+            return _FIN_ZIP in f.read()
+    except OSError:
+        return False
+
+
 # ------------------------------------------------------------------------------ magasin
 def _nom_fichier(cle: str) -> str:
     sur = re.sub(r"[^A-Za-z0-9_.=,+-]+", "_", cle)
@@ -97,6 +135,35 @@ class Magasin:
 
     def existe(self, cle: str) -> bool:
         return self.chemin(cle).exists()
+
+    def complete(self, cle: str) -> bool:
+        """Unité faite et lisible ; un fichier présent mais tronqué est mis en quarantaine (l'unité sera recalculée)."""
+        p = self.chemin(cle)
+        if not p.exists():
+            return False
+        if fichier_complet(p):
+            return True
+        q = self.dossier / "_quarantaine" / (p.name + f".{time.strftime('%Y%m%d-%H%M%S')}")
+        q.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            os.replace(p, q)
+        except OSError:
+            pass
+        return False
+
+    def nettoyer_temporaires(self, age_min_s: float = 60.0) -> int:
+        """Supprime les fichiers .tmp<pid> laissés par une écriture interrompue (plus vieux que age_min_s)."""
+        if not self.dossier.exists():
+            return 0
+        n = 0
+        for p in self.dossier.rglob("*.tmp*"):
+            try:
+                if time.time() - p.stat().st_mtime > age_min_s:
+                    p.unlink()
+                    n += 1
+            except OSError:
+                pass
+        return n
 
     def lire(self, cle: str):
         try:
@@ -123,7 +190,7 @@ class Magasin:
         out = []
         for p in self.dossier.rglob("*.pt"):
             rel = str(p.relative_to(self.dossier).with_suffix("")).replace(os.sep, "/")
-            if "_instantanes" in rel.split("/") or "_sous" in rel.split("/"):
+            if {"_instantanes", "_sous", "_quarantaine"} & set(rel.split("/")):
                 continue
             out.append(rel)
         return sorted(out)
@@ -192,6 +259,64 @@ def installer_arret_propre():
 
 def arret_demande() -> bool:
     return _ARRET["demande"]
+
+
+def ignorer_interruption():
+    """Initialiseur des processus de travail : seul le processus principal décide de l'arrêt."""
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    if hasattr(signal, "SIGBREAK"):
+        signal.signal(signal.SIGBREAK, signal.SIG_IGN)
+
+
+def desactiver_selection_console() -> bool:
+    """Désactive l'« Édition rapide » de la console Windows (cmd, PowerShell). Sinon un simple clic dans la fenêtre
+    y ouvre une sélection et Windows suspend toute écriture du programme à l'écran jusqu'à une touche : la barre, le
+    battement et la distribution des unités s'arrêtent avec elle. Le défilement et le clic droit restent possibles."""
+    if os.name != "nt":
+        return False
+    try:
+        import ctypes
+        k = ctypes.windll.kernel32
+        h = k.GetStdHandle(-10)                                  # STD_INPUT_HANDLE
+        mode = ctypes.c_uint32()
+        if not k.GetConsoleMode(h, ctypes.byref(mode)):
+            return False                                         # pas de console (sortie redirigée, VS Code...)
+        return bool(k.SetConsoleMode(h, (mode.value & ~0x0040) | 0x0080))   # ~QUICK_EDIT | EXTENDED_FLAGS
+    except Exception:
+        return False
+
+
+class empecher_veille:
+    """Contexte : interdit la mise en veille automatique de Windows (sans effet ailleurs). L'écran peut s'éteindre."""
+
+    def __enter__(self):
+        if os.name == "nt":
+            try:
+                import ctypes
+                ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)   # CONTINUOUS | SYSTEM_REQUIRED
+            except Exception:
+                pass
+        return self
+
+    def __exit__(self, *exc):
+        if os.name == "nt":
+            try:
+                import ctypes
+                ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
+            except Exception:
+                pass
+        return False
+
+
+def battement(dossier: Path, **etat) -> None:
+    """Écrit l'heure courante et l'avancement (atomiquement) : superviseur.py s'en sert pour détecter un blocage."""
+    etat["t"] = time.time()
+    etat["pid"] = os.getpid()
+    try:
+        _ecrire_atomique(Path(dossier) / "_battement.json",
+                         lambda f: f.write(json.dumps(etat, ensure_ascii=False).encode("utf-8")), essais=3)
+    except OSError:
+        pass            # simple signal de vie : un battement manqué n'arrête jamais le calcul (le suivant est dans 5 s)
 
 
 # ------------------------------------------------------------------------------ résumé d'un ajustement

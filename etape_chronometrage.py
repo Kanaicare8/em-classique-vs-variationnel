@@ -6,11 +6,11 @@
 Unités :
   scalabilite/N=n           EM (K = Kmax) et VB (Kmax), une relance, jeu synthétique à trois groupes, D = 2
   scalabilite/D=d           idem, N = 2001
-  pipeline/N=n              données climatiques (D = 5) : temps du pipeline EM-BIC (balayage K = 1..Kmax, n_init
-                            relances par K) contre un VB (Kmax, n_init relances), sur les mêmes sous-échantillons ;
-                            rapport par réplication, médiane et intervalle bootstrap de la médiane (hypothèse HC4)
-Grilles du plan : N couvre les effectifs étudiés (jusqu'à l'ordre de la grille climatique complète, 21 846 cellules) ;
-D couvre les dimensions étudiées (2 pour les scénarios, 5 et 20 pour le climat) et 10 en intermédiaire.
+  pipeline/N=n              prix alimentaires (D = 3, période d'apprentissage) : temps du pipeline EM-BIC (balayage
+                            K = 1..Kmax, n_init relances par K) contre un VB (Kmax, n_init relances), sur les mêmes
+                            sous-échantillons ; rapport par réplication, médiane et intervalle bootstrap de la médiane (HP4)
+Grilles du plan : N couvre les effectifs étudiés et au-delà (jusqu'à 20 000) ; D couvre les dimensions étudiées
+(2 pour les scénarios, 3 pour les prix, jusqu'à 20 pour le scénario S5) et des valeurs intermédiaires.
 Le nombre de répétitions est celui du registre (« repetitions_chronometrage »). Chaque répétition est
 mémorisée : une interruption ne perd que la mesure en cours.
 """
@@ -31,7 +31,7 @@ import statistique as S
 GRILLE_N = (300, 1000, 2000, 5000, 20000)
 GRILLE_D = (2, 5, 10, 20)
 N_FIXE = 2001
-EFFECTIFS_PIPELINE = (30, 60, 120, 500, 2000)
+EFFECTIFS_PIPELINE = (30, 60, 120, 250, 500)
 
 
 def _rep(rapide):
@@ -61,11 +61,10 @@ def unite_scalabilite(memo, rapide, N, D):
 
 
 def unite_pipeline(memo, rapide, N):
-    import donnees_geo as G
-    d = G.charger_climat(5)
-    X = G.standardiser(d["X"])
-    kmax = int(PARAM.valeur("k_max")["climat"])
-    n_init = int(PARAM.valeur("n_init")["climat"])
+    import etape_prix as P
+    X, _, _ = P.donnees()
+    kmax = int(PARAM.valeur("k_max")["prix"])
+    n_init = int(PARAM.valeur("n_init")["prix"])
     n_init = min(n_init, 2) if rapide else n_init
     lignes = []
     for r in range(_rep(rapide)):
@@ -79,7 +78,7 @@ def unite_pipeline(memo, rapide, N):
             return {"temps": time.perf_counter() - t0}
 
         def vb():
-            pr = C.priors_bras(Xs, kmax, "climat")["emp"]
+            pr = C.priors_bras(Xs, kmax, "prix")["emp"]
             return _mesure(lambda: A.em_variationnel(Xs, kmax, priori=pr, n_init=n_init, graine=gr))
         te = memo(f"EM-BIC/rep={r}", em_bic)
         tv = memo(f"VB-emp/rep={r}", vb)

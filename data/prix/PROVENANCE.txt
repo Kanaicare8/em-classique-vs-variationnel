@@ -1,0 +1,7 @@
+url : https://data.humdata.org/dataset/f6ed9f06-36b9-43b2-97f3-fc0b8e16d155/resource/9deec824-1e42-4a91-b704-b73fd250ec5a/download/wfp_food_prices_cmr.csv
+téléchargé le : 2026-10-27
+sha256 fichier complet : 98fcdc74e2ae5d8334eacc13bcddea1173587a061aa0337aad6c4a0f90127544
+sha256 extrait (wfp_cmr_panier.csv) : 6b865e4068ad988faa80275ab0e228b5514a0836633f4991e2c18eae7d6b976f
+lignes du fichier complet : 77268 ; lignes de l'extrait : 7654
+période : 2005-01-15 à 2026-08-15
+licence : CC BY-IGO ; source : World Food Programme, Cameroon - Food Prices, Humanitarian Data Exchange

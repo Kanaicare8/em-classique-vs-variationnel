@@ -104,9 +104,9 @@ def tableau(nom, source, legende, colonnes, rapide, filtre=None, note=None, labe
 
 
 # ------------------------------------------------------------------------------ spécifications
-DECISION = [("id", "Hypothèse", "t"), ("test", "Test", "t"), ("n", "n", "i"), ("estimation", "Écart moyen A - B", "n"),
-            ("ic_bas", "IC 95 % bas", "n"), ("ic_haut", "IC 95 % haut", "n"), ("marge", "Marge", "n"),
-            ("p_holm", "p (Holm)", "n4"), ("decision", "Décision", "t")]
+DECISION = [("id", "Test", "t"), ("rh", "RH", "t"), ("test", "Type", "t"), ("n", "n", "i"), ("exclues", "Exclues", "i"),
+            ("estimation", "Écart moyen A - B", "n"), ("ic_bas", "IC 95 % bas", "n"), ("ic_haut", "IC 95 % haut", "n"),
+            ("marge", "Marge", "n"), ("p_holm", "p (Holm)", "n4"), ("attendu", "Attendu", "t"), ("decision", "Décision", "t")]
 RESUME_BRAS = [("bras", "Bras", "t"), ("n", "n", "i"), ("k_hat", "K̂ moyen", "n2"), ("erreur_k", "|K̂ - K|", "n2"),
                ("ARI", "ARI", "n"), ("ll_test", "LL test", "n"), ("ll_test_predictive", "LL prédictive", "n"),
                ("degenere", "Dégénérés", "p"), ("converge", "Convergés", "p")]
@@ -159,29 +159,44 @@ def specifications(rapide):
     T("decisions_scenarios", "scenarios_decisions", "Décisions confirmatoires, famille des scénarios (Holm)", DECISION)
     T("S9_variance", "S9_decomposition_variance", "Part de variance de K̂ expliquée par chaque hyperparamètre (S9)",
       [("facteur", "Facteur", "t"), ("part_variance", "Part", "p")])
-    # climat
-    T("climat_resume", "climat_resume", "Climat : moyennes par plan, effectif et bras",
+    T("S8_alpha0", "S8_resume", "Composantes actives du VB selon α₀ autour du seuil d/2, par type de covariance (S8)",
+      [("cov", "Covariance", "t"), ("alpha0", "α₀", "n2"), ("n", "n", "i"), ("k_actif", "Actives (moy.)", "n2"),
+       ("ARI", "ARI", "n"), ("converge", "Convergés", "p")])
+    T("S10_seuil", "S10_resume", "Composantes actives selon le seuil d'activité (S10), moyennes sur les réplications",
+      [("alpha0", "α₀", "n4"), ("n", "n", "i"), ("N_k_ge_1", "N_k ≥ 1", "n2"), ("pct_0.5", "≥ 0,5 %", "n2"),
+       ("pct_1", "≥ 1 %", "n2"), ("pct_5", "≥ 5 %", "n2")])
+    T("cout_selection", "chronometrage_pipeline", "Temps total jusqu'au modèle final : pipeline EM-BIC contre un VB (prix, D = 3)",
+      [("N", "N", "i"), ("n_rep", "Répétitions", "i"), ("temps_em_bic_median", "EM-BIC (s)", "n2"),
+       ("temps_vb_median", "VB (s)", "n2"), ("ratio_median", "Rapport médian", "n2"), ("ratio_ic_bas", "IC bas", "n2"),
+       ("ratio_ic_haut", "IC haut", "n2")])
+    # cas pratique : prix alimentaires du Cameroun
+    T("prix_descriptif", "prix_descriptif", "Écarts des prix au niveau des douze mois précédents (log), par période",
+      [("periode", "Période", "t"), ("observations", "Obs.", "i"), ("marches", "Marchés", "i"), ("regions", "Régions", "i"),
+       ("debut", "Début", "t"), ("fin", "Fin", "t"), ("moyenne_maïs blanc", "Moy. maïs", "n"), ("ecart_type_maïs blanc", "É.-t. maïs", "n"),
+       ("ecart_type_riz importé", "É.-t. riz", "n"), ("ecart_type_niébé", "É.-t. niébé", "n"),
+       ("kurtosis_exc_maïs blanc", "Kurt. maïs", "n1"), ("kurtosis_exc_riz importé", "Kurt. riz", "n1"),
+       ("kurtosis_exc_niébé", "Kurt. niébé", "n1")])
+    T("prix_reference", "prix_reference", "Modèle de référence : BIC de l'EM selon K sur toute la période d'apprentissage",
+      [("K", "K", "i"), ("BIC", "BIC", "n2"), ("retenu", "Retenu", "t")])
+    T("prix_resume", "prix_resume", "Prix : moyennes par plan, effectif et bras",
       [("plan", "Plan", "t"), ("N", "N", "t"), ("bras", "Bras", "t"), ("n", "n", "i"), ("k_hat", "K̂", "n2"),
-       ("ARI_koppen", "ARI Köppen", "n"), ("ll_test", "LL hors bloc", "n"), ("degenere", "Dégénérés", "p")])
-    T("decisions_climat", "climat_decisions", "Décisions, famille climat (Holm pour les tests ; intervalles pour HC4 à HC6)",
+       ("erreur_k", "|K̂ - K_ref|", "n2"), ("ARI", "ARI", "n"), ("ll_test", "LL test", "n"),
+       ("ll_test_predictive", "LL prédictive", "n"), ("degenere", "Dégénérés", "p")])
+    T("decisions_prix", "prix_decisions", "Décisions, famille prix (Holm pour les tests ; intervalles pour HP4 à HP6)",
       DECISION)
-    T("climat_cartes", "climat_cartes_k", "Grille complète : nombre de composantes retenues",
-      [("bras", "Bras", "t"), ("k_hat", "K̂", "i"), ("k_ajuste", "K ajusté", "i")])
-    # S&P 500
-    T("sp500_descriptif", "sp500_descriptif", "Rendements quotidiens du S&P 500",
-      [("periode", "Période", "t"), ("observations", "Obs.", "i"), ("moyenne_pct", "Moyenne (%)", "n"),
-       ("ecart_type_pct", "Écart-type (%)", "n"), ("asymetrie", "Asymétrie", "n"), ("kurtosis_excedentaire", "Kurtosis exc.", "n"),
-       ("minimum_pct", "Min. (%)", "n"), ("maximum_pct", "Max. (%)", "n")])
-    T("sp500_backtests", "sp500_backtests", "Validation rétrospective de la VaR et de l'ES",
-      [("modele", "Modèle", "t"), ("niveau", "Niveau", "p"), ("exceptions", "Exceptions", "i"), ("attendues", "Attendues", "n1"),
-       ("Kupiec_p", "p Kupiec", "n4"), ("Christoffersen_cc_p", "p Christoffersen", "n4"), ("AS_Z2", "Z₂", "n"),
-       ("logscore_moyen", "Log-score", "n")])
-    T("sp500_dm", "sp500_diebold_mariano", "Tests de Diebold-Mariano sur le log-score (Holm)",
-      [("A", "A", "t"), ("B", "B", "t"), ("ecart_logscore_moyen", "Écart moyen", "n4"), ("DM", "DM", "n2"),
-       ("p_holm", "p (Holm)", "n4"), ("decision", "Décision", "t")])
-    T("sp500_intervalles", "sp500_intervalles", "Incertitude de la VaR : bootstrap (EM) et crédibilité (VB)",
-      [("niveau", "Niveau", "p"), ("IC95_bootstrap_bas", "Bootstrap bas", "n"), ("IC95_bootstrap_haut", "Bootstrap haut", "n"),
-       ("IC95_credible_bas", "Crédible bas", "n"), ("IC95_credible_haut", "Crédible haut", "n")])
+    T("prix_complet", "prix_complet", "Ajustements sur toute la période d'apprentissage, évalués sur 2024-2026",
+      [("bras", "Bras", "t"), ("k_hat", "K̂", "i"), ("poids_actifs", "Poids actifs", "l"), ("ll_apprentissage", "LL appr.", "n"),
+       ("ll_test", "LL test", "n"), ("ll_test_predictive", "LL prédictive", "n"), ("temps_s", "Temps (s)", "n2")])
+    T("prix_dm", "prix_diebold_mariano", "Comparaisons de prévision : Diebold-Mariano sur le log-score moyenné par mois (Holm)",
+      [("id", "Id", "t"), ("A", "A", "t"), ("B", "B", "t"), ("ecart_logscore_moyen", "Écart moyen", "n4"), ("n_mois", "Mois", "i"),
+       ("DM", "DM", "n2"), ("p_holm", "p (Holm)", "n4"), ("decision", "Décision", "t")])
+    T("prix_alerte", "prix_alerte", "Régime de tension : probabilité d'alerte et largeur de son intervalle à 90 %",
+      [("bras", "Bras", "t"), ("periode", "Période", "t"), ("k_hat", "K̂", "i"), ("poids_tension", "Poids", "n"),
+       ("moyenne_maïs blanc", "Écart maïs", "n"), ("moyenne_riz importé", "Écart riz", "n"), ("moyenne_niébé", "Écart niébé", "n"),
+       ("part_alerte", "Part p > 0,5", "p"), ("largeur_ic90_moyenne", "Largeur IC", "n"),
+       ("part_ic_chevauche_0.5", "IC contient 0,5", "p")])
+    T("prix_ecartes", "prix_releves_ecartes", "Relevés écartés comme pics isolés d'un mois (erreurs de saisie probables)",
+      [("mois", "Mois", "t"), ("marche", "Marché", "t"), ("denree", "Denrée", "t"), ("prix", "Prix relevé (XAF/kg)", "n1")])
     # texte
     T("texte_resume", "texte_resume", "pLSA et LDA : moyennes par vocabulaire, effectif et modèle",
       [("V", "V", "t"), ("N", "N", "t"), ("bras", "Modèle", "t"), ("n", "n", "i"), ("perplexite_test", "Perplexité test", "n1"),
@@ -220,24 +235,22 @@ def grille(rapide):
         ("Dimension", r"Dimension croissante $D\in\{2,5,10,20\}$", ("scenarios_decisions", "HS5-"), REP, "§2.3.17"),
         ("Singularités, petit $N$", "Taux d'ajustements dégénérés selon $N$", ("scenarios_decisions", "HS6-"), REP, "§2.3.17"),
         ("Valeurs aberrantes", "Proportion et amplitude variées", ("scenarios_decisions", "HS7-"), REP, "§2.3.18"),
-        ("Sélection de $K$ (climat)", "Erreur sur $K$ du VB et de EM-BIC (semi-synthétique)", ("climat_decisions", "HC1-"), REP, "§3.1.1"),
-        ("Qualité à grand $N$ (climat)", "ARI et log-vraisemblance hors bloc", ("climat_decisions", "HC2-"), REP, "§3.1.1"),
-        ("Singularités (climat)", r"VB contre EM-Kmax, $N\leq120$", ("climat_decisions", "HC3-"), REP, "§3.1.1"),
-        ("Coût de calcul", "Pipeline EM-BIC contre un VB, temps total", ("climat_decisions", "HC4-"), REP, "§2.3.20"),
-        ("Sensibilité aux priors", r"Variance de $\hat K$ due aux priors contre due à l'initialisation", ("climat_decisions", "HC5"),
+        ("Sélection de $K$ (prix)", "Erreur sur $K$ du VB et de EM-BIC (semi-synthétique)", ("prix_decisions", "HP1-"), REP, "§3.1"),
+        ("Qualité prédictive (prix)", "Log-vraisemblance de test 2024-2026, VB contre EM-BIC", ("prix_decisions", "HP2-"), REP, "§3.1"),
+        ("Singularités, petit $N$ (prix)", r"VB contre EM-Kmax, $N\leq120$", ("prix_decisions", "HP3-"), REP, "§3.1"),
+        ("Coût de calcul", "Pipeline EM-BIC contre un VB, temps total", ("prix_decisions", "HP4-"), REP, "§2.3.20"),
+        ("Sensibilité aux priors", r"Variance de $\hat K$ due aux priors contre due à l'initialisation", ("prix_decisions", "HP5"),
          "expérience répliquée (descriptive)", "§2.3.19"),
-        ("Incertitude", r"Couverture des intervalles à 90 \% (VB et bootstrap EM)", ("climat_decisions", "HC6-"), REP, "§2.3.15"),
-        ("Chevauchement", "Le VB fusionne des zones voisines plus que EM-BIC", ("climat_decisions", "HC7-"), REP, "§3.1.1"),
-        ("Dimension (climat)", "$D = 20$ : dégénérescence du VB contre EM-Kmax", ("climat_decisions", "HC8-"), REP, "§3.1.1"),
-        ("Surapprentissage (texte)", "Écart test/apprentissage de pLSA contre LDA", ("texte_decisions", "HT1-"), REP, "§3.1.2"),
-        ("Gestion du risque", "Log-score des modèles de VaR (Diebold-Mariano, Holm)", ("sp500_diebold_mariano", None),
-         "expérience unique (une série)", "§3.1.3"),
+        ("Incertitude", r"Couverture des intervalles à 90 \% (VB et bootstrap EM)", ("prix_decisions", "HP6-"), REP, "§2.3.15"),
+        ("Prévision (prix)", "Log-score des mélanges et de la gaussienne, 2024-2026 (Diebold-Mariano par mois, Holm)",
+         ("prix_diebold_mariano", None), "expérience unique (une période de test)", "§3.1"),
+        ("Surapprentissage (texte)", "Écart test/apprentissage de pLSA contre LDA", ("texte_decisions", "HT1-"), REP, "§3.2"),
         ("Seuil d'élagage", r"Seuil de $\alpha_0$ transféré au champ moyen", ("S8_alpha0", None), "expérience répliquée (descriptive)", "§1.7.4, §2.3.14"),
         ("Seuil d'activité", "Le nombre de composantes actives dépend du seuil", ("S10_seuil", None), "expérience répliquée (descriptive)", "§2.3.19"),
         ("Dépendance à $K_{\\max}$", "Résultat de l'élagage dépendant de $K_{\\max}$ (Iris)", ("illustrations_iris", None), "expérience unique", "§2.3.11"),
         ("Initialisation", "Composantes actives selon l'initialisation", ("illustrations_initialisation", None),
          "expérience répliquée (descriptive)", "§2.3.9"),
-        ("Biais d'approximation", "Variance sous-estimée par le champ moyen", None, "théorème", "§1.5.4 (Bishop 2006) ; couverture : HC6"),
+        ("Biais d'approximation", "Variance sous-estimée par le champ moyen", None, "théorème", "§1.5.4 (Bishop 2006) ; couverture : HP6"),
         ("Monotonie du critère", "Croissance de la log-vraisemblance (EM) et de l'ELBO (VB, covariance pleine)", None, "théorème",
          "§1.6.3, §1.7.6 ; vérification numérique (validation)"),
         ("Convergence de l'EM pour le GMM", "Le théorème de Wu (1983) ne s'applique pas tel quel (vraisemblance non bornée)", None,
@@ -273,15 +286,173 @@ def grille(rapide):
            note="Niveaux : théorème ; expérience répliquée (nombre de réplications fixé par le calcul de puissance) ; expérience "
                 "unique ; non testé. Aucune ligne n'autorise à parler de supériorité d'un algorithme.")
     g = [("$K$ connu avec confiance", "EM classique ou VB peuvent convenir ; confirmer l'équivalence", "expérience répliquée (HS1, HS3)"),
-         ("$K$ inconnu", "EM-BIC/ICL ou VB : choix selon le coût total et le besoin d'incertitude", "expérience répliquée (HC1, HC4)"),
-         ("Besoin d'une incertitude en aval", "VB (approchée) ; vérifier la couverture ; bootstrap pour l'EM", "expérience répliquée (HC6)"),
-         ("Petit effectif", "Comparer les taux de dégénérescence ; régulariser l'EM", "expérience répliquée (HS6, HC3)"),
+         ("$K$ inconnu", "EM-BIC/ICL ou VB : choix selon le coût total et le besoin d'incertitude", "expérience répliquée (HP1, HP4)"),
+         ("Besoin d'une incertitude en aval (alerte)", "VB (approchée) ; vérifier la couverture ; bootstrap pour l'EM",
+          "expérience répliquée (HP6)"),
+         ("Petit effectif", "Comparer les taux de dégénérescence ; régulariser l'EM", "expérience répliquée (HS6, HP3)"),
          ("Grande dimension ($D>20$)", "Non testé", "non testé"),
          ("Très grand $N$", "EM online ou SVI pour les deux familles", "non testé (références)"),
          ("Sensibilité aux priors acceptable", "VB avec priors fixés avant les données ; plan factoriel",
-          "expérience répliquée, descriptive (HC5, S9)")]
+          "expérience répliquée, descriptive (HP5, S9)")]
     ecrire("guide_decision", ["Situation", "Recommandation prudente", "Niveau de preuve"], [[a, b, esc(c)] for a, b, c in g],
            "Guide de décision avec niveau de preuve (aucune ligne n'est une recommandation absolue)", "tab:3_4", largeurs=[4.3, 7.2, 3.8])
+
+
+# ------------------------------------------------------------------------------ hypothèses (méthodologie, sans résultats)
+def plan_hypotheses():
+    """Hypothèses de recherche et tests déclarés qui les opérationnalisent : produits depuis hypotheses.py, avant tout résultat."""
+    import hypotheses as HY
+    lig = []
+    for rh, (titre, enonce) in HY.RECHERCHE.items():
+        ids = [h.id for h in HY.H if h.rh == rh] + [p for p, r, _, _ in HY.AUTRES if r == rh]
+        prefixes = list(dict.fromkeys(i.split("-")[0] if not i.startswith("HP6") else "HP6" for i in ids))
+        lig.append([esc(rh), esc(titre), esc(enonce), esc(", ".join(prefixes))])
+    ecrire("hypotheses_recherche", ["RH", "Intitulé", "Hypothèse de recherche", "Tests rattachés"], lig,
+           "Hypothèses de recherche issues de la thèse et tests qui les mettent à l'épreuve", "tab:hypotheses_recherche",
+           largeurs=[1.0, 3.0, 8.3, 3.0])
+    att = {"équivalent": "équivalence", "A > B": "A > B", "A < B": "A < B", None: "non orienté"}
+    lig = [[esc(h.id), esc(h.rh), esc(h.enonce), esc(f"{h.bras_a} - {h.bras_b}"), esc(h.metrique),
+            "TOST" if h.test == "equivalence" else "Wilcoxon exact", esc(att.get(h.attendu, h.attendu))] for h in HY.H]
+    lig += [[esc(p + ("*" if p.startswith("HP") and not p.startswith("HPP") else "")), esc(r), esc(t), "", "",
+             "intervalle" if not p.startswith("HPP") else "Diebold-Mariano", esc(a or "non orienté")] for p, r, a, t in HY.AUTRES]
+    ecrire("plan_tests", ["Test", "RH", "Énoncé", "Bras (A - B)", "Métrique", "Test déclaré", "Attendu si RH vraie"], lig,
+           "Plan des tests déclarés (familles de Holm : scénarios, prix, prévision, texte)", "tab:plan_tests",
+           largeurs=[1.7, 0.8, 6.2, 2.2, 1.6, 1.5, 1.6], taille="tiny",
+           note="* : décision par intervalle (pas de correction de Holm). « Non orienté » : la thèse ne prédit pas le sens "
+                "de l'écart ; une différence démontrée est alors rapportée sans être comptée pour ni contre l'hypothèse.")
+
+
+# ------------------------------------------------------------------------------ lectures générées depuis les résultats
+def _phrase_decision(l):
+    est, lo, hi = num(l.get("estimation")), num(l.get("ic_bas")), num(l.get("ic_haut"))
+    if l.get("test") == "intervalle":
+        return f"{esc(l['id'])} : estimation {est}, IC à 95 \\% [{lo} ; {hi}], décision « {esc(l['decision'])} »"
+    if str(l.get("id", "")).startswith("HPP"):
+        return (f"{esc(l['id'])} ({esc(l['A'])} contre {esc(l['B'])}) : écart moyen de log-score {num(l.get('estimation'), 4)} "
+                f"sur {num(l.get('n_mois'), 0)} mois, statistique DM {num(l.get('DM'), 2)}, p de Holm {num(l.get('p_holm'), 4)}, "
+                f"décision « {esc(l['decision'])} »")
+    p = num(l.get("p_holm"), 4)
+    return (f"{esc(l['id'])} : écart moyen A $-$ B de {est} (IC à 95 \\% [{lo} ; {hi}], n = {num(l.get('n'), 0)}, "
+            f"p de Holm {p}), décision « {esc(l['decision'])} »")
+
+
+def _verdict(attendu, decision):
+    """conforme, contraire, non tranché ou différence non orientée."""
+    d = str(decision)
+    if attendu in (None, "", "None"):
+        return "différence non orientée" if d in ("A > B", "A < B") else "non tranché"
+    if attendu == "équivalent":
+        return "conforme" if d == "équivalent" else "non tranché"
+    if attendu in ("A > B", "A < B"):
+        return "conforme" if d == attendu else ("contraire" if d in ("A > B", "A < B") else "non tranché")
+    if attendu == "ratio > 1":
+        return "conforme" if d == "ratio > 1" else ("contraire" if d == "ratio < 1" else "non tranché")
+    if attendu == "< 90 %":
+        return "conforme" if d == "< 90 %" else ("contraire" if d == ">= 90 %" else "non tranché")
+    if attendu == "compatible avec 90 %":
+        return "conforme" if d in ("compatible avec 90 %", ">= 90 %") else "contraire"
+    return "non tranché"
+
+
+def _decisions_toutes(rapide):
+    import hypotheses as HY
+    out = []
+    for src in ("scenarios_decisions", "prix_decisions", "prix_diebold_mariano", "texte_decisions"):
+        for l in lire(src, rapide) or []:
+            rh, att = HY.rattachement(l["id"])
+            if l["id"].startswith("HPP"):
+                l = dict(l, estimation=l["ecart_logscore_moyen"], ic_bas="", ic_haut="", test="difference")
+            out.append(dict(l, rh=rh, attendu=att, source=src))
+    return out
+
+
+def _ecrire_lecture(nom, paragraphes):
+    OUT.mkdir(exist_ok=True)
+    (OUT / f"lecture_{nom}.tex").write_text("\n\n".join(paragraphes) + "\n", encoding="utf-8")
+    ECRITS.append(f"lecture_{nom}")
+
+
+def lectures(rapide):
+    """
+    Lectures factuelles écrites dans tables/lecture_<nom>.tex, uniquement à partir des fichiers de résultats : pour chaque
+    décision, l'estimation, l'intervalle, la p-valeur de Holm et la décision, puis le verdict au regard de l'hypothèse de
+    recherche rattachée (conforme, contraire, non tranché). Aucune phrase n'est écrite pour un résultat absent.
+    """
+    import hypotheses as HY
+    toutes = _decisions_toutes(rapide)
+    for nom, srcs in (("scenarios", ("scenarios_decisions",)), ("prix", ("prix_decisions", "prix_diebold_mariano")),
+                      ("texte", ("texte_decisions",))):
+        dec = [l for l in toutes if l["source"] in srcs]
+        if not dec:
+            continue
+        par = []
+        for rh, (titre, _) in HY.RECHERCHE.items():
+            d = [l for l in dec if l["rh"] == rh]
+            if not d:
+                continue
+            v = [_verdict(l["attendu"], l["decision"]) for l in d]
+            bilan = (f"{v.count('conforme')} conforme(s) à l'hypothèse, {v.count('contraire')} contraire(s), "
+                     f"{v.count('non tranché')} non tranchée(s)"
+                     + (f", {v.count('différence non orientée')} différence(s) démontrée(s) sans sens prédit"
+                        if "différence non orientée" in v else ""))
+            par.append(f"\\textbf{{{rh} ({esc(titre)}).}} Sur {len(d)} décision(s) : {bilan}. "
+                       + " ; ".join(f"{_phrase_decision(l)} [{v_}]" for l, v_ in zip(d, v)) + ".")
+        _ecrire_lecture(nom, par)
+    _lecture_prix_cas(rapide)
+    _lecture_recherche(toutes)
+
+
+def _lecture_prix_cas(rapide):
+    """Lecture descriptive du cas pratique : modèle de référence, régime de tension, alertes, prévision."""
+    ref, alerte, comp = lire("prix_reference", rapide), lire("prix_alerte", rapide), lire("prix_complet", rapide)
+    par = []
+    if ref:
+        k = next((l for l in ref if l["retenu"] == "True"), None)
+        if k:
+            par.append(f"\\textbf{{Nombre de régimes.}} Sur toute la période d'apprentissage, le BIC de l'EM est minimal à "
+                       f"$K = {k['K']}$ (BIC = {num(k['BIC'], 1)}, tableau~\\ref{{tab:prix_reference}}) ; ce $K$ sert de "
+                       "$K_{\\text{réf}}$ et de modèle générateur du jeu semi-synthétique.")
+    if comp:
+        s = " ; ".join(f"{esc(l['bras'])} : $\\hat K$ = {num(l.get('k_hat'), 0)}, log-vraisemblance de test {num(l.get('ll_test'))}"
+                       + (f" (prédictive {num(l.get('ll_test_predictive'))})" if l.get("ll_test_predictive") not in ("", "nan") else "")
+                       for l in comp if l.get("echec") == "False")
+        par.append(f"\\textbf{{Ajustements sur toute la période d'apprentissage}} (tableau~\\ref{{tab:prix_complet}}). {s}.")
+    if alerte:
+        d = []
+        for l in alerte:
+            if l["bras"].startswith("accord"):
+                d.append(f"les deux méthodes classent de la même façon (probabilité supérieure ou non à 0,5) "
+                         f"{cellule(l['part_alerte'], 'p')} des observations")
+                continue
+            d.append(f"{esc(l['bras'])}, {esc(l['periode'])} : régime de tension de poids {num(l['poids_tension'])}, d'écarts "
+                     f"moyens {num(l['moyenne_maïs blanc'])} (maïs), {num(l['moyenne_riz importé'])} (riz), "
+                     f"{num(l['moyenne_niébé'])} (niébé) ; {cellule(l['part_alerte'], 'p')} des observations en alerte ; "
+                     f"largeur moyenne de l'intervalle à 90 \\% de la probabilité d'alerte {num(l['largeur_ic90_moyenne'])}")
+        par.append("\\textbf{Régime de tension et alertes} (tableau~\\ref{tab:prix_alerte}). " + " ; ".join(d) + ".")
+    if par:
+        _ecrire_lecture("prix_cas", par)
+
+
+def _lecture_recherche(toutes):
+    """Bilan transversal : pour chaque hypothèse de recherche, décisions conformes, contraires et non tranchées, toutes familles."""
+    import hypotheses as HY
+    if not toutes:
+        return
+    lig, par = [], []
+    for rh, (titre, enonce) in HY.RECHERCHE.items():
+        d = [l for l in toutes if l["rh"] == rh]
+        v = [_verdict(l["attendu"], l["decision"]) for l in d]
+        n = {k: v.count(k) for k in ("conforme", "contraire", "non tranché", "différence non orientée")}
+        lig.append([esc(rh), esc(titre), num(len(d), 0), num(n["conforme"], 0), num(n["contraire"], 0), num(n["non tranché"], 0),
+                    num(n["différence non orientée"], 0)])
+        if d:
+            ids = lambda k: ", ".join(esc(l["id"]) for l, x in zip(d, v) if x == k) or "aucune"
+            par.append(f"\\textbf{{{rh} ({esc(titre)}).}} {esc(enonce)} Décisions conformes : {ids('conforme')}. "
+                       f"Contraires : {ids('contraire')}. Non tranchées : {ids('non tranché')}.")
+    ecrire("bilan_recherche", ["RH", "Intitulé", "Décisions", "Conformes", "Contraires", "Non tranchées", "Différences non orientées"],
+           lig, "Bilan des hypothèses de recherche sur l'ensemble des tests déclarés", "tab:bilan_recherche",
+           largeurs=[1.0, 4.0, 1.9, 1.9, 1.9, 2.1, 2.5])
+    _ecrire_lecture("recherche", par)
 
 
 def main(rapide=False):
@@ -289,6 +460,8 @@ def main(rapide=False):
     if rapide:
         OUT = RACINE / "tables_rapide"
     specifications(rapide)
+    plan_hypotheses()
+    lectures(rapide)
     grille(rapide)
     registre()
     print(f"{len(ECRITS)} tableaux écrits dans tables/")

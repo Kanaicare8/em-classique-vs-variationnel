@@ -5,13 +5,13 @@ DONNÉES : générateurs synthétiques et lecteurs écrits à la main (sans scik
 
   Synthétiques   gen_gauss(), gen_student(), centres_triangle(), centres_ligne()
   Iris           charger_iris()              data/iris.csv (Fisher 1936, UCI)
-  S&P 500        charger_sp500()             data/sp500_fred.csv, empreinte SHA-256 vérifiée
+  Prix (PAM)     charger_prix()              data/prix/wfp_cmr_panier.csv (extrait HDX, CC BY-IGO), empreinte
+                                             SHA-256 vérifiée ; écarts au niveau des 12 mois précédents
   Texte          charger_20newsgroups()      archive originale 20news-bydate.tar.gz (Lang 1995),
                                              lue avec tarfile ; en-têtes, citations et signatures
                                              retirés ; racinisation de Porter (1980) écrite ici ;
                                              mots vides définis par la fréquence documentaire
                                              (aucune liste externe).
-  Climat         voir donnees_geo.py (seul module qui lit des formats géographiques).
 """
 
 from __future__ import annotations
@@ -78,7 +78,7 @@ def centres_ligne(K, ecart, D=2):
 
 
 # ==============================================================================
-# IRIS ET S&P 500
+# IRIS ET PRIX ALIMENTAIRES DU CAMEROUN
 # ==============================================================================
 
 def charger_iris():
@@ -90,25 +90,88 @@ def charger_iris():
     return X, torch.tensor([especes[l[4]] for l in lignes])
 
 
-SHA256_SP500 = "551b282c417da2e7fa38ad4da0c5ebc2c907d386272a0752d04f97e16b7c90dc"
+PANIER_PRIX = ("Maize (white)", "Rice (long grain, imported)", "Beans (niebe)")
+NOMS_PANIER = ("maïs blanc", "riz importé", "niébé")
+SHA256_PRIX = "6b865e4068ad988faa80275ab0e228b5514a0836633f4991e2c18eae7d6b976f"   # extrait du 27/10/2026 (HDX du 04/10/2026)
 
 
-def charger_sp500():
+def mois_index(aaaa_mm: str) -> int:
+    """'2023-08' -> 2023 x 12 + 7 (mois consécutifs = entiers consécutifs)."""
+    return int(aaaa_mm[:4]) * 12 + int(aaaa_mm[5:7]) - 1
+
+
+def mois_texte(i: int) -> str:
+    return f"{i // 12:04d}-{i % 12 + 1:02d}"
+
+
+def pics_isoles(serie: dict, facteur: float) -> list[int]:
+    """Mois t dont le log-prix diffère d'au moins ln(facteur), dans le même sens, des mois t - 1 et t + 1 (tous deux relevés)."""
+    s = math.log(facteur)
+    out = []
+    for t, v in serie.items():
+        if t - 1 in serie and t + 1 in serie:
+            a, b = v - serie[t - 1], v - serie[t + 1]
+            if min(abs(a), abs(b)) >= s and a * b > 0:
+                out.append(t)
+    return out
+
+
+def charger_prix(fenetre: int | None = None, releves_min: int | None = None, facteur_pic: float | None = None) -> dict:
     """
-    Clôtures quotidiennes du S&P 500 (FRED, série SP500), archive data/sp500_fred.csv dont l'empreinte
-    SHA-256 est vérifiée. Retourne (dates, rendements en % = 100 ln(P_t / P_{t-1})).
+    Panier de trois denrées de base (maïs blanc : céréale locale ; riz importé : céréale importée ; niébé :
+    légumineuse), prix de détail en XAF par kg, extrait de la base de prix du PAM (empreinte SHA-256 vérifiée).
+
+    Nettoyage (registre « prix_facteur_pic ») : les pics isolés d'un mois (pics_isoles) sont écartés AVANT le calcul
+    des écarts ; ils sont rendus dans "ecartes" (marché, denrée, mois, prix).
+
+    Variable de chaque denrée j, pour le marché m et le mois t : écart au niveau récent
+        e_j(m, t) = ln p_j(m, t) - moyenne des ln p_j(m, u), u = t - fenetre .. t - 1 relevés,
+    défini si au moins `releves_min` relevés existent dans la fenêtre. Elle est CAUSALE (aucune information
+    postérieure à t), insensible aux mois manquants et retire la dérive lente des prix (inflation) ; un écart
+    de +0,30 signifie un prix environ 35 % au-dessus de son niveau des douze derniers mois. Une observation
+    (marché, mois) est retenue si les trois écarts sont définis.
+
+    Retourne {"X" (N, 3), "marche" (N,), "mois" (N,), "marches", "regions", "lat", "lon", "variables", "panier"}.
     """
-    chemin = DATA / "sp500_fred.csv"
+    import parametres as PARAM
+    fenetre = int(PARAM.valeur("prix_fenetre_mois")) if fenetre is None else fenetre
+    releves_min = int(PARAM.valeur("prix_releves_min")) if releves_min is None else releves_min
+    facteur_pic = float(PARAM.valeur("prix_facteur_pic")) if facteur_pic is None else facteur_pic
+    chemin = DATA / "prix" / "wfp_cmr_panier.csv"
     empreinte = hashlib.sha256(chemin.read_bytes()).hexdigest()
-    if empreinte != SHA256_SP500:
-        raise RuntimeError(f"{chemin.name} : empreinte {empreinte[:12]}... différente de l'archive du mémoire")
-    dates, prix = [], []
-    for l in list(csv.reader(open(chemin, encoding="utf-8")))[1:]:
-        if len(l) >= 2 and l[1] not in ("", "."):
-            dates.append(date.fromisoformat(l[0]))
-            prix.append(float(l[1]))
-    p = torch.tensor(prix, dtype=torch.float64)
-    return dates[1:], 100.0 * torch.log(p[1:] / p[:-1])
+    if empreinte != SHA256_PRIX:
+        raise RuntimeError(f"{chemin.name} : empreinte {empreinte[:12]}... différente de l'extrait du mémoire")
+    serie, info = {}, {}
+    for l in csv.DictReader(open(chemin, encoding="utf-8")):
+        serie.setdefault((l["market"], l["commodity"]), {})[mois_index(l["date"])] = math.log(float(l["price"]))
+        info[l["market"]] = (l["admin1"], float(l["latitude"]), float(l["longitude"]))
+    ecartes = []
+    for (m, c), s in serie.items():
+        for t in pics_isoles(s, facteur_pic):
+            ecartes.append({"marche": m, "denree": c, "mois": mois_texte(t), "prix": round(math.exp(s.pop(t)), 2)})
+    marches = sorted(info)
+    num = {m: i for i, m in enumerate(marches)}
+
+    def ecart(m, c, t):
+        s = serie.get((m, c), {})
+        if t not in s:
+            return None
+        passe = [s[u] for u in range(t - fenetre, t) if u in s]
+        return s[t] - sum(passe) / len(passe) if len(passe) >= releves_min else None
+    obs = []
+    for m in marches:
+        for t in sorted(set().union(*(serie.get((m, c), {}).keys() for c in PANIER_PRIX))):
+            x = [ecart(m, c, t) for c in PANIER_PRIX]
+            if all(v is not None for v in x):
+                obs.append((t, num[m], x))
+    obs.sort(key=lambda o: (o[0], o[1]))
+    return {"X": torch.tensor([o[2] for o in obs], dtype=torch.float64),
+            "marche": torch.tensor([o[1] for o in obs]), "mois": torch.tensor([o[0] for o in obs]),
+            "marches": marches, "regions": [info[m][0] for m in marches],
+            "lat": torch.tensor([info[m][1] for m in marches], dtype=torch.float64),
+            "lon": torch.tensor([info[m][2] for m in marches], dtype=torch.float64),
+            "variables": [f"écart {n}" for n in NOMS_PANIER], "panier": list(PANIER_PRIX),
+            "ecartes": sorted(ecartes, key=lambda e: (e["mois"], e["marche"], e["denree"]))}
 
 
 # ==============================================================================
@@ -251,6 +314,9 @@ def charger_20newsgroups(categories, archive: Path = DATA / "texte" / "20news-by
     Documents bruts des catégories demandées (parties train et test de « bydate » réunies, l'échantillonnage
     étant refait par le protocole). Retourne (textes nettoyés, étiquettes).
     """
+    if not Path(archive).exists():
+        raise FileNotFoundError(f"{archive} absent : télécharger http://qwone.com/~jason/20Newsgroups/20news-bydate.tar.gz "
+                                f"(14 Mo) dans {Path(archive).parent}")
     textes, etiq = [], []
     ordre = {c: i for i, c in enumerate(categories)}
     with tarfile.open(archive, "r:gz") as t:

@@ -187,8 +187,10 @@ def agreger(rapide: bool):
     principal = [l for l in L if l["V"] == V0]
     hyp = [{"id": h.id, "axe": h.axe, "enonce": h.enonce, "test": h.test, "marge": HY.marge(h),
             "diffs": HY.diffs(h, principal)} for h in HY.famille("texte")]
-    E.ecrire_csv("texte_decisions", S.decider_famille(hyp, float(PARAM.valeur("alpha_test")),
-                                                      int(PARAM.valeur("n_bootstrap_ic"))), rapide)
+    dec = S.decider_famille(hyp, float(PARAM.valeur("alpha_test")), int(PARAM.valeur("n_bootstrap_ic")))
+    for d in dec:
+        d["rh"], d["attendu"] = HY.rattachement(d["id"])
+    E.ecrire_csv("texte_decisions", dec, rapide)
     resume = {}
     for l in L:
         resume.setdefault((l["V"], l["N"], l["bras"]), []).append(l)

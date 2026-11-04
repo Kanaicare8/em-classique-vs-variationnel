@@ -15,7 +15,7 @@ import calibrage as K  # noqa: E402
 import etapes as E  # noqa: E402
 import run  # noqa: E402
 
-ETAPES_SANS_DONNEES_EXTERNES = ["validation", "illustrations", "scenarios", "chronometrage", "calibrage"]
+ETAPES_SANS_DONNEES_EXTERNES = ["validation", "illustrations", "scenarios", "chronometrage", "prix", "calibrage"]
 
 
 @pytest.mark.parametrize("etape", ETAPES_SANS_DONNEES_EXTERNES)
@@ -79,20 +79,32 @@ def test_configurations_dans_l_espace():
             assert lo <= c[k] <= hi
 
 
-def test_var_es_student_formule_fermee():
-    import etape_sp500 as SP
-    q, es = SP._student_var_es(0.05, 0.0, 1.0, 5.0)
-    assert abs(q - (-2.015048)) < 1e-5                       # quantile tabulé de t_5 à 5 %
-    with torch.random.fork_rng():
-        torch.manual_seed(0)
-        x = torch.distributions.StudentT(5.0).sample((2_000_000,)).double()
-    assert abs(es - float(x[x <= q].mean())) < 0.01
+def test_prix_regime_tension_et_couverture():
+    import etape_prix as P
+    info = {"centre": torch.zeros(3, dtype=torch.float64), "echelle": torch.ones(3, dtype=torch.float64)}
+    mu = torch.tensor([[0.0, 0.0, 0.0], [2.0, 1.0, 1.0], [5.0, 5.0, 5.0]], dtype=torch.float64)
+    assert P.regime_tension(mu, torch.tensor([True, True, False]), info) == 1          # composante inactive ignorée
+    ref = {"pi": torch.tensor([0.5, 0.5], dtype=torch.float64),
+           "mu": torch.tensor([[0.0, 0.0], [10.0, 10.0]], dtype=torch.float64)}
+    out = P.couverts(ref, torch.tensor([0.4]), torch.tensor([0.6]), torch.tensor([[-1.0, 0.5]]), torch.tensor([[1.0, 2.0]]),
+                     torch.tensor([[0.0, 1.0]], dtype=torch.float64), torch.tensor([0]))
+    assert out == [(0, 1.0, [1.0, 0.0]), (1, 0.0, [0.0, 0.0])]                       # vraie composante 2 non appariée
+    assert len(P.lignes_couverture(120, 3, "VB", out)) == 2 * (1 + 2)
+
+
+def test_prix_dm_par_mois():
+    import etape_prix as P
+    mois = torch.tensor([0, 0, 1, 1, 2, 2, 3, 3])
+    ls = {"Gaussienne": torch.zeros(8, dtype=torch.float64),
+          "EM-BIC (plug-in)": torch.tensor([1.0, 1.2, 0.9, 1.1, 1.0, 0.8, 1.3, 1.1], dtype=torch.float64)}
+    dm = P.diebold_mariano({"mois_test": mois, "logscores": ls}, 0.05)
+    assert len(dm) == 1 and dm[0]["n_mois"] == 4 and dm[0]["decision"] == "A > B"
 
 
 def test_memo_reprise(tmp_path, monkeypatch):
     monkeypatch.setattr(E, "racine_magasin", lambda rapide: tmp_path)
     appels = []
-    u = E.Unite("essai", "u1", "tests.test_etapes", "_unite_jouet")
+    u = E.Unite("essai", "u1", __name__, "_unite_jouet")      # nom réel du module (pytest l'importe sans paquet)
     E.executer_unite(u, True)
     E.executer_unite(u, True)                                 # déjà faite : rien n'est recalculé
     assert E.magasin("essai", True).lire("u1")["lignes"] == [{"v": 1}]

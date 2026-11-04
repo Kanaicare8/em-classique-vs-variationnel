@@ -202,9 +202,24 @@ def agreger(rapide: bool):
     hyp = [{"id": h.id, "axe": h.axe, "enonce": h.enonce, "test": h.test, "marge": HY.marge(h),
             "diffs": HY.diffs(h, L)} for h in HY.famille("scenarios")]
     dec = S.decider_famille(hyp, float(PARAM.valeur("alpha_test")), int(PARAM.valeur("n_bootstrap_ic")))
+    for d in dec:
+        d["rh"], d["attendu"] = HY.rattachement(d["id"])
     E.ecrire_csv("scenarios_decisions", dec, rapide)
     for nom, prefixe in (("S8_alpha0", "S8/"), ("S9_factoriel", "S9/"), ("S10_seuil", "S10/")):
         E.ecrire_csv(nom, E.lignes("scenarios", rapide, prefixe), rapide)
+    # résumés (moyennes sur les réplications) pour les tableaux du mémoire
+    g8 = {}
+    for l in E.lignes("scenarios", rapide, "S8/"):
+        g8.setdefault((l["cov"], l["alpha0"]), []).append(l)
+    E.ecrire_csv("S8_resume", [{"cov": c, "alpha0": a, "n": len(ls), "k_actif": _moy([x["k_actif"] for x in ls]),
+                                "ARI": _moy([x["ARI"] for x in ls]), "converge": _moy([x["converge"] for x in ls])}
+                               for (c, a), ls in sorted(g8.items())], rapide)
+    g10 = {}
+    for l in E.lignes("scenarios", rapide, "S10/"):
+        g10.setdefault(l["alpha0"], []).append(l)
+    E.ecrire_csv("S10_resume", [{"alpha0": a, "n": len(ls), **{k: _moy([x[k] for x in ls]) for k in ("N_k_ge_1", "pct_0.5",
+                                                                                                    "pct_1", "pct_5")}}
+                                for a, ls in sorted(g10.items())], rapide)
     L9 = E.lignes("scenarios", rapide, "S9/")
     if L9:
         dv = S.decomposition_variance([l["k_actif"] for l in L9],

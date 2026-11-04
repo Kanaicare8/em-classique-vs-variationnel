@@ -17,6 +17,7 @@ __pycache__/
 data/climat/
 data/texte/
 data/sp500_fred.csv
+data/prix/brut/
 
 # Résultats régénérables (magasin d'artefacts, journaux de calcul)
 resultats/magasin/
@@ -28,3 +29,6 @@ tables_rapide/
 figures/rapide/
 figures/html/
 references/*.pdf
+
+# Application (précalcul régénérable par app/precalcul.py)
+resultats/app/

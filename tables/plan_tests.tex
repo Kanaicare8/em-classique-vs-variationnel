@@ -1,0 +1,70 @@
+{\tiny
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{0.80cm}>{\raggedright\arraybackslash}p{6.20cm}>{\raggedright\arraybackslash}p{2.20cm}>{\raggedright\arraybackslash}p{1.60cm}>{\raggedright\arraybackslash}p{1.50cm}>{\raggedright\arraybackslash}p{1.60cm}}
+\caption{Plan des tests déclarés (familles de Holm : scénarios, prix, prévision, texte)}\label{tab:plan_tests}\\
+\toprule
+\textbf{Test} & \textbf{RH} & \textbf{Énoncé} & \textbf{Bras (A - B)} & \textbf{Métrique} & \textbf{Test déclaré} & \textbf{Attendu si RH vraie} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Test} & \textbf{RH} & \textbf{Énoncé} & \textbf{Bras (A - B)} & \textbf{Métrique} & \textbf{Test déclaré} & \textbf{Attendu si RH vraie} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+HS1-sep4 & RH1 & Groupes séparés de 4 écarts-types : ARI du VB (priors empiriques) équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS1-sep5 & RH1 & Groupes séparés de 5 écarts-types : ARI du VB (priors empiriques) équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS1-sep1 & RH1 & Groupes séparés de 1 écart(s)-type(s) : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS1-sep2 & RH1 & Groupes séparés de 2 écart(s)-type(s) : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS1-sep3 & RH1 & Groupes séparés de 3 écart(s)-type(s) : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS2 & RH1 & Poids 80/15/5 : le VB perd la composante minoritaire ($\hat K$ < 3) à une fréquence différente de l'EM-BIC & VB-emp - EM-BIC & minoritaire\_perdue & Wilcoxon exact & non orienté \\
+HS3-K4 & RH2 & K vrai = 4, K choisi = 3 : ARI du VB à Kmax = 3 équivalent à celui de l'EM à K = 3 (aucun ne peut corriger l'erreur) & VB-Kmax=K - EM-K & ARI & TOST & équivalence \\
+HS3-K5 & RH2 & K vrai = 5, K choisi = 3 : ARI du VB à Kmax = 3 équivalent à celui de l'EM à K = 3 (aucun ne peut corriger l'erreur) & VB-Kmax=K - EM-K & ARI & TOST & équivalence \\
+HS3-K6 & RH2 & K vrai = 6, K choisi = 3 : ARI du VB à Kmax = 3 équivalent à celui de l'EM à K = 3 (aucun ne peut corriger l'erreur) & VB-Kmax=K - EM-K & ARI & TOST & équivalence \\
+HS4 & RH1 & Composantes de Student (nu = 3) : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS5-D2 & RH1 & D = 2 : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS5-D5 & RH1 & D = 5 : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS5-D10 & RH1 & D = 10 : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS5-D20 & RH1 & D = 20 : l'ARI du VB diffère de celui de l'EM-BIC & VB-emp - EM-BIC & ARI & Wilcoxon exact & non orienté \\
+HS6-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HS6-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HS6-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HS6-N300 & RH4 & N = 300 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HS6-N1000 & RH4 & N = 1000 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HS7-p0.01-a5.0 & RH1 & Aberrations (proportion 0.01, amplitude 5.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.01-a10.0 & RH1 & Aberrations (proportion 0.01, amplitude 10.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.01-a20.0 & RH1 & Aberrations (proportion 0.01, amplitude 20.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.05-a5.0 & RH1 & Aberrations (proportion 0.05, amplitude 5.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.05-a10.0 & RH1 & Aberrations (proportion 0.05, amplitude 10.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.05-a20.0 & RH1 & Aberrations (proportion 0.05, amplitude 20.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.1-a5.0 & RH1 & Aberrations (proportion 0.1, amplitude 5.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.1-a10.0 & RH1 & Aberrations (proportion 0.1, amplitude 10.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HS7-p0.1-a20.0 & RH1 & Aberrations (proportion 0.1, amplitude 20.0) : ARI hors aberrations du VB équivalent à celui de l'EM-BIC & VB-emp - EM-BIC & ARI & TOST & équivalence \\
+HP1-N30 & RH1 & Semi-synthétique, N = 30 : |$\hat K$ - K\_ref| du VB équivalent à celui de l'EM-BIC (marge d'une demi-composante) & VB-emp - EM-BIC & erreur\_k & TOST & équivalence \\
+HP1-N60 & RH1 & Semi-synthétique, N = 60 : |$\hat K$ - K\_ref| du VB équivalent à celui de l'EM-BIC (marge d'une demi-composante) & VB-emp - EM-BIC & erreur\_k & TOST & équivalence \\
+HP1-N120 & RH1 & Semi-synthétique, N = 120 : |$\hat K$ - K\_ref| du VB équivalent à celui de l'EM-BIC (marge d'une demi-composante) & VB-emp - EM-BIC & erreur\_k & TOST & équivalence \\
+HP1-N250 & RH1 & Semi-synthétique, N = 250 : |$\hat K$ - K\_ref| du VB équivalent à celui de l'EM-BIC (marge d'une demi-composante) & VB-emp - EM-BIC & erreur\_k & TOST & équivalence \\
+HP1-N500 & RH1 & Semi-synthétique, N = 500 : |$\hat K$ - K\_ref| du VB équivalent à celui de l'EM-BIC (marge d'une demi-composante) & VB-emp - EM-BIC & erreur\_k & TOST & équivalence \\
+HP2-LL & RH1 & N = 250, validation temporelle (test 2024-2026) : log-vraisemblance de test du VB équivalente à celle de l'EM-BIC & VB-emp - EM-BIC & ll\_test & TOST & équivalence \\
+HP3-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP3-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP3-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP5 & RH2 & Sur un même sous-échantillon (N = 250), la variance de $\hat K$ du VB entre configurations de priors plausibles diffère de la variance de $\hat K$ de l'EM entre ses propres choix (BIC ou ICL, trois graines) & VB-priors - EM-choix & var\_k & Wilcoxon exact & A > B \\
+HP7-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP7-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP7-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HT1-N50 & RH4 & N = 50 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
+HT1-N200 & RH4 & N = 200 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
+HT1-N1000 & RH4 & N = 1000 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
+HP4* & RH5 & Rapport des temps médians pipeline EM-BIC / VB, IC bootstrap de la médiane &  &  & intervalle & ratio > 1 \\
+HP6-VB* & RH3 & Couverture à 90 \% des intervalles de crédibilité du VB, IC bootstrap par grappes &  &  & intervalle & < 90 \% \\
+HP6-bootstrap EM* & RH3 & Couverture à 90 \% du bootstrap de l'EM, IC bootstrap par grappes &  &  & intervalle & compatible avec 90 \% \\
+HPP1 & RH1 & Log-score de test, EM-BIC contre gaussienne unique (Diebold-Mariano par mois) &  &  & Diebold-Mariano & non orienté \\
+HPP2 & RH1 & Log-score de test, VB-emp (prédictive) contre gaussienne unique &  &  & Diebold-Mariano & non orienté \\
+HPP3 & RH1 & Log-score de test, VB-emp (prédictive) contre EM-BIC &  &  & Diebold-Mariano & non orienté \\
+HPP4 & RH3 & Log-score de test, VB-emp prédictive contre VB-emp plug-in (apport de la loi sur les paramètres) &  &  & Diebold-Mariano & non orienté \\
+HPP5 & RH2 & Log-score de test, VB-cal contre VB-emp (effet du choix des priors) &  &  & Diebold-Mariano & non orienté \\
+HPP6 & RH4 & Log-score de test, MAP-EM contre EM-BIC (effet des priors sans loi sur les paramètres) &  &  & Diebold-Mariano & non orienté \\
+\end{longtable}
+\par\noindent{\footnotesize * : décision par intervalle (pas de correction de Holm). « Non orienté » : la thèse ne prédit pas le sens de l'écart ; une différence démontrée est alors rapportée sans être comptée pour ni contre l'hypothèse.}
+}

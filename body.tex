@@ -1478,6 +1478,10 @@ Deux réserves s'appliquent à cette lecture. D'abord, la LDA du code lisse $\be
 
 Le verdict de chaque décision suit la règle déclarée à la section~\ref{sec:decision} (conforme, contraire, non tranché). La lecture d'ensemble ne désigne pas un meilleur algorithme : elle décrit des déplacements. Le VB transfère la sélection de $K$ vers le choix de $K_{\max}$, des hyperparamètres et du seuil d'activité ; il fournit une incertitude approchée dont la couverture est mesurée ; il coûte plus par ajustement que l'EM, ce qui n'établit pas un coût plus élevé que le pipeline EM-BIC en temps total. Les décisions d'équivalence (RH1) indiquent dans quelles conditions les deux algorithmes sont de qualité comparable. La comparaison à $K = 6$ imposé est défavorable à l'EM par construction et ne sert que d'illustration du mécanisme d'élagage.
 
+Les décisions d'équivalence dépendent de la marge fixée a priori ; le tableau~\ref{tab:sensibilite_marges} les rapporte aussi à la moitié et au double de cette marge, la correction de Holm étant recalculée pour chaque variante. Une équivalence qui ne tient qu'à la marge fixée se lit comme fragile.
+
+\tableauGenere{sensibilite_marges}
+
 Le tableau~\ref{tab:2_17} remplace les anciennes listes d'avantages et d'inconvénients par une grille « axe $\times$ preuve » : chaque ligne renvoie à une expérience, à un théorème, ou porte la mention « non testé ».
 
 \tableauGenere{grille_axe_preuve}

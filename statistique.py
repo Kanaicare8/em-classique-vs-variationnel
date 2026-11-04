@@ -198,11 +198,19 @@ def decider_famille(hypotheses: list[dict], alpha: float, n_boot: int, graine: i
                     (point P-10) ; la moyenne ne sert qu'en cas d'estimateur nul.
     L'intervalle rapporté est le bootstrap percentile à 95 % de la moyenne des différences ; l'estimateur de
     Hodges-Lehmann est rapporté en plus.
+    Sensibilité à la marge (décision D-04) : les tests d'équivalence sont refaits à la moitié et au double de la marge,
+    la correction de Holm étant recalculée sur la famille pour chaque variante (les tests de différence ne changent
+    pas) ; colonnes decision_marge_demi et decision_marge_double. La décision principale reste celle à la marge fixée.
     """
     p = [tester(h["diffs"], h["test"], h.get("marge")) if len(h["diffs"]) else 1.0 for h in hypotheses]
     aj = holm(p)
+    variantes = {}
+    for nom, f in (("demi", 0.5), ("double", 2.0)):
+        pv = [(tester(h["diffs"], "equivalence", f * h["marge"]) if len(h["diffs"]) else 1.0)
+              if h["test"] == "equivalence" and h.get("marge") else pb for h, pb in zip(hypotheses, p)]
+        variantes[nom] = holm(pv)
     sortie = []
-    for h, pb, pa in zip(hypotheses, p, aj):
+    for i, (h, pb, pa) in enumerate(zip(hypotheses, p, aj)):
         d = torch.as_tensor(h["diffs"], dtype=torch.float64)
         est, bas, haut = ic_bootstrap(d, n_boot, graine=graine) if len(d) else (float("nan"),) * 3
         hl = hodges_lehmann(d)
@@ -211,9 +219,14 @@ def decider_famille(hypotheses: list[dict], alpha: float, n_boot: int, graine: i
         else:
             sens = hl if hl != 0 else est
             decision = ("A > B" if sens > 0 else "A < B") if pa < alpha else "différence non démontrée"
+        sens_marge = {}
+        if h["test"] == "equivalence" and h.get("marge"):
+            for nom in ("demi", "double"):
+                sens_marge[f"decision_marge_{nom}"] = ("équivalent" if variantes[nom][i] < alpha
+                                                       else "équivalence non démontrée")
         sortie.append({k: v for k, v in h.items() if k != "diffs"} |
                       {"n": len(d), "estimation": est, "ic_bas": bas, "ic_haut": haut, "hodges_lehmann": hl,
-                       "p": pb, "p_holm": pa, "decision": decision})
+                       "p": pb, "p_holm": pa, "decision": decision} | sens_marge)
     return sortie
 
 

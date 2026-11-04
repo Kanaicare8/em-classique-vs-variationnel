@@ -64,3 +64,15 @@ def test_hodges_lehmann():
     assert S.hodges_lehmann([1.0, 2.0, 3.0]) == 2.0
     # [-5, 1, 2] : -5 ; -2 ; -1,5 ; 1 ; 1,5 ; 2 -> médiane (-1,5 + 1) / 2 = -0,25 (la moyenne vaut -0,667)
     assert abs(S.hodges_lehmann([-5.0, 1.0, 2.0]) + 0.25) < 1e-12
+
+
+def test_sensibilite_marge():
+    """D-04 : décisions d'équivalence à la moitié et au double de la marge ; les tests de différence n'en ont pas.
+    Différences de moyenne 0,063 : non équivalentes à la marge 0,05, équivalentes à 0,2."""
+    d = [0.06, 0.07, 0.05, 0.08, 0.06, 0.07, 0.05, 0.06, 0.07, 0.06]
+    hyp = [{"id": "E", "axe": "", "enonce": "", "test": "equivalence", "marge": 0.1, "diffs": d},
+           {"id": "D", "axe": "", "enonce": "", "test": "difference", "marge": None, "diffs": [1.0 + 0.1 * i for i in range(10)]}]
+    out = S.decider_famille(hyp, 0.05, 200)
+    assert out[0]["decision_marge_demi"] == "équivalence non démontrée"
+    assert out[0]["decision_marge_double"] == "équivalent"
+    assert "decision_marge_demi" not in out[1]

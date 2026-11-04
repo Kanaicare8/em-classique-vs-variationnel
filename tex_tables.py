@@ -186,7 +186,9 @@ def specifications(rapide):
       DECISION)
     T("prix_complet", "prix_complet", "Ajustements sur toute la période d'apprentissage, évalués sur 2024-2026",
       [("bras", "Bras", "t"), ("k_hat", "K̂", "i"), ("poids_actifs", "Poids actifs", "l"), ("ll_apprentissage", "LL appr.", "n"),
-       ("ll_test", "LL test", "n"), ("ll_test_predictive", "LL prédictive", "n"), ("temps_s", "Temps (s)", "n2")])
+       ("ll_test", "LL test", "n"), ("ll_test_predictive", "LL prédictive", "n")],
+      note="Les temps ne sont pas rapportés ici : les ajustements d'EM-BIC partagent ceux des autres bras, de sorte que leur "
+           "temps serait sous-estimé ; le coût est mesuré à part (tableau cout_selection, HP4).")
     T("prix_dm", "prix_diebold_mariano", "Comparaisons de prévision : Diebold-Mariano sur le log-score moyenné par mois (Holm)",
       [("id", "Id", "t"), ("A", "A", "t"), ("B", "B", "t"), ("ecart_logscore_moyen", "Écart moyen", "n4"), ("n_mois", "Mois", "i"),
        ("DM", "DM", "n2"), ("p_holm", "p (Holm)", "n4"), ("decision", "Décision", "t")])
@@ -455,6 +457,29 @@ def _lecture_recherche(toutes):
     _ecrire_lecture("recherche", par)
 
 
+def sensibilite_marges(rapide):
+    """
+    Décision D-04 : décisions d'équivalence à la moitié, à la valeur et au double de la marge fixée a priori, pour les
+    familles des scénarios, des prix et du texte (colonnes écrites par statistique.decider_famille).
+    """
+    lignes = []
+    for source, famille in (("scenarios_decisions", "scénarios"), ("prix_decisions", "prix"), ("texte_decisions", "texte")):
+        L = lire(source, rapide)
+        if L is None:
+            continue
+        for l in L:
+            if l.get("test") != "equivalence" or not l.get("decision_marge_demi"):
+                continue
+            lignes.append([esc(l["id"]), famille, cellule(l.get("marge"), "n"), esc(l["decision_marge_demi"]),
+                           esc(l["decision"]), esc(l["decision_marge_double"])])
+    if not lignes:
+        ABSENTS.append("sensibilite_marges (aucune décision d'équivalence générée)")
+        return
+    ecrire("sensibilite_marges", ["Test", "Famille", "Marge", "Moitié de la marge", "Marge fixée", "Double de la marge"],
+           lignes, "Sensibilité des décisions d'équivalence à la marge (Holm recalculé pour chaque variante)",
+           "tab:sensibilite_marges", largeurs=[2.6, 1.6, 1.4, 3.2, 3.2, 3.2])
+
+
 def environnement():
     """
     Annexe D : machines et logiciels des lancements, lus dans resultats/environnement_historique.jsonl (écrit par
@@ -497,6 +522,7 @@ def main(rapide=False):
     lectures(rapide)
     grille(rapide)
     registre()
+    sensibilite_marges(rapide)
     if not rapide:
         environnement()
     print(f"{len(ECRITS)} tableaux écrits dans tables/")

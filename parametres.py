@@ -156,9 +156,8 @@ _p("alpha_test", 0.05, "plan", "Niveau des tests, déclaré dans le plan ; contr
 _p("marges_equivalence", {"ARI": 0.05, "LL": 0.05}, "plan",
    "Plus petite différence d'intérêt (SESOI), fixée avant tout résultat confirmatoire par l'importance pratique "
    "(Lakens, Scheel et Isager 2018 ; décision D-04 du 2026-11-04, écart déclaré à la règle antérieure fondée sur le bruit "
-   "d'optimisation). ARI : 0,05, soit la moitié de la largeur d'une classe de l'échelle de qualité de récupération "
-   "usuelle (0,65 / 0,80 / 0,90, attribuée à Steinley 2004 : à vérifier dans l'article) ; un écart inférieur ne peut "
-   "pas faire franchir plus d'une frontière de classe. Log-vraisemblance moyenne par observation : 0,05 nat, soit "
+   "d'optimisation). ARI (indice de référence de la validation des classifications, Steinley 2004) : 0,05, soit 5 % "
+   "de l'écart entre un accord dû au hasard (0) et un accord parfait (1). Log-vraisemblance moyenne par observation : 0,05 nat, soit "
    "log(1,05) arrondi : la densité prédictive d'une méthode dépasse celle de l'autre d'au plus 5 % en moyenne "
    "géométrique, le même seuil relatif de 5 % que pour l'ARI. Sensibilité rapportée à la moitié et au double. Le bruit "
    "d'optimisation (étude « marges ») est rapporté comme contrôle : la marge doit le dépasser.",

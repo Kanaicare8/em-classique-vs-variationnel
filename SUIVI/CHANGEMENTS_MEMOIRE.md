@@ -83,3 +83,15 @@ bibliographie compte dans les 112, 11 sinon (à préciser par l'étudiant).
 
 **À relire par l'étudiant** : le chapitre 2 en entier (nouveau texte), en particulier les constats de la section 2.6
 sur ce qui manque dans la littérature, qui n'engagent que les sources citées.
+
+## 2026-11-04 (vérifications et relecture du chapitre 2)
+
+| Section | Changement | Source ou motif |
+|---|---|---|
+| Chap. 3, tests ; registre | justification de la marge ARI réécrite **sans** l'échelle 0,65 / 0,80 / 0,90 : 0,05 = 5 % de l'écart entre accord dû au hasard (0) et accord parfait (1), même seuil relatif que la log-vraisemblance ; Steinley (2004) cité seulement comme référence de l'ARI en validation des classifications | l'échelle n'a pu être vérifiée dans l'article ; les sources secondaires donnent des seuils différents (0,9 / 0,65 / 0,3) |
+| Chap. 1, théorème de Wu | (iii) : « si ℓ est unimodale et sous une condition de différentiabilité, la suite converge vers l'unique estimateur du maximum de vraisemblance » | résumé de l'article (Project Euclid) ; (i) et (ii) conformes aux reformulations secondaires du théorème 1 de Wu |
+| Chap. 2 | McLachlan et Peel (2000), McLachlan et Krishnan (2008) cités en 2.1 ; Frühwirth-Schnatter (2006) en 2.2 ; Blei et Jordan (2006) dans le périmètre de l'introduction : les 61 entrées sont citées | entrées non citées (P-18) |
+| Chap. 2, relecture | affirmation non sourcée sur la vitesse du gradient naturel retirée ; ouverture : plus d'affirmation « les sources ont été consultées » au nom de l'étudiant ; origine « physique statistique » retirée (non présente dans le texte de l'étudiant) ; titres de 2.5.2 et 2.5.3 allégés ; portée des résultats de Dwivedi et al. formulée comme une interprétation | relecture critique |
+
+**Reste à vérifier par l'étudiant** : la condition exacte de convergence de la suite des paramètres dans Wu (1983),
+si une version plus précise que (iii) est voulue (article non téléchargeable ici).

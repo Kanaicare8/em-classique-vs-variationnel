@@ -45,7 +45,7 @@ def priors_bras(X: Tensor, kmax: int, famille: str) -> dict:
       emp  : valeurs par défaut de BayesianGaussianMixture (alpha0 = 1/Kmax, beta0 = 1, nu0 = D, W0^-1 = cov. empirique) ;
       diff : beta0 = 1e-3, W0 = I, nu0 = D, alpha0 = 1/Kmax ;
       cal  : hyperparamètres de la recherche de calibrage de la famille (registre « priors_vb_calibres ») ;
-      map_emp, map_cal : mêmes priors pour le MAP-EM, avec alpha0 = alpha0_map (= 1, registre).
+      map_emp, map_cal : priors Normal-Wishart du VB pour le MAP-EM, avec un Dirichlet plat alpha0 = alpha0_map (= 1, registre).
     """
     D = X.shape[1]
     cov = torch.cov(X.T).reshape(D, D)

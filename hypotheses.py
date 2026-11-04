@@ -42,7 +42,8 @@ RECHERCHE = {
             "niveau nominal, alors que le bootstrap de l'EM en est plus proche."),
     "RH4": ("Régularisation par les priors",
             "À petit effectif, le VB produit moins d'ajustements dégénérés que l'EM de même capacité, et cet effet est "
-            "celui des priors : le MAP-EM, qui porte les mêmes priors sans loi sur les paramètres, l'obtient aussi."),
+            "celui des priors sur les composantes : le MAP-EM, qui porte les priors Normal-Wishart du VB et un "
+            "Dirichlet plat, sans loi sur les paramètres, l'obtient aussi."),
     "RH5": ("Coût",
             "Un ajustement VB coûte plus qu'un ajustement EM, mais le pipeline EM-BIC complet (balayage de K) coûte plus "
             "qu'un ajustement VB en temps total jusqu'au modèle final."),
@@ -120,8 +121,8 @@ _h("HP5", "prix", "Hyperparamètres", "Sur un même sous-échantillon (N = 250),
    "de priors plausibles diffère de la variance de K̂ de l'EM entre ses propres choix (BIC ou ICL, trois graines)",
    "difference", "var_k", "VB-priors", "EM-choix", {"plan": "sensibilite"}, rh="RH2", attendu="A > B")
 for n in (30, 60, 120):
-    _h(f"HP7-N{n}", "prix", "Effet des priors", f"N = {n} : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que "
-       "le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax", "difference", "degenere", "MAP-EM", "EM-Kmax",
+    _h(f"HP7-N{n}", "prix", "Effet des priors", f"N = {n} : la fréquence d'ajustements dégénérés du MAP-EM (priors Normal-Wishart "
+       "du VB, Dirichlet plat, sans loi sur les paramètres) diffère de celle de l'EM à Kmax", "difference", "degenere", "MAP-EM", "EM-Kmax",
        {"plan": "sous", "N": str(n)}, rh="RH4", attendu="A < B")
 
 # ------------------------------------------------------------------------------ texte

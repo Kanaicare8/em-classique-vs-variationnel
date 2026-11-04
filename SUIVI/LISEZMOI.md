@@ -20,14 +20,14 @@ identifiant : P-xx (point du plan), D-xx (décision), E-xx (expérience).
 | `NOTES_TECHNIQUES.md` | explications données (concepts, défauts trouvés) | au fil de l'eau |
 | `EXPERIENCES/E-xx.md` | une fiche par expérience ou calcul | à la spécification |
 | `CANEVAS_ECOLE.md` | plan imposé par l'école (transcription) | créé le 2026-11-04 |
-| `CHANGEMENTS_MEMOIRE.md` | modifications du document, par section | à chaque modification |
+| `CHANGEMENTS_MEMOIRE.md` | modifications du document, par section | créé le 2026-11-04 |
 
-## État du jour (2026-11-04, phase 4 : lots 1 et 2 en cours)
+## État du jour (2026-11-04 soir, phase 4 : lots 1 et 2 faits, lot 5 commencé)
 
-Plan validé (D-03 à D-09). Code poussé : `315a21c` (tiers, parallélisme du calibrage) puis `9ece8ce` (marges fixées
-a priori, plafond des réplications, dégénérescence commune, environnement). À faire sur l'instance avant la vague 6 :
-récupérer `9ece8ce` (E-01, mise à jour 2). Reste au lot 2 : D-07 (bootstrap EM-BIC pour HP6), P-10 (Hodges-Lehmann).
-À vérifier par l'étudiant : l'échelle ARI attribuée à Steinley 2004. Canevas de l'école : `CANEVAS_ECOLE.md`.
+Code poussé : `315a21c` (tiers), `9ece8ce` (D-04 à D-06, P-17), `f73142e` (D-07, P-10). À récupérer sur l'instance avant
+la vague 6 (E-01, mise à jour 2). Mémoire : corrections factuelles et mathématiques, écarts au protocole déclarés,
+lectures de l'ancienne chaîne retirées (`CHANGEMENTS_MEMOIRE.md`). Reste au lot 5 : P-15 (annexes A et D), P-19 et
+P-20 (canevas, volume). Lot 6 : P-18 (BibTeX IEEE), P-21 (forme). À vérifier par l'étudiant : Steinley 2004.
 
 1. Document : `main.tex` + `body.tex` (35 224 mots) + `introduction.tex` ; PDF compilé du 27 octobre, 125 pages.
 2. Plan actuel : introduction ; partie I (revue, chap. 1 fondements théoriques) ; chap. 2 méthodologie ; chap. 3 résultats et discussion ; conclusion ; bibliographie annoncée IEEE ; annexes A à F.

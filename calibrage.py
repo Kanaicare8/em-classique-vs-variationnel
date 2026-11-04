@@ -521,20 +521,52 @@ def _corpus(rapide):
     return _CORPUS[(rapide, cle)]
 
 
-def _evaluer_texte(rapide, cfg, t):
-    """Score d'une configuration LDA sur la tâche t (- log perplexité par complétion de 200 documents de validation)."""
-    import etape_texte as T
+def _n_init_texte(rapide):
+    return min(int(PARAM.valeur("n_init")["texte"]), 2 if rapide else 10 ** 9)
+
+
+def _tache_texte(rapide, t):
+    """Documents d'apprentissage et de validation de la tâche t (200 + 200, tirés du réservoir d'apprentissage)."""
     cor = _corpus(rapide)
     comptes = cor["comptes"].double()
     res = cor["reservoir"]
-    n_init = min(int(PARAM.valeur("n_init")["texte"]), 2 if rapide else 10 ** 9)
     perm = res[torch.randperm(len(res), generator=A.generateur(_g("texte_tache", t)))]
-    tr, va = comptes[perm[:200]], comptes[perm[200:400]]
-    best = None
-    for s in range(n_init):
-        r = A.lda_variationnel(tr, T.K, alpha=cfg["alpha"], lissage=cfg["lissage"], graine=_g("texte_fit", t, s))
-        if best is None or r["bornes"][-1] > best["bornes"][-1]:
-            best = r
+    return comptes[perm[:200]], comptes[perm[200:400]]
+
+
+def _ajuster_texte(rapide, cfg, t, s):
+    """Relance s de la LDA de la configuration cfg sur la tâche t."""
+    import etape_texte as T
+    tr, _ = _tache_texte(rapide, t)
+    return A.lda_variationnel(tr, T.K, alpha=cfg["alpha"], lissage=cfg["lissage"], graine=_g("texte_fit", t, s))
+
+
+def _borne_texte(rapide, cfg, t, s):
+    """Borne finale de la relance s (seule valeur gardée : elle suffit à désigner la meilleure relance)."""
+    return {"b": _ajuster_texte(rapide, cfg, t, s)["bornes"][-1]}
+
+
+def _evaluer_texte(rapide, cfg, t, bornes=None):
+    """
+    Score d'une configuration LDA sur la tâche t (- log perplexité par complétion de 200 documents de validation),
+    calculé sur la meilleure des n_init relances (plus grande borne ; à égalité, la première).
+    bornes : bornes finales des relances, déjà calculées (une sous-tâche par relance) ; seule la meilleure est alors
+    réajustée, avec sa graine, ce qui redonne exactement le même ajustement.
+    """
+    import etape_texte as T
+    _, va = _tache_texte(rapide, t)
+    if bornes is None:
+        best = None
+        for s in range(_n_init_texte(rapide)):
+            r = _ajuster_texte(rapide, cfg, t, s)
+            if best is None or r["bornes"][-1] > best["bornes"][-1]:
+                best = r
+    else:
+        s_best = 0
+        for s in range(1, len(bornes)):
+            if bornes[s] > bornes[s_best]:
+                s_best = s
+        best = _ajuster_texte(rapide, cfg, t, s_best)
     obs, ev = T.separer_moitie(va, _g("texte_moitie", t))
     ppl, _ = T.perplexite(T.repli_lda(best["beta"], best["alpha"], obs), best["beta"], ev)
     return -math.log(ppl)
@@ -551,6 +583,30 @@ def _configs_texte(rapide):
     return [{"alpha": lu(u[i, 0], esp["alpha"]), "lissage": lu(u[i, 1], esp["lissage"])} for i in range(nc)]
 
 
+def _precalcul_texte(memo, configs, rapide):
+    """
+    precalcul de la recherche LDA, en deux temps, pour qu'aucun calcul ne dure plus d'un ajustement sans être écrit :
+    1. chaque relance (configuration, tâche, graine) est une sous-tâche, qui mémorise sa borne finale ;
+    2. chaque évaluation réajuste sa meilleure relance (même graine, donc même ajustement) et mémorise son score.
+    Avec n_init = 200, une évaluation enchaînait sinon 200 LDA sur un coeur (plusieurs heures sans écriture).
+    """
+    n = _n_init_texte(rapide)
+
+    def precalcul(paires):
+        paires = [(i, t) for i, t in paires if not memo.mag.existe(f"{memo.prefixe}/_sous/cfg={i}/tache={t}")]
+        E.sous_taches_paralleles(memo, [(f"relances/cfg={i}/tache={t}/s={s}", "calibrage", "_borne_texte",
+                                         dict(rapide=rapide, cfg=configs[i], t=t, s=s)) for i, t in paires for s in range(n)])
+        taches = []
+        for i, t in paires:
+            bornes = [memo.mag.lire(f"{memo.prefixe}/_sous/relances/cfg={i}/tache={t}/s={s}") for s in range(n)]
+            if all(b is not None for b in bornes):
+                taches.append((f"cfg={i}/tache={t}", "calibrage", "_evaluation_memo",
+                               dict(fonction="_evaluer_texte", rapide=rapide, cfg=configs[i], t=t,
+                                    bornes=[b["b"] for b in bornes])))
+        E.sous_taches_paralleles(memo, taches)
+    return precalcul
+
+
 def unite_texte(memo, rapide):
     configs = _configs_texte(rapide)
     n_taches = 2 if rapide else int(PARAM.valeur("n_plis"))
@@ -558,7 +614,7 @@ def unite_texte(memo, rapide):
     def evaluer(cfg, t):
         return _evaluer_texte(rapide, cfg, t)
     best, evals = divisions_successives(memo, configs, n_taches, evaluer,
-                                        precalcul=_precalcul(memo, configs, "_evaluer_texte", rapide=rapide))
+                                        precalcul=_precalcul_texte(memo, configs, rapide))
     return _ecrire("texte", {"lda_hyper": best},
                    "recherche aléatoire (32 configurations) puis divisions successives ; score = -log perplexité par complétion "
                    "de 200 documents de validation tirés du réservoir d'apprentissage", {"evaluations": evals})

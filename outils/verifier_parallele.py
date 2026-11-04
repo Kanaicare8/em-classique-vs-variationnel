@@ -22,6 +22,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rapide", action="store_true", help="magasin de l'essai réduit")
     ap.add_argument("--n", type=int, default=3, help="valeurs vérifiées par famille de sous-tâches")
+    ap.add_argument("--texte", type=int, default=0, metavar="R",
+                    help="compare aussi, sur R relances, l'évaluation LDA d'origine (relances enchaînées) et celle "
+                         "en deux temps (bornes par relance, puis réajustement de la meilleure)")
     a = ap.parse_args()
     if a.rapide:
         os.environ["ICARE_RAPIDE"] = "1"
@@ -44,6 +47,17 @@ def main():
         cas.append((f"fin/texte/_sous/cfg={i}/tache=0", lambda i=i: {"v": CA._evaluer_texte(a.rapide, configs[i], 0)}))
 
     ok, vus = True, 0
+    if a.texte:
+        CA._n_init_texte = lambda rapide: a.texte                # mêmes graines 0..R-1 que les R premières relances
+        cfg = configs[0]
+        origine = CA._evaluer_texte(a.rapide, cfg, 0)
+        bornes = [CA._borne_texte(a.rapide, cfg, 0, s)["b"] for s in range(a.texte)]
+        deux_temps = CA._evaluer_texte(a.rapide, cfg, 0, bornes=bornes)
+        egal = origine == deux_temps
+        ok &= egal
+        vus += 1
+        print(f"{'IDENTIQUE' if egal else 'DIFFERENT'}  évaluation LDA cfg=0/tache=0 sur {a.texte} relances  "
+              f"origine={origine}  deux temps={deux_temps}  (meilleure relance : {bornes.index(max(bornes))})", flush=True)
     for cle, recalcul in cas:
         if not mag.existe(cle):
             print(f"ABSENT     {cle} (pas encore calculé)", flush=True)

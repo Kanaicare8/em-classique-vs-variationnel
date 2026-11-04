@@ -113,7 +113,7 @@ def sous_taches_paralleles(memo: Memo, taches: list) -> None:
     reste = [(f"{memo.prefixe}/_sous/{c}", m, f, k) for c, m, f, k in taches
              if not mag.existe(f"{memo.prefixe}/_sous/{c}")]
     n = min(len(reste), int(os.environ.get("ICARE_SOUS_TRAVAILLEURS", max(1, (os.cpu_count() or 2) - 1))))
-    if n <= 1:
+    if n < 1:
         return
     with cf.ProcessPoolExecutor(max_workers=n, mp_context=mp.get_context("spawn"),
                                 initializer=PE.ignorer_interruption) as pool:

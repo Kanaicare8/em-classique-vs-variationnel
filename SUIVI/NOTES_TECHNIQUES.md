@@ -150,4 +150,6 @@ inverse-Wishart) : aucune garantie de monotonie ne reste. De même, ELBO ≤ log
 de la vraisemblance non pénalisée, que l'EM régularisé n'atteint pas. Pour vérifier la théorie, il faut l'algorithme
 de la théorie : λ = 0, et compter à part les relances qui dégénèrent.
 
-**Reste de P-23.** Report des décisions des `notes/` dans `DECISIONS.md` et lecture de `references/SOURCES.md` : à faire.
+**Fin de P-23 (même jour).** Décisions des `notes/` reprises en D-00 ; `references/SOURCES.md` lu : les clés du registre
+`lakens2018` et `steinley2004` n'y figurent pas (ajoutées le 2026-11-04, vérifiées alors, voir JOURNAL) ; 13 copies PDF
+manquantes (A-18).

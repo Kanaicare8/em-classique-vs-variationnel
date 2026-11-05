@@ -267,3 +267,17 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
   doivent tourner avec ce code (à récupérer sur l'instance avant E-02).
 - **Limite déclarée** : sur Iris, ε = 0,1 (valeur reçue de l'instance, à confirmer par `regularisation.json`) dépasse
   les variances intra-espèce de la largeur des pétales (0,0115, 0,039, 0,075 cm², calculées sur `data/iris.csv`).
+
+## D-00 Décisions antérieures au suivi, reprises des `notes/` (P-23, 2026-11-05)
+
+Prises avant la création de ce dossier ; reprises telles qu'écrites dans les notes, sans nouvelle vérification sauf
+mention.
+
+| Date | Décision | Source | Mise en œuvre |
+|---|---|---|---|
+| 2026-10-22 | Un seul test déclaré à l'avance par hypothèse (équivalence ou supériorité) et décision sur la p ajustée par Holm, par famille (C2) | `notes/CHECKUP_CODE.md` § C2 | `statistique.decider_famille` (d'après `notes/ANALYSE_3_...md` § 1) |
+| 2026-10-22 | Bootstrap de l'EM démarré depuis l'EM à `n_init` relances, et non à une seule (C3) | `notes/CHECKUP_CODE.md` § C3 | `etape_prix.unite_couverture` (même source) |
+| 2026-10-22 | Validation croisée par blocs avant l'échantillonnage, sans fuite apprentissage / test (C1) | `notes/CHECKUP_CODE.md` § C1 | cas climat, retiré depuis ; principe repris par les plis temporels des prix (`calibrage.plis_temporels`) |
+| 2026-10-22 | Paramètres réunis dans un registre (`parametres.py`) et calibrés par une étape dédiée ; chaîne reprenable ; sklearn, nltk, matplotlib et Jupyter retirés | `notes/ANALYSE_2.md` § 4 | `parametres.py`, `calibrage.py`, `run.py` |
+| 2026-10-22 | Wang et Blei (2019), Attias (2000), Balakrishnan et al. (2017) cités comme renvois seulement, faute de copie lue | `notes/ANALYSE_SOURCES.md` § 4, `references/SOURCES.md` | texte |
+| 2026-10-27 | Seul le cas des prix alimentaires du PAM est retenu ; climat et S&P 500 retirés du mémoire et de la chaîne, code gardé dans `legacy/` | `notes/ANALYSE_3_...md`, en-tête | `etape_prix.py`, `hypotheses.py` (HP, HPP), section 3.1 |

@@ -4,8 +4,7 @@
 ================================================================================
 
 Ces unités ILLUSTRENT les mécanismes (élagage, sensibilité aux priors, initialisation, covariance) ; aucune
-conclusion confirmatoire n'en est tirée : les hypothèses sont testées par les étapes scenarios, climat, sp500
-et texte. Tous les réglages viennent du registre (parametres.py) ; les valeurs propres aux exemples sont
+conclusion confirmatoire n'en est tirée : les hypothèses sont testées par les étapes scenarios, prix et texte. Tous les réglages viennent du registre (parametres.py) ; les valeurs propres aux exemples sont
 déclarées ci-dessous.
 
 Unités :
@@ -185,7 +184,7 @@ def unite_variantes(memo, rapide):
         return r, time.perf_counter() - t0
     e, t = chrono(lambda: A.em_classique(X, K, n_init=_n_init(rapide), graine=_g("variantes")))
     lignes.append({"methode": "EM (lot complet)", "loglik": e["loglik"], "ARI": A.indice_rand_ajuste(y, e["labels"]),
-                   "temps_s": t, "baisses_loglik": 0})
+                   "temps_s": t, "baisses_loglik": int((torch.tensor(e["ll_hist"])[1:] < torch.tensor(e["ll_hist"])[:-1]).sum())})
     s, t = chrono(lambda: A.em_stochastique(X, K, n_iter=int(v["sem_n_iter"]), burn=int(v["sem_burn"]), graine=_g("variantes")))
     ll = torch.tensor(s["ll_hist"])
     lignes.append({"methode": "EM stochastique (SEM)", "loglik": s["loglik"], "ARI": A.indice_rand_ajuste(y, s["labels"]),

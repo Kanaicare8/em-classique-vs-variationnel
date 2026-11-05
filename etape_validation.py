@@ -81,23 +81,39 @@ def unite_tableau_1_5(memo, rapide):
     return {"lignes": lignes, "artefacts": {"ajustements": fits}}
 
 
+REG_PROPRIETES = 0.0       # A-14 : la monotonie et ELBO <= max l portent sur l'EM non régularisé (Sigma_k + reg I les rompt)
+
+
+def _em_ou_echec(X, K, **k):
+    """EM non régularisé ; None si la covariance cesse d'être définie positive (relance dégénérée, comptée à part)."""
+    try:
+        return A.em_classique(X, K, reg=REG_PROPRIETES, **k)
+    except A.EchecNumerique:
+        return None
+
+
 def unite_proprietes(memo, rapide, graine):
     X, _ = A.jeu_reference(PE.graine("validation", "donnees") % 2 ** 31)
     kmax = int(PARAM.valeur("k_max")["synthetique"])
-    em = A.em_classique(X, kmax, init="aleatoire", graine=graine)
-    h = torch.tensor(em["ll_hist"])
-    r, _ = A._etape_e(X, em["pi"], em["mu"], em["cov"])
-    F = A.energie_libre_em(X, r, em["pi"], em["mu"], em["cov"])
+    nan = float("nan")
+    em = _em_ou_echec(X, kmax, init="aleatoire", graine=graine)
+    if em is not None:
+        h = torch.tensor(em["ll_hist"])
+        r, _ = A._etape_e(X, em["pi"], em["mu"], em["cov"])
+        F = A.energie_libre_em(X, r, em["pi"], em["mu"], em["cov"])
     vb = A.em_variationnel(X, kmax, alpha0=1.0 / kmax, graine=graine)
     hv = torch.tensor(vb["elbo_hist"])
-    em_best = A.em_classique(X, kmax, n_init=int(PARAM.valeur("n_init")["synthetique"]), graine=graine)
-    return {"lignes": [{"graine": graine,
-                        "baisse_max_loglik": float((h[:-1] - h[1:]).clamp(min=0).max()) if len(h) > 1 else 0.0,
+    em_best = _em_ou_echec(X, kmax, n_init=int(PARAM.valeur("n_init")["synthetique"]), graine=graine)
+    return {"lignes": [{"graine": graine, "reg": REG_PROPRIETES, "echec_em": float(em is None),
+                        "degenere_em": nan if em is None else float(em["degenere"]),
+                        "baisse_max_loglik": nan if em is None else
+                        (float((h[:-1] - h[1:]).clamp(min=0).max()) if len(h) > 1 else 0.0),
                         "baisse_max_elbo": float((hv[:-1] - hv[1:]).clamp(min=0).max()) if len(hv) > 1 else 0.0,
-                        "ecart_neal_hinton": abs(F - em["loglik"]), "elbo": vb["elbo"],
-                        "loglik_max_em": em_best["loglik"], "elbo_inferieur": float(vb["elbo"] <= em_best["loglik"]),
-                        "converge_em": float(em["converge"]), "converge_vb": float(vb["converge"])}],
-            "artefacts": {"ll_hist": em["ll_hist"], "elbo_hist": vb["elbo_hist"]}}
+                        "ecart_neal_hinton": nan if em is None else abs(F - em["loglik"]), "elbo": vb["elbo"],
+                        "loglik_max_em": nan if em_best is None else em_best["loglik"],
+                        "elbo_inferieur": nan if em_best is None else float(vb["elbo"] <= em_best["loglik"]),
+                        "converge_em": nan if em is None else float(em["converge"]), "converge_vb": float(vb["converge"])}],
+            "artefacts": {"ll_hist": None if em is None else em["ll_hist"], "elbo_hist": vb["elbo_hist"]}}
 
 
 def unites(rapide: bool):
@@ -115,13 +131,24 @@ def agreger(rapide: bool):
     E.ecrire_csv("validation_proprietes", L, rapide)
     t12 = E.magasin("validation", rapide).lire("tableau_1_2")["artefacts"]
     t14 = E.magasin("validation", rapide).lire("tableau_1_4")["artefacts"]
+
+    def mx(cle):                                     # maximum sur les graines où la mesure existe (EM non dégénéré)
+        v = [l[cle] for l in L if l[cle] == l[cle]]
+        return max(v) if v else float("nan")
+
+    def part(cle):
+        v = [l[cle] for l in L if l[cle] == l[cle]]
+        return sum(v) / len(v) if v else float("nan")
     E.ecrire_csv("validation_resume", [
         {"mesure": "densite du melange ajuste en x = 2,0 (eq. 1.10)", "valeur": t12["densite_x2"]},
         {"mesure": "moyenne empirique du premier groupe", "valeur": t12["moyennes_groupes"][0]},
         {"mesure": "moyenne empirique du second groupe", "valeur": t12["moyennes_groupes"][1]},
         {"mesure": "p(O) forward-backward", "valeur": t14["proba"]},
-        {"mesure": "baisse maximale de la log-vraisemblance (toutes graines)", "valeur": max(l["baisse_max_loglik"] for l in L)},
-        {"mesure": "baisse maximale de l'ELBO (toutes graines)", "valeur": max(l["baisse_max_elbo"] for l in L)},
-        {"mesure": "ecart maximal de Neal et Hinton", "valeur": max(l["ecart_neal_hinton"] for l in L)},
-        {"mesure": "part des graines avec ELBO <= log-vraisemblance maximale", "valeur": sum(l["elbo_inferieur"] for l in L) / len(L)},
+        {"mesure": "graines (EM sans regularisation, reg = 0)", "valeur": len(L)},
+        {"mesure": "graines ou l'EM echoue (covariance non definie positive)", "valeur": sum(l["echec_em"] for l in L)},
+        {"mesure": "part des EM restants marques degeneres", "valeur": part("degenere_em")},
+        {"mesure": "baisse maximale de la log-vraisemblance (EM restants)", "valeur": mx("baisse_max_loglik")},
+        {"mesure": "baisse maximale de l'ELBO (toutes graines)", "valeur": mx("baisse_max_elbo")},
+        {"mesure": "ecart maximal de Neal et Hinton (EM restants)", "valeur": mx("ecart_neal_hinton")},
+        {"mesure": "part des graines avec ELBO <= log-vraisemblance maximale", "valeur": part("elbo_inferieur")},
     ], rapide)

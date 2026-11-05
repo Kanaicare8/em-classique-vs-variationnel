@@ -129,3 +129,25 @@ ajustement par évaluation (environ 0,5 %).
 
 **État au 2026-11-05 à 0 h 45 (Douala)** : calibrage, 1 unité faite sur 448 ; `fin/texte` sur 32 cœurs (environ
 7 LDA par minute, environ 32 h au total pour environ 13 600 ajustements) ; coût 6,65 $ sur 40 $.
+
+## N-06 Lecture P-23 : texte, validation, illustrations, risque, tableaux, application (2026-11-05)
+
+**Lu sans défaut trouvé.** `etape_texte.py` (complétion de document, repli pLSA et LDA, NPMI, pureté, relances
+mémorisées) ; `risque.py` (VaR et ES du mélange gaussien, prédictive de Student de Bishop éq. 10.81-10.82, tirages de q,
+Kupiec, Christoffersen, Diebold-Mariano, Acerbi-Szekely) : formules relues une à une ; `tex_tables.py` (aucun chiffre
+saisi à la main hors largeurs de colonnes) ; `app/` (aucun renvoi aux cas retirés).
+
+**Remarques mineures, sans action proposée.** (1) Le repli LDA de l'évaluation (`repli_lda`) reprend `n_iter_max`
+(1 800) et non `lda_iter_e` (100) : plus d'itérations au repli qu'à l'ajustement, ce qui ne peut qu'améliorer la
+convergence du repli. (2) `kupiec` échoue si toutes les observations sont des exceptions (log de 0) : cas hors de
+portée des données. (3) Diebold-Mariano utilise la loi normale (Harvey et al. recommandent Student à T - 1 degrés),
+déclaré dans la docstring.
+
+**Défauts (A-14 à A-17, `ETAT_DU_PROJET.md`).** Pourquoi A-14 compte : l'EM classique augmente la log-vraisemblance
+à chaque itération parce que l'étape M maximise exactement Q(θ). Avec Σ_k + λI, l'étape M ne maximise plus Q, et
+ce n'est pas non plus le MAP d'un prior fixe (le terme ajouté ne dépend pas de N_k comme le ferait un prior
+inverse-Wishart) : aucune garantie de monotonie ne reste. De même, ELBO ≤ log p(X) ≤ max_θ ℓ(θ) compare au maximum
+de la vraisemblance non pénalisée, que l'EM régularisé n'atteint pas. Pour vérifier la théorie, il faut l'algorithme
+de la théorie : λ = 0, et compter à part les relances qui dégénèrent.
+
+**Reste de P-23.** Report des décisions des `notes/` dans `DECISIONS.md` et lecture de `references/SOURCES.md` : à faire.

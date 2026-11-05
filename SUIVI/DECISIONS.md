@@ -251,3 +251,19 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
 - **Limites déclarées** : avec 20 relances, la probabilité d'atteindre le meilleur optimum pilote peut être faible pour
   certains cas (VB à Kmax avec priors diffus) ; elle est rapportée, et EM et VB ont le même nombre de relances. Si la
   meilleure régularisation est encore au bord de la grille, elle est déclarée comme telle.
+
+## D-16 Vérification des propriétés sans régularisation, baisses mesurées, régularisation d'Iris (2026-11-05)
+
+- **Contexte** : lecture P-23 (N-06), constats A-14, A-15, A-16 de `ETAT_DU_PROJET.md`.
+- **Options présentées et réponses de l'étudiant** :
+  1. A-14 : ε = 0 pour la vérification des propriétés (recommandé) ou garder et déclarer. **Choix : ε = 0.**
+  2. A-15 : mesurer les baisses de l'EM en lot complet (recommandé) ou laisser le 0 écrit en dur. **Choix : mesurer.**
+  3. A-16 : garder la valeur unique et déclarer la limite (recommandé, échéance), valeur par famille (vagues suivantes
+     du calibrage à refaire) ou standardiser Iris. **Choix : garder et déclarer.**
+- **Réalisé** : `etape_validation.py` (`REG_PROPRIETES = 0.0` ; échecs de l'EM comptés à part ; part d'EM dégénérés ;
+  maxima sur les seules graines où la mesure existe) ; `etape_illustrations.py` (baisses mesurées depuis `ll_hist`,
+  docstring) ; `body.tex` (voir `CHANGEMENTS_MEMOIRE.md`). Sauvegarde : `sauvegardes/20261105-135939_A14/`.
+- **Impact** : étapes validation et illustrations seulement ; le calibrage en cours n'est pas touché. Ces deux étapes
+  doivent tourner avec ce code (à récupérer sur l'instance avant E-02).
+- **Limite déclarée** : sur Iris, ε = 0,1 (valeur reçue de l'instance, à confirmer par `regularisation.json`) dépasse
+  les variances intra-espèce de la largeur des pétales (0,0115, 0,039, 0,075 cm², calculées sur `data/iris.csv`).

@@ -104,3 +104,12 @@ si une version plus précise que (iii) est voulue (article non téléchargeable 
 | Chap. 3, niveaux d'inférence de la LDA | « à $\theta$ ponctuel » corrigé en « à $\beta$ ponctuel » ; étape E limitée à 100 itérations par étape M (scikit-learn), borne toujours croissante | coquille ; D-15 |
 | Chap. 3, écarts au protocole | écart (7) du 5 novembre 2026 | D-15 |
 | Bibliographie | Pedregosa et al. (2011), scikit-learn (déjà cité dans le registre) | D-15 |
+
+## 2026-11-05 : D-16 (régularisation dans le texte, propriétés, Iris)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 1, propriétés de l'EM (l. 313) | « ε = 10⁻⁶ (constante REG_EM) » remplacé par ε calibré (`reg_covariance`) | texte périmé : ε est calibré depuis la nouvelle chaîne |
+| Chap. 1, dégénérescence (l. 865) | même correction | idem |
+| Chap. 3, données Iris (l. 996) | limite : ε absolu unique, plus grand que certaines variances d'Iris (valeurs calculées sur le fichier) | D-16, A-16 |
+| Chap. 4, validation (l. 1327) | propriétés vérifiées sur l'EM sans régularisation, échecs comptés à part, renvoi au tableau | D-16, A-14 |

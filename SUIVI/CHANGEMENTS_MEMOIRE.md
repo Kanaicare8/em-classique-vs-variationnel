@@ -95,3 +95,12 @@ sur ce qui manque dans la littérature, qui n'engagent que les sources citées.
 
 **Reste à vérifier par l'étudiant** : la condition exacte de convergence de la suite des paramètres dans Wu (1983),
 si une version plus précise que (iii) est voulue (article non téléchargeable ici).
+
+## 2026-11-05 : D-15 (tolérance, relances, LDA, régularisation)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 3, calibrage, points 2 à 4 | tolérance jugée sur le critère final (ARI rapporté, arrêt si aucune valeur) ; grille de régularisation de 0 à 1, valeur au bord signalée ; 20 relances pour toutes les familles et tous les bras, probabilité rapportée par cas | D-15 |
+| Chap. 3, niveaux d'inférence de la LDA | « à $\theta$ ponctuel » corrigé en « à $\beta$ ponctuel » ; étape E limitée à 100 itérations par étape M (scikit-learn), borne toujours croissante | coquille ; D-15 |
+| Chap. 3, écarts au protocole | écart (7) du 5 novembre 2026 | D-15 |
+| Bibliographie | Pedregosa et al. (2011), scikit-learn (déjà cité dans le registre) | D-15 |

@@ -201,3 +201,53 @@ seront reprises ici en phase 1, après lecture complète de ces notes.
   ramenées de 6 × R à 18. Écart au protocole (6) déclaré au chapitre 3. Commit `5bd4fe7`.
 - **Limite déclarée** : la règle est estimée sur le pilote à 200 documents ; la difficulté peut être plus grande à
   1 000 documents.
+
+## D-15 Tolérance, relances, étape E de la LDA et grille de régularisation (2026-11-05)
+
+- **Contexte** (session de l'instance, calibrage mis en pause à 1 unité sur 448, 6,99 $ engagés ; chiffres lus dans le
+  magasin, sans nouvel ajustement, rapportés dans son message du 2026-11-05) :
+  1. `fin_tolerance` : aucune tolérance n'atteint 99 % d'accord (critère et ARI) ; le code gardait en silence
+     min(GRILLE_TOL) = 1e-9 et écrivait la règle comme remplie. Parts d'accord critère + ARI / critère seul :
+     1e-6 64,3 % / 88,5 % ; 1e-7 83,3 % / 97,1 % ; 1e-8 92,8 % / 99,4 % ; 1e-9 96,8 % / 99,8 %. À 1e-9, 28 désaccords
+     sur 30 ont le même critère (écart médian 1e-7 par observation) et un ARI juste sous 0,99 (médiane 0,987), presque
+     tous des EM à K = 3 sur S1 (classes qui se chevauchent). Itérations moyennes 134 à 1e-8, 161 à 1e-9.
+  2. `fin_n_init` : le maximum sur les cas atteint le plafond de 200 pour toutes les familles, même avec un seuil de
+     succès de 5e-4 par observation ; 74 cas pilotes sur 226 demandent au moins 200 relances, médiane 26 (VB à Kmax
+     avec priors diffus ou aléatoires ; EM à Kmax sur S3, S7 et les prix ; p de 0,015 à 0,02).
+  3. `lda_variationnel` : la boucle de l'étape E était bornée par `n_iter_max` (2 200), comme la boucle externe ;
+     `fin/texte` est passé de 7 à 1,5 LDA par minute.
+  4. `fin_regularisation` : `reg_covariance` = 0,1, plus grande valeur de la grille, le rang moyen s'améliorant encore
+     (2,91 à 0,01 ; 2,71 à 0,1).
+  Vérifié dans le code avant décision : `calibrage.py` (repli `choix = min(GRILLE_TOL)`, règle du maximum dans
+  `fin_n_init`, `GRILLE_REG` jusqu'à 1e-1), `algorithmes.py` (`for _ in range(n_iter)` dans l'étape E). Le texte du
+  registre pour `tol_rel` décrivait en outre une autre règle que le code (comparaison à une tolérance 100 fois plus
+  stricte) : corrigé.
+- **Options présentées** : (1) tolérance sur le critère seul, ARI rapporté, arrêt si aucune valeur ; (2) 20 relances
+  fixes pour toutes les familles, probabilité rapportée par cas, 10 si le coût dépasse le budget ; (3) étape E de la
+  LDA plafonnée à 100 ; (4) grille étendue à 0,3 et 1, valeur au bord signalée. Alternatives : 10 relances fixes ;
+  garder la règle des relances et augmenter le budget.
+- **Réponse de l'étudiant** : « Appliquer les 4 (Recommandé) ».
+- **Règles retenues** :
+  1. `fin_tolerance` : accord = écart du critère par observation < 5e-4 ; la part d'accord critère et ARI est rapportée
+     (`part_accord_critere_et_ARI_par_tol`) ; `RuntimeError` si aucune tolérance de la grille n'atteint 99 %. L'accord
+     est recalculé depuis les écarts mémorisés : les unités `tolerance/<jeu>` restent valables.
+  2. `N_INIT_FIXE` = 20 ; `n_init` = 20 pour synthetique, iris, prix et texte (la valeur texte sert à la recherche LDA
+     `fin/texte` ; les étapes confirmatoires du texte gardent D-14). Pour chaque cas pilote, `n_init.json` rapporte la
+     probabilité exacte (tirage sans remise, loi hypergéométrique, `proba_meilleur`) que la meilleure de 20 relances soit
+     à moins de 5e-4 par observation du meilleur des 200 relances pilotes, et la valeur qu'aurait donnée la règle initiale.
+  3. Paramètre `lda_iter_e` = 100 (statut source : `max_doc_update_iter` de scikit-learn) ; `etapes_e_plafonnees`
+     rapporté par `lda_variationnel`. Chaque itération de point fixe augmente la borne : le critère reste croissant.
+  4. `GRILLE_REG` = 0, 1e-10, 1e-8, 1e-6, 1e-4, 1e-3, 1e-2, 1e-1, 0,3, 1 ; `au_bord_de_la_grille` dans
+     `regularisation.json`.
+- **Résultats à recalculer** (les clés du magasin ne contiennent pas la tolérance) : `fin/tolerance`, `regularisation/*`,
+  `fin/regularisation`, `n_init/*`, `fin/n_init`, `priors/*`, `fin/priors`, `fin/texte`, `fin/variantes`,
+  `fin/n_init_texte`, avec leurs sous-calculs `_sous/`, et les fichiers correspondants de `resultats/calibrage/`.
+  Restent valables : `kmeans/*`, `fin/kmeans`, `tolerance/<jeu>`, `corpus/V=*`. Procédure : E-01, mise à jour (5).
+- **Impact** : 20 relances au lieu de 200 (10 fois moins d'ajustements) dans le calibrage et les étapes confirmatoires ;
+  tolérance attendue 1e-8 et plafond d'environ 1 800 étapes M (d'après les parts ci-dessus, à confirmer par
+  `tolerance.json`). Écart au protocole (7) déclaré au chapitre 3 ; règles de calibrage et description de la LDA mises à
+  jour ; correction au passage : « EM variationnel à $\theta$ ponctuel » devient « à $\beta$ ponctuel » (le texte
+  disait ensuite que $\beta$ est ponctuel).
+- **Limites déclarées** : avec 20 relances, la probabilité d'atteindre le meilleur optimum pilote peut être faible pour
+  certains cas (VB à Kmax avec priors diffus) ; elle est rapportée, et EM et VB ont le même nombre de relances. Si la
+  meilleure régularisation est encore au bord de la grille, elle est déclarée comme telle.

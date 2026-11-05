@@ -88,3 +88,4 @@ copies locales dans `references/` (Bishop 2006, Dempster et al. 1977, source sci
 `notes/ANALYSE_3_...md`).
 
 **Introuvable dans le projet.** Échéance de dépôt ; volume attendu (pages ou mots).
+| 2026-11-05 | D-15 (session de l'instance, calibrage en pause) : tolérance jugée sur le critère avec arrêt sans repli, 20 relances fixes avec probabilité rapportée, étape E de la LDA plafonnée à 100, grille de régularisation étendue à 1 ; registre, tests (`tests/test_calibrage_d15.py`), chapitre 3 (règles, LDA, écart (7)), bibliographie (scikit-learn) ; mémoire compilé (137 pages, contenu principal jusqu'à la page 101) ; tests non lancés ici (à lancer sur l'instance) | lot 3 | `calibrage.py`, `algorithmes.py`, `parametres.py`, `body.tex`, `references.bib`, `DECISIONS.md`, `E-01.md`, `E-02.md` | `3148012` | anciens résultats à mettre de côté puis calibrage à relancer (E-01, mise à jour 5) |

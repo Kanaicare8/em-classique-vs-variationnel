@@ -38,9 +38,10 @@ import statistique as S
 GRILLE_TOL = (1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9)
 TOL_REFERENCE = 1e-10
 PLAFOND_REFERENCE = 10_000          # une référence qui l'atteint est exclue (non convergée)
-GRILLE_REG = (0.0, 1e-10, 1e-8, 1e-6, 1e-4, 1e-3, 1e-2, 1e-1)
+GRILLE_REG = (0.0, 1e-10, 1e-8, 1e-6, 1e-4, 1e-3, 1e-2, 1e-1, 0.3, 1.0)     # 0,3 et 1 ajoutés (D-15)
 PRECISION_AFFICHAGE = 5e-4          # moitié de la 3e décimale affichée
 RELANCES_PILOTE = 200               # relances du pilote de n_init (registre « n_init »)
+N_INIT_FIXE = 20                    # relances des étapes confirmatoires, toutes familles (D-15, écart déclaré)
 N_CONFIGS = 64                      # configurations de la recherche aléatoire des priors
 N_CONFIGS_TEXTE = 32
 N_CONFIGS_VARIANTES = 32
@@ -178,27 +179,39 @@ def unite_tolerance(memo, rapide, jeu):
                 ari = A.indice_rand_ajuste(ref["labels"].long(), r["labels"].long())
                 lignes.append({"jeu": jeu, "algo": algo, "K": K, "graine": s, "tol": tol, "ecart_par_obs": ecart,
                                "ARI_reference": ari, "n_iter": r["n_iter"],
-                               "accord": bool(ecart < PRECISION_AFFICHAGE and ari >= 0.99)})
+                               "accord": bool(ecart < PRECISION_AFFICHAGE)})          # D-15 : critère seul, ARI rapporté
     return {"lignes": lignes}
 
 
 def fin_tolerance(memo, rapide):
+    """
+    D-15 : l'accord avec la référence se juge sur le critère seul (écart par observation < 5e-4). L'ARI entre partitions
+    est rapporté (part des ajustements à ARI >= 0,99) mais ne décide pas : sur des classes qui se chevauchent, quelques
+    points frontière changent de classe sans changer la vraisemblance, et l'ARI mesure alors la stabilité de la
+    partition, pas la convergence. L'accord est recalculé ici à partir des écarts mémorisés (les unités restent valables).
+    Si aucune tolérance de la grille ne remplit la règle, le calibrage s'arrête (plus de repli silencieux).
+    """
     L = [l for l in E.lignes("calibrage", rapide, "tolerance/") if "tol" in l]
-    choix, details = min(GRILLE_TOL), {}
+    choix, details, details_ari = None, {}, {}
     for tol in sorted(GRILLE_TOL, reverse=True):              # de la plus grande à la plus stricte
         ls = [l for l in L if l["tol"] == tol]
-        part = sum(l["accord"] for l in ls) / max(len(ls), 1)
-        details[str(tol)] = part
-        if part >= 0.99:
+        ok = [not l.get("echec") and l["ecart_par_obs"] < PRECISION_AFFICHAGE for l in ls]
+        okari = [o and l["ARI_reference"] >= 0.99 for o, l in zip(ok, ls)]
+        details[str(tol)] = sum(ok) / max(len(ls), 1)
+        details_ari[str(tol)] = sum(okari) / max(len(ls), 1)
+        if choix is None and details[str(tol)] >= 0.99:
             choix = tol
-            break
+    if choix is None:
+        raise RuntimeError(f"fin_tolerance : aucune tolérance de {GRILLE_TOL} n'atteint 99 % d'accord avec la référence "
+                           f"(parts : {details}) ; décision de l'étudiant requise")
     its = [l["n_iter"] for l in L if l["tol"] == choix and "n_iter" in l]
     plafond = int(math.ceil(max(its) / 100.0) * 100)
     return _ecrire("tolerance", {"tol_rel": choix, "n_iter_max": plafond},
-                   "plus grande tolérance (de 1e-3 à 1e-9) pour laquelle au moins 99 % des ajustements s'accordent avec la "
-                   "référence (tol = 1e-10) : écart du critère par observation < 5e-4 et ARI >= 0,99 entre partitions ; "
+                   "D-15 : plus grande tolérance (de 1e-3 à 1e-9) pour laquelle au moins 99 % des ajustements s'accordent "
+                   "avec la référence (tol = 1e-10) sur le critère : écart par observation < 5e-4 ; arrêt si aucune ; "
                    "plafond = plus petit multiple de 100 supérieur ou égal au nombre maximal d'étapes observé à cette tolérance",
-                   {"part_accord_par_tol": details, "iterations_max": max(its), "n_ajustements": len(its),
+                   {"part_accord_par_tol": details, "part_accord_critere_et_ARI_par_tol": details_ari,
+                    "iterations_max": max(its), "n_ajustements": len(its),
                     "references_exclues": len([l for l in E.lignes("calibrage", rapide, "tolerance/") if l.get("reference_exclue")])})
 
 
@@ -256,8 +269,10 @@ def fin_regularisation(memo, rapide):
     choix = min(r for r, m in moy.items() if m == meilleur)
     return _ecrire("regularisation", {"reg_covariance": choix},
                    "rang moyen minimal de la log-vraisemblance hors pli (validation croisée ; plis temporels contigus pour les "
-                   "prix), sur tous les jeux, K de référence et Kmax, graines pilotes ; à égalité, la plus petite valeur",
-                   {"rang_moyen": {str(k): v for k, v in moy.items()}, "n_comparaisons": len(rangs[GRILLE_REG[0]])})
+                   "prix), sur tous les jeux, K de référence et Kmax, graines pilotes ; à égalité, la plus petite valeur ; "
+                   "grille 0 et 1e-10 à 1 (D-15) ; une valeur au bord de la grille est signalée",
+                   {"rang_moyen": {str(k): v for k, v in moy.items()}, "n_comparaisons": len(rangs[GRILLE_REG[0]]),
+                    "au_bord_de_la_grille": choix == max(GRILLE_REG)})
 
 
 # ------------------------------------------------------------------------------ V4 : n_init
@@ -403,17 +418,52 @@ def fin_n_init_texte(memo, rapide):
                    "maximum sur les trois valeurs de alpha", det)
 
 
+def proba_meilleur(m, a, n):
+    """
+    Probabilité qu'au moins une de n relances tirées sans remise parmi m relances pilotes soit parmi les a relances
+    « bonnes » : 1 - C(m - a, n) / C(m, n) (loi hypergéométrique, calcul exact).
+    """
+    if n >= m:
+        return 1.0 if a > 0 else 0.0
+    return 1.0 - math.comb(m - a, n) / math.comb(m, n)
+
+
 def fin_n_init(memo, rapide):
-    L = E.lignes("calibrage", rapide, "n_init/")
-    val, det = {}, {}
-    for l in L:
-        fam = "texte" if l["jeu"] == "texte" else FAMILLE_JEU[l["jeu"].split("/")[0]]
-        if l["n_requis"] > val.get(fam, 0):
-            val[fam], det[fam] = l["n_requis"], {"jeu": l["jeu"], "algo": l["algo"], "p": l["p"]}
+    """
+    D-15 : nombre fixe de relances N_INIT_FIXE pour toutes les familles (écart déclaré au protocole). La règle initiale
+    (maximum sur les cas de ceil(ln 0,01 / ln(1 - p))) atteignait le plafond du pilote (200) pour toutes les familles.
+    Pour chaque cas pilote (jeu, algorithme, K), on rapporte, sans nouvel ajustement, la probabilité que la meilleure de
+    N_INIT_FIXE relances soit à moins de 5e-4 par observation (précision d'affichage) du meilleur critère pilote.
+    Texte : relances des étapes confirmatoires fixées par D-14 (n_init_texte) ; la valeur « texte » sert à la
+    recherche LDA (fin/texte).
+    """
+    n_fixe = min(N_INIT_FIXE, 2 if rapide else 10 ** 9)
+    mag = _mag(rapide)
+    val = {fam: n_fixe for fam in ("synthetique", "iris", "prix", "texte")}
+    cas, n_requis = [], {}
+    for l in E.lignes("calibrage", rapide, "n_init/"):
+        if l["jeu"] == "texte":
+            continue
+        fam = FAMILLE_JEU[l["jeu"].split("/")[0]]
+        n_requis.setdefault(fam, []).append(l["n_requis"])
+        r = mag.lire(f"n_init/{l['jeu']}/_sous/{l['algo']}/K={l['K']}") or {}
+        c = torch.tensor([x for x in r.get("criteres", []) if x == x and x != float("-inf")], dtype=torch.float64)
+        if len(c) == 0:
+            cas.append({"jeu": l["jeu"], "algo": l["algo"], "K": l["K"], "probabilite": None, "toutes_echouent": True})
+            continue
+        N = charger_jeu(l["jeu"])[0].shape[0]
+        a = int((c >= float(c.max()) - PRECISION_AFFICHAGE * N).sum())
+        cas.append({"jeu": l["jeu"], "algo": l["algo"], "K": l["K"], "relances_valides": len(c), "dans_l_ecart": a,
+                    "probabilite": proba_meilleur(len(c), a, n_fixe), "n_requis_regle_initiale": l["n_requis"]})
+    probas = [x["probabilite"] for x in cas if x["probabilite"] is not None]
+    resume = {"n_cas": len(cas), "probabilite_min": min(probas) if probas else None,
+              "part_cas_probabilite_ge_0_99": sum(p >= 0.99 for p in probas) / max(len(probas), 1),
+              "n_requis_regle_initiale_mediane": {f: sorted(v)[len(v) // 2] for f, v in n_requis.items()}}
     return _ecrire("n_init", {"n_init": val},
-                   "par famille, maximum sur les jeux et les algorithmes de ceil(ln 0,01 / ln(1 - p)), p = part des relances "
-                   "pilotes à moins de 10 fois la tolérance (relative) du meilleur critère ; plafond = taille du pilote",
-                   {"cas_determinant": det, "taille_pilote": RELANCES_PILOTE})
+                   "D-15 (écart déclaré) : nombre fixe de relances, identique pour EM et VB et pour toutes les familles ; "
+                   "on rapporte, pour chaque cas pilote, la probabilité que la meilleure des n relances soit à moins de 5e-4 "
+                   "par observation du meilleur critère des 200 relances pilotes (tirage sans remise, calcul exact)",
+                   {"n_fixe": n_fixe, "resume": resume, "cas": cas, "taille_pilote": RELANCES_PILOTE})
 
 
 # ------------------------------------------------------------------------------ V5 : recherches heuristiques

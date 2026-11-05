@@ -1285,7 +1285,8 @@ def lda_variationnel(comptes: Tensor, K: int, alpha=None, lissage=None, n_iter=N
     comptes : (D, V) nombres d'occurrences de chaque mot dans chaque document.
     Étape E (par document) : point fixe phi_{vk} prop. à beta_{kv} exp(E[log theta_k])   (éq. 3.2)
                              gamma_k = alpha + sum_v comptes_v phi_{vk},
-                             jusqu'à variation relative max de gamma <= tol (même tolérance que le critère commun).
+                             jusqu'à variation relative max de gamma <= tol (même tolérance que le critère commun),
+                             au plus « lda_iter_e » itérations (D-15) ; les étapes E plafonnées sont comptées.
     Critère : borne L(gamma, phi ; alpha, beta) + lissage * somme log beta, c'est-à-dire l'objectif exact
               maximisé quand l'étape M ajoute le pseudo-compte `lissage` (mode a posteriori de beta sous un
               Dirichlet(1 + lissage)) : il est donc croissant. Le terme ln Gamma(K alpha) - K ln Gamma(alpha)
@@ -1305,11 +1306,13 @@ def lda_variationnel(comptes: Tensor, K: int, alpha=None, lissage=None, n_iter=N
     gamma = alpha + Nd[:, None] / K
     digam = torch.special.digamma
     c = comptes[:, :, None]
-    bornes, converge, n_m = [], False, 0
+    bornes, converge, n_m, e_plafonnees = [], False, 0, 0
+    iter_e = int(PARAM.valeur("lda_iter_e"))
     const_doc = math.lgamma(K * alpha) - K * math.lgamma(alpha)
     while True:
         logbeta = torch.log(beta)
-        for _ in range(n_iter):
+        fini = False
+        for _ in range(iter_e):
             Elog = digam(gamma) - digam(gamma.sum(1, keepdim=True))                # (D,K)
             phi = torch.softmax(Elog[:, None, :] + logbeta.T[None, :, :], dim=2)   # (D,V,K)
             gamma_new = alpha + (c * phi).sum(1)
@@ -1317,6 +1320,7 @@ def lda_variationnel(comptes: Tensor, K: int, alpha=None, lissage=None, n_iter=N
             gamma = gamma_new
             if bool(fini):
                 break
+        e_plafonnees += not bool(fini)
         Elog = digam(gamma) - digam(gamma.sum(1, keepdim=True))
         phi = torch.softmax(Elog[:, None, :] + logbeta.T[None, :, :], dim=2)
         L = (Dn * const_doc
@@ -1338,7 +1342,7 @@ def lda_variationnel(comptes: Tensor, K: int, alpha=None, lissage=None, n_iter=N
         n_m += 1
     theta = gamma / gamma.sum(1, keepdim=True)
     return {"beta": beta, "gamma": gamma, "theta": theta, "bornes": bornes, "n_iter": n_m,
-            "converge": converge, "alpha": alpha, "lissage": lissage}
+            "converge": converge, "alpha": alpha, "lissage": lissage, "etapes_e_plafonnees": e_plafonnees}
 
 
 # ==============================================================================

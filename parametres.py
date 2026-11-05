@@ -98,14 +98,16 @@ def _p(*a, **k):
 
 # ------------------------------------------------------------------------------ critère d'arrêt et régularisation
 _p("tol_rel", 1e-6, "benchmark",
-   "Plus grande tolérance relative pour laquelle les résultats (critère final, K̂, ARI) ne diffèrent pas de ceux obtenus "
-   "avec une tolérance 100 fois plus stricte, au-delà de l'écart observé entre deux relances convergeant vers le même optimum. "
-   "Grille 1e-3 à 1e-10 sur les jeux du protocole.", calibrage="tolerance")
+   "Plus grande tolérance relative de la grille 1e-3 à 1e-9 pour laquelle au moins 99 % des ajustements pilotes "
+   "s'accordent avec une référence à 1e-10 (même graine) sur le critère final : écart par observation < 5e-4 (précision "
+   "d'affichage). L'accord des partitions (ARI >= 0,99) est rapporté sans décider (D-15) ; si aucune valeur ne remplit la "
+   "règle, le calibrage s'arrête.", calibrage="tolerance")
 _p("n_iter_max", 500, "benchmark",
    "Plafond d'étapes M tel que, avec tol_rel calibrée, moins de 1 % des ajustements du pilote l'atteignent ; "
    "les ajustements plafonnés sont marqués non convergés.", calibrage="tolerance")
 _p("reg_covariance", 1e-6, "recherche",
-   "Régularisation + reg I des covariances (EM, MAP-EM). Choisie sur une grille logarithmique 0 et 1e-10 à 1e-1 "
+   "Régularisation + reg I des covariances (EM, MAP-EM). Choisie sur la grille 0, 1e-10 à 1e-1 (logarithmique), 0,3 et 1 "
+   "(D-15), une valeur au bord étant signalée, "
    "en maximisant la log-vraisemblance moyenne hors échantillon (validation croisée sur les jeux d'apprentissage).",
    calibrage="regularisation")
 _p("kmeans_n_iter_max", 100, "benchmark",
@@ -113,11 +115,11 @@ _p("kmeans_n_iter_max", 100, "benchmark",
    "les jeux du protocole ; le plafond est relevé (par pas de 100) tant qu'elle dépasse 1 %.", calibrage="kmeans")
 
 # ------------------------------------------------------------------------------ relances
-_p("n_init", {"synthetique": 10, "iris": 10, "prix": 10, "texte": 10}, "benchmark",
-   "Par famille de données : nombre de relances tel que la probabilité qu'au moins une relance atteigne le meilleur "
-   "optimum (à 10 fois la tolérance d'arrêt près) soit au moins 0,99, soit ceil(ln 0,01 / ln(1 - p)) où p est estimé "
-   "par 200 relances pilotes, pour le plus difficile des algorithmes comparés ; plafonné à la taille du pilote (200), "
-   "la probabilité résiduelle étant alors rapportée.", references=("biernacki2003",), calibrage="n_init")
+_p("n_init", {"synthetique": 20, "iris": 20, "prix": 20, "texte": 20}, "benchmark",
+   "Nombre fixe de relances (20), le même pour EM et VB et pour toutes les familles (D-15, écart déclaré) : la règle "
+   "initiale, ceil(ln 0,01 / ln(1 - p)) pour le plus difficile des cas pilotes, atteignait le plafond de 200 partout. Pour "
+   "chaque cas pilote, la probabilité que la meilleure de 20 relances soit à moins de 5e-4 par observation du meilleur "
+   "des 200 relances pilotes est rapportée.", references=("biernacki2003",), calibrage="n_init")
 _p("n_init_texte_confirmatoire", {"pLSA": 10, "LDA": 10}, "benchmark",
    "Relances des étapes confirmatoires du texte et de leurs pilotes (décision D-14 du 2026-11-05, écart déclaré) : la "
    "règle « n_init » demande que la même solution soit retrouvée, ce qui, pour la pLSA aux nombreux optima de qualité "
@@ -234,6 +236,10 @@ _p("espace_lda", {"alpha": (1e-3, 10.0), "lissage": (1e-4, 1.0)}, "plan",
    "Espace de recherche de la LDA (échelle logarithmique) : concentration de Dirichlet sur theta_d sur les mêmes bornes que "
    "alpha0 (« espace_priors ») ; lissage des distributions de mots d'un pseudo-compte négligeable (1e-4) à un pseudo-compte "
    "par mot et par thème (1).", references=("blei2003",))
+_p("lda_iter_e", 100, "source",
+   "Plafond des itérations de point fixe de l'étape E de la LDA (par étape M) : valeur par défaut de max_doc_update_iter "
+   "dans LatentDirichletAllocation de scikit-learn (D-15). Sans plafond propre, l'étape E était bornée par n_iter_max. Le "
+   "nombre d'étapes E plafonnées est rapporté.", references=("pedregosa2011",))
 _p("lda_hyper", {"alpha": 0.1, "lissage": 1e-3}, "recherche",
    "Hyperparamètres de la LDA : recherche aléatoire puis divisions successives sur « espace_lda », en minimisant la perplexité "
    "par complétion de documents de validation tirés du réservoir d'apprentissage (jamais des documents de test).",

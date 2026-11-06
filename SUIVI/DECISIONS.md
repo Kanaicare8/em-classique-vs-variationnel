@@ -305,3 +305,4 @@ mention.
      le chronométrage (étape exécutée seule, P-11) ; (d) le nombre total de processus ne dépasse pas les cœurs.
 - **Ensuite** : la session de l'instance récupère le code (D-16 inclus), vérifie qu'aucun résultat
   `validation/proprietes` ni `illustrations/variantes` n'existe (consigne E-02), relance les tests, puis lance E-02.
+- **Suite (2026-11-06)** : commit `620852a` (branche `texte-sous-taches`) relu et fusionné dans `main` ; les quatre conditions sont remplies (commit séparé ; résultats identiques avec et sans sous-tâches sur un cas de 20 documents, pas de comparaison à N = 1 000 ; actif seulement dans l'étape texte avec `ICARE_SOUS_TRAVAILLEURS` > 1 ; unités simultanées limitées à cœurs ÷ sous-tâches). Réglage E-02 : `ICARE_SOUS_TRAVAILLEURS=2` ; 100 tests passés sur l'instance. Coût : un réajustement de la meilleure relance de plus par unité ; gain estimé (non mesuré) : 4 à 6 h au lieu de 7 à 11 h par unité à N = 1 000.

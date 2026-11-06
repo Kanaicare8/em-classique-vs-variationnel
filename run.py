@@ -104,6 +104,17 @@ def _nouveau_pool(travailleurs: int) -> cf.ProcessPoolExecutor:
                                   initializer=PE.ignorer_interruption)
 
 
+def _travailleurs_texte(travailleurs: int, coeurs: int | None = None) -> int:
+    """Étape texte avec sous-tâches (D-17) : unités simultanées x sous-tâches par unité <= coeurs."""
+    coeurs = coeurs or os.cpu_count() or 1
+    sous = int(os.environ.get("ICARE_SOUS_TRAVAILLEURS") or 0)
+    if sous <= 1:
+        return travailleurs
+    if sous > coeurs:
+        raise ValueError(f"ICARE_SOUS_TRAVAILLEURS = {sous} dépasse les {coeurs} coeurs")
+    return min(travailleurs, coeurs // sous)
+
+
 def executer_etape(etape: str, rapide: bool, travailleurs: int, tentatives: int = 3) -> bool:
     unites = unites_de(etape, rapide)
     mag = E.magasin(etape, rapide)
@@ -114,6 +125,8 @@ def executer_etape(etape: str, rapide: bool, travailleurs: int, tentatives: int 
           flush=True)
     if etape == "chronometrage":
         travailleurs = 1
+    if etape == "texte":
+        travailleurs = _travailleurs_texte(travailleurs)
     erreurs = []
     if restantes:
         barre = Barre(len(restantes), etape)

@@ -24,6 +24,7 @@ Mesures (identiques pour les deux modèles) :
 from __future__ import annotations
 
 import math
+import os
 
 import torch
 
@@ -157,22 +158,53 @@ def _meilleur(f, n_init, base, memo=None, nom=""):
     return meilleur[1]
 
 
+def _selection(cor, V, N, rep):
+    return cor["reservoir"][torch.randperm(len(cor["reservoir"]), generator=A.generateur(PE.graine("texte", V, N, rep)))[:N]]
+
+
+def _ajuster(algo, c_tr, graine):
+    if algo == "pLSA":
+        return A.plsa_em(c_tr, K, graine=graine)
+    hyp = PARAM.valeur("lda_hyper")
+    return A.lda_variationnel(c_tr, K, alpha=float(hyp["alpha"]), lissage=float(hyp["lissage"]), graine=graine)
+
+
+def _relance_echantillon(rapide, V, N, rep, etape_corpus, algo, graine):
+    """Critère d'une relance, calculé dans un processus de travail (même valeur que relance() dans _meilleur)."""
+    cor = E.magasin(etape_corpus, rapide).lire(f"corpus/V={V}")["artefacts"]
+    return {"c": _critere(_ajuster(algo, cor["comptes"].double()[_selection(cor, V, N, rep)], graine))}
+
+
+def _precalcul_relances(memo, rapide, V, N, rep, etape_corpus, relances, base):
+    """
+    D-17 : relances calculées d'avance en sous-tâches, sous les clés que _meilleur relit. Seulement dans l'étape « texte »
+    et si ICARE_SOUS_TRAVAILLEURS > 1 : jamais pendant le chronométrage (P-11), ni par défaut.
+    """
+    if memo.mag.etape != "texte" or int(os.environ.get("ICARE_SOUS_TRAVAILLEURS") or 0) <= 1:
+        return
+    taches = []
+    for algo, n in relances:
+        if not memo.mag.existe(f"{memo.prefixe}/_sous/{algo}"):
+            taches += [(f"{algo}/relances/s={s}", "etape_texte", "_relance_echantillon",
+                        dict(rapide=rapide, V=V, N=N, rep=rep, etape_corpus=etape_corpus, algo=algo, graine=base + s))
+                       for s in range(n)]
+    E.sous_taches_paralleles(memo, taches)
+
+
 def unite_echantillon(memo, rapide, V, N, rep, etape_corpus="texte"):
     cor = E.magasin(etape_corpus, rapide).lire(f"corpus/V={V}")["artefacts"]
     comptes = cor["comptes"].double()
     y = cor["y"]
-    sel = cor["reservoir"][torch.randperm(len(cor["reservoir"]), generator=A.generateur(PE.graine("texte", V, N, rep)))[:N]]
+    sel = _selection(cor, V, N, rep)
     c_tr, y_tr = comptes[sel], y[sel]
     c_te, y_te = comptes[cor["test"]], y[cor["test"]]
     relances = PARAM.valeur("n_init_texte_confirmatoire")          # D-14 : par algorithme
     n_pl = min(int(relances["pLSA"]), 2 if rapide else 10 ** 9)
     n_ld = min(int(relances["LDA"]), 2 if rapide else 10 ** 9)
     base = PE.graine("texte", "ajustement", V, N, rep) % 2 ** 31
-    hyp = PARAM.valeur("lda_hyper")
-    pl = memo("pLSA", lambda: _meilleur(lambda g: A.plsa_em(c_tr, K, graine=g), n_pl, base, memo, "pLSA"))
-    ld = memo("LDA", lambda: _meilleur(lambda g: A.lda_variationnel(c_tr, K, alpha=float(hyp["alpha"]),
-                                                                    lissage=float(hyp["lissage"]), graine=g), n_ld, base,
-                                       memo, "LDA"))
+    _precalcul_relances(memo, rapide, V, N, rep, etape_corpus, (("pLSA", n_pl), ("LDA", n_ld)), base)
+    pl = memo("pLSA", lambda: _meilleur(lambda g: _ajuster("pLSA", c_tr, g), n_pl, base, memo, "pLSA"))
+    ld = memo("LDA", lambda: _meilleur(lambda g: _ajuster("LDA", c_tr, g), n_ld, base, memo, "LDA"))
     obs_te, ev_te = separer_moitie(c_te, PE.graine("texte", "moitie_test"))
     obs_tr, ev_tr = separer_moitie(c_tr, PE.graine("texte", "moitie_app", V, N, rep))
     lignes = []

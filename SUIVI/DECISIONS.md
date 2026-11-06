@@ -281,3 +281,27 @@ mention.
 | 2026-10-22 | Paramètres réunis dans un registre (`parametres.py`) et calibrés par une étape dédiée ; chaîne reprenable ; sklearn, nltk, matplotlib et Jupyter retirés | `notes/ANALYSE_2.md` § 4 | `parametres.py`, `calibrage.py`, `run.py` |
 | 2026-10-22 | Wang et Blei (2019), Attias (2000), Balakrishnan et al. (2017) cités comme renvois seulement, faute de copie lue | `notes/ANALYSE_SOURCES.md` § 4, `references/SOURCES.md` | texte |
 | 2026-10-27 | Seul le cas des prix alimentaires du PAM est retenu ; climat et S&P 500 retirés du mémoire et de la chaîne, code gardé dans `legacy/` | `notes/ANALYSE_3_...md`, en-tête | `etape_prix.py`, `hypotheses.py` (HP, HPP), section 3.1 |
+
+## D-17 Contrôles du calibrage complet : marge LL, puissance de HP7-N120, sous-tâches du texte (2026-11-06)
+
+- **Contexte** : calibrage terminé le 2026-11-06 à 06 h 04 UTC sur `34e02b3` (590 unités sur 590, 88 tests passés),
+  fichiers récupérés dans le dépôt (`7782ae6`, `resultats/calibrage/`). Lu dans les fichiers :
+  - `marges.json` : bruit d'optimisation (quantile à 95 % de l'écart absolu entre deux ajustements d'un même bras,
+    128 paires) ARI 0,0443 sous la marge 0,05 ; LL 0,0657, au-dessus de la marge 0,05 (« ATTENTION »).
+  - `puissance.json` : R = 110 (scénarios), 100 (prix_semi), 200 (prix_sous), 50 (prix_sensibilite), 10 (texte) ;
+    facteur de budget 1,0 (535 853 s requises pour 10 713 600 s) ; HP7-N120 : plafond atteint, puissance 0,743.
+- **Décisions** (application des règles déjà validées, aucun changement de méthode) :
+  1. **Marge LL gardée à 0,05**, le contrôle étant déclaré comme limite. Raisons : D-04 fixe les marges a priori, et les
+     relever après avoir vu le bruit reviendrait à la règle abandonnée ; le bruit est l'écart d'une seule paire, alors
+     que le TOST porte sur la moyenne de R différences : ce bruit augmente la variance (donc baisse la puissance, déjà
+     simulée sur les pilotes) sans biaiser la décision ; la sensibilité au double de la marge (0,10, au-dessus du bruit)
+     est rapportée (`decision_marge_double`). Conséquence à écrire : une équivalence en LL non démontrée à 0,05 peut
+     refléter le bruit d'optimisation plutôt qu'une différence entre méthodes.
+  2. **HP7-N120 accepté à 0,743** : D-05 plafonne R à 200 et rapporte la puissance obtenue ; étendre la grille après
+     avoir vu la puissance serait un réglage a posteriori. Puissance à rapporter avec le test.
+  3. **Sous-tâches pour les unités texte à N = 1 000** : accord de principe, à condition que (a) la session de l'instance
+     prépare le changement dans un commit à part, que je relis avant le lancement ; (b) la vérification bit à bit sur un
+     petit cas montre des résultats identiques avec et sans sous-tâches ; (c) les sous-processus ne tournent pas pendant
+     le chronométrage (étape exécutée seule, P-11) ; (d) le nombre total de processus ne dépasse pas les cœurs.
+- **Ensuite** : la session de l'instance récupère le code (D-16 inclus), vérifie qu'aucun résultat
+  `validation/proprietes` ni `illustrations/variantes` n'existe (consigne E-02), relance les tests, puis lance E-02.

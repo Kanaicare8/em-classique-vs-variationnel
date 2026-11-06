@@ -1,0 +1,31 @@
+{
+ "valeurs": {
+  "tol_rel": 1e-08,
+  "n_iter_max": 1800
+ },
+ "regle": "D-15 : plus grande tolérance (de 1e-3 à 1e-9) pour laquelle au moins 99 % des ajustements s'accordent avec la référence (tol = 1e-10) sur le critère : écart par observation < 5e-4 ; arrêt si aucune ; plafond = plus petit multiple de 100 supérieur ou égal au nombre maximal d'étapes observé à cette tolérance",
+ "details": {
+  "part_accord_par_tol": {
+   "0.001": 0.20819848975188782,
+   "0.0001": 0.42071197411003236,
+   "1e-05": 0.6731391585760518,
+   "1e-06": 0.8845738942826321,
+   "1e-07": 0.970873786407767,
+   "1e-08": 0.9935275080906149,
+   "1e-09": 0.9978425026968716
+  },
+  "part_accord_critere_et_ARI_par_tol": {
+   "0.001": 0.18230852211434737,
+   "0.0001": 0.34735706580366776,
+   "1e-05": 0.4886731391585761,
+   "1e-06": 0.6429341963322546,
+   "1e-07": 0.8327939590075513,
+   "1e-08": 0.9277238403451996,
+   "1e-09": 0.9676375404530745
+  },
+  "iterations_max": 1734,
+  "n_ajustements": 927,
+  "references_exclues": 63
+ },
+ "date": "2026-11-05T05:44:03"
+}

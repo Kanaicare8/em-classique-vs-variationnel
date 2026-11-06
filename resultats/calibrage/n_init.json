@@ -1,0 +1,2062 @@
+{
+ "valeurs": {
+  "n_init": {
+   "synthetique": 20,
+   "iris": 20,
+   "prix": 20,
+   "texte": 20
+  }
+ },
+ "regle": "D-15 (écart déclaré) : nombre fixe de relances, identique pour EM et VB et pour toutes les familles ; on rapporte, pour chaque cas pilote, la probabilité que la meilleure des n relances soit à moins de 5e-4 par observation du meilleur critère des 200 relances pilotes (tirage sans remise, calcul exact)",
+ "details": {
+  "n_fixe": 20,
+  "resume": {
+   "n_cas": 226,
+   "probabilite_min": 0.09999999999999998,
+   "part_cas_probabilite_ge_0_99": 0.47345132743362833,
+   "n_requis_regle_initiale_mediane": {
+    "iris": 14,
+    "prix": 200,
+    "synthetique": 23
+   }
+  },
+  "cas": [
+   {
+    "jeu": "iris",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 181,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "iris",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 5
+   },
+   {
+    "jeu": "iris",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "iris",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 55,
+    "probabilite": 0.9989110927121596,
+    "n_requis_regle_initiale": 15
+   },
+   {
+    "jeu": "iris",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 58,
+    "probabilite": 0.9993047176860557,
+    "n_requis_regle_initiale": 14
+   },
+   {
+    "jeu": "iris",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 18,
+    "probabilite": 0.8629096007776844,
+    "n_requis_regle_initiale": 49
+   },
+   {
+    "jeu": "iris",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "EM",
+    "K": 4,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "EM",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "VB-emp",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "VB-diff",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "VB-cfg0",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "VB-cfg1",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "prix/N=120",
+    "algo": "VB-cfg2",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "EM",
+    "K": 4,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "EM",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "VB-emp",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 6,
+    "probabilite": 0.47305613805626556,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "VB-diff",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "VB-cfg0",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "VB-cfg1",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 4,
+    "probabilite": 0.346110571315275,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=250",
+    "algo": "VB-cfg2",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "EM",
+    "K": 4,
+    "relances_valides": 200,
+    "dans_l_ecart": 25,
+    "probabilite": 0.9401912203613404,
+    "n_requis_regle_initiale": 35
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "EM",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "VB-emp",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "VB-diff",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "VB-cfg0",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "VB-cfg1",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=562",
+    "algo": "VB-cfg2",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 43,
+    "probabilite": 0.9940395813472437,
+    "n_requis_regle_initiale": 20
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "EM",
+    "K": 4,
+    "relances_valides": 200,
+    "dans_l_ecart": 6,
+    "probabilite": 0.47305613805626556,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "VB-emp",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "VB-diff",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 4,
+    "probabilite": 0.346110571315275,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "VB-cfg0",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "VB-cfg1",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "prix/N=60",
+    "algo": "VB-cfg2",
+    "K": 8,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 20,
+    "probabilite": 0.8914579627066834,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 164,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 195,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/1",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 10,
+    "probabilite": 0.660225623763214,
+    "n_requis_regle_initiale": 90
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 103,
+    "probabilite": 0.9999998312246071,
+    "n_requis_regle_initiale": 7
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 100,
+    "probabilite": 0.9999996678312922,
+    "n_requis_regle_initiale": 40
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 163,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 85,
+    "probabilite": 0.999992786880136,
+    "n_requis_regle_initiale": 9
+   },
+   {
+    "jeu": "synthetique/S1/2",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 15,
+    "probabilite": 0.8063879935785611,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 26,
+    "probabilite": 0.9470265094629015,
+    "n_requis_regle_initiale": 34
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/3",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 36,
+    "probabilite": 0.984913260442827,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 21,
+    "probabilite": 0.9035181890726075,
+    "n_requis_regle_initiale": 42
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 69,
+    "probabilite": 0.9998775928988999,
+    "n_requis_regle_initiale": 11
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 21,
+    "probabilite": 0.9035181890726075,
+    "n_requis_regle_initiale": 42
+   },
+   {
+    "jeu": "synthetique/S1/4",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 117,
+    "probabilite": 0.9999999949306702,
+    "n_requis_regle_initiale": 6
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S1/5",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 155,
+    "probabilite": 0.999999999999998,
+    "n_requis_regle_initiale": 4
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 100,
+    "probabilite": 0.9999996678312922,
+    "n_requis_regle_initiale": 7
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 98,
+    "probabilite": 0.9999994847934316,
+    "n_requis_regle_initiale": 7
+   },
+   {
+    "jeu": "synthetique/S2/80/15/5",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 125,
+    "probabilite": 0.999999999502247,
+    "n_requis_regle_initiale": 5
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 35,
+    "probabilite": 0.9828323308487341,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 57,
+    "probabilite": 0.9991916636512679,
+    "n_requis_regle_initiale": 14
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 5,
+    "probabilite": 0.41283398240555313,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 105,
+    "probabilite": 0.9999998939353952,
+    "n_requis_regle_initiale": 7
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=4",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 7,
+    "probabilite": 0.5273802475350011,
+    "n_requis_regle_initiale": 130
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 46,
+    "probabilite": 0.996050755152268,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 16
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 95,
+    "probabilite": 0.9999990221664137,
+    "n_requis_regle_initiale": 8
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 162,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=5",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 171,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 182,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 13,
+    "probabilite": 0.7570805566932224,
+    "n_requis_regle_initiale": 69
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 4,
+    "probabilite": 0.346110571315275,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S3/Kvrai=6",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 4,
+    "probabilite": 0.346110571315275,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 11,
+    "probabilite": 0.6959913475776126,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 11,
+    "probabilite": 0.6959913475776126,
+    "n_requis_regle_initiale": 82
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 5,
+    "probabilite": 0.41283398240555313,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S4/Student nu=3",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 187,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 21,
+    "probabilite": 0.9035181890726075,
+    "n_requis_regle_initiale": 42
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/10",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 66,
+    "probabilite": 0.9998004114302859,
+    "n_requis_regle_initiale": 12
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 5,
+    "probabilite": 0.41283398240555313,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/2",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 113,
+    "probabilite": 0.9999999852784209,
+    "n_requis_regle_initiale": 6
+   },
+   {
+    "jeu": "synthetique/S5/20",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/20",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/20",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/20",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/20",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 197,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S5/5",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 92,
+    "probabilite": 0.9999981808103663,
+    "n_requis_regle_initiale": 8
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 47,
+    "probabilite": 0.9965636440935319,
+    "n_requis_regle_initiale": 18
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 121,
+    "probabilite": 0.9999999983567754,
+    "n_requis_regle_initiale": 5
+   },
+   {
+    "jeu": "synthetique/S6/1000",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 61,
+    "probabilite": 0.999560608008971,
+    "n_requis_regle_initiale": 13
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 27,
+    "probabilite": 0.9531154164211887,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 9,
+    "probabilite": 0.6204859306361046,
+    "n_requis_regle_initiale": 101
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/120",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 195,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 25,
+    "probabilite": 0.9401912203613404,
+    "n_requis_regle_initiale": 35
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/30",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 12
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 54,
+    "probabilite": 0.9987382502855183,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 27,
+    "probabilite": 0.9531154164211887,
+    "n_requis_regle_initiale": 32
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 77,
+    "probabilite": 0.9999687561517753,
+    "n_requis_regle_initiale": 10
+   },
+   {
+    "jeu": "synthetique/S6/300",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 27,
+    "probabilite": 0.9531154164211887,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 80,
+    "probabilite": 0.9999817411686486,
+    "n_requis_regle_initiale": 10
+   },
+   {
+    "jeu": "synthetique/S6/60",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 184,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 80,
+    "probabilite": 0.9999817411686486,
+    "n_requis_regle_initiale": 10
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 135,
+    "probabilite": 0.9999999999824369,
+    "n_requis_regle_initiale": 5
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 5,
+    "probabilite": 0.41283398240555313,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 115,
+    "probabilite": 0.9999999912992753,
+    "n_requis_regle_initiale": 6
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 54,
+    "probabilite": 0.9987382502855183,
+    "n_requis_regle_initiale": 15
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=10.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 74,
+    "probabilite": 0.9999472845086194,
+    "n_requis_regle_initiale": 10
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 29,
+    "probabilite": 0.9633570414131994,
+    "n_requis_regle_initiale": 30
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 36,
+    "probabilite": 0.984913260442827,
+    "n_requis_regle_initiale": 24
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 38,
+    "probabilite": 0.9883784924075525,
+    "n_requis_regle_initiale": 22
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 33,
+    "probabilite": 0.9778248940354397,
+    "n_requis_regle_initiale": 26
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 42,
+    "probabilite": 0.9931757525569891,
+    "n_requis_regle_initiale": 20
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 130,
+    "probabilite": 0.9999999998996741,
+    "n_requis_regle_initiale": 5
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=20.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 20,
+    "probabilite": 0.8914579627066834,
+    "n_requis_regle_initiale": 44
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 37,
+    "probabilite": 0.9867531067302872,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 3,
+    "probabilite": 0.2722247601644586,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 54,
+    "probabilite": 0.9987382502855183,
+    "n_requis_regle_initiale": 15
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.01;amp=5.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 21,
+    "probabilite": 0.9035181890726075,
+    "n_requis_regle_initiale": 42
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 171,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 6,
+    "probabilite": 0.47305613805626556,
+    "n_requis_regle_initiale": 152
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 61,
+    "probabilite": 0.999560608008971,
+    "n_requis_regle_initiale": 13
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 119,
+    "probabilite": 0.9999999970906843,
+    "n_requis_regle_initiale": 6
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=10.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 61,
+    "probabilite": 0.999560608008971,
+    "n_requis_regle_initiale": 13
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 73,
+    "probabilite": 0.9999374311457445,
+    "n_requis_regle_initiale": 11
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 86,
+    "probabilite": 0.9999940413357645,
+    "n_requis_regle_initiale": 9
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 85,
+    "probabilite": 0.999992786880136,
+    "n_requis_regle_initiale": 9
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 5,
+    "probabilite": 0.41283398240555313,
+    "n_requis_regle_initiale": 182
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=20.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 74,
+    "probabilite": 0.9999472845086194,
+    "n_requis_regle_initiale": 10
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 73,
+    "probabilite": 0.9999374311457445,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 6,
+    "probabilite": 0.47305613805626556,
+    "n_requis_regle_initiale": 152
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 199,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.05;amp=5.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 180,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 2
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 37,
+    "probabilite": 0.9867531067302872,
+    "n_requis_regle_initiale": 23
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 52,
+    "probabilite": 0.9983113541591865,
+    "n_requis_regle_initiale": 16
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 32,
+    "probabilite": 0.974828258094283,
+    "n_requis_regle_initiale": 27
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 169,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 3
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 20,
+    "probabilite": 0.8914579627066834,
+    "n_requis_regle_initiale": 44
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=10.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 14
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 13,
+    "probabilite": 0.7570805566932224,
+    "n_requis_regle_initiale": 69
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 2,
+    "probabilite": 0.1904522613065327,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 7,
+    "probabilite": 0.5273802475350011,
+    "n_requis_regle_initiale": 130
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=20.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 6,
+    "probabilite": 0.47305613805626556,
+    "n_requis_regle_initiale": 152
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "EM",
+    "K": 3,
+    "relances_valides": 200,
+    "dans_l_ecart": 199,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "EM",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 4,
+    "probabilite": 0.346110571315275,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "VB-emp",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 143,
+    "probabilite": 0.9999999999992499,
+    "n_requis_regle_initiale": 4
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "VB-diff",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 1,
+    "probabilite": 0.09999999999999998,
+    "n_requis_regle_initiale": 200
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "VB-cfg0",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 197,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 16
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "VB-cfg1",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   },
+   {
+    "jeu": "synthetique/S7/prop=0.1;amp=5.0",
+    "algo": "VB-cfg2",
+    "K": 6,
+    "relances_valides": 200,
+    "dans_l_ecart": 200,
+    "probabilite": 1.0,
+    "n_requis_regle_initiale": 1
+   }
+  ],
+  "taille_pilote": 200
+ },
+ "date": "2026-11-05T06:42:52"
+}

@@ -1,0 +1,12 @@
+{
+ "valeurs": {
+  "kmeans_n_iter_max": 100
+ },
+ "regle": "plus petit multiple de 100 tel qu'au plus 1 % des exécutions de Lloyd l'atteignent",
+ "details": {
+  "n_executions": 13200,
+  "iterations_max": 56,
+  "part_au_plafond": 0.0
+ },
+ "date": "2026-11-04T08:05:21"
+}

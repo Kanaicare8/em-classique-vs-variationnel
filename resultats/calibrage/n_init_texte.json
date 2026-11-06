@@ -1,0 +1,40 @@
+{
+ "valeurs": {
+  "n_init_texte_confirmatoire": {
+   "pLSA": 6,
+   "LDA": 20
+  }
+ },
+ "regle": "D-14 : par algorithme, plus petit n <= 20 tel que la meilleure de n relances (tirées sans remise parmi les relances pilotes) soit à moins de 0,1 % du meilleur critère pilote avec probabilité >= 0,99 ; LDA : maximum sur les trois valeurs de alpha",
+ "details": {
+  "pLSA": {
+   "n": 6,
+   "probabilite": 0.99025,
+   "meilleur": -232166.25780508041,
+   "relances_pilote": 200,
+   "part_dans_l_ecart": 0.535
+  },
+  "LDA-alpha=0.001": {
+   "n": 20,
+   "probabilite": 0.47075,
+   "meilleur": -236203.33284373017,
+   "relances_pilote": 200,
+   "part_dans_l_ecart": 0.03
+  },
+  "LDA-alpha=0.1": {
+   "n": 20,
+   "probabilite": 0.6995,
+   "meilleur": -236301.86075118065,
+   "relances_pilote": 200,
+   "part_dans_l_ecart": 0.055
+  },
+  "LDA-alpha=10.0": {
+   "n": 2,
+   "probabilite": 0.9975,
+   "meilleur": -236395.74783222697,
+   "relances_pilote": 200,
+   "part_dans_l_ecart": 0.95
+  }
+ },
+ "date": "2026-11-05T06:42:59"
+}

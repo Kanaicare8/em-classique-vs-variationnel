@@ -1,0 +1,16 @@
+{
+ "valeurs": {
+  "n_bootstrap_ic": 2000,
+  "n_tirages_posterieur": 8000,
+  "n_bootstrap_modele": 10000
+ },
+ "regle": "plus petite taille de la grille telle que l'écart-type Monte Carlo des bornes (20 répétitions) soit au plus 5e-4 (moitié de la 3e décimale affichée) ; bornes à 5 et 95 % des poids (couverture à 90 %) ; bootstrap de modèle : rééchantillonnage d'un pilote de 400 réplicats",
+ "details": {
+  "ecart_type_obtenu": {
+   "n_bootstrap_ic": 0.0003911811616096751,
+   "n_tirages_posterieur": 0.00045214784319546773,
+   "n_bootstrap_modele": 0.0013630304485665822
+  }
+ },
+ "date": "2026-11-05T14:57:12"
+}

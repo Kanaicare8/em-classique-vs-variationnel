@@ -1,0 +1,477 @@
+{
+ "valeurs": {
+  "replications": {
+   "scenarios": 110,
+   "prix_semi": 100,
+   "prix_sous": 200,
+   "prix_sensibilite": 50,
+   "texte": 10
+  }
+ },
+ "regle": "par clé, maximum sur les hypothèses de la famille du plus petit R (grille 10 à 200) donnant une puissance simulée >= 0,8 au niveau alpha / m (première étape de Holm), hors hypothèses sans variance pilote ; puis plafond commun par le budget de temps « budget_replications » (D-05) ; équivalence : différences du pilote recentrées à 0 ; différence : recentrées à la marge (ou à 0,5 écart-type)",
+ "details": {
+  "hypotheses": [
+   {
+    "id": "HS1-sep4",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS1-sep5",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS1-sep1",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": null,
+    "puissance_requise": NaN,
+    "remarque": "sans variance : exclue du maximum (D-05)",
+    "R_retenu": 110,
+    "puissance_obtenue": NaN
+   },
+   {
+    "id": "HS1-sep2",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 110,
+    "puissance_requise": 0.84375,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.84375
+   },
+   {
+    "id": "HS1-sep3",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 60,
+    "puissance_requise": 0.8475,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.99875
+   },
+   {
+    "id": "HS2",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 50,
+    "puissance_requise": 0.885,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.99875
+   },
+   {
+    "id": "HS3-K4",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 20,
+    "puissance_requise": 0.998125,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS3-K5",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 30,
+    "puissance_requise": 0.83375,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS3-K6",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 0.996875,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS4",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 60,
+    "puissance_requise": 0.875625,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.995625
+   },
+   {
+    "id": "HS5-D2",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 40,
+    "puissance_requise": 0.83125,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.999375
+   },
+   {
+    "id": "HS5-D5",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 40,
+    "puissance_requise": 0.80625,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.998125
+   },
+   {
+    "id": "HS5-D10",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 80,
+    "puissance_requise": 0.823125,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.95375
+   },
+   {
+    "id": "HS5-D20",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 80,
+    "puissance_requise": 0.81625,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.9475
+   },
+   {
+    "id": "HS6-N30",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 20,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS6-N60",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 80,
+    "puissance_requise": 0.844375,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.945
+   },
+   {
+    "id": "HS6-N120",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 50,
+    "puissance_requise": 0.9375,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS6-N300",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 50,
+    "puissance_requise": 0.8775,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.99625
+   },
+   {
+    "id": "HS6-N1000",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 40,
+    "puissance_requise": 0.805,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 0.99875
+   },
+   {
+    "id": "HS7-p0.01-a5.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.01-a10.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.01-a20.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.05-a5.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.05-a10.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.05-a20.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.1-a5.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.1-a10.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HS7-p0.1-a20.0",
+    "cle": "scenarios",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 110,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HP1-N30",
+    "cle": "prix_semi",
+    "n_pilote": 10,
+    "R_requis": 60,
+    "puissance_requise": 0.91,
+    "remarque": "",
+    "R_retenu": 100,
+    "puissance_obtenue": 0.999375
+   },
+   {
+    "id": "HP1-N60",
+    "cle": "prix_semi",
+    "n_pilote": 10,
+    "R_requis": 100,
+    "puissance_requise": 0.84875,
+    "remarque": "",
+    "R_retenu": 100,
+    "puissance_obtenue": 0.84875
+   },
+   {
+    "id": "HP1-N120",
+    "cle": "prix_semi",
+    "n_pilote": 10,
+    "R_requis": 70,
+    "puissance_requise": 0.8275,
+    "remarque": "",
+    "R_retenu": 100,
+    "puissance_obtenue": 0.96625
+   },
+   {
+    "id": "HP1-N250",
+    "cle": "prix_semi",
+    "n_pilote": 10,
+    "R_requis": 90,
+    "puissance_requise": 0.855625,
+    "remarque": "",
+    "R_retenu": 100,
+    "puissance_obtenue": 0.906875
+   },
+   {
+    "id": "HP1-N500",
+    "cle": "prix_semi",
+    "n_pilote": 10,
+    "R_requis": 50,
+    "puissance_requise": 0.924375,
+    "remarque": "",
+    "R_retenu": 100,
+    "puissance_obtenue": 0.999375
+   },
+   {
+    "id": "HP2-LL",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": 40,
+    "puissance_requise": 0.919375,
+    "remarque": "",
+    "R_retenu": 200,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HP3-N30",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": null,
+    "puissance_requise": NaN,
+    "remarque": "sans variance : exclue du maximum (D-05)",
+    "R_retenu": 200,
+    "puissance_obtenue": NaN
+   },
+   {
+    "id": "HP3-N60",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": null,
+    "puissance_requise": NaN,
+    "remarque": "sans variance : exclue du maximum (D-05)",
+    "R_retenu": 200,
+    "puissance_obtenue": NaN
+   },
+   {
+    "id": "HP3-N120",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": 40,
+    "puissance_requise": 0.8025,
+    "remarque": "",
+    "R_retenu": 200,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HP5",
+    "cle": "prix_sensibilite",
+    "n_pilote": 10,
+    "R_requis": 50,
+    "puissance_requise": 0.878125,
+    "remarque": "",
+    "R_retenu": 50,
+    "puissance_obtenue": 0.878125
+   },
+   {
+    "id": "HP7-N30",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": null,
+    "puissance_requise": NaN,
+    "remarque": "sans variance : exclue du maximum (D-05)",
+    "R_retenu": 200,
+    "puissance_obtenue": NaN
+   },
+   {
+    "id": "HP7-N60",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": null,
+    "puissance_requise": NaN,
+    "remarque": "sans variance : exclue du maximum (D-05)",
+    "R_retenu": 200,
+    "puissance_obtenue": NaN
+   },
+   {
+    "id": "HP7-N120",
+    "cle": "prix_sous",
+    "n_pilote": 10,
+    "R_requis": 200,
+    "puissance_requise": 0.743125,
+    "remarque": "plafond atteint",
+    "R_retenu": 200,
+    "puissance_obtenue": 0.743125
+   },
+   {
+    "id": "HT1-N50",
+    "cle": "texte",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 10,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HT1-N200",
+    "cle": "texte",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 10,
+    "puissance_obtenue": 1.0
+   },
+   {
+    "id": "HT1-N1000",
+    "cle": "texte",
+    "n_pilote": 10,
+    "R_requis": 10,
+    "puissance_requise": 1.0,
+    "remarque": "",
+    "R_retenu": 10,
+    "puissance_obtenue": 1.0
+   }
+  ],
+  "budget": {
+   "budget_s": 10713600.0,
+   "cout_par_replication_s": {
+    "scenarios": 1621.3274631254374,
+    "prix_semi": 80.05111853359966,
+    "prix_sous": 24.933725274599418,
+    "prix_sensibilite": 20.009503799199592,
+    "texte": 21469.6491130298
+   },
+   "cout_fixe_s": 128817.8946781788,
+   "total_requis_s": 535852.7388505148,
+   "R_requis": {
+    "scenarios": 110,
+    "prix_semi": 100,
+    "prix_sous": 200,
+    "prix_sensibilite": 50,
+    "texte": 10
+   },
+   "facteur": 1.0
+  }
+ },
+ "date": "2026-11-06T06:03:51"
+}

@@ -1,0 +1,21 @@
+{
+ "valeurs": {
+  "bruit_optimisation": {
+   "ARI": 0.04430929821028839,
+   "LL": 0.06571681591342715
+  }
+ },
+ "regle": "contrôle seulement (D-04) : quantile à 95 % de l'écart absolu entre deux ajustements du même bras (graines différentes, mêmes données), tous jeux et bras confondus, comparé aux marges fixées a priori",
+ "details": {
+  "n_paires": 128,
+  "marges": {
+   "ARI": 0.05,
+   "LL": 0.05
+  },
+  "controle": {
+   "ARI": "marge > bruit",
+   "LL": "ATTENTION : marge <= bruit d'optimisation"
+  }
+ },
+ "date": "2026-11-05T14:56:31"
+}

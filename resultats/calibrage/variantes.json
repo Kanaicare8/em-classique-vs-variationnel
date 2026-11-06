@@ -1,0 +1,3087 @@
+{
+ "valeurs": {
+  "variantes_stochastiques": {
+   "sem_n_iter": 51,
+   "sem_burn": 43,
+   "online_kappa": 0.6051095100572063,
+   "online_t0": 44.66819299981002,
+   "online_lot": 14,
+   "svi_kappa": 0.561667878628921,
+   "svi_tau": 16.012402441175727,
+   "svi_lot": 31,
+   "epoques": 49
+  }
+ },
+ "regle": "par méthode : recherche aléatoire (32 configurations) puis divisions successives sur des jeux synthétiques du protocole ; score = log-vraisemblance de validation (plug-in pour SEM et EM online, prédictive pour la SVI) ; nombre d'époques commun = le plus grand des optima",
+ "details": {
+  "evaluations": {
+   "sem": [
+    {
+     "indice": 0,
+     "config": {
+      "online_kappa": 0.8464452893984415,
+      "online_t0": 214.03973741127538,
+      "online_lot": 115,
+      "svi_kappa": 0.9670038828416121,
+      "svi_tau": 296.5725469011919,
+      "svi_lot": 115,
+      "epoques": 3,
+      "sem_n_iter": 854,
+      "sem_burn": 398
+     },
+     "score": -3.0078688083679315,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 1,
+     "config": {
+      "online_kappa": 0.7332829821689364,
+      "online_t0": 161.58378004674904,
+      "online_lot": 144,
+      "svi_kappa": 0.856652111423053,
+      "svi_tau": 306.36849136827476,
+      "svi_lot": 144,
+      "epoques": 3,
+      "sem_n_iter": 109,
+      "sem_burn": 29
+     },
+     "score": -3.0010524736451543,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.0001276656221525,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 3,
+     "config": {
+      "online_kappa": 0.5408859577999408,
+      "online_t0": 29.53711898481123,
+      "online_lot": 95,
+      "svi_kappa": 0.5721633925107215,
+      "svi_tau": 159.77798528593084,
+      "svi_lot": 95,
+      "epoques": 2,
+      "sem_n_iter": 50,
+      "sem_burn": 27
+     },
+     "score": -2.998457529275614,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -3.0206752854880037,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.0000372993094993,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -2.999118496944537,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 7,
+     "config": {
+      "online_kappa": 0.8366229301738441,
+      "online_t0": 1.9272641187700874,
+      "online_lot": 14,
+      "svi_kappa": 0.7523244719576644,
+      "svi_tau": 26.8179835309749,
+      "svi_lot": 14,
+      "epoques": 2,
+      "sem_n_iter": 172,
+      "sem_burn": 71
+     },
+     "score": -3.0060036669003707,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -2.9999508114391102,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 9,
+     "config": {
+      "online_kappa": 0.6547399501841871,
+      "online_t0": 13.134603961920718,
+      "online_lot": 107,
+      "svi_kappa": 0.6187336970558254,
+      "svi_tau": 123.81173736344834,
+      "svi_lot": 107,
+      "epoques": 3,
+      "sem_n_iter": 106,
+      "sem_burn": 80
+     },
+     "score": -3.006911183649768,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.003694010109147,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 11,
+     "config": {
+      "online_kappa": 0.7138202845412105,
+      "online_t0": 19.552389142061,
+      "online_lot": 42,
+      "svi_kappa": 0.9308342780555685,
+      "svi_tau": 14.293658388806827,
+      "svi_lot": 42,
+      "epoques": 6,
+      "sem_n_iter": 329,
+      "sem_burn": 205
+     },
+     "score": -3.0605327480906666,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -2.997530608467425,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 13,
+     "config": {
+      "online_kappa": 0.5758537770570863,
+      "online_t0": 773.6308018892054,
+      "online_lot": 73,
+      "svi_kappa": 0.6431123298519449,
+      "svi_tau": 65.09425052720876,
+      "svi_lot": 73,
+      "epoques": 1,
+      "sem_n_iter": 774,
+      "sem_burn": 684
+     },
+     "score": -3.072097767806086,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 14,
+     "config": {
+      "online_kappa": 0.5692425099207096,
+      "online_t0": 4.641293470105333,
+      "online_lot": 78,
+      "svi_kappa": 0.7065088859123363,
+      "svi_tau": 532.8814108818275,
+      "svi_lot": 78,
+      "epoques": 2,
+      "sem_n_iter": 96,
+      "sem_burn": 36
+     },
+     "score": -3.0186480098688,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 15,
+     "config": {
+      "online_kappa": 0.9488997157599695,
+      "online_t0": 329.1729635545937,
+      "online_lot": 61,
+      "svi_kappa": 0.9569302486446359,
+      "svi_tau": 10.383442104941395,
+      "svi_lot": 61,
+      "epoques": 10,
+      "sem_n_iter": 189,
+      "sem_burn": 45
+     },
+     "score": -3.0004364367032497,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.081734899532306,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.00296727364157,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -2.999506625231442,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.0056698275859284,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 20,
+     "config": {
+      "online_kappa": 0.761359668923177,
+      "online_t0": 416.7454936732005,
+      "online_lot": 22,
+      "svi_kappa": 0.701315959307915,
+      "svi_tau": 202.5052153563051,
+      "svi_lot": 22,
+      "epoques": 1,
+      "sem_n_iter": 552,
+      "sem_burn": 483
+     },
+     "score": -3.0573185282852755,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 21,
+     "config": {
+      "online_kappa": 0.7804217053997374,
+      "online_t0": 364.6469056621856,
+      "online_lot": 149,
+      "svi_kappa": 0.8323514646594421,
+      "svi_tau": 6.305205701904219,
+      "svi_lot": 149,
+      "epoques": 42,
+      "sem_n_iter": 199,
+      "sem_burn": 125
+     },
+     "score": -3.01558103883575,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 22,
+     "config": {
+      "online_kappa": 0.8619333619748912,
+      "online_t0": 181.7534334599205,
+      "online_lot": 102,
+      "svi_kappa": 0.5332906133375743,
+      "svi_tau": 13.570734022394563,
+      "svi_lot": 102,
+      "epoques": 16,
+      "sem_n_iter": 143,
+      "sem_burn": 110
+     },
+     "score": -3.0134508100813546,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.013214570553029,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.019580300567031,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -2.9962505869399663,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.0024298319344727,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 27,
+     "config": {
+      "online_kappa": 0.8751473707571864,
+      "online_t0": 17.582046502308568,
+      "online_lot": 43,
+      "svi_kappa": 0.8479470209929036,
+      "svi_tau": 403.4446542662772,
+      "svi_lot": 43,
+      "epoques": 13,
+      "sem_n_iter": 685,
+      "sem_burn": 296
+     },
+     "score": -3.001997897996426,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.0015885942437204,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.0157060468639885,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 30,
+     "config": {
+      "online_kappa": 0.863921388380391,
+      "online_t0": 91.11642685604767,
+      "online_lot": 120,
+      "svi_kappa": 0.5526875156123143,
+      "svi_tau": 1.4415330094903516,
+      "svi_lot": 120,
+      "epoques": 4,
+      "sem_n_iter": 125,
+      "sem_burn": 75
+     },
+     "score": -3.0170749328952313,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -2.996412221158916,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.1394529911825533,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -3.139296828011207,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.1407151813294334,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 3,
+     "config": {
+      "online_kappa": 0.5408859577999408,
+      "online_t0": 29.53711898481123,
+      "online_lot": 95,
+      "svi_kappa": 0.5721633925107215,
+      "svi_tau": 159.77798528593084,
+      "svi_lot": 95,
+      "epoques": 2,
+      "sem_n_iter": 50,
+      "sem_burn": 27
+     },
+     "score": -3.1402669760347424,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -3.1410357391105865,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.1412249361304343,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.1408446519355335,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.1417494098226273,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.141481889509251,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 15,
+     "config": {
+      "online_kappa": 0.9488997157599695,
+      "online_t0": 329.1729635545937,
+      "online_lot": 61,
+      "svi_kappa": 0.9569302486446359,
+      "svi_tau": 10.383442104941395,
+      "svi_lot": 61,
+      "epoques": 10,
+      "sem_n_iter": 189,
+      "sem_burn": 45
+     },
+     "score": -3.142870387009944,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 1,
+     "config": {
+      "online_kappa": 0.7332829821689364,
+      "online_t0": 161.58378004674904,
+      "online_lot": 144,
+      "svi_kappa": 0.856652111423053,
+      "svi_tau": 306.36849136827476,
+      "svi_lot": 144,
+      "epoques": 3,
+      "sem_n_iter": 109,
+      "sem_burn": 29
+     },
+     "score": -3.1429036606500516,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.145285582255912,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 27,
+     "config": {
+      "online_kappa": 0.8751473707571864,
+      "online_t0": 17.582046502308568,
+      "online_lot": 43,
+      "svi_kappa": 0.8479470209929036,
+      "svi_tau": 403.4446542662772,
+      "svi_lot": 43,
+      "epoques": 13,
+      "sem_n_iter": 685,
+      "sem_burn": 296
+     },
+     "score": -3.14359457840008,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.143452391005731,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.1440530270558824,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.1449966045792763,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -3.4378491676946488,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.437697687928878,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 3,
+     "config": {
+      "online_kappa": 0.5408859577999408,
+      "online_t0": 29.53711898481123,
+      "online_lot": 95,
+      "svi_kappa": 0.5721633925107215,
+      "svi_tau": 159.77798528593084,
+      "svi_lot": 95,
+      "epoques": 2,
+      "sem_n_iter": 50,
+      "sem_burn": 27
+     },
+     "score": -3.437916541353492,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.4375309695327525,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.437502026509163,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -3.437526951773542,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.4386514418610927,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.438905106189409,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.7197757748708282,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -3.719841237893747,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.7197896591819926,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.722632602948315,
+     "etape": 3,
+     "taches": 8
+    }
+   ],
+   "online": [
+    {
+     "indice": 0,
+     "config": {
+      "online_kappa": 0.8464452893984415,
+      "online_t0": 214.03973741127538,
+      "online_lot": 115,
+      "svi_kappa": 0.9670038828416121,
+      "svi_tau": 296.5725469011919,
+      "svi_lot": 115,
+      "epoques": 3,
+      "sem_n_iter": 854,
+      "sem_burn": 398
+     },
+     "score": -3.0518290235843724,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 1,
+     "config": {
+      "online_kappa": 0.7332829821689364,
+      "online_t0": 161.58378004674904,
+      "online_lot": 144,
+      "svi_kappa": 0.856652111423053,
+      "svi_tau": 306.36849136827476,
+      "svi_lot": 144,
+      "epoques": 3,
+      "sem_n_iter": 109,
+      "sem_burn": 29
+     },
+     "score": -3.0435416773961403,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.0141503557265077,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 3,
+     "config": {
+      "online_kappa": 0.5408859577999408,
+      "online_t0": 29.53711898481123,
+      "online_lot": 95,
+      "svi_kappa": 0.5721633925107215,
+      "svi_tau": 159.77798528593084,
+      "svi_lot": 95,
+      "epoques": 2,
+      "sem_n_iter": 50,
+      "sem_burn": 27
+     },
+     "score": -3.020581897740043,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -3.028470152688111,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.0084992970478326,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -3.0169374257438366,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 7,
+     "config": {
+      "online_kappa": 0.8366229301738441,
+      "online_t0": 1.9272641187700874,
+      "online_lot": 14,
+      "svi_kappa": 0.7523244719576644,
+      "svi_tau": 26.8179835309749,
+      "svi_lot": 14,
+      "epoques": 2,
+      "sem_n_iter": 172,
+      "sem_burn": 71
+     },
+     "score": -3.0115206756328443,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.0123640527531848,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 9,
+     "config": {
+      "online_kappa": 0.6547399501841871,
+      "online_t0": 13.134603961920718,
+      "online_lot": 107,
+      "svi_kappa": 0.6187336970558254,
+      "svi_tau": 123.81173736344834,
+      "svi_lot": 107,
+      "epoques": 3,
+      "sem_n_iter": 106,
+      "sem_burn": 80
+     },
+     "score": -3.024835198492193,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.0261856003906877,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 11,
+     "config": {
+      "online_kappa": 0.7138202845412105,
+      "online_t0": 19.552389142061,
+      "online_lot": 42,
+      "svi_kappa": 0.9308342780555685,
+      "svi_tau": 14.293658388806827,
+      "svi_lot": 42,
+      "epoques": 6,
+      "sem_n_iter": 329,
+      "sem_burn": 205
+     },
+     "score": -3.01651613959083,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.0112804024548248,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 13,
+     "config": {
+      "online_kappa": 0.5758537770570863,
+      "online_t0": 773.6308018892054,
+      "online_lot": 73,
+      "svi_kappa": 0.6431123298519449,
+      "svi_tau": 65.09425052720876,
+      "svi_lot": 73,
+      "epoques": 1,
+      "sem_n_iter": 774,
+      "sem_burn": 684
+     },
+     "score": -3.051499859137177,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 14,
+     "config": {
+      "online_kappa": 0.5692425099207096,
+      "online_t0": 4.641293470105333,
+      "online_lot": 78,
+      "svi_kappa": 0.7065088859123363,
+      "svi_tau": 532.8814108818275,
+      "svi_lot": 78,
+      "epoques": 2,
+      "sem_n_iter": 96,
+      "sem_burn": 36
+     },
+     "score": -3.0152245845651047,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 15,
+     "config": {
+      "online_kappa": 0.9488997157599695,
+      "online_t0": 329.1729635545937,
+      "online_lot": 61,
+      "svi_kappa": 0.9569302486446359,
+      "svi_tau": 10.383442104941395,
+      "svi_lot": 61,
+      "epoques": 10,
+      "sem_n_iter": 189,
+      "sem_burn": 45
+     },
+     "score": -3.0481402844506444,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.0126115196426744,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.009188127916235,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.0066396986913255,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.0088759958456004,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 20,
+     "config": {
+      "online_kappa": 0.761359668923177,
+      "online_t0": 416.7454936732005,
+      "online_lot": 22,
+      "svi_kappa": 0.701315959307915,
+      "svi_tau": 202.5052153563051,
+      "svi_lot": 22,
+      "epoques": 1,
+      "sem_n_iter": 552,
+      "sem_burn": 483
+     },
+     "score": -3.049884997857005,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 21,
+     "config": {
+      "online_kappa": 0.7804217053997374,
+      "online_t0": 364.6469056621856,
+      "online_lot": 149,
+      "svi_kappa": 0.8323514646594421,
+      "svi_tau": 6.305205701904219,
+      "svi_lot": 149,
+      "epoques": 42,
+      "sem_n_iter": 199,
+      "sem_burn": 125
+     },
+     "score": -3.0241337784495586,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 22,
+     "config": {
+      "online_kappa": 0.8619333619748912,
+      "online_t0": 181.7534334599205,
+      "online_lot": 102,
+      "svi_kappa": 0.5332906133375743,
+      "svi_tau": 13.570734022394563,
+      "svi_lot": 102,
+      "epoques": 16,
+      "sem_n_iter": 143,
+      "sem_burn": 110
+     },
+     "score": -3.039089108892921,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.0087350412350213,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.0103162020363743,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.004668974448693,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.0100921972648846,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 27,
+     "config": {
+      "online_kappa": 0.8751473707571864,
+      "online_t0": 17.582046502308568,
+      "online_lot": 43,
+      "svi_kappa": 0.8479470209929036,
+      "svi_tau": 403.4446542662772,
+      "svi_lot": 43,
+      "epoques": 13,
+      "sem_n_iter": 685,
+      "sem_burn": 296
+     },
+     "score": -3.0157404519993216,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.0092084032890316,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.0082974450682953,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 30,
+     "config": {
+      "online_kappa": 0.863921388380391,
+      "online_t0": 91.11642685604767,
+      "online_lot": 120,
+      "svi_kappa": 0.5526875156123143,
+      "svi_tau": 1.4415330094903516,
+      "svi_lot": 120,
+      "epoques": 4,
+      "sem_n_iter": 125,
+      "sem_burn": 75
+     },
+     "score": -3.046592103892863,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -3.012648782124053,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.1440856716429453,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.143854244707046,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.146044314112106,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.146070376237501,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.147813100232146,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.1462643181959544,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.1467765077182994,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.147374964471082,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.1473050472186954,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.1465819940428097,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.1463007937847287,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 7,
+     "config": {
+      "online_kappa": 0.8366229301738441,
+      "online_t0": 1.9272641187700874,
+      "online_lot": 14,
+      "svi_kappa": 0.7523244719576644,
+      "svi_tau": 26.8179835309749,
+      "svi_lot": 14,
+      "epoques": 2,
+      "sem_n_iter": 172,
+      "sem_burn": 71
+     },
+     "score": -3.146584385513265,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.14751291382456,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.1464001564019806,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -3.1490905289552997,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.1474231871062286,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.439446597634229,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.4399852799994335,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.439913661815254,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.4400066228272332,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.4399548227231884,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.4385939760186552,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.4382345929344806,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.439653620943833,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.726269533615301,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.72457950098923,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.7236063722761172,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.7240451299925663,
+     "etape": 3,
+     "taches": 8
+    }
+   ],
+   "svi": [
+    {
+     "indice": 0,
+     "config": {
+      "online_kappa": 0.8464452893984415,
+      "online_t0": 214.03973741127538,
+      "online_lot": 115,
+      "svi_kappa": 0.9670038828416121,
+      "svi_tau": 296.5725469011919,
+      "svi_lot": 115,
+      "epoques": 3,
+      "sem_n_iter": 854,
+      "sem_burn": 398
+     },
+     "score": -7.06933928696782,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 1,
+     "config": {
+      "online_kappa": 0.7332829821689364,
+      "online_t0": 161.58378004674904,
+      "online_lot": 144,
+      "svi_kappa": 0.856652111423053,
+      "svi_tau": 306.36849136827476,
+      "svi_lot": 144,
+      "epoques": 3,
+      "sem_n_iter": 109,
+      "sem_burn": 29
+     },
+     "score": -5.822560813344975,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 2,
+     "config": {
+      "online_kappa": 0.9086027564431858,
+      "online_t0": 6.064899847432657,
+      "online_lot": 67,
+      "svi_kappa": 0.9866544315306989,
+      "svi_tau": 35.16182644955432,
+      "svi_lot": 67,
+      "epoques": 18,
+      "sem_n_iter": 65,
+      "sem_burn": 9
+     },
+     "score": -3.1070820099450014,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 3,
+     "config": {
+      "online_kappa": 0.5408859577999408,
+      "online_t0": 29.53711898481123,
+      "online_lot": 95,
+      "svi_kappa": 0.5721633925107215,
+      "svi_tau": 159.77798528593084,
+      "svi_lot": 95,
+      "epoques": 2,
+      "sem_n_iter": 50,
+      "sem_burn": 27
+     },
+     "score": -3.613594512612577,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -2.9984855382130906,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.002722173920001,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 6,
+     "config": {
+      "online_kappa": 0.6612071969027274,
+      "online_t0": 4.275534416161814,
+      "online_lot": 39,
+      "svi_kappa": 0.7620039496721385,
+      "svi_tau": 142.0152413469189,
+      "svi_lot": 39,
+      "epoques": 1,
+      "sem_n_iter": 429,
+      "sem_burn": 153
+     },
+     "score": -4.289463364507025,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 7,
+     "config": {
+      "online_kappa": 0.8366229301738441,
+      "online_t0": 1.9272641187700874,
+      "online_lot": 14,
+      "svi_kappa": 0.7523244719576644,
+      "svi_tau": 26.8179835309749,
+      "svi_lot": 14,
+      "epoques": 2,
+      "sem_n_iter": 172,
+      "sem_burn": 71
+     },
+     "score": -3.018788018305221,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -2.999814419672383,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 9,
+     "config": {
+      "online_kappa": 0.6547399501841871,
+      "online_t0": 13.134603961920718,
+      "online_lot": 107,
+      "svi_kappa": 0.6187336970558254,
+      "svi_tau": 123.81173736344834,
+      "svi_lot": 107,
+      "epoques": 3,
+      "sem_n_iter": 106,
+      "sem_burn": 80
+     },
+     "score": -3.5635062736270635,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -2.9971647216522523,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 11,
+     "config": {
+      "online_kappa": 0.7138202845412105,
+      "online_t0": 19.552389142061,
+      "online_lot": 42,
+      "svi_kappa": 0.9308342780555685,
+      "svi_tau": 14.293658388806827,
+      "svi_lot": 42,
+      "epoques": 6,
+      "sem_n_iter": 329,
+      "sem_burn": 205
+     },
+     "score": -3.0491881622160193,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.0105408825064086,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 13,
+     "config": {
+      "online_kappa": 0.5758537770570863,
+      "online_t0": 773.6308018892054,
+      "online_lot": 73,
+      "svi_kappa": 0.6431123298519449,
+      "svi_tau": 65.09425052720876,
+      "svi_lot": 73,
+      "epoques": 1,
+      "sem_n_iter": 774,
+      "sem_burn": 684
+     },
+     "score": -3.784617821492728,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 14,
+     "config": {
+      "online_kappa": 0.5692425099207096,
+      "online_t0": 4.641293470105333,
+      "online_lot": 78,
+      "svi_kappa": 0.7065088859123363,
+      "svi_tau": 532.8814108818275,
+      "svi_lot": 78,
+      "epoques": 2,
+      "sem_n_iter": 96,
+      "sem_burn": 36
+     },
+     "score": -5.007494830032056,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 15,
+     "config": {
+      "online_kappa": 0.9488997157599695,
+      "online_t0": 329.1729635545937,
+      "online_lot": 61,
+      "svi_kappa": 0.9569302486446359,
+      "svi_tau": 10.383442104941395,
+      "svi_lot": 61,
+      "epoques": 10,
+      "sem_n_iter": 189,
+      "sem_burn": 45
+     },
+     "score": -3.039451903015092,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 16,
+     "config": {
+      "online_kappa": 0.9360090050415271,
+      "online_t0": 1.2168814419310272,
+      "online_lot": 21,
+      "svi_kappa": 0.9584960945606706,
+      "svi_tau": 43.13348548628915,
+      "svi_lot": 21,
+      "epoques": 2,
+      "sem_n_iter": 815,
+      "sem_burn": 729
+     },
+     "score": -3.389250752877567,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.004644989467052,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.007293287882025,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.005605419636516,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 20,
+     "config": {
+      "online_kappa": 0.761359668923177,
+      "online_t0": 416.7454936732005,
+      "online_lot": 22,
+      "svi_kappa": 0.701315959307915,
+      "svi_tau": 202.5052153563051,
+      "svi_lot": 22,
+      "epoques": 1,
+      "sem_n_iter": 552,
+      "sem_burn": 483
+     },
+     "score": -3.7517204258747507,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 21,
+     "config": {
+      "online_kappa": 0.7804217053997374,
+      "online_t0": 364.6469056621856,
+      "online_lot": 149,
+      "svi_kappa": 0.8323514646594421,
+      "svi_tau": 6.305205701904219,
+      "svi_lot": 149,
+      "epoques": 42,
+      "sem_n_iter": 199,
+      "sem_burn": 125
+     },
+     "score": -3.0071151766627304,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 22,
+     "config": {
+      "online_kappa": 0.8619333619748912,
+      "online_t0": 181.7534334599205,
+      "online_lot": 102,
+      "svi_kappa": 0.5332906133375743,
+      "svi_tau": 13.570734022394563,
+      "svi_lot": 102,
+      "epoques": 16,
+      "sem_n_iter": 143,
+      "sem_burn": 110
+     },
+     "score": -3.00417932853524,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.0005939103420642,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 24,
+     "config": {
+      "online_kappa": 0.6869947106509198,
+      "online_t0": 1.2803428680669815,
+      "online_lot": 76,
+      "svi_kappa": 0.8013766627378307,
+      "svi_tau": 4.460732416125094,
+      "svi_lot": 76,
+      "epoques": 10,
+      "sem_n_iter": 138,
+      "sem_burn": 81
+     },
+     "score": -3.0115216729901055,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -2.996999930920632,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.0040658576406805,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 27,
+     "config": {
+      "online_kappa": 0.8751473707571864,
+      "online_t0": 17.582046502308568,
+      "online_lot": 43,
+      "svi_kappa": 0.8479470209929036,
+      "svi_tau": 403.4446542662772,
+      "svi_lot": 43,
+      "epoques": 13,
+      "sem_n_iter": 685,
+      "sem_burn": 296
+     },
+     "score": -3.5027842868367185,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -2.9973343502950383,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.006060549485739,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 30,
+     "config": {
+      "online_kappa": 0.863921388380391,
+      "online_t0": 91.11642685604767,
+      "online_lot": 120,
+      "svi_kappa": 0.5526875156123143,
+      "svi_tau": 1.4415330094903516,
+      "svi_lot": 120,
+      "epoques": 4,
+      "sem_n_iter": 125,
+      "sem_burn": 75
+     },
+     "score": -3.0078073638988614,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 31,
+     "config": {
+      "online_kappa": 0.6937824143854543,
+      "online_t0": 2.53014647499789,
+      "online_lot": 44,
+      "svi_kappa": 0.843870535275918,
+      "svi_tau": 515.2877707969471,
+      "svi_lot": 44,
+      "epoques": 2,
+      "sem_n_iter": 54,
+      "sem_burn": 6
+     },
+     "score": -5.455468820000458,
+     "etape": 0,
+     "taches": 1
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.1425969757201964,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.1431869682605056,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.1441483434419073,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -3.1421988446574396,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.14246566696106,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.144760432211045,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.1453655999605368,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 26,
+     "config": {
+      "online_kappa": 0.6019053377648612,
+      "online_t0": 251.59407688580689,
+      "online_lot": 147,
+      "svi_kappa": 0.6144018380054904,
+      "svi_tau": 9.691535516755762,
+      "svi_lot": 147,
+      "epoques": 33,
+      "sem_n_iter": 653,
+      "sem_burn": 300
+     },
+     "score": -3.15428155397434,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 22,
+     "config": {
+      "online_kappa": 0.8619333619748912,
+      "online_t0": 181.7534334599205,
+      "online_lot": 102,
+      "svi_kappa": 0.5332906133375743,
+      "svi_tau": 13.570734022394563,
+      "svi_lot": 102,
+      "epoques": 16,
+      "sem_n_iter": 143,
+      "sem_burn": 110
+     },
+     "score": -3.146779438815036,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.1466027917553614,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 19,
+     "config": {
+      "online_kappa": 0.7658964073249817,
+      "online_t0": 3.4882294288106706,
+      "online_lot": 64,
+      "svi_kappa": 0.7829608377521677,
+      "svi_tau": 8.669288588321193,
+      "svi_lot": 64,
+      "epoques": 32,
+      "sem_n_iter": 287,
+      "sem_burn": 120
+     },
+     "score": -3.146668881720502,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 29,
+     "config": {
+      "online_kappa": 0.7613154923849277,
+      "online_t0": 5.307304424505677,
+      "online_lot": 20,
+      "svi_kappa": 0.8453579207264872,
+      "svi_tau": 1.7846824941326005,
+      "svi_lot": 20,
+      "epoques": 26,
+      "sem_n_iter": 68,
+      "sem_burn": 40
+     },
+     "score": -3.152112202373443,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 21,
+     "config": {
+      "online_kappa": 0.7804217053997374,
+      "online_t0": 364.6469056621856,
+      "online_lot": 149,
+      "svi_kappa": 0.8323514646594421,
+      "svi_tau": 6.305205701904219,
+      "svi_lot": 149,
+      "epoques": 42,
+      "sem_n_iter": 199,
+      "sem_burn": 125
+     },
+     "score": -3.160471854191089,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 18,
+     "config": {
+      "online_kappa": 0.6051095100572063,
+      "online_t0": 44.66819299981002,
+      "online_lot": 14,
+      "svi_kappa": 0.5153329928632046,
+      "svi_tau": 5.894543251326619,
+      "svi_lot": 14,
+      "epoques": 4,
+      "sem_n_iter": 76,
+      "sem_burn": 7
+     },
+     "score": -3.1490103666345046,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 30,
+     "config": {
+      "online_kappa": 0.863921388380391,
+      "online_t0": 91.11642685604767,
+      "online_lot": 120,
+      "svi_kappa": 0.5526875156123143,
+      "svi_tau": 1.4415330094903516,
+      "svi_lot": 120,
+      "epoques": 4,
+      "sem_n_iter": 125,
+      "sem_burn": 75
+     },
+     "score": -3.1515297114830356,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 12,
+     "config": {
+      "online_kappa": 0.9101259913208282,
+      "online_t0": 1.0228538057135705,
+      "online_lot": 28,
+      "svi_kappa": 0.5860670866655351,
+      "svi_tau": 100.86938083629316,
+      "svi_lot": 28,
+      "epoques": 6,
+      "sem_n_iter": 565,
+      "sem_burn": 97
+     },
+     "score": -3.149453868070827,
+     "etape": 1,
+     "taches": 2
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -3.444989571033577,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 8,
+     "config": {
+      "online_kappa": 0.5851750441692527,
+      "online_t0": 2.9532493252610656,
+      "online_lot": 93,
+      "svi_kappa": 0.7606489135009592,
+      "svi_tau": 19.048852783702223,
+      "svi_lot": 93,
+      "epoques": 16,
+      "sem_n_iter": 51,
+      "sem_burn": 43
+     },
+     "score": -3.4482233850695283,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 25,
+     "config": {
+      "online_kappa": 0.5278117365557052,
+      "online_t0": 2.2926650004723044,
+      "online_lot": 20,
+      "svi_kappa": 0.9365690636603218,
+      "svi_tau": 22.24939842702465,
+      "svi_lot": 20,
+      "epoques": 29,
+      "sem_n_iter": 51,
+      "sem_burn": 2
+     },
+     "score": -3.4520639923548755,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.4467750436788354,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.4468915015599686,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 23,
+     "config": {
+      "online_kappa": 0.6408485309815706,
+      "online_t0": 58.54800928357562,
+      "online_lot": 27,
+      "svi_kappa": 0.8661292179306732,
+      "svi_tau": 55.75184573958387,
+      "svi_lot": 27,
+      "epoques": 23,
+      "sem_n_iter": 312,
+      "sem_burn": 123
+     },
+     "score": -3.4498504678060034,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.442176084656586,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 17,
+     "config": {
+      "online_kappa": 0.573883268678096,
+      "online_t0": 5.603708659156748,
+      "online_lot": 30,
+      "svi_kappa": 0.6823320825842272,
+      "svi_tau": 189.838268772792,
+      "svi_lot": 30,
+      "epoques": 13,
+      "sem_n_iter": 182,
+      "sem_burn": 28
+     },
+     "score": -3.4527473926722902,
+     "etape": 2,
+     "taches": 4
+    },
+    {
+     "indice": 5,
+     "config": {
+      "online_kappa": 0.7767126668782719,
+      "online_t0": 6.374454955946008,
+      "online_lot": 31,
+      "svi_kappa": 0.561667878628921,
+      "svi_tau": 16.012402441175727,
+      "svi_lot": 31,
+      "epoques": 49,
+      "sem_n_iter": 285,
+      "sem_burn": 188
+     },
+     "score": -3.738937468930526,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 4,
+     "config": {
+      "online_kappa": 0.5804523013324627,
+      "online_t0": 389.69318820112653,
+      "online_lot": 81,
+      "svi_kappa": 0.5547296709533989,
+      "svi_tau": 24.09461332451938,
+      "svi_lot": 81,
+      "epoques": 9,
+      "sem_n_iter": 905,
+      "sem_burn": 664
+     },
+     "score": -3.7662995873832856,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 10,
+     "config": {
+      "online_kappa": 0.7849571220258116,
+      "online_t0": 471.24757432856046,
+      "online_lot": 12,
+      "svi_kappa": 0.7934580584995684,
+      "svi_tau": 42.88275781839553,
+      "svi_lot": 12,
+      "epoques": 7,
+      "sem_n_iter": 84,
+      "sem_burn": 57
+     },
+     "score": -3.7766906079891975,
+     "etape": 3,
+     "taches": 8
+    },
+    {
+     "indice": 28,
+     "config": {
+      "online_kappa": 0.5087996260803399,
+      "online_t0": 547.8533428611477,
+      "online_lot": 69,
+      "svi_kappa": 0.6788726306318333,
+      "svi_tau": 98.20568343161719,
+      "svi_lot": 69,
+      "epoques": 30,
+      "sem_n_iter": 565,
+      "sem_burn": 361
+     },
+     "score": -3.7649127635928648,
+     "etape": 3,
+     "taches": 8
+    }
+   ]
+  }
+ },
+ "date": "2026-11-05T06:43:52"
+}

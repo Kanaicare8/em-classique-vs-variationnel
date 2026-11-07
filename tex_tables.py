@@ -75,7 +75,7 @@ def lire(nom, rapide):
 
 def ecrire(nom, entetes, lignes, legende, label, note=None, taille="scriptsize", largeurs=None):
     OUT.mkdir(exist_ok=True)
-    pc = lambda t: re.sub(r"(?<!\\)%", r"\\%", str(t))
+    pc = lambda t: re.sub(r"(?<!\\)%", r"\\%", str(t)).replace("K̂", r"$\hat K$").replace("N_k", r"$N_k$").replace("K_ref", r"$K_{\mathrm{ref}}$")   # hors mode mathématique
     n = len(entetes)
     largeurs = largeurs or [15.3 / n] * n
     cols = "".join(rf">{{\raggedright\arraybackslash}}p{{{w:.2f}cm}}" for w in largeurs)
@@ -188,7 +188,7 @@ def specifications(rapide):
       [("bras", "Bras", "t"), ("k_hat", "K̂", "i"), ("poids_actifs", "Poids actifs", "l"), ("ll_apprentissage", "LL appr.", "n"),
        ("ll_test", "LL test", "n"), ("ll_test_predictive", "LL prédictive", "n")],
       note="Les temps ne sont pas rapportés ici : les ajustements d'EM-BIC partagent ceux des autres bras, de sorte que leur "
-           "temps serait sous-estimé ; le coût est mesuré à part (tableau cout_selection, HP4).")
+           "temps serait sous-estimé ; le coût est mesuré à part (tableau~\\ref{tab:cout_selection}, HP4).")
     T("prix_dm", "prix_diebold_mariano", "Comparaisons de prévision : Diebold-Mariano sur le log-score moyenné par mois (Holm)",
       [("id", "Id", "t"), ("A", "A", "t"), ("B", "B", "t"), ("ecart_logscore_moyen", "Écart moyen", "n4"), ("n_mois", "Mois", "i"),
        ("DM", "DM", "n2"), ("p_holm", "p (Holm)", "n4"), ("decision", "Décision", "t")])
@@ -211,7 +211,7 @@ def registre():
     lignes = []
     for r in PARAM.tableau():
         v = r["valeur"]
-        lignes.append([esc(r["nom"]), esc(v if not isinstance(v, float) else num(v, 6)), esc(r["statut"]),
+        lignes.append([esc(r["nom"]), (num(v, 6) if isinstance(v, float) else esc(v)), esc(r["statut"]),
                        esc(r["justification"]), esc(r["references"]), esc(r["calibrage"])])
     ecrire("registre_parametres", ["Paramètre", "Valeur", "Statut", "Justification", "Références", "Calibrage"], lignes,
            "Registre des paramètres", "tab:registre_parametres", taille="tiny")
@@ -353,6 +353,9 @@ def _verdict(attendu, decision):
         return "conforme" if d == "< 90 %" else ("contraire" if d == ">= 90 %" else "non tranché")
     if attendu == "compatible avec 90 %":
         return "conforme" if d in ("compatible avec 90 %", ">= 90 %") else "contraire"
+    if " < " in attendu or " > " in attendu:            # comparaison orientée nommée, ex. « VB < EM-BIC » (HP6-diff)
+        oppose = attendu.replace(" < ", " # ").replace(" > ", " < ").replace(" # ", " > ")
+        return "conforme" if d == attendu else ("contraire" if d == oppose else "non tranché")
     return "non tranché"
 
 

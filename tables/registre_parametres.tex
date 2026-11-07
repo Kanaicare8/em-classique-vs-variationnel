@@ -12,7 +12,7 @@
 \endhead
 \bottomrule
 \endfoot
-tol\_rel & $1{,}00 \textbackslash{}times 10\^{}{-8}$ & benchmark & Plus grande tolérance relative de la grille 1e-3 à 1e-9 pour laquelle au moins 99 \% des ajustements pilotes s'accordent avec une référence à 1e-10 (même graine) sur le critère final : écart par observation < 5e-4 (précision d'affichage). L'accord des partitions (ARI >= 0,99) est rapporté sans décider (D-15) ; si aucune valeur ne remplit la règle, le calibrage s'arrête. &  & tolerance \\
+tol\_rel & $1{,}00 \times 10^{-8}$ & benchmark & Plus grande tolérance relative de la grille 1e-3 à 1e-9 pour laquelle au moins 99 \% des ajustements pilotes s'accordent avec une référence à 1e-10 (même graine) sur le critère final : écart par observation < 5e-4 (précision d'affichage). L'accord des partitions (ARI >= 0,99) est rapporté sans décider (D-15) ; si aucune valeur ne remplit la règle, le calibrage s'arrête. &  & tolerance \\
 n\_iter\_max & 1800 & benchmark & Plafond d'étapes M tel que, avec tol\_rel calibrée, moins de 1 \% des ajustements du pilote l'atteignent ; les ajustements plafonnés sont marqués non convergés. &  & tolerance \\
 reg\_covariance & 0,100000 & recherche & Régularisation + reg I des covariances (EM, MAP-EM). Choisie sur la grille 0, 1e-10 à 1e-1 (logarithmique), 0,3 et 1 (D-15), une valeur au bord étant signalée, en maximisant la log-vraisemblance moyenne hors échantillon (validation croisée sur les jeux d'apprentissage). &  & regularisation \\
 kmeans\_n\_iter\_max & 100 & benchmark & Plafond des itérations de Lloyd pour l'initialisation : la part des initialisations qui l'atteignent est mesurée sur les jeux du protocole ; le plafond est relevé (par pas de 100) tant qu'elle dépasse 1 \%. &  & kmeans \\

@@ -113,3 +113,15 @@ si une version plus précise que (iii) est voulue (article non téléchargeable 
 | Chap. 1, dégénérescence (l. 865) | même correction | idem |
 | Chap. 3, données Iris (l. 996) | limite : ε absolu unique, plus grand que certaines variances d'Iris (valeurs calculées sur le fichier) | D-16, A-16 |
 | Chap. 4, validation (l. 1327) | propriétés vérifiées sur l'EM sans régularisation, échecs comptés à part, renvoi au tableau | D-16, A-14 |
+
+## 2026-11-07 : résultats E-02 (D-18)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Pages liminaires | résumé, abstract, liste des abréviations (`liminaires.tex`) | canevas de l'école |
+| Chap. 3, tests | sens d'une différence : moyenne quand Hodges-Lehmann est nul | règle du code non écrite |
+| Chap. 4, illustrations | 13 cadres remplis depuis les tableaux `ill_*`, `S8_alpha0`, `S9_variance`, `S10_seuil`, `validation_proprietes` ; affirmations périmées corrigées (20 initialisations, K de 1 à 6, 110 graines, vingt répétitions, grille de alpha0, ARI de l'EM à K = 6, composantes de l'EM sous le seuil, N = 2001, plafond atteint par le VB à grand N) | résultats E-02 |
+| Chap. 4, scénarios, prix, texte | paragraphes de synthèse | résultats E-02 |
+| Chap. 4, analyse | mise en relation avec la littérature (RH2, RH3, RH1/RH4, RH5, HT1), limites des résultats (6 points), perspectives | canevas, résultats |
+| Chap. 4, synthèse ; conclusion | bilan chiffré (63 décisions) ; section « Réponses aux hypothèses de recherche » | résultats E-02 |
+| Tableaux générés | verdict de HP6-diff corrigé (conforme) ; caractères Unicode | D-18 |

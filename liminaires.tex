@@ -1,0 +1,44 @@
+% Pages liminaires exigées par le canevas de l'école : résumé (FR et EN) et abréviations.
+% Chiffres repris des tableaux générés (tables/bilan_recherche, prix_decisions, cout_selection, S9_variance).
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+Ce mémoire compare l'algorithme EM classique et l'EM variationnel (VB en champ moyen) pour les modèles de mélange, avec deux références : l'EM dont le nombre de composantes est choisi par le BIC (EM-BIC) et un MAP-EM qui porte les mêmes priors que le VB. Les deux algorithmes sont implémentés en PyTorch à partir des mêmes équations et du même critère d'arrêt, avec des paramètres fixés par un calibrage écrit à l'avance. Cinq hypothèses de recherche sont mises à l'épreuve par 63 tests déclarés avant l'exécution (équivalence ou différence, correction de Holm par famille), sur dix scénarios synthétiques répliqués, sur un cas réel, l'alerte sur les prix des denrées de base au Cameroun (données du PAM, 2021-2026), et sur une comparaison pLSA contre LDA. Aucune supériorité générale n'est démontrée. Le VB et l'EM-BIC sont équivalents quand les groupes sont séparés ou contaminés par des aberrations ; le VB fait mieux quand les groupes se chevauchent ou que la dimension croît, mais moins bien sur les prix, où aucune méthode ne prévoit mieux qu'une loi gaussienne. Le nombre de composantes du VB dépend surtout de la concentration du prior de Dirichlet (69 \% de la variance). Ses intervalles de crédibilité couvrent 22 \% et 64 \% des valeurs vraies pour un niveau nominal de 90 \%. Le VB produit moins d'ajustements dégénérés que l'EM, comme le MAP-EM, ce qui attribue cet effet aux priors. Enfin, le pipeline EM-BIC coûte 2,6 à 5 fois le temps d'un VB. Le VB ne bat donc pas l'EM : il déplace la sélection du nombre de composantes vers ses hyperparamètres.
+
+\medskip
+\noindent\textbf{Mots-clés :} algorithme EM, inférence variationnelle, modèles de mélange, sélection de modèle, tests d'équivalence, prix alimentaires.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+This thesis compares the classical EM algorithm and variational EM (mean-field variational Bayes, VB) for mixture models, against two baselines: EM with the number of components chosen by BIC (EM-BIC) and a MAP-EM carrying the same priors as VB. Both algorithms are implemented in PyTorch from the same equations and the same stopping rule, with parameters set by a calibration written in advance. Five research hypotheses are tested through 63 tests declared before execution (equivalence or difference, Holm correction within each family) on ten replicated synthetic scenarios, on a real case, early warning on staple food prices in Cameroon (WFP data, 2021-2026), and on a pLSA versus LDA comparison. No general superiority is shown. VB and EM-BIC are equivalent when clusters are well separated or contaminated by outliers; VB does better when clusters overlap or dimension grows, but worse on food prices, where no method forecasts better than a single Gaussian. The number of components kept by VB depends mostly on the Dirichlet concentration (69\,\% of the variance). Its credible intervals cover 22\,\% and 64\,\% of the true values at a nominal 90\,\% level. VB yields fewer degenerate fits than EM, as does MAP-EM, which attributes the effect to the priors. Finally, the EM-BIC pipeline takes 2.6 to 5 times the time of one VB fit. VB therefore does not beat EM: it moves the choice of the number of components to its hyperparameters.
+
+\medskip
+\noindent\textbf{Keywords:} EM algorithm, variational inference, mixture models, model selection, equivalence testing, food prices.
+
+\chapter*{Liste des abréviations}
+\addcontentsline{toc}{chapter}{Liste des abréviations}
+\begin{tabular}{@{}ll@{}}
+AIC & critère d'information d'Akaike \\
+ARI & indice de Rand ajusté \\
+BIC & critère d'information bayésien \\
+DM & test de Diebold et Mariano \\
+ELBO & borne inférieure de l'évidence (\emph{evidence lower bound}) \\
+EM & espérance-maximisation (\emph{expectation-maximization}) \\
+EM-BIC & EM dont le nombre de composantes est choisi par le BIC \\
+EM-ICL & EM dont le nombre de composantes est choisi par l'ICL \\
+FEWS NET & réseau des systèmes d'alerte précoce contre la famine \\
+GMM & modèle de mélange gaussien \\
+IC & intervalle de confiance \\
+ICL & critère de vraisemblance complétée intégrée \\
+KL & divergence de Kullback-Leibler \\
+LDA & allocation de Dirichlet latente \\
+MAP & maximum a posteriori \\
+MCMC & méthodes de Monte-Carlo par chaînes de Markov \\
+NPMI & information mutuelle ponctuelle normalisée \\
+PAM & Programme alimentaire mondial \\
+pLSA & analyse sémantique latente probabiliste \\
+SEM & EM stochastique \\
+SVI & inférence variationnelle stochastique \\
+TOST & procédure des deux tests unilatéraux (\emph{two one-sided tests}) \\
+VB & Bayes variationnel (EM variationnel en champ moyen) \\
+\end{tabular}

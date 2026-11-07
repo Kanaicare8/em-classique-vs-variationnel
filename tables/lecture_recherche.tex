@@ -2,7 +2,7 @@
 
 \textbf{RH2 (Déplacement de la sélection de K).} Le nombre de composantes retenu par le VB dépend de ses hyperparamètres (et de Kmax) au moins autant que celui de l'EM dépend de ses propres choix (critère d'information et initialisation). Décisions conformes : HP5. Contraires : aucune. Non tranchées : HS3-K4, HS3-K5, HS3-K6, HPP5.
 
-\textbf{RH3 (Incertitude approchée).} Les intervalles de crédibilité du VB en champ moyen sont trop étroits : leur couverture est inférieure au niveau nominal, alors que le bootstrap de l'EM en est plus proche. Décisions conformes : HP6-VB-pi, HP6-VB-mu. Contraires : HP6-bootstrap EM-BIC-pi, HP6-bootstrap EM-BIC-mu, HP6-bootstrap EM-K-pi, HP6-bootstrap EM-K-mu. Non tranchées : HP6-diff-VB-EM-BIC-pi, HP6-diff-VB-EM-BIC-mu, HPP4.
+\textbf{RH3 (Incertitude approchée).} Les intervalles de crédibilité du VB en champ moyen sont trop étroits : leur couverture est inférieure au niveau nominal, alors que le bootstrap de l'EM en est plus proche. Décisions conformes : HP6-diff-VB-EM-BIC-pi, HP6-diff-VB-EM-BIC-mu, HP6-VB-pi, HP6-VB-mu. Contraires : HP6-bootstrap EM-BIC-pi, HP6-bootstrap EM-BIC-mu, HP6-bootstrap EM-K-pi, HP6-bootstrap EM-K-mu. Non tranchées : HPP4.
 
 \textbf{RH4 (Régularisation par les priors).} À petit effectif, le VB produit moins d'ajustements dégénérés que l'EM de même capacité, et cet effet est celui des priors sur les composantes : le MAP-EM, qui porte les priors Normal-Wishart du VB et un Dirichlet plat, sans loi sur les paramètres, l'obtient aussi. Décisions conformes : HS6-N30, HS6-N60, HS6-N120, HS6-N300, HS6-N1000, HP3-N120, HP7-N60, HP7-N120, HT1-N50, HT1-N200, HT1-N1000. Contraires : aucune. Non tranchées : HP3-N30, HP3-N60, HP7-N30, HPP6.
 

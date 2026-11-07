@@ -5,6 +5,17 @@
 % 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+% caractères Unicode des tableaux générés (tex_tables.py)
+\DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha}}
+\DeclareUnicodeCharacter{03B2}{\ensuremath{\beta}}
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi}}
+\DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma}}
+\DeclareUnicodeCharacter{2080}{\ensuremath{{}_0}}
+\DeclareUnicodeCharacter{2081}{\ensuremath{{}_1}}
+\DeclareUnicodeCharacter{2082}{\ensuremath{{}_2}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
 \usepackage[french,provide=*]{babel}
 \usepackage{textcomp}
 
@@ -214,6 +225,8 @@ Mémoire co-encadré par :\\[8pt]
 
 \pagenumbering{roman}
 
+\input{liminaires.tex}
+\clearpage
 
 % =======================================================================
 % SOMMAIRE, LISTES

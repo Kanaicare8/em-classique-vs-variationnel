@@ -306,3 +306,45 @@ mention.
 - **Ensuite** : la session de l'instance récupère le code (D-16 inclus), vérifie qu'aucun résultat
   `validation/proprietes` ni `illustrations/variantes` n'existe (consigne E-02), relance les tests, puis lance E-02.
 - **Suite (2026-11-06)** : commit `620852a` (branche `texte-sous-taches`) relu et fusionné dans `main` ; les quatre conditions sont remplies (commit séparé ; résultats identiques avec et sans sous-tâches sur un cas de 20 documents, pas de comparaison à N = 1 000 ; actif seulement dans l'étape texte avec `ICARE_SOUS_TRAVAILLEURS` > 1 ; unités simultanées limitées à cœurs ÷ sous-tâches). Réglage E-02 : `ICARE_SOUS_TRAVAILLEURS=2` ; 100 tests passés sur l'instance. Coût : un réajustement de la meilleure relance de plus par unité ; gain estimé (non mesuré) : 4 à 6 h au lieu de 7 à 11 h par unité à N = 1 000.
+
+## D-18 Résultats E-02 intégrés au mémoire (lot 4), 2026-11-07
+
+- **Contexte** : E-02 terminée le 2026-11-07 à 04 h 32 UTC sur `bfcc3ff` (toutes les unités des sept étapes, aucune
+  erreur non résolue, 3,91 $ pour E-02, 16,78 $ engagés au total sur 40 $) ; sorties poussées par la session de
+  l'instance sur la branche `resultats-e02` (`a35320e`, `5e6bd89`), fusionnée en avance rapide dans `main`.
+  Demande de l'étudiant : « analyse les et termine une fois mon mémoire ».
+- **Corrections de code (mise en forme, aucun résultat recalculé)** :
+  1. `tex_tables._verdict` ne reconnaissait pas l'attendu « VB < EM-BIC » de HP6-diff et classait ces deux décisions
+     « non tranché » alors qu'elles sont conformes. Corrigé (comparaisons orientées nommées) ; RH3 passe de 2 à 4
+     décisions conformes, 1 non tranchée. Seuls `bilan_recherche`, `lecture_prix`, `lecture_recherche` changent.
+  2. Caractères Unicode des tableaux générés (α, ₀, ≥, K̂...) : 149 erreurs LaTeX. `K̂` converti dans les en-têtes et
+     légendes (`ecrire`), les autres déclarés dans `main.tex` (`\DeclareUnicodeCharacter`).
+- **Constats de l'analyse** (dans les fichiers) :
+  - HT1 : moyennes des différences dominées par les probabilités nulles du pLSA (2,39e42 à N = 50) ; décision par
+    rangs, lecture par Hodges-Lehmann.
+  - Sens d'une différence : la moyenne remplace Hodges-Lehmann quand celui-ci est nul (indicatrices), règle du code
+    désormais écrite au chapitre 3.
+  - Chronométrage : le VB atteint le plafond de 1 800 étapes dans 11 répétitions sur 20 à N = 5 000 et 20 sur 20 à
+    N = 20 000 (`chronometrage_brut.csv`) : temps = borne inférieure, déclaré. Lignes « N = 2001 » : jeu de la grille
+    en D (`N_FIXE`), texte corrigé.
+  - Le texte écrit avant les résultats contenait des affirmations fausses ou périmées, corrigées : « dix
+    initialisations » (20 depuis D-15), « K de 1 à 8 » (1 à 6), « 20 graines » (110), « médianes de dix répétitions »
+    (vingt), grille de α0 (neuf valeurs), « partition de l'EM fragmentée » (ARI 0,995), « l'EM conserve par
+    construction ses six composantes » (5 et 24 exécutions sur 110 passent sous le seuil de 1 %), renvoi du coût
+    vers la bonne section.
+- **Question de la session de l'instance (chronométrage interrompu le 06/11 à 09 h 19)** : pas de nouvelle mesure.
+  Chaque répétition est mémorisée et l'étape tourne seule ; seules les répétitions en cours ont été refaites, sur
+  une instance du même type. Déclaré dans la discussion critique (limite 6).
+- **Mémoire** : les 16 cadres « À compléter » sont remplis à partir des tableaux ; synthèses ajoutées pour les
+  scénarios, le cas des prix et le texte ; mise en relation avec la littérature, limites des résultats et
+  perspectives écrites ; conclusion générale complétée (« Réponses aux hypothèses de recherche ») ; résumé, abstract
+  et liste des abréviations ajoutés (`liminaires.tex`, canevas de l'école). Détail : `CHANGEMENTS_MEMOIRE.md`.
+- **Reste à faire** : figures PNG (Chrome absent sur l'instance, les PNG de `figures/` datent du 04/11 et ne
+  correspondent pas aux résultats) ; relecture par l'étudiant ; P-24 (étiquette Git et archive).
+- **Volume (D-12)** : avec les tableaux générés, le contenu principal atteignait environ 124 pages. Déplacés en
+  annexe H (nouvelle) : moyennes par bras des scénarios S1 à S7, grille S8, `prix_resume`, `prix_ecartes`, lectures
+  détaillées décision par décision (scénarios, prix, texte) et `sensibilite_marges` ; le chapitre garde les tableaux
+  de décision et des synthèses rédigées. Résultat : introduction page 3, conclusion jusqu'à la page 114, soit 112
+  pages, à la limite. Corrections de génération au passage : en-têtes `N_k` et `K_ref`, note de `prix_complet`
+  (`ef` lu comme retour chariot), valeur de `tol_rel` du registre ; renvois `tab:1_2`, `tab:1_4`, `tab:1_5`
+  devenus `tab:t1_*`. Compilation : 0 erreur, aucune référence indéfinie, 168 pages au total.

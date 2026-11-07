@@ -31,9 +31,10 @@ Paramètres non calibrés : aucun. Chaîne terminée le 07/11 à 04:32 UTC (`E-0
 
 `run.py --figures` a échoué pour les 18 figures (fig01 à fig12, prix_marches, prix_selection, prix_alerte,
 prix_alerte_mois, prix_decisions, texte_decisions) : « Kaleido requires Google Chrome to be installed ». Chrome n'est
-pas installé sur l'instance. Les versions HTML existent (`figures/html/`, ignoré par git). Correction proposée :
-installer Chrome sur l'instance (`plotly_get_chrome`), puis relancer `python run.py --figures`. Les PNG de
-`figures/` dans la branche datent encore du 04/11.
+pas installé sur l'instance, supprimée depuis. Les unités du magasin que lisent les figures sont jointes à la branche
+(`resultats/magasin/validation`, `illustrations`, `prix/{alerte,reference,complet}.pt`) : les figures se refont sur
+n'importe quel poste avec Chrome (`plotly_get_chrome`, puis `python run.py --figures`). Procédure complète :
+`SUIVI/EXPERIENCES/E-02_RETOUR.md`. Les PNG de `figures/` dans la branche datent encore du 04/11.
 
 ## erreurs.log : analyse
 

@@ -63,6 +63,11 @@ def lire_csv(nom, rapide):
     return lignes
 
 
+def _lignes(etape, prefixe, nom_csv, rapide):
+    """Lignes d'une étape lues dans le magasin ; à défaut (magasin resté sur l'instance), dans le CSV agrégé."""
+    return E.lignes(etape, rapide, prefixe) or lire_csv(nom_csv, rapide) or []
+
+
 def _unite(etape, cle, rapide):
     r = E.magasin(etape, rapide).lire(cle)
     if r is None:
@@ -79,7 +84,7 @@ def _ellipse(mu, cov, n_sigma=2.0, n=80):
 
 # ------------------------------------------------------------------------------ chapitre 1 et illustrations
 def em_8_points(rapide):
-    L = _unite("validation", "tableau_1_2", rapide)["lignes"]
+    L = _lignes("validation", "tableau_1_2", "validation_tableau_1_2", rapide)
     fig = go.Figure(go.Scatter(x=[l["iteration"] for l in L], y=[l["loglik"] for l in L], mode="lines+markers",
                                line=dict(color=SERIES[0], width=2), marker=dict(size=9), name="log-vraisemblance",
                                hovertemplate="itération %{x}<br>log-vraisemblance %{y:.3f}<extra></extra>"))
@@ -144,7 +149,7 @@ def poids(rapide):
 
 
 def alpha0(rapide):
-    L = E.lignes("illustrations", rapide, "alpha0/")
+    L = _lignes("illustrations", "alpha0/", "illustrations_alpha0", rapide)
     if not L:
         raise LookupError("illustrations/alpha0")
     fig = go.Figure()
@@ -160,7 +165,7 @@ def alpha0(rapide):
 
 
 def bic_aic(rapide):
-    L = E.lignes("illustrations", rapide, "bic_aic")
+    L = _lignes("illustrations", "bic_aic", "illustrations_bic_aic", rapide)
     if not L:
         raise LookupError("illustrations/bic_aic")
     fig = go.Figure()
@@ -205,7 +210,7 @@ def initialisation(rapide):
 
 
 def covariance(rapide):
-    L = E.lignes("illustrations", rapide, "covariance/")
+    L = _lignes("illustrations", "covariance/", "illustrations_covariance", rapide)
     if not L:
         raise LookupError("illustrations/covariance")
     fig = go.Figure()
@@ -220,7 +225,7 @@ def covariance(rapide):
 
 
 def iris(rapide):
-    L = _unite("illustrations", "iris", rapide)["lignes"]
+    L = _lignes("illustrations", "iris", "illustrations_iris", rapide)
     fig = go.Figure()
     for i, m in enumerate(("ARI", "silhouette")):
         fig.add_bar(x=[l["modele"] for l in L], y=[l[m] for l in L], name=m, marker_color=SERIES[i],

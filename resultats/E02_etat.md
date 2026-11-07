@@ -1,7 +1,8 @@
-# E-02 : état des sorties au 07/11/2026, 04:00 UTC (partiel)
+# E-02 : état des sorties au 07/11/2026 (étapes terminées, figures PNG manquantes)
 
 Branche `resultats-e02` : sorties de l'instance AWS, sans le magasin (`resultats/magasin/`, 30 Go, ignoré par git).
-Code exécuté : `bfcc3ff`, `ICARE_SOUS_TRAVAILLEURS=8` pour les 4 dernières unités de texte (2 jusqu'au 06/11 21:24 UTC).
+Code exécuté : `bfcc3ff`, `ICARE_SOUS_TRAVAILLEURS=2`, puis 8 pour les 4 dernières unités de texte (à partir du
+06/11 21:24 UTC ; les résultats ne dépendent pas de ce réglage, `test_identique_bit_a_bit`).
 
 ## Avancement (`python run.py --statut`)
 
@@ -13,23 +14,31 @@ Code exécuté : `bfcc3ff`, `ICARE_SOUS_TRAVAILLEURS=8` pour les 4 dernières un
 | chronométrage | 14 / 14 |
 | scénarios | 13 750 / 13 750 |
 | prix | 1 653 / 1 653 |
-| texte | 50 / 51 (V=3000/N=1000/rep=002 en cours) |
+| texte | 51 / 51 |
+
+Paramètres non calibrés : aucun. Chaîne terminée le 07/11 à 04:32 UTC (`E-02 TERMINEE` dans `chaine.log`).
 
 ## Ce qui est dans la branche
 
-- `resultats/tables/*.csv` : sorties des étapes finies, écrites par le superviseur. `texte_decisions.csv` n'existe pas encore.
+- `tables/*.tex` : 49 tableaux de `tex_tables.py`, dont `decisions_scenarios`, `decisions_prix`, `decisions_texte`,
+  `sensibilite_marges`, `environnement`, `registre_parametres`.
+- `resultats/tables/*.csv` : sorties des étapes (dont les tableaux de décision).
 - `resultats/calibrage/*.json`, `resultats/environnement.json`, `resultats/environnement_historique.jsonl`,
   `resultats/statut.json`.
 - `resultats/magasin/_journal/erreurs.log.gz` (1,8 million de lignes, 0,5 Mo compressé).
 
-Pas encore produits : `tables/*.csv` et `tables/*.tex` de `run.py --tables` et `tex_tables.py`, figures de
-`run.py --figures`. Les dossiers `tables/` et `figures/` de la branche datent toujours du 04/11. La chaîne les produit
-à la fin du texte ; la branche sera mise à jour à ce moment-là.
+## Figures : non produites en PNG
+
+`run.py --figures` a échoué pour les 18 figures (fig01 à fig12, prix_marches, prix_selection, prix_alerte,
+prix_alerte_mois, prix_decisions, texte_decisions) : « Kaleido requires Google Chrome to be installed ». Chrome n'est
+pas installé sur l'instance. Les versions HTML existent (`figures/html/`, ignoré par git). Correction proposée :
+installer Chrome sur l'instance (`plotly_get_chrome`), puis relancer `python run.py --figures`. Les PNG de
+`figures/` dans la branche datent encore du 04/11.
 
 ## erreurs.log : analyse
 
 1 047 entrées, toutes `concurrent.futures.process.BrokenProcessPool`. C'est le pool de processus tué pendant une
-unité, aucune autre exception n'apparaît. Chaque groupe correspond à une interruption spot ou à une relance :
+unité, aucune autre exception n'apparaît. Chaque groupe correspond à une interruption ou à une relance :
 
 | Date (UTC) | Étape | Entrées | Cause |
 |---|---|---|---|
@@ -41,13 +50,15 @@ unité, aucune autre exception n'apparaît. Chaque groupe correspond à une inte
 | 06/11 20:09 | texte | 4 | interruption spot (relance 20:15) |
 | 06/11 21:24 | texte | 4 | arrêt voulu pour passer à 8 sous-tâches |
 
-Toutes les unités concernées ont été refaites à la relance : le statut ci-dessus les compte terminées. Aucune erreur
-non résolue (critère 2 de la fiche).
+Aucune entrée après le 06/11 21:24. Toutes les unités concernées ont été refaites : le statut les compte terminées.
+Aucune erreur non résolue (critère 2 de la fiche).
 
 **À trancher par toi :** le chronométrage a été interrompu le 06/11 à 09:19 UTC puis relancé. Faut-il refaire ses
-mesures dans une machine sans autre interruption ?
+mesures ?
 
 ## Coût et durée
 
-Départ d'E-02 : 12,87 $ (06/11 08:37 UTC). Au 07/11 02:54 UTC : 16,45 $, soit 3,58 $ engagés pour E-02 jusque-là.
-Coût total et durée finale : à la fin de la chaîne.
+- Départ d'E-02 : 06/11 08:37 UTC, 12,87 $ engagés sur l'instance.
+- Fin : 07/11 04:32 UTC, 16,78 $.
+- E-02 : 3,91 $, 19 h 55 de bout en bout (interruptions et relances comprises).
+- Budget Icare : 40 $ (D-01).

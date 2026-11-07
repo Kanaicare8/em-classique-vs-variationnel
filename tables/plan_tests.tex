@@ -50,15 +50,17 @@ HP3-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du VB diffèr
 HP3-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
 HP3-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du VB diffère de celle de l'EM à Kmax & VB-emp - EM-Kmax & degenere & Wilcoxon exact & A < B \\
 HP5 & RH2 & Sur un même sous-échantillon (N = 250), la variance de $\hat K$ du VB entre configurations de priors plausibles diffère de la variance de $\hat K$ de l'EM entre ses propres choix (BIC ou ICL, trois graines) & VB-priors - EM-choix & var\_k & Wilcoxon exact & A > B \\
-HP7-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
-HP7-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
-HP7-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du MAP-EM (mêmes priors que le VB, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP7-N30 & RH4 & N = 30 : la fréquence d'ajustements dégénérés du MAP-EM (priors Normal-Wishart du VB, Dirichlet plat, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP7-N60 & RH4 & N = 60 : la fréquence d'ajustements dégénérés du MAP-EM (priors Normal-Wishart du VB, Dirichlet plat, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
+HP7-N120 & RH4 & N = 120 : la fréquence d'ajustements dégénérés du MAP-EM (priors Normal-Wishart du VB, Dirichlet plat, sans loi sur les paramètres) diffère de celle de l'EM à Kmax & MAP-EM - EM-Kmax & degenere & Wilcoxon exact & A < B \\
 HT1-N50 & RH4 & N = 50 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
 HT1-N200 & RH4 & N = 200 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
 HT1-N1000 & RH4 & N = 1000 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA & pLSA - LDA & ecart\_relatif & Wilcoxon exact & A > B \\
 HP4* & RH5 & Rapport des temps médians pipeline EM-BIC / VB, IC bootstrap de la médiane &  &  & intervalle & ratio > 1 \\
 HP6-VB* & RH3 & Couverture à 90 \% des intervalles de crédibilité du VB, IC bootstrap par grappes &  &  & intervalle & < 90 \% \\
-HP6-bootstrap EM* & RH3 & Couverture à 90 \% du bootstrap de l'EM, IC bootstrap par grappes &  &  & intervalle & compatible avec 90 \% \\
+HP6-bootstrap EM-BIC* & RH3 & Couverture à 90 \% du bootstrap de l'EM-BIC (K choisi par le BIC sur chaque jeu), IC bootstrap par grappes &  &  & intervalle & compatible avec 90 \% \\
+HP6-bootstrap EM-K* & RH3 & Couverture à 90 \% du bootstrap de l'EM au K de référence (borne : K connu), IC bootstrap par grappes &  &  & intervalle & compatible avec 90 \% \\
+HP6-diff-VB-EM-BIC* & RH3 & Différence de couverture VB moins EM-BIC, appariée par réplication, IC bootstrap &  &  & intervalle & VB < EM-BIC \\
 HPP1 & RH1 & Log-score de test, EM-BIC contre gaussienne unique (Diebold-Mariano par mois) &  &  & Diebold-Mariano & non orienté \\
 HPP2 & RH1 & Log-score de test, VB-emp (prédictive) contre gaussienne unique &  &  & Diebold-Mariano & non orienté \\
 HPP3 & RH1 & Log-score de test, VB-emp (prédictive) contre EM-BIC &  &  & Diebold-Mariano & non orienté \\

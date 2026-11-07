@@ -1,0 +1,24 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}>{\raggedright\arraybackslash}p{3.83cm}}
+\caption{Contraintes de covariance}\label{tab:ill_covariance}\\
+\toprule
+\textbf{Covariance} & \textbf{Modèle} & \textbf{ARI} & \textbf{Actives} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Covariance} & \textbf{Modèle} & \textbf{ARI} & \textbf{Actives} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+diag & EM & 0,995 & 5 \\
+diag & VB priors empiriques & 1,000 & 3 \\
+full & EM & 0,995 & 6 \\
+full & VB priors empiriques & 1,000 & 3 \\
+spherical & EM & 0,981 & 5 \\
+spherical & VB priors empiriques & 1,000 & 3 \\
+tied & EM & 1,000 & 6 \\
+tied & VB priors empiriques & 1,000 & 3 \\
+\end{longtable}
+}

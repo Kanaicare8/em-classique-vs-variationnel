@@ -1,0 +1,21 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}>{\raggedright\arraybackslash}p{2.19cm}}
+\caption{Jeu de référence, K = Kmax}\label{tab:ill_k6}\\
+\toprule
+\textbf{Modèle} & \textbf{Actives} & \textbf{ARI} & \textbf{Silhouette} & \textbf{Itérations} & \textbf{Convergé} & \textbf{Temps (s)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Modèle} & \textbf{Actives} & \textbf{ARI} & \textbf{Silhouette} & \textbf{Itérations} & \textbf{Convergé} & \textbf{Temps (s)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+EM (init k-means) & 6 & 0,995 & 0,667 & 233 & 1 & 0,676 \\
+EM (init aléatoire) & 6 & 0,990 & 0,508 & 130 & 1 & 0,607 \\
+VB priors empiriques (init k-means) & 3 & 1,000 & 0,753 & 21 & 1 & 0,141 \\
+VB priors diffus (init k-means) & 3 & 1,000 & 0,753 & 538 & 1 & 1,534 \\
+VB priors diffus (init prior) & 3 & 1,000 & 0,753 & 487 & 1 & 1,344 \\
+\end{longtable}
+}

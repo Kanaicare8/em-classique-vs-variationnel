@@ -1,0 +1,21 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{2.55cm}}
+\caption{Variantes de l'EM et du VB}\label{tab:ill_variantes}\\
+\toprule
+\textbf{Méthode} & \textbf{log-vraisemblance} & \textbf{ARI} & \textbf{Temps (s)} & \textbf{Actives} & \textbf{Baisses} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Méthode} & \textbf{log-vraisemblance} & \textbf{ARI} & \textbf{Temps (s)} & \textbf{Actives} & \textbf{Baisses} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+EM (lot complet) & -937,89 & 1,000 & 0,243 & n/d & 4 \\
+EM stochastique (SEM) & -937,87 & 1,000 & 0,039 & n/d & 1 \\
+EM online & -937,78 & 1,000 & 0,563 & n/d & n/d \\
+VB (lot complet, Kmax=6) & n/d & 1,000 & 0,155 & 3 & n/d \\
+SVI (Kmax=6) & n/d & 1,000 & 0,499 & 3 & n/d \\
+\end{longtable}
+}

@@ -15,7 +15,7 @@
 RH1 & Absence de supériorité générale & Quand la structure est identifiable (groupes séparés, effectif suffisant), le VB et l'EM avec K choisi par BIC donnent des résultats équivalents ; quand ils diffèrent, le sens de l'écart dépend du contexte. & HS1, HS2, HS4, HS5, HS7, HP1, HP2, HPP1, HPP2, HPP3 \\
 RH2 & Déplacement de la sélection de K & Le nombre de composantes retenu par le VB dépend de ses hyperparamètres (et de Kmax) au moins autant que celui de l'EM dépend de ses propres choix (critère d'information et initialisation). & HS3, HP5, HPP5 \\
 RH3 & Incertitude approchée & Les intervalles de crédibilité du VB en champ moyen sont trop étroits : leur couverture est inférieure au niveau nominal, alors que le bootstrap de l'EM en est plus proche. & HP6, HPP4 \\
-RH4 & Régularisation par les priors & À petit effectif, le VB produit moins d'ajustements dégénérés que l'EM de même capacité, et cet effet est celui des priors : le MAP-EM, qui porte les mêmes priors sans loi sur les paramètres, l'obtient aussi. & HS6, HP3, HP7, HT1, HPP6 \\
+RH4 & Régularisation par les priors & À petit effectif, le VB produit moins d'ajustements dégénérés que l'EM de même capacité, et cet effet est celui des priors sur les composantes : le MAP-EM, qui porte les priors Normal-Wishart du VB et un Dirichlet plat, sans loi sur les paramètres, l'obtient aussi. & HS6, HP3, HP7, HT1, HPP6 \\
 RH5 & Coût & Un ajustement VB coûte plus qu'un ajustement EM, mais le pipeline EM-BIC complet (balayage de K) coûte plus qu'un ajustement VB en temps total jusqu'au modèle final. & HP4 \\
 \end{longtable}
 }

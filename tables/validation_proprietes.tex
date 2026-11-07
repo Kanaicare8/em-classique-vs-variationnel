@@ -1,0 +1,27 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{7.65cm}>{\raggedright\arraybackslash}p{7.65cm}}
+\caption{Propriétés théoriques vérifiées numériquement}\label{tab:validation_proprietes}\\
+\toprule
+\textbf{Mesure} & \textbf{Valeur} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Mesure} & \textbf{Valeur} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+densite du melange ajuste en x = 2,0 (eq. 1.10) & 0,0733 \\
+moyenne empirique du premier groupe & 1,1250 \\
+moyenne empirique du second groupe & 7,7250 \\
+p(O) forward-backward & 0,1001 \\
+graines (EM sans regularisation, reg = 0) & 20,0000 \\
+graines ou l'EM echoue (covariance non definie positive) & 0,0000 \\
+part des EM restants marques degeneres & 0,2500 \\
+baisse maximale de la log-vraisemblance (EM restants) & 0,0000 \\
+baisse maximale de l'ELBO (toutes graines) & 0,0000 \\
+ecart maximal de Neal et Hinton (EM restants) & $3{,}81 \times 10^{-6}$ \\
+part des graines avec ELBO <= log-vraisemblance maximale & 1,0000 \\
+\end{longtable}
+}

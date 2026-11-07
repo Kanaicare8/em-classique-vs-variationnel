@@ -1,0 +1,4 @@
+id,axe,enonce,test,marge,n,estimation,ic_bas,ic_haut,hodges_lehmann,p,p_holm,decision,rh,attendu
+HT1-N50,Surapprentissage,N = 50 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA,difference,,10,2.3876583298187266e+42,9.663862798622997e+36,7.086954207025394e+42,2.266189410291503e+37,0.001953125,0.005859375,A > B,RH4,A > B
+HT1-N200,Surapprentissage,N = 200 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA,difference,,10,12880.331520429383,1133.832355316875,33041.92240158399,3125.9151327179466,0.001953125,0.005859375,A > B,RH4,A > B
+HT1-N1000,Surapprentissage,N = 1000 documents : l'écart relatif de perplexité (test / apprentissage) du pLSA diffère de celui de la LDA,difference,,10,0.36931009787024927,0.02870390077280065,0.8539748178332309,0.038563752283047426,0.001953125,0.005859375,A > B,RH4,A > B

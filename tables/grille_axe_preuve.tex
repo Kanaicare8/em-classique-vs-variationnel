@@ -12,36 +12,36 @@
 \endhead
 \bottomrule
 \endfoot
-Sélection de $K$ & VB comparé à EM-BIC sur des groupes séparés & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
-Composante minoritaire & Le VB perd la composante à 5 \% à une fréquence différente de EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
-Sous-estimation de $K$ & Avec $K_{\max}=K$ choisi $<K$ vrai, le VB ne corrige pas l'erreur & \emph{non encore généré} & non testé (résultats non générés) & §2.3.16 \\
-Queues épaisses & Composantes de Student : VB comparé à EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
-Dimension & Dimension croissante $D\in\{2,5,10,20\}$ & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
-Singularités, petit $N$ & Taux d'ajustements dégénérés selon $N$ & \emph{non encore généré} & non testé (résultats non générés) & §2.3.17 \\
-Valeurs aberrantes & Proportion et amplitude variées & \emph{non encore généré} & non testé (résultats non générés) & §2.3.18 \\
-Sélection de $K$ (prix) & Erreur sur $K$ du VB et de EM-BIC (semi-synthétique) & \emph{non encore généré} & non testé (résultats non générés) & §3.1 \\
-Qualité prédictive (prix) & Log-vraisemblance de test 2024-2026, VB contre EM-BIC & \emph{non encore généré} & non testé (résultats non générés) & §3.1 \\
-Singularités, petit $N$ (prix) & VB contre EM-Kmax, $N\leq120$ & \emph{non encore généré} & non testé (résultats non générés) & §3.1 \\
-Coût de calcul & Pipeline EM-BIC contre un VB, temps total & \emph{non encore généré} & non testé (résultats non générés) & §2.3.20 \\
-Sensibilité aux priors & Variance de $\hat K$ due aux priors contre due à l'initialisation & \emph{non encore généré} & non testé (résultats non générés) & §2.3.19 \\
-Incertitude & Couverture des intervalles à 90 \% (VB et bootstrap EM) & \emph{non encore généré} & non testé (résultats non générés) & §2.3.15 \\
-Prévision (prix) & Log-score des mélanges et de la gaussienne, 2024-2026 (Diebold-Mariano par mois, Holm) & \emph{non encore généré} & non testé (résultats non générés) & §3.1 \\
-Surapprentissage (texte) & Écart test/apprentissage de pLSA contre LDA & \emph{non encore généré} & non testé (résultats non générés) & §3.2 \\
-Seuil d'élagage & Seuil de $\alpha_0$ transféré au champ moyen & \emph{non encore généré} & non testé (résultats non générés) & §1.7.4, §2.3.14 \\
-Seuil d'activité & Le nombre de composantes actives dépend du seuil & \emph{non encore généré} & non testé (résultats non générés) & §2.3.19 \\
-Dépendance à $K_{\max}$ & Résultat de l'élagage dépendant de $K_{\max}$ (Iris) & \emph{non encore généré} & non testé (résultats non générés) & §2.3.11 \\
-Initialisation & Composantes actives selon l'initialisation & \emph{non encore généré} & non testé (résultats non générés) & §2.3.9 \\
-Biais d'approximation & Variance sous-estimée par le champ moyen & référence théorique & théorème & §1.5.4 (Bishop 2006) ; couverture : HP6 \\
-Monotonie du critère & Croissance de la log-vraisemblance (EM) et de l'ELBO (VB, covariance pleine) & référence théorique & théorème & §1.6.3, §1.7.6 ; vérification numérique (validation) \\
-Convergence de l'EM pour le GMM & Le théorème de Wu (1983) ne s'applique pas tel quel (vraisemblance non bornée) & référence théorique & théorème & §1.6.3 ; régularisation $\varepsilon I$ \\
-Consistance de la sélection de $K$ & Garantie de consistance du champ moyen pour $K$ & aucune & non testé & §1.7.9 \\
-Taux de l'EM en sur-spécification & Précision $(d/n)^{1/4}$ dans le cas équilibré (Dwivedi et al., 2020) & aucune & non testé & §1.6.3.d \\
-Cible de l'EM en sous-spécification & Convergence vers la projection de Kullback-Leibler (Dwivedi et al., 2018) & aucune & non testé & §1.6.3.d \\
-Consistance des paramètres du VB & Moyenne variationnelle consistante, covariance trop petite (Wang et Titterington, cités) & aucune & non testé & §1.7.9 \\
+Sélection de $K$ & VB comparé à EM-BIC sur des groupes séparés & HS1-sep4 : équivalent ; HS1-sep5 : équivalent ; HS1-sep1 : A > B ; HS1-sep2 : A > B ; HS1-sep3 : A > B & expérience répliquée & \ref{sec:res_s1s3} \\
+Composante minoritaire & Le VB perd la composante à 5 \% à une fréquence différente de EM-BIC & HS2 : A < B & expérience répliquée & \ref{sec:res_s1s3} \\
+Sous-estimation de $K$ & Avec $K_{\max}=K$ choisi $<K$ vrai, le VB ne corrige pas l'erreur & HS3-K4 : équivalence non démontrée ; HS3-K5 : équivalence non démontrée ; HS3-K6 : équivalence non démontrée & expérience répliquée & \ref{sec:res_s1s3} \\
+Queues épaisses & Composantes de Student : VB comparé à EM-BIC & HS4 : différence non démontrée & expérience répliquée & \ref{sec:res_s4s6} \\
+Dimension & Dimension croissante $D\in\{2,5,10,20\}$ & HS5-D2 : différence non démontrée ; HS5-D5 : différence non démontrée ; HS5-D10 : A > B ; HS5-D20 : A > B & expérience répliquée & \ref{sec:res_s4s6} \\
+Singularités, petit $N$ & Taux d'ajustements dégénérés selon $N$ & HS6-N30 : A < B ; HS6-N60 : A < B ; HS6-N120 : A < B ; HS6-N300 : A < B ; HS6-N1000 : A < B & expérience répliquée & \ref{sec:res_s4s6} \\
+Valeurs aberrantes & Proportion et amplitude variées & HS7-p0.01-a5.0 : équivalent ; HS7-p0.01-a10.0 : équivalent ; HS7-p0.01-a20.0 : équivalent ; HS7-p0.05-a5.0 : équivalent ; HS7-p0.05-a10.0 : équivalent ; HS7-p0.05-a20.0 : équivalent ; HS7-p0.1-a5.0 : équivalent ; HS7-p0.1-a10.0 : équivalent ; HS7-p0.1-a20.0 : équivalent & expérience répliquée & \ref{sec:res_s7} \\
+Sélection de $K$ (prix) & Erreur sur $K$ du VB et de EM-BIC (semi-synthétique) & HP1-N30 : équivalence non démontrée ; HP1-N60 : équivalence non démontrée ; HP1-N120 : équivalence non démontrée ; HP1-N250 : équivalence non démontrée ; HP1-N500 : équivalence non démontrée & expérience répliquée & \ref{sec:res_prix} \\
+Qualité prédictive (prix) & Log-vraisemblance de test 2024-2026, VB contre EM-BIC & HP2-LL : équivalence non démontrée & expérience répliquée & \ref{sec:res_prix} \\
+Singularités, petit $N$ (prix) & VB contre EM-Kmax, $N\leq120$ & HP3-N30 : différence non démontrée ; HP3-N60 : différence non démontrée ; HP3-N120 : A < B & expérience répliquée & \ref{sec:res_prix} \\
+Coût de calcul & Pipeline EM-BIC contre un VB, temps total & HP4-N30 : non tranché ; HP4-N60 : ratio > 1 ; HP4-N120 : ratio > 1 ; HP4-N250 : ratio > 1 ; HP4-N500 : ratio > 1 & expérience répliquée & \ref{sec:res_cout} \\
+Sensibilité aux priors & Variance de $\hat K$ due aux priors contre due à l'initialisation & HP5 : A > B & expérience répliquée (descriptive) & \ref{sec:res_prix} \\
+Incertitude & Couverture des intervalles à 90 \% (VB, bootstrap EM-BIC et EM-K) & HP6-diff-VB-EM-BIC-pi : VB < EM-BIC ; HP6-diff-VB-EM-BIC-mu : VB < EM-BIC ; HP6-VB-pi : < 90 \% ; HP6-VB-mu : < 90 \% ; HP6-bootstrap EM-BIC-pi : < 90 \% ; HP6-bootstrap EM-BIC-mu : < 90 \% ; HP6-bootstrap EM-K-pi : < 90 \% ; HP6-bootstrap EM-K-mu : < 90 \% & expérience répliquée & \ref{sec:couverture} \\
+Prévision (prix) & Log-score des mélanges et de la gaussienne, 2024-2026 (Diebold-Mariano par mois, Holm) & voir prix\_diebold\_mariano & expérience unique (une période de test) & \ref{sec:res_prix} \\
+Surapprentissage (texte) & Écart test/apprentissage de pLSA contre LDA & HT1-N50 : A > B ; HT1-N200 : A > B ; HT1-N1000 : A > B & expérience répliquée & \ref{sec:res_texte} \\
+Seuil d'élagage & Seuil de $\alpha_0$ transféré au champ moyen & voir S8\_alpha0 & expérience répliquée (descriptive) & \ref{sec:elagage}, \ref{sec:res_s8} \\
+Seuil d'activité & Le nombre de composantes actives dépend du seuil & voir S10\_seuil & expérience répliquée (descriptive) & \ref{sec:res_s9s10} \\
+Dépendance à $K_{\max}$ & Résultat de l'élagage dépendant de $K_{\max}$ (Iris) & voir illustrations\_iris & expérience unique & \ref{sec:res_iris} \\
+Initialisation & Composantes actives selon l'initialisation & voir illustrations\_initialisation & expérience répliquée (descriptive) & \ref{sec:res_init} \\
+Biais d'approximation & Variance sous-estimée par le champ moyen & référence théorique & théorème & \ref{sec:kl_inverse} \cite{bishop2006} ; couverture : HP6 \\
+Monotonie du critère & Croissance de la log-vraisemblance (EM) et de l'ELBO (VB, covariance pleine) & référence théorique & théorème & \ref{sec:proprietes_em}, \ref{sec:calcul_elbo} ; vérification numérique (validation) \\
+Convergence de l'EM pour le GMM & Le théorème de Wu~\cite{wu1983} ne s'applique pas tel quel (vraisemblance non bornée) & référence théorique & théorème & \ref{sec:proprietes_em} ; régularisation $\varepsilon I$ \\
+Consistance de la sélection de $K$ & Garantie de consistance du champ moyen pour $K$ & aucune & non testé & \ref{sec:limites_vb} \\
+Taux de l'EM en sur-spécification & Précision $(d/n)^{1/4}$ dans le cas équilibré \cite{dwivedi2020} & aucune & non testé & \ref{sec:proprietes_em} \\
+Cible de l'EM en sous-spécification & Convergence vers la projection de Kullback-Leibler \cite{dwivedi2018} & aucune & non testé & \ref{sec:proprietes_em} \\
+Consistance des paramètres du VB & Moyenne variationnelle consistante, covariance trop petite \cite{wang2006,wang2005} & aucune & non testé & \ref{sec:limites_vb} \\
 Optima locaux de l'ELBO & Fréquence des optima locaux du VB & voir l'annexe & mesuré au calibrage & annexe (calibrage n\_init) \\
-Irréversibilité de l'élagage & Une composante éteinte ne revient pas & aucune & non testé & §1.7.4 \\
-Double usage des données & Effet des priors empiriques sur l'ELBO et les intervalles & aucune & non testé & §2.3.1 \\
-Vitesse de VAE, flux normalisants, gradient naturel & Affirmations de vitesse des variantes avancées & aucune & non testé & §1.7.7 \\
+Irréversibilité de l'élagage & Une composante éteinte ne revient pas & aucune & non testé & \ref{sec:elagage} \\
+Double usage des données & Effet des priors empiriques sur l'ELBO et les intervalles & aucune & non testé & \ref{sec:protocole} \\
+Vitesse de VAE, flux normalisants, gradient naturel & Affirmations de vitesse des variantes avancées & aucune & non testé & \ref{sec:variantes_vb} \\
 Vision, bio-informatique, recommandation & Choix d'algorithme par domaine & aucune & non testé & revue \\
 \end{longtable}
 \par\noindent{\footnotesize Niveaux : théorème ; expérience répliquée (nombre de réplications fixé par le calcul de puissance) ; expérience unique ; non testé. Aucune ligne n'autorise à parler de supériorité d'un algorithme.}

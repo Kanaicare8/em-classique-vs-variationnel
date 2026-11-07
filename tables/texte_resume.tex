@@ -1,0 +1,34 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}>{\raggedright\arraybackslash}p{1.70cm}}
+\caption{pLSA et LDA : moyennes par vocabulaire, effectif et modèle}\label{tab:texte_resume}\\
+\toprule
+\textbf{V} & \textbf{N} & \textbf{Modèle} & \textbf{n} & \textbf{Perplexité test} & \textbf{Écart relatif} & \textbf{Mots nuls} & \textbf{NPMI} & \textbf{Pureté} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{V} & \textbf{N} & \textbf{Modèle} & \textbf{n} & \textbf{Perplexité test} & \textbf{Écart relatif} & \textbf{Mots nuls} & \textbf{NPMI} & \textbf{Pureté} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+500 & 50 & LDA & 3 & 362,1 & 0,897 & 0,0\,\% & 0,135 & 0,518 \\
+500 & 50 & pLSA & 3 & $7{,}40 \times 10^{10}$ & $3{,}55 \times 10^{8}$ & 2,0\,\% & 0,143 & 0,529 \\
+500 & 200 & LDA & 3 & 293,4 & 0,202 & 0,0\,\% & 0,163 & 0,556 \\
+500 & 200 & pLSA & 3 & 1266,2 & 3,640 & $7{,}72 \times 10^{-2}$\,\% & 0,164 & 0,544 \\
+500 & 1000 & LDA & 3 & 274,6 & 0,067 & 0,0\,\% & 0,142 & 0,566 \\
+500 & 1000 & pLSA & 3 & 295,0 & 0,091 & 0,0\,\% & 0,142 & 0,552 \\
+1500 & 50 & LDA & 10 & 968,8 & 1,813 & 0,0\,\% & 0,097 & 0,516 \\
+1500 & 50 & pLSA & 10 & $7{,}74 \times 10^{44}$ & $2{,}39 \times 10^{42}$ & 10,8\,\% & 0,106 & 0,512 \\
+1500 & 200 & LDA & 10 & 747,5 & 0,533 & 0,0\,\% & 0,119 & 0,589 \\
+1500 & 200 & pLSA & 10 & $6{,}47 \times 10^{6}$ & 12880,865 & 0,8\,\% & 0,139 & 0,569 \\
+1500 & 1000 & LDA & 10 & 646,3 & 0,137 & 0,0\,\% & 0,138 & 0,607 \\
+1500 & 1000 & pLSA & 10 & 889,0 & 0,506 & $1{,}01 \times 10^{-2}$\,\% & 0,141 & 0,617 \\
+3000 & 50 & LDA & 3 & 1539,4 & 2,367 & 0,0\,\% & 0,108 & 0,453 \\
+3000 & 50 & pLSA & 3 & $7{,}04 \times 10^{75}$ & $1{,}91 \times 10^{73}$ & 18,7\,\% & 0,127 & 0,450 \\
+3000 & 200 & LDA & 3 & 1159,0 & 0,701 & 0,0\,\% & 0,136 & 0,639 \\
+3000 & 200 & pLSA & 3 & $1{,}56 \times 10^{14}$ & $2{,}25 \times 10^{11}$ & 2,9\,\% & 0,146 & 0,591 \\
+3000 & 1000 & LDA & 3 & 958,0 & 0,148 & 0,0\,\% & 0,164 & 0,611 \\
+3000 & 1000 & pLSA & 3 & 2979,5 & 2,466 & $8{,}46 \times 10^{-2}$\,\% & 0,167 & 0,626 \\
+\end{longtable}
+}

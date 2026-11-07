@@ -1,0 +1,22 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}>{\raggedright\arraybackslash}p{1.91cm}}
+\caption{Comparaisons de prévision : Diebold-Mariano sur le log-score moyenné par mois (Holm)}\label{tab:prix_dm}\\
+\toprule
+\textbf{Id} & \textbf{A} & \textbf{B} & \textbf{Écart moyen} & \textbf{Mois} & \textbf{DM} & \textbf{p (Holm)} & \textbf{Décision} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Id} & \textbf{A} & \textbf{B} & \textbf{Écart moyen} & \textbf{Mois} & \textbf{DM} & \textbf{p (Holm)} & \textbf{Décision} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+HPP1 & EM-BIC (plug-in) & Gaussienne & 0,0447 & 32 & 1,15 & 0,7467 & différence non démontrée \\
+HPP2 & VB-emp (prédictive) & Gaussienne & 0,0268 & 32 & 0,71 & 0,9584 & différence non démontrée \\
+HPP3 & VB-emp (prédictive) & EM-BIC (plug-in) & -0,0179 & 32 & -0,18 & 0,9584 & différence non démontrée \\
+HPP4 & VB-emp (prédictive) & VB-emp (plug-in) & 0,0103 & 32 & 1,86 & 0,3735 & différence non démontrée \\
+HPP5 & VB-cal (prédictive) & VB-emp (prédictive) & 0,0595 & 32 & 1,71 & 0,3996 & différence non démontrée \\
+HPP6 & MAP-EM (plug-in) & EM-BIC (plug-in) & 0,0245 & 32 & 1,75 & 0,3996 & différence non démontrée \\
+\end{longtable}
+}

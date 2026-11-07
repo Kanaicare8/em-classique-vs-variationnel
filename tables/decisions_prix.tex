@@ -1,0 +1,42 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}>{\raggedright\arraybackslash}p{1.28cm}}
+\caption{Décisions, famille prix (Holm pour les tests ; intervalles pour HP4 à HP6)}\label{tab:decisions_prix}\\
+\toprule
+\textbf{Test} & \textbf{RH} & \textbf{Type} & \textbf{n} & \textbf{Exclues} & \textbf{Écart moyen A - B} & \textbf{IC 95 \% bas} & \textbf{IC 95 \% haut} & \textbf{Marge} & \textbf{p (Holm)} & \textbf{Attendu} & \textbf{Décision} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Test} & \textbf{RH} & \textbf{Type} & \textbf{n} & \textbf{Exclues} & \textbf{Écart moyen A - B} & \textbf{IC 95 \% bas} & \textbf{IC 95 \% haut} & \textbf{Marge} & \textbf{p (Holm)} & \textbf{Attendu} & \textbf{Décision} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+HP1-N30 & RH1 & equivalence & 100 & 0 & 0,350 & 0,170 & 0,540 & 0,500 & 0,4490 & équivalent & équivalence non démontrée \\
+HP1-N60 & RH1 & equivalence & 100 & 0 & 1,020 & 0,790 & 1,250 & 0,500 & 1,0000 & équivalent & équivalence non démontrée \\
+HP1-N120 & RH1 & equivalence & 100 & 0 & 0,680 & 0,470 & 0,890 & 0,500 & 1,0000 & équivalent & équivalence non démontrée \\
+HP1-N250 & RH1 & equivalence & 100 & 0 & 1,000 & 0,830 & 1,170 & 0,500 & 1,0000 & équivalent & équivalence non démontrée \\
+HP1-N500 & RH1 & equivalence & 100 & 0 & 0,760 & 0,620 & 0,900 & 0,500 & 1,0000 & équivalent & équivalence non démontrée \\
+HP2-LL & RH1 & equivalence & 200 & 0 & -0,159 & -0,172 & -0,147 & 0,050 & 1,0000 & équivalent & équivalence non démontrée \\
+HP3-N30 & RH4 & difference & 200 & 0 & -0,010 & -0,045 & 0,020 & n/d & 1,0000 & A < B & différence non démontrée \\
+HP3-N60 & RH4 & difference & 200 & 0 & -0,040 & -0,070 & -0,010 & n/d & 0,1934 & A < B & différence non démontrée \\
+HP3-N120 & RH4 & difference & 200 & 0 & -0,060 & -0,095 & -0,030 & n/d & 0,0049 & A < B & A < B \\
+HP5 & RH2 & difference & 50 & 0 & 3,207 & 3,076 & 3,333 & n/d & $2{,}31 \times 10^{-14}$ & A > B & A > B \\
+HP7-N30 & RH4 & difference & 200 & 0 & -0,015 & -0,050 & 0,015 & n/d & 1,0000 & A < B & différence non démontrée \\
+HP7-N60 & RH4 & difference & 200 & 0 & -0,100 & -0,145 & -0,055 & n/d & 0,0004 & A < B & A < B \\
+HP7-N120 & RH4 & difference & 200 & 0 & -0,110 & -0,155 & -0,070 & n/d & $5{,}72 \times 10^{-6}$ & A < B & A < B \\
+HP4-N30 & RH5 & intervalle & n/d & n/d & 1,518 & 0,906 & 1,801 & n/d & n/d & ratio > 1 & non tranché \\
+HP4-N60 & RH5 & intervalle & n/d & n/d & 3,675 & 3,067 & 4,081 & n/d & n/d & ratio > 1 & ratio > 1 \\
+HP4-N120 & RH5 & intervalle & n/d & n/d & 4,699 & 3,935 & 5,416 & n/d & n/d & ratio > 1 & ratio > 1 \\
+HP4-N250 & RH5 & intervalle & n/d & n/d & 5,021 & 3,743 & 5,484 & n/d & n/d & ratio > 1 & ratio > 1 \\
+HP4-N500 & RH5 & intervalle & n/d & n/d & 2,581 & 2,401 & 2,921 & n/d & n/d & ratio > 1 & ratio > 1 \\
+HP6-diff-VB-EM-BIC-pi & RH3 & intervalle & n/d & n/d & -0,442 & -0,500 & -0,383 & n/d & n/d & VB < EM-BIC & VB < EM-BIC \\
+HP6-diff-VB-EM-BIC-mu & RH3 & intervalle & n/d & n/d & -0,178 & -0,209 & -0,148 & n/d & n/d & VB < EM-BIC & VB < EM-BIC \\
+HP6-VB-pi & RH3 & intervalle & 600 & n/d & 0,222 & 0,182 & 0,262 & n/d & n/d & < 90 \% & < 90 \% \\
+HP6-VB-mu & RH3 & intervalle & 1800 & n/d & 0,638 & 0,612 & 0,664 & n/d & n/d & < 90 \% & < 90 \% \\
+HP6-bootstrap EM-BIC-pi & RH3 & intervalle & 600 & n/d & 0,663 & 0,613 & 0,713 & n/d & n/d & compatible avec 90 \% & < 90 \% \\
+HP6-bootstrap EM-BIC-mu & RH3 & intervalle & 1800 & n/d & 0,816 & 0,794 & 0,838 & n/d & n/d & compatible avec 90 \% & < 90 \% \\
+HP6-bootstrap EM-K-pi & RH3 & intervalle & 600 & n/d & 0,720 & 0,667 & 0,767 & n/d & n/d & compatible avec 90 \% & < 90 \% \\
+HP6-bootstrap EM-K-mu & RH3 & intervalle & 1800 & n/d & 0,855 & 0,836 & 0,874 & n/d & n/d & compatible avec 90 \% & < 90 \% \\
+\end{longtable}
+}

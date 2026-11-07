@@ -1,0 +1,21 @@
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}>{\raggedright\arraybackslash}p{1.53cm}}
+\caption{Régime de tension : probabilité d'alerte et largeur de son intervalle à 90 \%}\label{tab:prix_alerte}\\
+\toprule
+\textbf{Bras} & \textbf{Période} & \textbf{K̂} & \textbf{Poids} & \textbf{Écart maïs} & \textbf{Écart riz} & \textbf{Écart niébé} & \textbf{Part p > 0,5} & \textbf{Largeur IC} & \textbf{IC contient 0,5} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Bras} & \textbf{Période} & \textbf{K̂} & \textbf{Poids} & \textbf{Écart maïs} & \textbf{Écart riz} & \textbf{Écart niébé} & \textbf{Part p > 0,5} & \textbf{Largeur IC} & \textbf{IC contient 0,5} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+EM-BIC & apprentissage & 2 & 0,105 & 0,112 & 0,008 & -0,023 & 7,8\,\% & 0,946 & 100,0\,\% \\
+EM-BIC & test & 2 & 0,105 & 0,112 & 0,008 & -0,023 & 7,7\,\% & 0,921 & 100,0\,\% \\
+VB-emp & apprentissage & 4 & 0,145 & 0,045 & 0,048 & 0,150 & 11,2\,\% & 0,075 & 6,2\,\% \\
+VB-emp & test & 4 & 0,145 & 0,045 & 0,048 & 0,150 & 12,2\,\% & 0,093 & 11,2\,\% \\
+accord EM-BIC / VB-emp & toutes & n/d & n/d & n/d & n/d & n/d & 83,8\,\% & n/d & n/d \\
+\end{longtable}
+}

@@ -1,0 +1,6 @@
+methode,loglik,ARI,temps_s,baisses_loglik,actives
+EM (lot complet),-937.8883846297514,1.0,0.24330834000011237,4,
+EM stochastique (SEM),-937.8682414066718,1.0,0.03947196800004349,1,
+EM online,-937.7808931597656,1.0,0.5633920329999,,
+"VB (lot complet, Kmax=6)",,1.0,0.15512767800009897,,3
+SVI (Kmax=6),,1.0,0.4993748270001106,,3

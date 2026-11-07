@@ -1,0 +1,12 @@
+mesure,valeur
+"densite du melange ajuste en x = 2,0 (eq. 1.10)",0.07331439308966946
+moyenne empirique du premier groupe,1.125
+moyenne empirique du second groupe,7.7250000000000005
+p(O) forward-backward,0.10007000000000002
+"graines (EM sans regularisation, reg = 0)",20
+graines ou l'EM echoue (covariance non definie positive),0.0
+part des EM restants marques degeneres,0.25
+baisse maximale de la log-vraisemblance (EM restants),0.0
+baisse maximale de l'ELBO (toutes graines),0.0
+ecart maximal de Neal et Hinton (EM restants),3.814666570178815e-06
+part des graines avec ELBO <= log-vraisemblance maximale,1.0

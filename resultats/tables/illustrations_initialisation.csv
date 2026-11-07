@@ -1,0 +1,7 @@
+initialisation,modele,n,actives_1,actives_2,actives_3,actives_4,actives_5,actives_6
+aleatoire,EM,110,0,0,0,10,14,86
+aleatoire,VB priors diffus,110,0,2,53,54,1,0
+aleatoire,VB priors empiriques,110,0,0,110,0,0,0
+kmeans,EM,110,0,0,0,0,5,105
+kmeans,VB priors diffus,110,0,0,21,86,3,0
+kmeans,VB priors empiriques,110,0,0,110,0,0,0

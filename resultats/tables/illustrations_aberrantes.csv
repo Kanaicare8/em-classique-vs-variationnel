@@ -1,0 +1,3 @@
+modele,ARI_hors_aberrantes,composantes_actives,trace_covariance_max,poids_plus_petit_actif
+EM,1.0,4,25.194204572964765,0.012903225864258556
+VB priors empiriques,1.0,4,81.56692226267364,0.033565048827309034

@@ -13,11 +13,12 @@ Unités :
   sous/N=n/rep=r       n observations tirées dans l'apprentissage ; tous les bras ; évaluation sur TOUT le test
   semi/N=n/rep=r       jeu tiré du modèle de référence : vérité connue (K_ref, partition)
   couverture/N=n/rep=r couverture à 90 %, INCONDITIONNELLE, sur le semi-synthétique (VB : crédibilité ; EM : bootstrap
-                       à démarrage chaud, alignement hongrois) ; une indicatrice 0/1 par paramètre scalaire
+                       à démarrage chaud, alignement par responsabilités, D-19) ; une indicatrice 0/1 par paramètre scalaire
   sensibilite/rep=r    HP5 : K̂ du VB sur le domaine plausible des priors (calibrage) contre K̂ de l'EM-BIC entre graines
   complet              tous les bras sur tout l'apprentissage ; log-score de chaque observation de test (prévision)
   alerte               probabilité du régime de tension pour chaque observation, avec son intervalle : crédibilité
-                       (tirages de q) pour le VB, bootstrap (démarrage chaud) pour l'EM-BIC
+                       (tirages de q) pour le VB, bootstrap (démarrage chaud, alignement par responsabilités, D-19)
+                       pour l'EM-BIC
 Régime de tension : composante ACTIVE dont la moyenne des trois écarts (unités d'origine, log-prix) est la plus
 élevée. Hypothèses HP1 à HP6 (famille « prix », Holm) et comparaisons de prévision HPP (famille « prix_prevision »,
 Holm), déclarées dans hypotheses.py avant toute exécution.
@@ -211,7 +212,7 @@ def unite_couverture(memo, rapide, N, rep):
         for b in range(B):
             ib = torch.randint(N, (N,), generator=A.generateur(PE.graine("prix", "bootstrap", N, rep, b)))
             eb = C.em_demarrage_chaud(Xs[ib], em)
-            c = A.hongrois(torch.cdist(em["mu"], eb["mu"]).pow(2))
+            c = C.aligner_bootstrap(Xs, em, eb)
             pis_b.append(eb["pi"][c])
             mus_b.append(eb["mu"][c])
         pis_b, mus_b = torch.stack(pis_b), torch.stack(mus_b)
@@ -359,7 +360,7 @@ def unite_alerte(memo, rapide):
             for b in range(B):
                 ib = torch.randint(len(Xtr), (len(Xtr),), generator=A.generateur(PE.graine("prix", "alerte_boot", b)))
                 eb = C.em_demarrage_chaud(Xtr[ib], res)
-                c = A.hongrois(torch.cdist(res["mu"], eb["mu"]).pow(2))
+                c = C.aligner_bootstrap(Xtr, res, eb)
                 tir.append(_proba_composante(Z, eb["pi"][None], eb["mu"][None], eb["cov"][None], int(c[k]))[0])
             tir = torch.stack(tir)
             proba = _proba_composante(Z, p["pi"][None], p["mu"][None], p["cov"][None], k)[0]

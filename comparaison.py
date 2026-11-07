@@ -175,6 +175,25 @@ def simuler_depuis_modele(modele: dict, n: int, graine: int):
     return modele["mu"][z] + torch.einsum("nde,ne->nd", L[z], eps), z
 
 
+def responsabilites(X: Tensor, modele: dict) -> Tensor:
+    """P(z = k | x) sous le mélange gaussien (pi, mu, cov), covariances pleines : tenseur (N, K)."""
+    dist = torch.distributions.MultivariateNormal(modele["mu"][:, None, :], covariance_matrix=modele["cov"][:, None, :, :])
+    lp = dist.log_prob(X[None, :, :]) + torch.log(modele["pi"].clamp(min=1e-300))[:, None]
+    return torch.softmax(lp, dim=0).T
+
+
+def aligner_bootstrap(X: Tensor, depart: dict, replicat: dict) -> Tensor:
+    """
+    Permutation `c` telle que la composante k de `depart` corresponde à la composante c[k] du réplicat bootstrap :
+    appariement hongrois qui maximise le recouvrement des responsabilités sur les données d'origine X.
+    Un appariement sur les seules moyennes échange les composantes dont les centres sont proches mais les
+    covariances différentes (cas des prix : régime de tension et régime calme ont des moyennes voisines) ; les
+    intervalles bootstrap mélangent alors deux composantes et s'étalent artificiellement (décision D-19).
+    """
+    r0, rb = responsabilites(X, depart), responsabilites(X, replicat)
+    return A.hongrois(-(r0.T @ rb))
+
+
 def em_demarrage_chaud(X: Tensor, depart: dict, cov_type: str = "full") -> dict:
     """
     EM démarré au paramètre `depart` (une seule relance), critère d'arrêt commun. Sert au bootstrap :

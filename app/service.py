@@ -33,9 +33,7 @@ NOMS = list(DO.NOMS_PANIER)
 PANIER = list(DO.PANIER_PRIX)
 BRAS = list(EP.BRAS_ALERTE)
 FIN_APP = DO.mois_index(str(PARAM.valeur("prix_fin_apprentissage")))
-EPISODES = [("2023-08", "août 2023 : maïs +24 % en un mois dans l'Extrême-Nord (PAM, 2023)"),
-            ("2026-04", "avril 2026 : maïs et sorgho 40 à 50 % moins chers qu'un an plus tôt à Kousseri, Mokolo, Mora "
-                        "(FEWS NET, 2026)")]
+EPISODES = [(e["mois"], e["texte"]) for e in DO.EPISODES_PRIX]     # source unique : donnees.EPISODES_PRIX
 
 # ------------------------------------------------------------------------------ données
 _, _, D = EP.donnees()

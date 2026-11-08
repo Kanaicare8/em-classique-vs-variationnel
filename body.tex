@@ -1,34 +1,5 @@
 
 
-%% ==== Liste des abréviations et sigles ====
-\chapter*{Liste des abréviations et sigles}
-\addcontentsline{toc}{chapter}{Liste des abréviations et sigles}
-\begin{description}
-\item[EM] Espérance-Maximisation (Expectation-Maximization)
-\item[GMM] Modèle de Mélange Gaussien (Gaussian Mixture Model)
-\item[ELBO] Borne Inférieure de l'Évidence (Evidence Lower Bound)
-\item[KL] Divergence de Kullback-Leibler
-\item[VI] Inférence Variationnelle (Variational Inference)
-\item[SVI] Inférence Variationnelle Stochastique (Stochastic Variational Inference)
-\item[VAE] Auto-encodeur Variationnel (Variational Autoencoder)
-\item[AEVB] Bayes Variationnel Auto-Encodant (Auto-Encoding Variational Bayes)
-\item[SGVB] Estimateur Variationnel Bayésien par Gradient Stochastique (Stochastic Gradient Variational Bayes)
-\item[CAVI] Montée par Coordonnées pour l'Inférence Variationnelle (Coordinate Ascent Variational Inference)
-\item[MAP] Maximum A Posteriori
-\item[MLE] Estimateur du Maximum de Vraisemblance (Maximum Likelihood Estimator)
-\item[HMM] Modèle de Markov Caché (Hidden Markov Model)
-\item[PPCA] Analyse en Composantes Principales Probabiliste
-\item[LDA] Allocation de Dirichlet Latente (Latent Dirichlet Allocation)
-\item[BIC] Critère d'Information Bayésien (Bayesian Information Criterion)
-\item[AIC] Critère d'Information d'Akaike (Akaike Information Criterion)
-\item[ICL] Critère de Vraisemblance Classifiante Intégrée
-\item[SEM] EM Stochastique (Stochastic EM)
-\item[GEM] EM Généralisé (Generalized EM)
-\item[MCAR] Données Manquantes Complètement Aléatoires (Missing Completely At Random)
-\item[MAR] Données Manquantes Aléatoires (Missing At Random)
-\item[NLP] Traitement Automatique du Langage Naturel (Natural Language Processing)
-\end{description}
-
 \input{introduction}
 
 %% ==== PARTIE 1 ====
@@ -1017,7 +988,7 @@ définie si au moins trois relevés existent dans la fenêtre. Un écart de $+0{
 \begin{figure}[H]
 \centering
 \IfFileExists{figures/prix_marches.png}{\includegraphics[width=0.62\textwidth]{figures/prix_marches.png}}{\fbox{\parbox{0.6\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
-\caption{Marchés suivis : couleur et symbole par région, taille selon le nombre d'observations retenues (apprentissage et test). Source : PAM, base de prix du Cameroun (HDX, CC BY-IGO).}
+\caption{Marchés suivis : couleur et symbole par région (nombre de marchés entre parenthèses), taille selon le nombre d'observations retenues (apprentissage et test) ; quelques villes servent de repère. Sources : PAM, base de prix du Cameroun (HDX, CC BY-IGO) ; frontières Natural Earth.}
 \label{fig:prix_marches}
 \end{figure}
 
@@ -1391,13 +1362,6 @@ Le taux d'ajustements dégénérés de S6 est celui de l'EM \emph{régularisé} 
 
 \subsection{Décisions et lecture}\label{sec:decisions_et_lecture}
 \tableauGenere{decisions_scenarios}
-\begin{figure}[H]
-\centering
-\IfFileExists{figures/fig12.png}{\includegraphics[width=0.9\textwidth]{figures/fig12.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
-\caption{Décisions de la famille des scénarios : différence moyenne appariée (VB moins EM) et intervalle bootstrap à 95 \%, marge d'équivalence en gris.}
-\label{fig:scenarios_decisions}
-\end{figure}
-
 \textbf{Synthèse des scénarios.} La lecture détaillée de chaque décision (estimation, intervalle, probabilité critique de Holm, verdict) figure en annexe H. Quand les groupes sont bien séparés (4 et 5 écarts-types) ou contaminés par des aberrations (S7, neuf combinaisons de proportion et d'amplitude), le VB et l'EM-BIC sont équivalents à la marge de 0,05 d'ARI ; neuf de ces onze équivalences tiennent encore à la moitié de la marge (tableau~\ref{tab:sensibilite_marges}). Quand les groupes se chevauchent ou que la dimension croît, l'ARI du VB dépasse celui de l'EM-BIC : de 0,17 et 0,28 pour des groupes séparés de 2 et 3 écarts-types, de 0,28 et 0,79 pour $D = 10$ et $D = 20$. Le VB perd moins souvent la composante minoritaire (S2, écart de fréquence de $-0{,}25$) et produit moins d'ajustements dégénérés que l'EM à $K_{\max}$ à tous les effectifs (S6, de $-0{,}76$ à $N = 30$ à $-0{,}15$ à $N = 1\,000$). Quand $K$ est sous-estimé (S3), l'ARI du VB à $K_{\max} = 3$ dépasse celui de l'EM à $K = 3$ de 0,04 à 0,09, et l'équivalence n'est pas démontrée. Aucune décision n'est contraire aux hypothèses. Les différences en faveur du VB portent sur l'EM-BIC tel qu'il est mis en œuvre ici, en covariance pleine ; une explication probable, non testée, est que la pénalité du BIC, qui croît avec le nombre de paramètres, conduit l'EM-BIC à retenir trop peu de composantes en dimension élevée ou quand les groupes se chevauchent.
 
 \subsection{Plan factoriel sur les priors et seuil d'activité (S9 et S10, descriptifs)}\label{sec:res_s9s10}
@@ -1413,7 +1377,7 @@ Le plan factoriel fait varier $\alpha_0$, $\beta_0$, $\nu_0$ et l'échelle de $W
 Le rapport des temps médians entre le pipeline EM-BIC complet et un ajustement VB, à relances égales, est mesuré dans un seul processus sur les données de prix ; la décision HP4 (hypothèse RH5) est lue à la section~\ref{sec:res_prix}. Le coût par itération (tableau~\ref{tab:chronometrage}) et le temps total jusqu'au modèle final ne se confondent pas : seul le second compare des pipelines.
 
 \section{Cas pratique : régimes de tension des prix alimentaires au Cameroun}\label{sec:res_prix}
-Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_methodo}. Les résultats sont produits par le code depuis le magasin d'artefacts : modèle de référence (tableau~\ref{tab:prix_reference}), moyennes par plan, effectif et bras (tableau~\ref{tab:prix_resume}, annexe H), relevés écartés par le nettoyage (tableau~\ref{tab:prix_ecartes}, annexe H), décisions (tableau~\ref{tab:decisions_prix} et figure~\ref{fig:prix_decisions}), ajustements sur toute la période d'apprentissage (tableau~\ref{tab:prix_complet}), comparaisons de prévision (tableau~\ref{tab:prix_dm}), régime de tension et probabilités d'alerte (tableau~\ref{tab:prix_alerte}, figures~\ref{fig:prix_alerte} et~\ref{fig:prix_alerte_mois}).
+Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_methodo}. Les résultats sont produits par le code depuis le magasin d'artefacts : modèle de référence (tableau~\ref{tab:prix_reference}), moyennes par plan, effectif et bras (tableau~\ref{tab:prix_resume}, annexe H), relevés écartés par le nettoyage (tableau~\ref{tab:prix_ecartes}, annexe H), décisions (tableau~\ref{tab:decisions_prix} ; figure~\ref{fig:prix_decisions} en annexe H), ajustements sur toute la période d'apprentissage (tableau~\ref{tab:prix_complet}), comparaisons de prévision (tableau~\ref{tab:prix_dm}), régime de tension et probabilités d'alerte (tableau~\ref{tab:prix_alerte}, figures~\ref{fig:prix_alerte} et~\ref{fig:prix_alerte_mois}), confrontation aux épisodes datés (tableau~\ref{tab:prix_episodes}, figure~\ref{fig:prix_carte_alerte}). La sélection du nombre de régimes est illustrée en annexe H (figure~\ref{fig:prix_selection}).
 
 \tableauGenere{prix_reference}
 \tableauGenere{decisions_prix}
@@ -1423,14 +1387,8 @@ Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_metho
 
 \begin{figure}[H]
 \centering
-\IfFileExists{figures/prix_selection.png}{\includegraphics[width=\textwidth]{figures/prix_selection.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
-\caption{Sélection du nombre de régimes sur toute la période d'apprentissage : BIC de l'EM selon $K$ (gauche) et poids des composantes du VB à priors empiriques avec $K_{\max}=8$ (droite).}
-\label{fig:prix_selection}
-\end{figure}
-\begin{figure}[H]
-\centering
 \IfFileExists{figures/prix_alerte.png}{\includegraphics[width=\textwidth]{figures/prix_alerte.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
-\caption{Trois marchés les plus suivis pendant la période de test. En haut : écart du prix du maïs à son niveau des douze mois précédents. En bas : probabilité du régime de tension selon EM-BIC (bande : bootstrap à 90 \%) et selon le VB à priors empiriques (bande : crédibilité à 90 \%). Trait pointillé vertical : fin de l'apprentissage.}
+\caption{Trois marchés les plus suivis pendant la période de test. En haut : prix de détail du maïs (XAF/kg) et son niveau des douze mois précédents (tirets) ; l'écart entre les deux, en logarithme, est la variable du modèle. En bas : probabilité du régime de tension selon EM-BIC (bande : bootstrap à 90 \%) et selon le VB à priors empiriques (bande : crédibilité à 90 \%). Bandes grises : épisodes datés par les bulletins (hausse d'août 2023, baisse d'avril 2026) pour les marchés concernés. Trait pointillé vertical : fin de l'apprentissage.}
 \label{fig:prix_alerte}
 \end{figure}
 \begin{figure}[H]
@@ -1441,11 +1399,11 @@ Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_metho
 \end{figure}
 \begin{figure}[H]
 \centering
-\IfFileExists{figures/prix_decisions.png}{\includegraphics[width=0.9\textwidth]{figures/prix_decisions.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
-\caption{Décisions de la famille « prix » : différence moyenne appariée (VB moins EM) et intervalle bootstrap à 95 \% ; bande grise : marge d'équivalence.}
-\label{fig:prix_decisions}
+\IfFileExists{figures/prix_carte_alerte.png}{\includegraphics[width=\textwidth]{figures/prix_carte_alerte.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
+\caption{Extrême-Nord, mois des deux épisodes datés : probabilité du régime de tension de chaque marché observé selon EM-BIC et le VB à priors empiriques. Contour épais et nom : alerte ($P > 0{,}5$) ; sont aussi nommés les marchés cités par le bulletin de 2026. La hausse d'août 2023~\cite{pam2023bulletin} devrait allumer le régime de tension, la baisse d'avril 2026~\cite{fewsnet2026} ne le devrait pas.}
+\label{fig:prix_carte_alerte}
 \end{figure}
-
+\tableauGenere{prix_episodes}
 \subsection*{Lecture des résultats du cas}
 \lectureGeneree{prix_cas}
 
@@ -1873,7 +1831,7 @@ Ce résultat illustre de façon particulièrement nette le mécanisme théorique
 
 \section*{Annexe H : Tableaux détaillés des résultats}
 \addcontentsline{toc}{section}{Annexe H : Tableaux détaillés des résultats}
-Cette annexe rassemble les tableaux descriptifs du chapitre~\ref{chap:resultats} : moyennes par bras des scénarios S1 à S7, grille de $\alpha_0$ du scénario S8, moyennes du cas pratique par plan, effectif et bras, et relevés de prix écartés. Ils sont produits par le code, comme ceux du chapitre ; les décisions des tests figurent au chapitre.
+Cette annexe rassemble les tableaux descriptifs et trois figures du chapitre~\ref{chap:resultats} : moyennes par bras des scénarios S1 à S7, grille de $\alpha_0$ du scénario S8, moyennes du cas pratique par plan, effectif et bras, et relevés de prix écartés. Ils sont produits par le code, comme ceux du chapitre ; les décisions des tests figurent au chapitre.
 \setcounter{table}{0}\renewcommand{\thetable}{H.\arabic{table}}\renewcommand{\theHtable}{H.\arabic{table}}
 \tableauGenere{scenario_S1}
 \tableauGenere{scenario_S2}
@@ -1885,6 +1843,27 @@ Cette annexe rassemble les tableaux descriptifs du chapitre~\ref{chap:resultats}
 \tableauGenere{S8_alpha0}
 \tableauGenere{prix_resume}
 \tableauGenere{prix_ecartes}
+
+\subsection*{Figures des décisions et de la sélection du nombre de régimes}
+\setcounter{figure}{0}\renewcommand{\thefigure}{H.\arabic{figure}}\renewcommand{\theHfigure}{H.\arabic{figure}}
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/fig12.png}{\includegraphics[width=0.9\textwidth]{figures/fig12.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
+\caption{Décisions de la famille des scénarios : différence moyenne appariée (VB moins EM) et intervalle bootstrap à 95 \%, marge d'équivalence en gris.}
+\label{fig:scenarios_decisions}
+\end{figure}
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/prix_selection.png}{\includegraphics[width=\textwidth]{figures/prix_selection.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
+\caption{Sélection du nombre de régimes sur toute la période d'apprentissage : BIC de l'EM selon $K$ (gauche) et poids des composantes du VB à priors empiriques avec $K_{\max}=8$ (droite).}
+\label{fig:prix_selection}
+\end{figure}
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/prix_decisions.png}{\includegraphics[width=0.9\textwidth]{figures/prix_decisions.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
+\caption{Décisions de la famille « prix », un panneau par grandeur mesurée (chacun avec son unité et sa valeur de référence, trait vertical) : estimation et intervalle bootstrap à 95 \% ; bande grise : marge d'équivalence. HP4 et HP6 sont jugées sur leur intervalle (section~\ref{sec:decision}).}
+\label{fig:prix_decisions}
+\end{figure}
 
 \subsection*{Lecture détaillée des décisions}
 Pour chaque décision des familles des scénarios, du cas pratique et du texte : estimation, intervalle bootstrap, probabilité critique ajustée par Holm, décision et verdict au regard de l'hypothèse de recherche rattachée.

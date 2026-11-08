@@ -498,6 +498,35 @@ def agreger(rapide: bool):
     a = E.magasin("prix", rapide).lire("alerte")
     if a is not None:
         E.ecrire_csv("prix_alerte", a["lignes"], rapide)
+        E.ecrire_csv("prix_episodes", episodes(a["artefacts"]), rapide)
+
+
+def episodes(art):
+    """
+    Lecture qualitative des épisodes datés (donnees.EPISODES_PRIX ; aucune décision n'en dépend) : pour chaque épisode
+    et chaque bras, marchés de la région observés ce mois-là, alertes (P(tension) > 0,5) et intervalles à 90 % qui
+    contiennent 0,5 ; en regard, la part d'alertes de la même région sur tous ses mois (niveau habituel).
+    """
+    out = []
+    reg = [art["regions"][int(m)] for m in art["marche"]]
+    for e in DO.EPISODES_PRIX:
+        t = DO.mois_index(e["mois"])
+        dans_region = torch.tensor([r == e["region"] for r in reg])
+        sel = dans_region & (art["mois"] == t)
+        cites = torch.tensor([art["marches"][int(m)] in e["marches"] for m in art["marche"]]) & sel
+        for bras in BRAS_ALERTE:
+            if bras not in art:
+                continue
+            p, ic = art[bras]["proba"], art[bras]["ic"]
+            al = p > 0.5
+            out.append({"mois": e["mois"], "sens": e["sens"], "region": e["region"], "bras": bras,
+                        "marches_observes": int(sel.sum()), "alertes": int((al & sel).sum()),
+                        "part_alerte": float(al[sel].double().mean()) if sel.any() else float("nan"),
+                        "p_moyenne": float(p[sel].mean()) if sel.any() else float("nan"),
+                        "ic_contient_0.5": int((((ic[0] <= 0.5) & (ic[1] >= 0.5)) & sel).sum()),
+                        "marches_cites_observes": int(cites.sum()), "alertes_cites": int((al & cites).sum()),
+                        "part_alerte_region_tous_mois": float(al[dans_region].double().mean())})
+    return out
 
 
 def diebold_mariano(art, alpha):

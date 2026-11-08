@@ -247,9 +247,12 @@ def scalabilite(rapide):
             fig.add_scatter(x=[l[x] for l in d], y=[l[c] for l in d], mode="lines+markers", name=nom,
                             line=dict(color=COULEUR[nom], width=2), marker=dict(size=8), showlegend=col == 1,
                             legendgroup=nom, row=1, col=col)
-    fig.update_yaxes(type="log", title_text="temps médian (s, échelle log)", col=1)
-    fig.update_yaxes(type="log", col=2)
-    fig.update_xaxes(type="log", title_text="N (échelle log)", col=1)
+    graduations = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100]             # libellés lisibles sur l'échelle log
+    fig.update_yaxes(type="log", tickvals=graduations, ticktext=[f"{v:g}".replace(".", ",") for v in graduations])
+    fig.update_yaxes(title_text="temps médian (s, échelle log)", col=1)
+    gn = [500, 1000, 2000, 5000, 10000, 20000]
+    fig.update_xaxes(type="log", title_text="N (échelle log)", tickvals=gn, ticktext=[f"{v:,}".replace(",", " ") for v in gn],
+                     col=1)
     fig.update_xaxes(title_text="D", col=2)
     return style(fig, 1100, 520)
 
@@ -285,12 +288,69 @@ def decisions_scenarios(rapide):
     return _foret("scenarios_decisions", rapide)
 
 
+# Une grandeur par panneau (jamais deux unités sur un même axe) : préfixes d'identifiants, titre de l'axe, référence
+GROUPES_PRIX = [
+    (("HP1-",), "|K̂ − K_ref| : VB − EM-BIC (composantes)", 0.0),
+    (("HP2-",), "log-vraisemblance de test : VB − EM-BIC", 0.0),
+    (("HP3-", "HP7-"), "fréquence d'ajustements dégénérés : VB ou MAP-EM − EM à Kmax", 0.0),
+    (("HP5",), "variance de K̂ : VB − EM", 0.0),
+    (("HP4-",), "temps EM-BIC / temps d'un VB (rapport)", 1.0),
+    (("HP6-diff",), "couverture VB − couverture bootstrap EM-BIC", 0.0),
+    (("HP6-VB", "HP6-bootstrap"), "couverture des intervalles à 90 %", 0.9),
+]
+MARQUE_TEST = {"equivalence": ("diamond", "équivalence (TOST)"), "difference": ("circle", "différence (Wilcoxon)"),
+               "intervalle": ("square", "intervalle (bootstrap)")}
+
+
+def _foret_groupes(nom_csv, groupes, rapide):
+    """Graphique en forêt par panneaux : chaque groupe d'hypothèses a son axe, son unité et sa valeur de référence."""
+    L = lire_csv(nom_csv, rapide) or []
+    blocs = []
+    for prefixes, titre, ref in groupes:
+        d = [l for l in L if any(str(l["id"]).startswith(p) for p in prefixes) and isinstance(l.get("estimation"), float)]
+        if d:
+            blocs.append((d, titre, ref))
+    if not blocs:
+        raise LookupError(nom_csv)
+    fig = make_subplots(rows=len(blocs), cols=1, vertical_spacing=0.32 / len(blocs),
+                        row_heights=[len(d) + 1.2 for d, _, _ in blocs])
+    vus = set()
+    for i, (d, titre, ref) in enumerate(blocs, start=1):
+        for test, c in (("equivalence", SERIES[0]), ("difference", SERIES[1]), ("intervalle", SERIES[2])):
+            e = [l for l in d if l["test"] == test]
+            if not e:
+                continue
+            sym, nom = MARQUE_TEST[test]
+            fig.add_scatter(x=[l["estimation"] for l in e], y=[l["id"] for l in e], mode="markers", name=nom,
+                            legendgroup=test, showlegend=test not in vus,
+                            marker=dict(size=9, color=c, symbol=sym, line=dict(color="white", width=1)),
+                            error_x=dict(type="data", symmetric=False, color=c, thickness=1.5,
+                                         array=[l["ic_haut"] - l["estimation"] for l in e],
+                                         arrayminus=[l["estimation"] - l["ic_bas"] for l in e]),
+                            customdata=[l["decision"] for l in e],
+                            hovertemplate="%{y}<br>%{x:.3f}<br>%{customdata}<extra></extra>", row=i, col=1)
+            vus.add(test)
+            for l in e:
+                if test == "equivalence" and isinstance(l.get("marge"), float):
+                    fig.add_shape(type="line", x0=ref - l["marge"], x1=ref + l["marge"], y0=l["id"], y1=l["id"],
+                                  layer="below", line=dict(color=GRILLE, width=10), row=i, col=1)
+        fig.add_vline(x=ref, line=dict(color=ENCRE_2, width=1), row=i, col=1)
+        fig.update_yaxes(categoryorder="array", categoryarray=[l["id"] for l in d][::-1], title_text="", row=i, col=1)
+        fig.update_xaxes(title_text=titre, title_standoff=4, title_font=dict(size=13), row=i, col=1)
+    n = sum(len(d) for d, _, _ in blocs)
+    return style(fig, 1000, 34 * n + 95 * len(blocs) + 120)
+
+
 def decisions_prix(rapide):
-    return _foret("prix_decisions", rapide)
+    return _foret_groupes("prix_decisions", GROUPES_PRIX, rapide)
 
 
 def decisions_texte(rapide):
-    return _foret("texte_decisions", rapide)
+    """HT1 : écarts de perplexité sur plusieurs ordres de grandeur (probabilités nulles du pLSA) : échelle log."""
+    fig = _foret("texte_decisions", rapide)
+    fig.update_xaxes(type="log", exponentformat="power",
+                     title_text="écart relatif de perplexité pLSA − LDA (moyenne, IC bootstrap à 95 %, échelle log)")
+    return fig
 
 
 # ------------------------------------------------------------------------------ cas pratique : prix alimentaires
@@ -299,28 +359,6 @@ SYMBOLES = ["circle", "diamond", "square", "triangle-up", "cross", "star"]
 
 def _alerte(rapide):
     return _unite("prix", "alerte", rapide)["artefacts"]
-
-
-def prix_marches(rapide):
-    """Carte des marchés (longitude, latitude) : couleur et symbole par région, taille selon le nombre d'observations."""
-    a = _alerte(rapide)
-    n = torch.bincount(a["marche"], minlength=len(a["marches"]))
-    regions = sorted({a["regions"][i] for i in range(len(n)) if n[i] > 0},           # régions observées seulement
-                     key=lambda r: -sum(int(n[i]) for i, x in enumerate(a["regions"]) if x == r))
-    fig = go.Figure()
-    for j, reg in enumerate(regions):
-        idx = [i for i, x in enumerate(a["regions"]) if x == reg and n[i] > 0]
-        fig.add_scatter(x=[float(a["lon"][i]) for i in idx], y=[float(a["lat"][i]) for i in idx], mode="markers", name=reg,
-                        marker=dict(size=[8 + 2.5 * math.sqrt(int(n[i])) for i in idx], color=SERIES[j], symbol=SYMBOLES[j],
-                                    opacity=0.85, line=dict(color="white", width=2)),
-                        customdata=[[a["marches"][i], int(n[i])] for i in idx],
-                        hovertemplate="%{customdata[0]}<br>%{customdata[1]} observations<extra>" + reg + "</extra>")
-    for i in torch.argsort(n, descending=True)[:6].tolist():
-        fig.add_annotation(x=float(a["lon"][i]), y=float(a["lat"][i]), text=a["marches"][i], showarrow=False, yshift=16,
-                           font=dict(size=11, color=ENCRE_2))
-    fig.update_xaxes(title_text="longitude (°)")
-    fig.update_yaxes(title_text="latitude (°)", scaleanchor="x", scaleratio=1)
-    return style(fig, 760, 820)
 
 
 def prix_selection(rapide):
@@ -349,40 +387,148 @@ def _marches_suivis(a, n=3):
     return torch.argsort(t, descending=True)[:n].tolist()
 
 
+def _geo(fig, lon, lat, **cible):
+    """Fond de carte : Cameroun en blanc bordé, pays voisins grisés, projection de Mercator."""
+    fig.update_geos(projection_type="mercator", lonaxis_range=lon, lataxis_range=lat, resolution=50, showframe=False,
+                    showcountries=True, countrycolor="#a9a8a3", showland=True, landcolor="#ecebe6", showocean=True,
+                    oceancolor="#e9f0f7", showlakes=True, lakecolor="#e9f0f7", showcoastlines=True,
+                    coastlinecolor="#a9a8a3", **cible)
+
+
+def _cameroun(fig, **cible):
+    fig.add_choropleth(locations=["CMR"], z=[1], colorscale=[[0, "white"], [1, "white"]], showscale=False,
+                       marker_line_color=ENCRE_2, marker_line_width=1.2, hoverinfo="skip", showlegend=False, **cible)
+
+
+def prix_marches(rapide):
+    """Carte des marchés : couleur et symbole par région, taille selon le nombre d'observations (marché, mois)."""
+    a = _alerte(rapide)
+    n = torch.bincount(a["marche"], minlength=len(a["marches"]))
+    regions = sorted({a["regions"][i] for i in range(len(n)) if n[i] > 0},           # régions observées seulement
+                     key=lambda r: -sum(int(n[i]) for i, x in enumerate(a["regions"]) if x == r))
+    fig = go.Figure()
+    _cameroun(fig)
+    for j, reg in enumerate(regions):
+        idx = [i for i, x in enumerate(a["regions"]) if x == reg and n[i] > 0]
+        fig.add_scattergeo(lon=[float(a["lon"][i]) for i in idx], lat=[float(a["lat"][i]) for i in idx], mode="markers",
+                           name=f"{reg} ({len(idx)} marchés)",
+                           marker=dict(size=[6 + 1.6 * math.sqrt(int(n[i])) for i in idx], color=SERIES[j],
+                                       symbol=SYMBOLES[j], opacity=0.9, line=dict(color="white", width=1)),
+                           customdata=[[a["marches"][i], int(n[i])] for i in idx],
+                           hovertemplate="%{customdata[0]}<br>%{customdata[1]} observations<extra>" + reg + "</extra>")
+    villes = {"Garoua": (9.30, 13.40), "Ngaoundéré": (7.32, 13.58), "Bertoua": (4.58, 13.68),
+              "Yaoundé": (3.87, 11.52), "Douala": (4.05, 9.70), "Bamenda": (5.96, 10.15)}
+    fig.add_scattergeo(lon=[v[1] for v in villes.values()], lat=[v[0] for v in villes.values()], mode="text",
+                       text=list(villes), textposition="bottom center", textfont=dict(size=12, color=ENCRE_2),
+                       hoverinfo="skip", showlegend=False)
+    _geo(fig, [8.3, 16.4], [1.6, 13.2])
+    style(fig, 760, 900)
+    fig.update_layout(legend=dict(y=-0.02), margin=dict(l=10, r=10, t=10, b=90))
+    return fig
+
+
+def _episodes_marche(region, marche):
+    import donnees as DO
+    return [e for e in DO.EPISODES_PRIX if e["region"] == region and (not e["marches"] or marche in e["marches"])]
+
+
 def prix_alerte(rapide):
     """
-    Pour trois marchés : en haut, l'écart du prix du maïs à son niveau récent ; en bas, la probabilité du régime de
-    tension (EM-BIC : bootstrap ; VB-emp : crédibilité ; bandes à 90 %). Deux mesures, deux rangées : pas de double axe.
+    Pour trois marchés : en haut, le prix du maïs (XAF/kg) et son niveau des douze mois précédents, dont l'écart est la
+    variable du modèle ; en bas, la probabilité du régime de tension (EM-BIC : bootstrap ; VB-emp : crédibilité ;
+    bandes à 90 %). Bandes grisées : épisodes datés par les bulletins. Deux mesures, deux rangées : pas de double axe.
     """
     import donnees as DO
+    import parametres as PARAM
     a = _alerte(rapide)
     choix = _marches_suivis(a)
     fin = DO.mois_texte(int(a["mois"][a["app"]].max()))
-    fig = make_subplots(rows=2, cols=len(choix), shared_xaxes=True, vertical_spacing=0.08, horizontal_spacing=0.05,
-                        subplot_titles=[a["marches"][m] for m in choix], row_heights=[0.4, 0.6])
+    fen, rmin = int(PARAM.valeur("prix_fenetre_mois")), int(PARAM.valeur("prix_releves_min"))
+    prix = DO.prix_bruts()
+    fig = make_subplots(rows=2, cols=len(choix), shared_xaxes=True, vertical_spacing=0.08, horizontal_spacing=0.06,
+                        subplot_titles=[f"{a['marches'][m]} ({a['regions'][m]})" for m in choix], row_heights=[0.45, 0.55])
     for j, m in enumerate(choix, start=1):
+        nom = a["marches"][m]
         sel = (a["marche"] == m).nonzero().flatten()
+        t0, t1 = int(a["mois"][sel].min()), int(a["mois"][sel].max())
+        s = prix.get(nom, {})
+        ts = [t for t in sorted(s) if t0 <= t <= t1]
+        niv = []
+        for t in ts:
+            passe = [math.log(s[u]) for u in range(t - fen, t) if u in s]
+            niv.append(math.exp(sum(passe) / len(passe)) if len(passe) >= rmin else None)
+        xt = [DO.mois_texte(t) + "-15" for t in ts]
+        fig.add_scatter(x=xt, y=[s[t] for t in ts], mode="lines+markers", name="prix du maïs (XAF/kg)",
+                        line=dict(color=SERIES[2], width=2), marker=dict(size=6), showlegend=j == 1, legendgroup="prix",
+                        hovertemplate="%{x|%Y-%m}<br>%{y:.0f} XAF/kg<extra>" + nom + "</extra>", row=1, col=j)
+        fig.add_scatter(x=xt, y=niv, mode="lines", name="niveau des 12 mois précédents", connectgaps=False,
+                        line=dict(color=ENCRE_2, width=1.5, dash="dash"), showlegend=j == 1, legendgroup="niveau",
+                        hovertemplate="%{x|%Y-%m}<br>niveau %{y:.0f} XAF/kg<extra>" + nom + "</extra>", row=1, col=j)
         x = [DO.mois_texte(int(t)) + "-15" for t in a["mois"][sel]]
-        fig.add_scatter(x=x, y=a["X_origine"][sel, 0].tolist(), mode="lines+markers", name="écart du maïs (log)",
-                        line=dict(color=SERIES[2], width=2), marker=dict(size=8), showlegend=j == 1, legendgroup="mais",
-                        row=1, col=j)
-        for nom in ("EM-BIC", "VB-emp"):
-            if nom not in a:
+        for meth in ("EM-BIC", "VB-emp"):
+            if meth not in a:
                 continue
-            p, ic = a[nom]["proba"][sel], a[nom]["ic"][:, sel]
+            p, ic = a[meth]["proba"][sel], a[meth]["ic"][:, sel]
             fig.add_scatter(x=x + x[::-1], y=ic[1].tolist() + ic[0].tolist()[::-1], fill="toself", mode="lines",
-                            line=dict(width=0), fillcolor=COULEUR[nom], opacity=0.18, hoverinfo="skip", showlegend=False,
-                            legendgroup=nom, row=2, col=j)
-            fig.add_scatter(x=x, y=p.tolist(), mode="lines+markers", name=f"P(tension), {nom}", legendgroup=nom,
-                            line=dict(color=COULEUR[nom], width=2), marker=dict(size=8), showlegend=j == 1, row=2, col=j,
-                            hovertemplate="%{x|%Y-%m}<br>P(tension) %{y:.2f}<extra>" + nom + "</extra>")
+                            line=dict(width=0), fillcolor=COULEUR[meth], opacity=0.18, hoverinfo="skip", showlegend=False,
+                            legendgroup=meth, row=2, col=j)
+            fig.add_scatter(x=x, y=p.tolist(), mode="lines+markers", name=f"P(tension), {meth}", legendgroup=meth,
+                            line=dict(color=COULEUR[meth], width=2), marker=dict(size=6), showlegend=j == 1, row=2, col=j,
+                            hovertemplate="%{x|%Y-%m}<br>P(tension) %{y:.2f}<extra>" + meth + "</extra>")
+        for e in _episodes_marche(a["regions"][m], nom):
+            for r in (1, 2):
+                fig.add_vrect(x0=e["mois"] + "-01", x1=e["mois"] + "-28", fillcolor=ENCRE_2, opacity=0.15, line_width=0,
+                              layer="below", row=r, col=j)
+            fig.add_annotation(x=e["mois"] + "-15", y=1, xref=f"x{j}" if j > 1 else "x",
+                               yref=f"y{j} domain" if j > 1 else "y domain", yanchor="top", text=e["sens"], xanchor="left",
+                               showarrow=False, font=dict(size=11, color=ENCRE_2))
         for r in (1, 2):
             fig.add_vline(x=fin + "-28", line=dict(color=ENCRE_2, dash="dot", width=1), row=r, col=j)
     fig.add_hline(y=0.5, line=dict(color=ENCRE_2, dash="dash", width=1), row=2, col="all")
-    fig.update_yaxes(title_text="écart (log)", col=1, row=1)
+    fig.update_yaxes(title_text="maïs (XAF/kg)", col=1, row=1)
     fig.update_yaxes(range=[0, 1], row=2)
-    fig.update_yaxes(title_text="probabilité", row=2, col=1)
-    return style(fig, 1350, 680)
+    fig.update_yaxes(title_text="P(tension)", row=2, col=1)
+    return style(fig, 1350, 700)
+
+
+def prix_carte_alerte(rapide):
+    """
+    Extrême-Nord, mois des deux épisodes datés : P(tension) de chaque marché observé selon l'EM-BIC et le VB-emp, une
+    carte par (épisode, méthode). Même échelle de couleur partout ; contour épais et nom : alerte (P > 0,5) ; noms
+    aussi pour les marchés cités par le bulletin.
+    """
+    import donnees as DO
+    a = _alerte(rapide)
+    meths = [m for m in ("EM-BIC", "VB-emp") if m in a]
+    cartes = [(e, meth) for e in DO.EPISODES_PRIX for meth in meths]
+    fig = make_subplots(rows=1, cols=len(cartes), specs=[[{"type": "geo"}] * len(cartes)], horizontal_spacing=0.01,
+                        subplot_titles=[f"{meth}<br>{e['mois']} ({e['sens']})" for e, meth in cartes])
+    for j, (e, meth) in enumerate(cartes, start=1):
+        t = DO.mois_index(e["mois"])
+        sel = [k for k in (a["mois"] == t).nonzero().flatten().tolist() if a["regions"][int(a["marche"][k])] == e["region"]]
+        mk = [int(a["marche"][k]) for k in sel]
+        lon, lat = [float(a["lon"][m]) for m in mk], [float(a["lat"][m]) for m in mk]
+        p = [float(a[meth]["proba"][k]) for k in sel]
+        ic = a[meth]["ic"]
+        _cameroun(fig, row=1, col=j)
+        fig.add_scattergeo(lon=lon, lat=lat, mode="markers",
+                           marker=dict(size=13, color=p, cmin=0, cmax=1, colorscale=SEQUENTIEL,
+                                       line=dict(color=[ENCRE if v > 0.5 else "white" for v in p],
+                                                 width=[3 if v > 0.5 else 1 for v in p]),
+                                       showscale=j == 1, colorbar=dict(title=dict(text="P(tension)", side="right"),
+                                                                       len=0.8, x=1.01, tickformat=".1f")),
+                           customdata=[[a["marches"][m], float(ic[0, k]), float(ic[1, k])] for m, k in zip(mk, sel)],
+                           hovertemplate="%{customdata[0]}<br>P(tension) %{marker.color:.2f}"
+                                         "<br>IC à 90 % [%{customdata[1]:.2f} ; %{customdata[2]:.2f}]<extra>" + meth
+                                         + "</extra>", showlegend=False, row=1, col=j)
+        fig.add_scattergeo(lon=lon, lat=lat, mode="text", textposition="middle right",
+                           text=["  " + a["marches"][m] if (a["marches"][m] in e["marches"] or v > 0.5) else ""
+                                 for m, v in zip(mk, p)],
+                           textfont=dict(size=11, color=ENCRE_2), hoverinfo="skip", showlegend=False, row=1, col=j)
+    _geo(fig, [13.2, 15.8], [9.9, 13.1])
+    style(fig, 1300, 520, legende=False)
+    fig.update_layout(margin=dict(l=5, r=70, t=60, b=5))
+    return fig
 
 
 def prix_alerte_mois(rapide):
@@ -409,7 +555,7 @@ FIGURES = {
     "fig01": em_8_points, "fig02": bic_aic, "fig03": jeu_reference, "fig04": ellipses, "fig05": poids, "fig06": alpha0,
     "fig07": scalabilite, "fig08": convergence, "fig09": initialisation, "fig10": covariance, "fig11": iris,
     "fig12": decisions_scenarios, "prix_marches": prix_marches, "prix_selection": prix_selection,
-    "prix_alerte": prix_alerte, "prix_alerte_mois": prix_alerte_mois, "prix_decisions": decisions_prix,
+    "prix_alerte": prix_alerte, "prix_carte_alerte": prix_carte_alerte, "prix_alerte_mois": prix_alerte_mois, "prix_decisions": decisions_prix,
     "texte_decisions": decisions_texte,
 }
 

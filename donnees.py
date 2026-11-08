@@ -94,6 +94,31 @@ PANIER_PRIX = ("Maize (white)", "Rice (long grain, imported)", "Beans (niebe)")
 NOMS_PANIER = ("maïs blanc", "riz importé", "niébé")
 SHA256_PRIX = "6b865e4068ad988faa80275ab0e228b5514a0836633f4991e2c18eae7d6b976f"   # extrait du 27/10/2026 (HDX du 04/10/2026)
 
+# Épisodes datés par les bulletins (lecture qualitative, aucune décision n'en dépend). « marches » vide : toute la région.
+# Le second épisode est une BAISSE : le régime de tension ne doit pas s'y allumer (contrôle négatif).
+EPISODES_PRIX = (
+    {"mois": "2023-08", "region": "Extrême-Nord", "marches": (), "sens": "hausse", "source": "pam2023bulletin",
+     "texte": "août 2023 : maïs +24 % en un mois dans l'Extrême-Nord (PAM, 2023)"},
+    {"mois": "2026-04", "region": "Extrême-Nord", "marches": ("Kousseri", "Mokolo", "Mora"), "sens": "baisse",
+     "source": "fewsnet2026",
+     "texte": "avril 2026 : maïs et sorgho 40 à 50 % moins chers qu'un an plus tôt à Kousseri, Mokolo, Mora "
+              "(FEWS NET, 2026)"},
+)
+
+
+def prix_bruts(denree: str = PANIER_PRIX[0]) -> dict:
+    """Prix de détail (XAF/kg) d'une denrée : {marché: {mois_index: prix}}, pics isolés écartés comme dans charger_prix."""
+    import parametres as PARAM
+    facteur = float(PARAM.valeur("prix_facteur_pic"))
+    serie = {}
+    for l in csv.DictReader(open(DATA / "prix" / "wfp_cmr_panier.csv", encoding="utf-8")):
+        if l["commodity"] == denree:
+            serie.setdefault(l["market"], {})[mois_index(l["date"])] = math.log(float(l["price"]))
+    for s in serie.values():
+        for t in pics_isoles(s, facteur):
+            s.pop(t)
+    return {m: {t: math.exp(v) for t, v in s.items()} for m, s in serie.items()}
+
 
 def mois_index(aaaa_mm: str) -> int:
     """'2023-08' -> 2023 x 12 + 7 (mois consécutifs = entiers consécutifs)."""

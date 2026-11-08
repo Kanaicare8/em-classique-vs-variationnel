@@ -197,6 +197,14 @@ def specifications(rapide):
        ("moyenne_maïs blanc", "Écart maïs", "n"), ("moyenne_riz importé", "Écart riz", "n"), ("moyenne_niébé", "Écart niébé", "n"),
        ("part_alerte", "Part p > 0,5", "p"), ("largeur_ic90_moyenne", "Largeur IC", "n"),
        ("part_ic_chevauche_0.5", "IC contient 0,5", "p")])
+    T("prix_episodes", "prix_episodes", "Épisodes datés par les bulletins et alertes du régime de tension (lecture qualitative)",
+      [("mois", "Mois", "t"), ("sens", "Épisode", "t"), ("bras", "Bras", "t"), ("marches_observes", "Marchés obs.", "i"),
+       ("alertes", "Alertes", "i"), ("p_moyenne", "P moyenne", "n2"), ("ic_contient_0.5", "IC contient 0,5", "i"),
+       ("marches_cites_observes", "Cités obs.", "i"), ("alertes_cites", "Alertes cités", "i"),
+       ("part_alerte_region_tous_mois", "Alertes, tous mois", "p")],
+      note="Marchés de l'Extrême-Nord observés le mois de l'épisode. « Cités » : marchés nommés par le bulletin (FEWS NET, "
+           "2026). Dernière colonne : part des observations de la région en alerte sur tous les mois, pour comparaison. "
+           "Une hausse documentée devrait allumer le régime de tension, une baisse ne le devrait pas.")
     T("prix_ecartes", "prix_releves_ecartes", "Relevés écartés comme pics isolés d'un mois (erreurs de saisie probables)",
       [("mois", "Mois", "t"), ("marche", "Marché", "t"), ("denree", "Denrée", "t"), ("prix", "Prix relevé (XAF/kg)", "n1")])
     # texte

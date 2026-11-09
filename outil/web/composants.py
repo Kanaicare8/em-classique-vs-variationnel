@@ -83,6 +83,35 @@ def habiller(fig):
     return fig
 
 
+COULEUR_ETAT = {"rouge": "#c8352f", "orange": "#e2711d", "ambre": "#c99400", "vert": "#2f8f5b"}
+
+
+def badge(etat):
+    """Étiquette colorée de l'état d'un marché (service.ETATS), avec son explication au survol."""
+    import service as SV
+    libelle, couleur, *_, aide = SV.ETATS[etat]
+    return html.Span(libelle, className=f"badge badge-{couleur}", title=aide)
+
+
+def tuile(titre, valeur, sous=None, couleur=None):
+    return html.Div([html.Div(titre, className="tuile-titre"), html.Div(valeur, className="tuile-valeur"),
+                     html.Div(sous, className="tuile-sous") if sous else None],
+                    className=f"tuile tuile-{couleur}" if couleur else "tuile")
+
+
+def tuiles(*enfants):
+    return html.Div(list(enfants), className="tuiles")
+
+
+def chargement(enfant):
+    return dcc.Loading(enfant, type="dot", color="#1F7A4D", delay_show=250)
+
+
+def aide(titre, *enfants):
+    """Bloc dépliable « comment lire »."""
+    return html.Details([html.Summary(titre)] + list(enfants), className="aide")
+
+
 def fond_cameroun(fig, lon=(8.3, 16.4), lat=(1.6, 13.2)):
     """Cameroun en blanc bordé, voisins grisés (Mercator), contours servis en local."""
     fig.add_choropleth(locations=["CMR"], z=[1], colorscale=[[0, "white"], [1, "white"]], showscale=False,

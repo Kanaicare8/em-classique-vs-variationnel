@@ -145,10 +145,20 @@ app = Dash(__name__, server=server, use_pages=True, pages_folder=str(ICI / "page
            suppress_callback_exceptions=True)
 
 
+def _en_attente():
+    with B.session() as s:
+        return s.scalar(select(func.count(B.Releve.id)).where(B.Releve.statut == "en_attente")) or 0
+
+
 def _navigation():
     u = AC.utilisateur()
     pages = [p for p in dash.page_registry.values() if u is not None and AC.peut(p.get("droit", "consulter"), u)]
-    return html.Nav([dcc.Link(p["name"], href=p["relative_path"], className="nav-lien") for p in pages], className="nav")
+    return html.Nav([dcc.Link([p["name"]] + ([html.Span(id="nav-attente", className="compteur")]
+                                             if p["relative_path"] == "/validation" else []),
+                              href=p["relative_path"], id={"type": "nav", "index": p["relative_path"]},
+                              className="nav-lien") for p in pages] +
+                    ([] if any(p["relative_path"] == "/validation" for p in pages)
+                     else [html.Span(id="nav-attente", style={"display": "none"})]), className="nav")
 
 
 def _compte():
@@ -180,6 +190,18 @@ def _gabarit():
 
 
 app.layout = _gabarit
+
+
+@app.callback(Output({"type": "nav", "index": dash.ALL}, "className"), Input("url", "pathname"),
+              dash.State({"type": "nav", "index": dash.ALL}, "id"))
+def _lien_actif(chemin, ids):
+    return ["nav-lien actif" if i["index"] == chemin else "nav-lien" for i in ids]
+
+
+@app.callback(Output("nav-attente", "children"), Output("nav-attente", "style"), Input("url", "pathname"))
+def _compteur(_):
+    n = _en_attente() if AC.peut("valider") else 0
+    return (str(n), None) if n else ("", {"display": "none"})
 
 
 if __name__ == "__main__":

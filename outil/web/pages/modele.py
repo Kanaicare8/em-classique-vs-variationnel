@@ -50,7 +50,7 @@ def _contenu(version):
                            "Poids": CO.pourcent(r["poids"], 1),
                            **{n: CO.pourcent(math.expm1(v), 0, signe=True) for n, v in zip(f["noms"], r["ecart_moyen"])},
                            "_classe": "ligne-tension" if r["tension"] else None})
-        blocs.append(CO.section(f"Régimes appris, {b}", CO.tableau(["Régime", "Poids"] + f["noms"], lignes,
+        blocs.append(CO.section(f"Régimes appris, {SV.METHODES[b].lower()}", CO.tableau(["Régime", "Poids"] + f["noms"], lignes,
                                                                    numeriques=["Poids"] + f["noms"]),
                                 html.P(f"Écart moyen de chaque denrée à son niveau des douze mois, en variation de prix. "
                                        f"Intervalle : {info['intervalle']} ({info['n_tirages']}).", className="question")))
@@ -65,9 +65,9 @@ def _contenu(version):
         def ambigu(idx):
             return CO.pourcent(sum(float(r["bas"][i]) <= 0.5 <= float(r["haut"][i]) for i in idx) / len(idx), 1) \
                 if idx else "–"
-        lignes.append({"Bras": b, "Alerte, apprentissage": part(app), "Alerte, hors apprentissage": part(hors),
-                       "IC contenant 0,5 (hors apprentissage)": ambigu(hors)})
-    cols = ["Bras", "Alerte, apprentissage", "Alerte, hors apprentissage", "IC contenant 0,5 (hors apprentissage)"]
+        lignes.append({"Méthode": SV.METHODES[b], "Alerte, apprentissage": part(app), "Alerte, hors apprentissage": part(hors),
+                       "Fourchette contenant 50 % (hors apprentissage)": ambigu(hors)})
+    cols = ["Méthode", "Alerte, apprentissage", "Alerte, hors apprentissage", "Fourchette contenant 50 % (hors apprentissage)"]
     blocs.append(CO.section("Fréquence des alertes", CO.tableau(cols, lignes, numeriques=cols[1:]), html.P(
         "Une forte différence entre apprentissage et hors apprentissage signale que les prix récents ne ressemblent plus "
         "à ceux de l'apprentissage : c'est le signal pour réestimer le modèle.", className="question")))
@@ -79,9 +79,9 @@ def _contenu(version):
                st["releves"].marches[m].region == e["region"] and (not e["marches"] or m in e["marches"])]
         for i in idx:
             ep.append({"Épisode": e["texte"], "Sens attendu": e["sens"], "Marché": st["marche"][i],
-                       **{f"P {b}": CO.nombre(float(r["p"][i]), 2) for b, r in st["proba"].items()},
+                       **{f"Probabilité, {SV.METHODES_COURT[b].lower()}": CO.pourcent(float(r["p"][i]), 0) for b, r in st["proba"].items()},
                        "_classe": "ligne-tension" if any(float(r["p"][i]) > 0.5 for r in st["proba"].values()) else None})
-    cols_e = ["Épisode", "Sens attendu", "Marché"] + [f"P {b}" for b in st["proba"]]
+    cols_e = ["Épisode", "Sens attendu", "Marché"] + [f"Probabilité, {SV.METHODES_COURT[b].lower()}" for b in st["proba"]]
     blocs.append(CO.section("Épisodes datés par les bulletins", CO.tableau(cols_e, ep, numeriques=cols_e[3:]) if ep else
                             CO.absent("Aucune observation pour ces épisodes dans les données affichées."), html.P(
         "Une hausse datée devrait allumer le régime de tension ; une baisse ne le devrait pas. Deux épisodes ne valident "

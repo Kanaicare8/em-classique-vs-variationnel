@@ -82,29 +82,62 @@ def etat(version: str = REFERENCE) -> dict:
         return valeur
 
 
-# ------------------------------------------------------------------------------ lecture d'une probabilité
+# ------------------------------------------------------------------------------ vocabulaire et lecture
+# Les méthodes du mémoire, nommées pour un lecteur non spécialiste (le nom technique reste entre parenthèses)
+METHODES = {"EM-BIC": "Méthode classique (EM-BIC)", "VB-emp": "Méthode bayésienne (VB)"}
+METHODES_COURT = {"EM-BIC": "Classique", "VB-emp": "Bayésienne"}
+MODES = {"accord": "Prudente : les deux méthodes", "EM-BIC": "Méthode classique", "VB-emp": "Méthode bayésienne"}
+
+# État d'un marché : (libellé, couleur du badge, en alerte ?, à surveiller ?, explication)
+ETATS = {
+    "alerte": ("Alerte", "rouge", True, False, "probabilité de tension au-dessus de 50 %, fourchette comprise"),
+    "alerte_probable": ("Alerte probable", "orange", True, False,
+                        "probabilité au-dessus de 50 %, mais la fourchette descend sous 50 %"),
+    "surveiller": ("À surveiller", "ambre", False, True,
+                   "probabilité sous 50 %, mais la fourchette monte au-dessus de 50 %"),
+    "desaccord": ("Méthodes en désaccord", "ambre", False, True, "une méthode voit une tension, l'autre non"),
+    "calme": ("Calme", "vert", False, False, "probabilité et fourchette sous 50 %"),
+}
+
+
 def lecture(p, bas, haut):
-    """(libellé, classe CSS) d'une probabilité et de son intervalle à 90 %."""
+    """Code d'état d'une probabilité et de son intervalle à 90 % (clé de ETATS)."""
     if p > SEUIL:
-        return ("alerte", "ligne-tension") if bas > SEUIL else ("alerte incertaine", "ligne-incertaine")
-    return ("calme incertain", "ligne-incertaine") if haut >= SEUIL else ("calme", None)
+        return "alerte" if bas > SEUIL else "alerte_probable"
+    return "surveiller" if haut >= SEUIL else "calme"
 
 
 def evaluation(st, mode, i):
-    """(p, bas, haut, lecture, classe) de l'observation i ; mode = un bras, ou « accord » (alerte si les deux bras)."""
+    """(p, bas, haut, état) de l'observation i ; mode = une méthode, ou « accord » : alerte si les deux méthodes la
+    donnent, désaccord si une seule ; P et fourchette affichés sont alors les plus prudents des deux."""
     if mode != "accord":
         r = st["proba"][mode]
         p, bas, haut = float(r["p"][i]), float(r["bas"][i]), float(r["haut"][i])
-        return (p, bas, haut, *lecture(p, bas, haut))
+        return p, bas, haut, lecture(p, bas, haut)
     ev = [evaluation(st, b, i) for b in st["proba"]]
     hauts = [e[0] > SEUIL for e in ev]
-    if all(hauts):
-        lc = ("alerte (deux bras)", "ligne-tension")
-    elif any(hauts):
-        lc = ("désaccord des bras", "ligne-incertaine")
-    else:
-        lc = ("calme (deux bras)", None)
-    return (min(e[0] for e in ev), min(e[1] for e in ev), max(e[2] for e in ev), *lc)
+    etat = "alerte" if all(hauts) else "desaccord" if any(hauts) else \
+        ("surveiller" if any(e[3] == "surveiller" for e in ev) else "calme")
+    return min(e[0] for e in ev), min(e[1] for e in ev), max(e[2] for e in ev), etat
+
+
+def en_alerte(etat):
+    return ETATS[etat][2]
+
+
+def a_surveiller(etat):
+    return ETATS[etat][3]
+
+
+MOIS_FR = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre",
+           "décembre")
+
+
+MOIS_COURT = ("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
+
+
+def mois_humain(t, court=False):
+    return f"{(MOIS_COURT if court else MOIS_FR)[t % 12]} {t // 12}"
 
 
 def evaluer_releve(version, marche, t, prix: dict):

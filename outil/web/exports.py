@@ -8,6 +8,7 @@ from datetime import date
 
 from flask import Response, request
 
+import composants as CO
 import service as SV
 from bulletin_calc import bulletin
 
@@ -28,7 +29,7 @@ def csv_bulletin():
     f = io.StringIO()
     w = csv.writer(f, delimiter=";")
     noms = st["modele"].fiche["noms"]
-    w.writerow(["mois", "marche", "region", "lecture", "modele"] +
+    w.writerow(["mois", "marche", "region", "etat", "modele"] +
                [f"{br}_{c}" for br in st["proba"] for c in ("p_tension", "ic90_bas", "ic90_haut")] +
                [f"prix_{n}_xaf_kg" for n in noms] + [f"ecart_{n}" for n in noms])
     for l in b["toutes"]:
@@ -65,26 +66,29 @@ def pdf_bulletin():
     f = io.BytesIO()
     doc = SimpleDocTemplate(f, pagesize=landscape(A4), leftMargin=15 * mm, rightMargin=15 * mm, topMargin=14 * mm,
                             bottomMargin=14 * mm, title=f"Bulletin des marchés {SV.mois_texte(t)}")
-    el = [Paragraph(f"Bulletin des marchés, {SV.mois_texte(t)}", titre),
+    el = [Paragraph(f"Bulletin des marchés, {SV.mois_humain(t)}", titre),
           Paragraph(b["phrase"], corps), Spacer(1, 4),
           Paragraph(f"Modèle : {st['modele'].fiche['libelle']} ; lecture : {b['mode_texte']} ; données : "
                     f"{st['extrait']['origine']} ; édité le {date.today():%d/%m/%Y}.", petit),
           Paragraph("Par région", h2),
-          tab([["Région", "Marchés observés", "En alerte", "Incertains", "Part d'alerte habituelle"]] +
-              [[r["region"], r["n"], r["alerte"], r["incertains"], r["habituelle"]] for r in b["regions"]])]
+          Paragraph(f"Marchés observés : {len(b['toutes'])} ; en alerte : {len(b['alerte'])} ; à surveiller : "
+                    f"{len(b['surveiller'])}.", corps),
+          tab([["Région", "Marchés observés", "En alerte", "À surveiller", "D'habitude en alerte"]] +
+              [[r["region"], r["n"], r["alerte"], r["surveiller"], CO.pourcent(r["habituelle"], 0)]
+               for r in b["regions"]])]
     el.append(Paragraph("Marchés à surveiller", h2))
     if b["a_voir"]:
         noms = st["modele"].fiche["noms"]
-        el.append(tab([["Marché", "Région", "P(tension)", "IC 90 %", "Lecture"] + [f"{n} (XAF/kg)" for n in noms] +
-                       ["Écart du maïs"]] +
-                      [[l["marche"], l["region"], l["p_txt"], l["ic_txt"], l["lecture"]] + l["prix_txt"] + [l["ecart_mais"]]
-                       for l in b["a_voir"]]))
+        el.append(tab([["Marché", "Région", "État", "Probabilité", "Fourchette"] + [f"{n} (XAF/kg)" for n in noms]] +
+                      [[l["marche"], l["region"], l["lecture"], l["p_txt"], l["ic_txt"]] +
+                       [f"{p} ({e})" for p, e in zip(l["prix_txt"], l["ecarts_txt"])] for l in b["a_voir"]]))
     else:
-        el.append(Paragraph("Aucun marché en alerte ni de lecture incertaine ce mois-là.", corps))
+        el.append(Paragraph("Aucun marché en alerte ni à surveiller ce mois-là.", corps))
     el += [Spacer(1, 10), Paragraph(
-        "P(tension) : probabilité que les écarts de prix du marché relèvent du régime de tension, composante du mélange "
-        "gaussien aux écarts les plus élevés. Écart : prix du mois rapporté à sa moyenne géométrique des douze mois "
-        "précédents. IC 90 % : intervalle de l'incertitude des paramètres du modèle. Outil d'aide à la lecture, sans "
+        "Probabilité : chance que les écarts de prix du marché relèvent du régime de tension appris sur 2021-2023 "
+        "(composante d'un mélange gaussien aux écarts les plus élevés). Fourchette : intervalle à 90 % de cette "
+        "probabilité. Alerte : probabilité au-dessus de 50 % ; à surveiller : la fourchette contient 50 % ou les deux "
+        "méthodes divergent. Entre parenthèses : écart du prix à sa moyenne des douze mois précédents. Outil d'aide à la lecture, sans "
         "vérité terrain : une alerte appelle une vérification, pas une décision automatique. Source des prix : World "
         "Food Programme, Cameroon - Food Prices, Humanitarian Data Exchange (CC BY-IGO).", petit)]
     doc.build(el)

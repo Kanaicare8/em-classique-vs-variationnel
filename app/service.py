@@ -13,6 +13,7 @@ Aucun ajustement n'est lancé ici. Trois sources :
 from __future__ import annotations
 
 import csv
+import math
 import sys
 from pathlib import Path
 
@@ -65,6 +66,7 @@ def _prix_bruts() -> dict:
 
 PRIX = _prix_bruts()
 MARCHES_AVEC_PRIX = sorted({m for m, _ in PRIX})
+PRIX_NETS = {c: DO.prix_bruts(c) for c in PANIER}   # {denrée : {marché : {mois : prix}}}, pics isolés écartés (mémoire)
 
 
 def mois_date(t: int) -> str:
@@ -123,6 +125,53 @@ def regimes(nom: str) -> list[dict]:
     return out
 
 
+# ------------------------------------------------------------------------------ nouveau relevé (page « Nouveau relevé »)
+FENETRE = int(PARAM.valeur("prix_fenetre_mois"))
+RELEVES_MIN = int(PARAM.valeur("prix_releves_min"))
+_cache_tir = {"cle": None, "valeur": None}
+
+
+def tirages():
+    """Tirages de l'unité « alerte » écrits par app/precalcul.py (resultats/app/releve.pt) ; None s'ils manquent."""
+    for nom in ("releve.pt", "releve_rapide.pt"):
+        f = DOSSIER_APP / nom
+        if f.exists():
+            if _cache_tir["cle"] != (nom, f.stat().st_mtime):
+                _cache_tir.update(cle=(nom, f.stat().st_mtime), valeur=PE.charger(f))
+            return _cache_tir["valeur"]
+    return None
+
+
+def niveau_12_mois(marche: int, denree: str, t: int):
+    """(niveau en XAF/kg, nombre de relevés) des `FENETRE` mois avant t, comme donnees.charger_prix ; niveau = exp(moyenne
+    des log-prix) ; None si moins de `RELEVES_MIN` relevés."""
+    s = PRIX_NETS[denree].get(MARCHES[marche], {})
+    passe = [math.log(s[u]) for u in range(t - FENETRE, t) if u in s]
+    return (math.exp(sum(passe) / len(passe)), len(passe)) if len(passe) >= RELEVES_MIN else (None, len(passe))
+
+
+def evaluer_releve(marche: int, t: int, prix: dict):
+    """Écarts d'un relevé saisi ({denrée : XAF/kg}) et, pour chaque bras, P(tension) et intervalle à 90 % ; même définition
+    que le mémoire (écart = ln p - moyenne des ln p des 12 mois précédents ; P plug-in pour EM-BIC, moyenne sous q pour le
+    VB ; intervalle = quantiles 5 % et 95 % des tirages). Rend (écarts, niveaux, résultats par bras ou None)."""
+    niveaux = {c: niveau_12_mois(marche, c, t) for c in PANIER}
+    ecarts = [math.log(prix[c]) - math.log(niveaux[c][0]) if prix.get(c) and niveaux[c][0] else None for c in PANIER]
+    tir = tirages()
+    if tir is None or any(e is None for e in ecarts):
+        return ecarts, niveaux, None
+    z = ((torch.tensor(ecarts, dtype=torch.float64) - tir["centre"]) / tir["echelle"])[None]
+    out = {}
+    for nom, b in tir["bras"].items():
+        ps = torch.stack([EP._proba_composante(z, b["pi"][i][None], b["mu"][i][None], b["cov"][i][None],
+                                               int(b["k_tirage"][i]))[0, 0] for i in range(len(b["pi"]))])
+        pl = b["plugin"]
+        p = float(ps.mean()) if b["moyenne_des_tirages"] else \
+            float(EP._proba_composante(z, pl["pi"][None], pl["mu"][None], pl["cov"][None], b["k"])[0, 0])
+        q = torch.quantile(ps, torch.tensor([0.05, 0.95], dtype=torch.float64))
+        out[nom] = {"p": p, "bas": float(q[0]), "haut": float(q[1]), "n_tirages": len(ps)}
+    return ecarts, niveaux, out
+
+
 # ------------------------------------------------------------------------------ calcul confirmatoire (lecture seule)
 def magasin_officiel(rapide: bool) -> PE.Magasin:
     return PE.Magasin("prix", RACINE / "resultats" / ("magasin_rapide" if rapide else "magasin"))
@@ -150,8 +199,6 @@ def hypotheses_declarees() -> list[dict]:
     hs = [{"id": h.id, "axe": h.axe, "enonce": h.enonce, "test": h.test} for h in HY.famille("prix")]
     hs += [{"id": "HP4", "axe": "Coût", "test": "intervalle",
             "enonce": "Temps du pipeline EM-BIC divisé par le temps d'un VB (étape chronometrage)"},
-           {"id": "HP5", "axe": "Hyperparamètres", "test": "descriptif",
-            "enonce": "Variance de K̂ du VB sur le domaine plausible des priors contre variance de K̂ de l'EM-BIC entre graines"},
            {"id": "HP6", "axe": "Incertitude", "test": "intervalle",
             "enonce": "Couverture à 90 % des intervalles (VB : crédibilité ; EM : bootstrap), inconditionnelle"}]
     hs += [{"id": f"HPP{i}", "axe": "Prévision", "test": "Diebold-Mariano (Holm)", "enonce": f"Log-score : {a} contre {b}"}

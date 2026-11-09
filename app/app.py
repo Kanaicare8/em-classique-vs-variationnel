@@ -3,10 +3,10 @@
 APPLICATION DE PRÉSENTATION DU CAS PRATIQUE : prix alimentaires du Cameroun (Dash)
 ================================================================================
 
-python app/app.py            puis ouvrir http://127.0.0.1:8050 dans le navigateur
+python app/app.py            puis ouvrir http://127.0.0.1:8051 dans le navigateur (port : variable ICARE_PORT)
 
-Quatre pages : données, régimes, alerte (ajustements de app/precalcul.py) et résultats du mémoire (magasin confirmatoire,
-lecture seule). Le démarrage charge PyTorch : compter une à deux minutes sur le poste du mémoire, à faire AVANT la
+Six pages : données, régimes, alerte, bulletin du mois, nouveau relevé (ajustements et tirages de app/precalcul.py) et
+résultats du mémoire (magasin confirmatoire, lecture seule). Le démarrage charge PyTorch : compter une à deux minutes sur le poste du mémoire, à faire AVANT la
 soutenance ; la page s'affiche ensuite instantanément.
 """
 
@@ -32,15 +32,15 @@ app = Dash(__name__, use_pages=True, pages_folder=str(ICI / "pages"), external_s
 
 
 def _navigation():
-    return html.Nav([dcc.Link([html.Span(str(i), className="nav-num"), p["name"]], href=p["relative_path"],
+    return html.Nav([dcc.Link(p["name"], href=p["relative_path"],
                               id={"type": "nav", "index": p["relative_path"]}, className="nav-lien")
-                     for i, p in enumerate(dash.page_registry.values(), start=1)], className="nav")
+                     for p in dash.page_registry.values()], className="nav")
 
 
 app.layout = html.Div([
     dcc.Location(id="url"),
     html.Div([
-        html.Div([html.Span("Mémoire · Chapitre 3", className="marque-sur"),
+        html.Div([html.Span("Mémoire de KANA TIODONG Icare Brichel, cas pratique", className="marque-sur"),
                   html.Span("EM et EM variationnel : prix alimentaires du Cameroun", className="marque")],
                  className="marque-bloc"),
         _navigation(),
@@ -62,5 +62,6 @@ def _lien_actif(chemin):
 
 
 if __name__ == "__main__":
-    print(f"Prêt en {time.perf_counter() - t0:.0f} s : ouvrez http://127.0.0.1:8050", flush=True)
-    app.run(host="127.0.0.1", port=8050, debug=False)
+    port = int(__import__("os").environ.get("ICARE_PORT", "8051"))   # 8050 est pris par le suivi du mémoire de Miguel
+    print(f"Prêt en {time.perf_counter() - t0:.0f} s : ouvrez http://127.0.0.1:{port}", flush=True)
+    app.run(host="127.0.0.1", port=port, debug=False)

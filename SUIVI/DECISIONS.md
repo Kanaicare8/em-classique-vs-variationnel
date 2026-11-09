@@ -370,7 +370,8 @@ mention.
   c8g.8xlarge (32 cœurs, `--travailleurs 31`) le 2026-11-09 (la c8g.16xlarge choisie dépassait le quota spot du
   compte, 96 vCPU, dont 64 pris par MKAN). Anciennes unités et anciens tableaux gardés pour comparaison.
 - **Non refait, déclaré** : le pilote de `n_bootstrap_modele` (`calibrage.py`, l. 821) utilise encore l'ancien
-  alignement ; B = 1 000 reste prudent, le calibrage n'est pas refait.
+  alignement ; la valeur calibrée, B = 10 000 (la plus grande de la grille ; 1 000 n'est que la valeur provisoire
+  du registre), reste prudente, le calibrage n'est pas refait.
 - **Données** : `.gitattributes` (`data/** -text`) garde le CSV des prix en octets exacts ; sans lui, Git sous Windows
   ajoute des CRLF et l'empreinte SHA-256 vérifiée par `donnees.py` échoue.
 - **Résultats du recalcul (2026-11-09)** : 278 unités en 1 h 20 sur la c8g.8xlarge (code 0, aucune erreur), coût

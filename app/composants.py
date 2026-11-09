@@ -11,6 +11,7 @@ from dash import dcc, html
 import figures as FG
 
 POLICE = "'Source Sans 3', 'Segoe UI', Arial, sans-serif"
+ENCRE = "#14432A"                 # vert foncé d'Icare pour le texte des graphiques
 
 # Barre d'outils Plotly complète : zoom, déplacement, sélection, lasso, dessin, survol comparé, export haute définition
 CONFIG = {
@@ -21,18 +22,29 @@ CONFIG = {
     "modeBarButtonsToAdd": ["drawline", "drawopenpath", "drawrect", "drawcircle", "eraseshape",
                             "hoverclosest", "hovercompare", "toggleSpikelines", "v1hovermode"],
     "toImageButtonOptions": {"format": "png", "scale": 3},
+    "topojsonURL": "/assets/topojson/",   # contours des pays servis en local : les cartes marchent sans Internet
 }
+
+
+def fond_cameroun(fig, lon=(8.3, 16.4), lat=(1.6, 13.2)):
+    """Carte hors ligne, identique aux figures du mémoire : Cameroun en blanc bordé, voisins grisés (Mercator)."""
+    FG._cameroun(fig)
+    FG._geo(fig, list(lon), list(lat))
+    return fig
 
 
 def habiller(fig, legende=True):
     """Style du mémoire adapté à l'écran : taille fixée par le conteneur, virgule décimale, survol lisible."""
     fig.update_layout(width=None, height=None, autosize=True, showlegend=legende, separators=", ",
-                      font=dict(family=POLICE, color=FG.ENCRE, size=13), paper_bgcolor="white", plot_bgcolor="white",
+                      font=dict(family=POLICE, color=ENCRE, size=13), paper_bgcolor="white", plot_bgcolor="white",
                       margin=dict(l=64, r=24, t=36, b=56), dragmode="zoom",
-                      hoverlabel=dict(bgcolor="white", bordercolor=FG.ENCRE_2, font=dict(family=POLICE, color=FG.ENCRE)),
+                      hoverlabel=dict(bgcolor="white", bordercolor=FG.ENCRE_2, font=dict(family=POLICE, color=ENCRE)),
                       legend=dict(orientation="h", x=0, y=1.0, yanchor="bottom", bgcolor="rgba(0,0,0,0)",
                                   font=dict(color=FG.ENCRE_2)),
-                      newshape=dict(line=dict(color=FG.ENCRE, width=2)))
+                      newshape=dict(line=dict(color=ENCRE, width=2)))
+    if any(getattr(a, "yref", None) == "paper" and (a.y or 0) >= 0.99 for a in fig.layout.annotations):
+        # titres de sous-graphes au bord haut : la légende passe au-dessus d'eux au lieu de les recouvrir
+        fig.update_layout(margin=dict(t=88), legend=dict(y=1.09, yanchor="bottom"))
     fig.update_xaxes(gridcolor=FG.GRILLE, zeroline=False, showline=True, linecolor=FG.ENCRE_2, ticks="outside",
                      automargin=True)
     fig.update_yaxes(gridcolor=FG.GRILLE, zeroline=False, showline=True, linecolor=FG.ENCRE_2, ticks="outside",
@@ -54,6 +66,9 @@ def graphe(id_, fig=None, hauteur=460, legende=None, numero=None):
 def nombre(x, d=2, signe=False):
     if x is None or (isinstance(x, float) and math.isnan(x)):
         return "–"
+    if round(x, d) == 0:
+        x = 0.0                                        # pas de « −0 » ni de « +0 » : un écart nul s'écrit 0
+        signe = False
     s = f"{x:+.{d}f}" if signe else f"{x:.{d}f}"
     return s.replace(".", ",").replace("-", "−")
 

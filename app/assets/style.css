@@ -1,13 +1,16 @@
-/* Style « document » : fond blanc, filets fins, encre et palette de figures.py. Pas d'ombres, pas de dégradés. */
+/* Style « document » : fond blanc, filets fins, vert de la présentation d'Icare (construire_icare.js).
+   Pas d'ombres, pas de dégradés, pas de capitales espacées. */
 
 :root {
-  --encre: #14377B;          /* titres, comme les figures du mémoire */
-  --texte: #1f2430;
+  --encre: #1F7A4D;          /* vert d'Icare : titres, liens, accents */
+  --encre-fonce: #14432A;
+  --teinte: #EAF4EE;
+  --texte: #2A2E32;
   --texte-2: #52514e;
-  --filet: #d9dce3;
-  --filet-leger: #eceef2;
+  --filet: #D5DED8;
+  --filet-leger: #E6ECE8;
   --fond: #ffffff;
-  --fond-2: #f7f8fa;
+  --fond-2: #F4F7F5;
   --tension: #c8352f;
   --incertain: #b07a00;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -43,7 +46,7 @@ body.sans-defilement { overflow: hidden; }
 }
 
 .marque-bloc { display: flex; flex-direction: column; padding-bottom: 12px; }
-.marque-sur { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--texte-2); }
+.marque-sur { font-size: 13px; color: var(--texte-2); }
 .marque { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--encre); }
 
 .nav { display: flex; gap: 28px; }
@@ -70,10 +73,9 @@ body.sans-defilement { overflow: hidden; }
 
 .surtitre {
   margin: 0 0 6px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--texte-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--encre);
 }
 
 h1, h2, h3 { font-family: var(--serif); color: var(--encre); font-weight: 600; }
@@ -225,3 +227,14 @@ summary { cursor: pointer; color: var(--encre); }
   .deux-colonnes { grid-template-columns: 1fr; }
   .pied { padding: 16px; }
 }
+
+/* ------------------------------------------------------------------ saisie d'un relevé */
+.saisie {
+  width: 140px;
+  padding: 6px 10px;
+  border: 1px solid var(--filet);
+  border-radius: 4px;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.saisie:focus { outline: 2px solid var(--teinte); border-color: var(--encre); }

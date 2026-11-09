@@ -11,7 +11,7 @@ import composants as CO
 import figures as FG
 import service as SV
 
-dash.register_page(__name__, path="/", name="Données", order=1, title="Données · Prix alimentaires du Cameroun")
+dash.register_page(__name__, path="/", name="Données", order=1, title="Données, prix alimentaires du Cameroun")
 
 
 def _fiche():
@@ -28,19 +28,19 @@ def _fiche():
 
 def _carte():
     fig = go.Figure()
+    CO.fond_cameroun(fig)
     for reg in SV.REGIONS_ORDRE:
         idx = [i for i, r in enumerate(SV.REGIONS) if r == reg and SV.N_APP[i] + SV.N_TEST[i] > 0]
         if not idx:
             continue
-        fig.add_scattermap(lat=[SV.LAT[i] for i in idx], lon=[SV.LON[i] for i in idx], mode="markers", name=reg,
+        fig.add_scattergeo(lat=[SV.LAT[i] for i in idx], lon=[SV.LON[i] for i in idx], mode="markers", name=reg,
                            marker=dict(size=[6 + 1.8 * math.sqrt(SV.N_APP[i] + SV.N_TEST[i]) for i in idx],
                                        color=SV.COULEUR_REGION[reg], opacity=0.85),
                            customdata=[[i, SV.MARCHES[i], SV.N_APP[i], SV.N_TEST[i]] for i in idx],
                            hovertemplate="<b>%{customdata[1]}</b><br>apprentissage : %{customdata[2]} obs."
                                          "<br>test : %{customdata[3]} obs.<extra>" + reg + "</extra>")
     CO.habiller(fig)
-    fig.update_layout(map=dict(style="carto-positron", center=dict(lat=7.2, lon=12.7), zoom=4.75),
-                      margin=dict(l=0, r=0, t=0, b=0), legend=dict(orientation="v", x=0.01, y=0.99, yanchor="top",
+    fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(orientation="v", x=0.01, y=0.99, yanchor="top",
                                                                    bgcolor="rgba(255,255,255,0.85)"))
     return fig
 
@@ -87,7 +87,7 @@ def _tableau_ecartes():
 def layout(**_):
     return html.Div([
         html.Header([
-            html.P("Cas pratique du chapitre 3", className="surtitre"),
+            html.P("Données", className="surtitre"),
             html.H1("Régimes de tension des prix alimentaires sur les marchés du Cameroun"),
             html.P("Un mélange gaussien peut-il apprendre des régimes de prix à partir des données, sans seuils fixés à "
                    "l'avance, et attacher à chaque marché et à chaque mois une probabilité d'être en régime de tension, "

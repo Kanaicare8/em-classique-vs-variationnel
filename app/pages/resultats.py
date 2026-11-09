@@ -6,8 +6,8 @@ from dash import Input, Output, callback, dcc, html
 import composants as CO
 import service as SV
 
-dash.register_page(__name__, path="/resultats", name="Résultats du mémoire", order=4,
-                   title="Résultats · Prix alimentaires du Cameroun")
+dash.register_page(__name__, path="/resultats", name="Résultats du mémoire", order=6,
+                   title="Résultats, prix alimentaires du Cameroun")
 
 FIGURES = [("prix_selection", "4.1", "Choix de K : BIC de l'EM selon K et poids des composantes du VB-emp à Kmax."),
            ("prix_decisions", "4.2", "Hypothèses HP1 à HP6 : différence moyenne A − B et intervalle bootstrap à 95 % ; "
@@ -31,7 +31,7 @@ def _avancement():
 
 def layout(**_):
     return html.Div([
-        html.Header([html.P("Page 4", className="surtitre"), html.H1("Résultats du mémoire"),
+        html.Header([html.P("Résultats", className="surtitre"), html.H1("Résultats du mémoire"),
                      html.P("Cette page n'a aucun réglage : elle affiche ce que la chaîne de calcul a écrit dans le magasin "
                             "confirmatoire (python run.py prix, puis run.py --figures). Les hypothèses ont été déclarées "
                             "dans hypotheses.py avant toute exécution ; les décisions sont prises sur les p-valeurs "
@@ -86,7 +86,9 @@ def _contenu(source):
             figs.append(CO.absent(f"Figure {numero} en attente : l'unité nécessaire n'est pas encore dans le magasin "
                                   f"({erreur})."))
         else:
-            hauteur = {"prix_alerte": 640, "prix_marches": 700, "prix_decisions": 620}.get(nom, 460)
+            hauteur = {"prix_alerte": 640, "prix_marches": 700}.get(nom, 460)
+            if nom == "prix_decisions" and fig.layout.height:
+                hauteur = int(fig.layout.height)        # forêt : hauteur du mémoire, proportionnelle au nombre de lignes
             figs.append(CO.graphe(f"res-{nom}", CO.habiller(fig), hauteur, numero=numero, legende=legende))
     blocs.append(CO.section("4.2", "Figures du mémoire", *figs))
     return blocs

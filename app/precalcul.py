@@ -85,6 +85,45 @@ def main():
                                       "seuil_actif": seuil, "provisoires": PARAM.provisoires(), "rapide": rapide,
                                       "date": datetime.now().strftime("%Y-%m-%d %H:%M")})
     print(f"résumé écrit : {chemin_regimes(rapide).relative_to(RACINE)}")
+
+    # Tirages de l'unité « alerte » (même code, mêmes graines) pour la page « Nouveau relevé » : VB, tirages de q ;
+    # EM-BIC, réplicats bootstrap à démarrage chaud alignés (D-19). Contrôle : ils redonnent les intervalles officiels.
+    chemin_tir = DOSSIER_APP / ("releve_rapide.pt" if rapide else "releve.pt")
+    if not chemin_tir.exists():
+        tirages = {}
+        for nom, res in sortie.items():
+            if "echec" in res:
+                continue
+            p = C.params_plugin(res)
+            k = EP.regime_tension(p["mu"], res["Nk"] / len(Xtr) >= seuil, d)
+            if nom.startswith("VB"):
+                nt = 500 if rapide else int(PARAM.valeur("n_tirages_posterieur"))
+                pis, mus, covs = EP.tirages_q(res["P"], nt, PE.graine("prix", "alerte_tirages") % 2 ** 31)
+                ks = torch.full((len(pis),), k)
+            else:
+                B = 50 if rapide else int(PARAM.valeur("n_bootstrap_modele"))
+                print(f"{nom} : {B} réplicats bootstrap (une seule fois)...", flush=True)
+                reps, ks = [], []
+                for b in range(B):
+                    ib = torch.randint(len(Xtr), (len(Xtr),), generator=A.generateur(PE.graine("prix", "alerte_boot", b)))
+                    eb = C.em_demarrage_chaud(Xtr[ib], res)
+                    reps.append(eb)
+                    ks.append(int(C.aligner_bootstrap(Xtr, res, eb)[k]))
+                pis, mus, covs = (torch.stack([r[c] for r in reps]) for c in ("pi", "mu", "cov"))
+                ks = torch.tensor(ks)
+            tirages[nom] = {"pi": pis, "mu": mus, "cov": covs, "k_tirage": ks, "k": k,
+                            "plugin": {"pi": p["pi"], "mu": p["mu"], "cov": p["cov"]},
+                            "moyenne_des_tirages": nom.startswith("VB")}
+        PE.sauver(chemin_tir, {"bras": tirages, "centre": d["centre"], "echelle": d["echelle"], "rapide": rapide,
+                               "date": datetime.now().strftime("%Y-%m-%d %H:%M")})
+        print(f"tirages écrits : {chemin_tir.relative_to(RACINE)}")
+    tir = PE.charger(chemin_tir)
+    officiel = mag.lire("alerte")["artefacts"]
+    for nom, t in tir["bras"].items():
+        ps = torch.stack([EP._proba_composante(d["Z"], t["pi"][i][None], t["mu"][i][None], t["cov"][i][None],
+                                               int(t["k_tirage"][i]))[0] for i in range(len(t["pi"]))])
+        ic = torch.quantile(ps, torch.tensor([0.05, 0.95], dtype=torch.float64), dim=0)
+        print(f"contrôle {nom} : écart max à l'IC officiel = {float((ic.float() - officiel[nom]['ic']).abs().max()):.2e}")
     if PARAM.provisoires():
         print("paramètres provisoires utilisés (chiffres exploratoires) : " + ", ".join(PARAM.provisoires()))
 

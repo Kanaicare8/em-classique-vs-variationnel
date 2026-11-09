@@ -11,7 +11,7 @@ import composants as CO
 import figures as FG
 import service as SV
 
-dash.register_page(__name__, path="/regimes", name="Régimes", order=2, title="Régimes · Prix alimentaires du Cameroun")
+dash.register_page(__name__, path="/regimes", name="Régimes", order=2, title="Régimes, prix alimentaires du Cameroun")
 
 PAIRES = [(0, 1), (0, 2), (1, 2)]
 INACTIF = "#c4c7cf"
@@ -59,7 +59,7 @@ def _comparaison(pre):
 
 def layout(**_):
     pre = SV.precalcul()
-    tete = html.Header([html.P("Page 2", className="surtitre"), html.H1("Régimes appris sur l'apprentissage"),
+    tete = html.Header([html.P("Régimes", className="surtitre"), html.H1("Régimes appris sur l'apprentissage"),
                         html.P(f"Les deux bras retenus pour l'alerte sont ajustés sur les "
                                f"{SV.DESCRIPTIF[0]['observations']} observations d'apprentissage ({SV.DESCRIPTIF[0]['debut']} "
                                f"à {SV.DESCRIPTIF[0]['fin']}), variables standardisées par l'apprentissage. Le régime de "

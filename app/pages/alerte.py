@@ -9,7 +9,7 @@ import composants as CO
 import figures as FG
 import service as SV
 
-dash.register_page(__name__, path="/alerte", name="Alerte", order=3, title="Alerte · Prix alimentaires du Cameroun")
+dash.register_page(__name__, path="/alerte", name="Alerte", order=3, title="Alerte, prix alimentaires du Cameroun")
 
 ECHELLE = [[0.0, "#e8f1fb"], [0.5, "#f2c46d"], [1.0, "#c8352f"]]
 EPISODE = "rgba(82, 81, 78, 0.10)"
@@ -27,7 +27,7 @@ def _marches_observes():
 
 
 def _etiquette(i):
-    return f"{SV.MARCHES[i]} · {SV.REGIONS[i]}"
+    return f"{SV.MARCHES[i]}, {SV.REGIONS[i]}"
 
 
 def _lecture(p, bas, haut):
@@ -75,7 +75,7 @@ def _synthese(pre):
 
 def layout(**_):
     pre = SV.precalcul()
-    tete = html.Header([html.P("Page 3", className="surtitre"), html.H1("Probabilité du régime de tension"),
+    tete = html.Header([html.P("Alerte", className="surtitre"), html.H1("Probabilité du régime de tension"),
                         html.P("Pour chaque marché et chaque mois, probabilité a posteriori d'appartenir au régime de "
                                "tension, avec un intervalle à 90 % : crédibilité (tirages de la loi variationnelle q) pour "
                                "VB-emp, bootstrap à démarrage chaud pour EM-BIC. Le seuil de 0,5 sert à résumer, pas à "
@@ -141,7 +141,8 @@ def _carte(nom, j):
     p, ic = a[nom]["proba"], a[nom]["ic"]
     mk = [SV.MARCHE[i] for i in obs]
     fig = go.Figure()
-    fig.add_scattermap(lat=[SV.LAT[m] for m in mk], lon=[SV.LON[m] for m in mk], mode="markers",
+    CO.fond_cameroun(fig)
+    fig.add_scattergeo(lat=[SV.LAT[m] for m in mk], lon=[SV.LON[m] for m in mk], mode="markers",
                        marker=dict(size=15, color=[float(p[i]) for i in obs], colorscale=ECHELLE, cmin=0, cmax=1,
                                    colorbar=dict(title=dict(text="P(tension)", side="right"), thickness=12, len=0.7,
                                                  tickformat=".1f", outlinewidth=0)),
@@ -150,8 +151,7 @@ def _carte(nom, j):
                                      "<br>IC 90 % [%{customdata[3]:.2f} ; %{customdata[4]:.2f}]<extra></extra>",
                        showlegend=False)
     CO.habiller(fig)
-    fig.update_layout(map=dict(style="carto-positron", center=dict(lat=7.2, lon=12.7), zoom=4.75),
-                      margin=dict(l=0, r=0, t=0, b=0))
+    fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
 
     lignes = []
     for i in sorted(obs, key=lambda i: -float(p[i])):

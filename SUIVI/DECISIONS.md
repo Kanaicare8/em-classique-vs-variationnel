@@ -386,3 +386,21 @@ mention.
   22 non tranchées, 6 sans sens prédit, comme avant. Texte mis à jour (synthèse du cas, épisodes, RH3, conclusion) et
   défaut déclaré comme écart au protocole (8) au chapitre 3. Commit du recalcul renseigné à la main dans
   l'historique d'environnement (`dd538fc`) : l'instance tournait sur une archive sans dossier `.git`.
+
+## D-20 Outil opérationnel tiré du cas des prix (dossier `outil/`), 2026-11-09
+
+- **Demande** : faire du cas pratique un outil utilisable par un ministère ou une ONG (bulletin mensuel, saisie de
+  relevés), déployable plus tard (Railway par exemple). Le mémoire n'est pas modifié : « cas pratique » y garde son
+  sens académique (méthodes appliquées à des données réelles).
+- **Modèle** : le modèle du mémoire (EM-BIC et VB-emp ajustés sur 2021-04 à 2023-12, standardisation, tirages de
+  l'unité « alerte ») est exporté tel quel et reste la référence, jamais modifié. Une réestimation, lancée à la main
+  et versionnée (nouveau dossier de modèle, date, données, code), peut s'y ajouter ; l'outil affiche les deux et
+  dit lequel produit chaque chiffre.
+- **Emplacement** : dossier `outil/` de ce dépôt (choix de l'étudiant). Le code du mémoire n'est pas touché ; le
+  dépôt sera étiqueté avant la soutenance (P-24) pour figer l'état du mémoire.
+- **Saisie** : relevés saisis enregistrés dès la première version, dans une base (SQLite en local, Postgres en
+  ligne), avec comptes et rôles (administrateur, analyste, agent de collecte).
+- **Exécution sans PyTorch** : l'outil calcule les probabilités en NumPy à partir des paramètres exportés ;
+  l'équivalence avec le calcul du mémoire est un test (`outil/tests`), pas une hypothèse.
+- **Données** : l'outil lit tout extrait du PAM au format de `outils/telecharger_prix_wfp.py` ; l'empreinte figée
+  (`donnees.SHA256_PRIX`) ne concerne que le mémoire, l'outil enregistre celle de chaque extrait qu'il charge.

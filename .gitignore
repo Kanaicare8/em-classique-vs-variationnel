@@ -32,3 +32,6 @@ references/*.pdf
 
 # Application (précalcul régénérable par app/precalcul.py)
 resultats/app/
+
+# outil (D-20) : base locale et clé de session
+outil/instance/

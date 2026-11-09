@@ -1,0 +1,116 @@
+{
+  "version": "memoire",
+  "libelle": "Modèle du mémoire (référence figée)",
+  "description": "EM-BIC et VB-emp ajustés sur les écarts des prix d'avril 2021 à décembre 2023 ; mémoire de KANA TIODONG Icare Brichel, cas pratique des prix alimentaires du Cameroun.",
+  "apprentissage": {
+    "debut": "2021-04",
+    "fin": "2023-12",
+    "n": 562
+  },
+  "ecarts": {
+    "fenetre_mois": 12,
+    "releves_min": 3,
+    "facteur_pic": 3.0
+  },
+  "panier": [
+    "Maize (white)",
+    "Rice (long grain, imported)",
+    "Beans (niebe)"
+  ],
+  "noms": [
+    "maïs blanc",
+    "riz importé",
+    "niébé"
+  ],
+  "donnees": {
+    "fichier": "data/prix/wfp_cmr_panier.csv",
+    "sha256": "6b865e4068ad988faa80275ab0e228b5514a0836633f4991e2c18eae7d6b976f"
+  },
+  "seuil_actif": 0.01,
+  "bras": {
+    "EM-BIC": {
+      "k_tension": 0,
+      "p_moyenne_des_tirages": false,
+      "n_tirages": 10000,
+      "intervalle": "quantiles 5 % et 95 % des réplicats bootstrap à démarrage chaud alignés (D-19)",
+      "regimes": [
+        {
+          "k": 0,
+          "tension": true,
+          "poids": 0.10505329439290798,
+          "ecart_moyen": [
+            0.11214398319782756,
+            0.007894664335093135,
+            -0.02283821841664851
+          ]
+        },
+        {
+          "k": 1,
+          "tension": false,
+          "poids": 0.8949467056074479,
+          "ecart_moyen": [
+            0.03323778991905389,
+            -0.00271688006944177,
+            -0.012872148043396047
+          ]
+        }
+      ]
+    },
+    "VB-emp": {
+      "k_tension": 4,
+      "p_moyenne_des_tirages": true,
+      "n_tirages": 8000,
+      "intervalle": "quantiles 5 % et 95 % des tirages de la loi variationnelle q",
+      "regimes": [
+        {
+          "k": 2,
+          "tension": false,
+          "poids": 0.44567308331396976,
+          "ecart_moyen": [
+            0.06353438462831684,
+            0.022292203695154642,
+            -0.12588180962186307
+          ]
+        },
+        {
+          "k": 4,
+          "tension": true,
+          "poids": 0.14506111919246584,
+          "ecart_moyen": [
+            0.045028233893838816,
+            0.048263760678851964,
+            0.14963223621402993
+          ]
+        },
+        {
+          "k": 5,
+          "tension": false,
+          "poids": 0.1348498691389914,
+          "ecart_moyen": [
+            0.02525528832292461,
+            -0.09843038470846426,
+            0.09901534503443003
+          ]
+        },
+        {
+          "k": 6,
+          "tension": false,
+          "poids": 0.2561120681541578,
+          "ecart_moyen": [
+            -0.007678337845818499,
+            -0.019413393907180502,
+            0.04620177777041384
+          ]
+        }
+      ]
+    }
+  },
+  "code": {
+    "commit": "c7481db",
+    "unites": [
+      "reference",
+      "alerte"
+    ]
+  },
+  "exporte_le": "2026-11-09 11:57"
+}

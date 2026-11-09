@@ -92,3 +92,6 @@ conformité), **Mineur** (forme).
 | T-10 | Majeur | Seuil d'activité : le tableau 2.4 annonce N_k ≥ 1 pour les illustrations, le code applique N_k/N ≥ 1 % à tous les bras | `body.tex` l. 852, 1152, 1158 ; `comparaison.py` l. 32-34 | Étiquette définie autrement dans le texte et le code |
 | T-11 | Mineur | Annexe F placée avant l'annexe E | `body.tex` l. 1814-1820 | Ordre |
 | T-12 | Majeur | Volume : 102 pages de corps aujourd'hui, avec la limite de 112 ; les ajouts T-06 et les résultats vont l'augmenter | `main.toc` (annexes p. 103) ; D-01 | Il faudra déplacer du chapitre 1 vers les annexes ou condenser |
+
+**Mise à jour du 2026-11-09 (A-18).** Les 13 copies PDF de S13 à S25 sont présentes dans `references/` (vérifié
+fichier par fichier) : A-18 est réglé. P-18 est aussi réglé : les 62 entrées de `references.bib` sont toutes citées.

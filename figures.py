@@ -338,7 +338,11 @@ def _foret_groupes(nom_csv, groupes, rapide):
         fig.update_yaxes(categoryorder="array", categoryarray=[l["id"] for l in d][::-1], title_text="", row=i, col=1)
         fig.update_xaxes(title_text=titre, title_standoff=4, title_font=dict(size=13), row=i, col=1)
     n = sum(len(d) for d, _, _ in blocs)
-    return style(fig, 1000, 34 * n + 95 * len(blocs) + 120)
+    hauteur = 34 * n + 95 * len(blocs)
+    style(fig, 1000, hauteur)
+    # légende à distance fixe sous le dernier panneau (en fraction de la zone de tracé, -0,18 laissait un grand blanc)
+    fig.update_layout(margin=dict(b=110), legend=dict(y=-65 / (hauteur - 40 - 110)))
+    return fig
 
 
 def decisions_prix(rapide):
@@ -348,8 +352,14 @@ def decisions_prix(rapide):
 def decisions_texte(rapide):
     """HT1 : écarts de perplexité sur plusieurs ordres de grandeur (probabilités nulles du pLSA) : échelle log."""
     fig = _foret("texte_decisions", rapide)
+    bornes = []
+    for t in fig.data:                      # bornes des intervalles, pour caler l'axe log sur les données
+        for x, h, b in zip(t.x or [], (t.error_x.array if t.error_x else None) or [], (t.error_x.arrayminus if t.error_x else None) or []):
+            bornes += [v for v in (x - b, x + h) if v > 0]
     fig.update_xaxes(type="log", exponentformat="power",
                      title_text="écart relatif de perplexité pLSA − LDA (moyenne, IC bootstrap à 95 %, échelle log)")
+    if bornes:
+        fig.update_xaxes(range=[math.floor(math.log10(min(bornes))) - 1, math.ceil(math.log10(max(bornes))) + 1])
     return fig
 
 
@@ -522,7 +532,7 @@ def prix_carte_alerte(rapide):
                                          "<br>IC à 90 % [%{customdata[1]:.2f} ; %{customdata[2]:.2f}]<extra>" + meth
                                          + "</extra>", showlegend=False, row=1, col=j)
         fig.add_scattergeo(lon=lon, lat=lat, mode="text", textposition="middle right",
-                           text=["  " + a["marches"][m] if (a["marches"][m] in e["marches"] or v > 0.5) else ""
+                           text=["    " + a["marches"][m] if (a["marches"][m] in e["marches"] or v > 0.5) else ""
                                  for m, v in zip(mk, p)],
                            textfont=dict(size=11, color=ENCRE_2), hoverinfo="skip", showlegend=False, row=1, col=j)
     _geo(fig, [13.2, 15.8], [9.9, 13.1])

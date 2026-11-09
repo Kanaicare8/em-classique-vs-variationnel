@@ -23,7 +23,14 @@ identifiant : P-xx (point du plan), D-xx (décision), E-xx (expérience).
 | `CANEVAS_ECOLE.md` | plan imposé par l'école (transcription) | créé le 2026-11-04 |
 | `CHANGEMENTS_MEMOIRE.md` | modifications du document, par section | créé le 2026-11-04 |
 
-## État du jour (2026-11-05)
+## État du jour (2026-11-09)
+
+Toutes les étapes de calcul sont faites (E-02, puis recalcul D-19 des unités de couverture et d'alerte du cas des
+prix). Résultats, tableaux, figures et texte à jour sur `main` ; audit du 09/11 appliqué (objectifs, contexte,
+redites, volume : corps de 112 pages). Reste : relecture finale par l'étudiant, puis P-24 (étiquette et archive).
+Détail : `DECISIONS.md` (D-19), `CHANGEMENTS_MEMOIRE.md`, `JOURNAL.md`.
+
+## État du 2026-11-05 (historique)
 
 Calibrage en cours sur l'instance (E-01). Code à jour sur GitHub (`dc14b66`) : D-04 à D-07, D-14 (relances du texte),
 P-10, P-17, sensibilité aux marges. Mémoire restructuré selon le canevas (D-10), bibliographie IEEE, renvois

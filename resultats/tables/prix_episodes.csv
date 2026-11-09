@@ -1,0 +1,5 @@
+mois,sens,region,bras,marches_observes,alertes,part_alerte,p_moyenne,ic_contient_0.5,marches_cites_observes,alertes_cites,part_alerte_region_tous_mois
+2023-08,hausse,Extrême-Nord,EM-BIC,17,4,0.23529411764705882,0.20700596272945404,4,0,0,0.10260336906584992
+2023-08,hausse,Extrême-Nord,VB-emp,17,2,0.11764705882352941,0.1646953970193863,1,0,0,0.12404287901990811
+2026-04,baisse,Extrême-Nord,EM-BIC,11,0,0.0,0.11337218433618546,2,3,0,0.10260336906584992
+2026-04,baisse,Extrême-Nord,VB-emp,11,0,0.0,0.015385549515485764,0,3,0,0.12404287901990811

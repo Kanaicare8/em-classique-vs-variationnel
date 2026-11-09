@@ -411,7 +411,7 @@ def prix_marches(rapide):
     for j, reg in enumerate(regions):
         idx = [i for i, x in enumerate(a["regions"]) if x == reg and n[i] > 0]
         fig.add_scattergeo(lon=[float(a["lon"][i]) for i in idx], lat=[float(a["lat"][i]) for i in idx], mode="markers",
-                           name=f"{reg} ({len(idx)} marchés)",
+                           name=f"{reg} ({len(idx)} marché{'s' if len(idx) > 1 else ''})",
                            marker=dict(size=[6 + 1.6 * math.sqrt(int(n[i])) for i in idx], color=SERIES[j],
                                        symbol=SYMBOLES[j], opacity=0.9, line=dict(color="white", width=1)),
                            customdata=[[a["marches"][i], int(n[i])] for i in idx],

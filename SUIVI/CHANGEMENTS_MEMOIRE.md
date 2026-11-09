@@ -125,3 +125,33 @@ si une version plus précise que (iii) est voulue (article non téléchargeable 
 | Chap. 4, analyse | mise en relation avec la littérature (RH2, RH3, RH1/RH4, RH5, HT1), limites des résultats (6 points), perspectives | canevas, résultats |
 | Chap. 4, synthèse ; conclusion | bilan chiffré (63 décisions) ; section « Réponses aux hypothèses de recherche » | résultats E-02 |
 | Tableaux générés | verdict de HP6-diff corrigé (conforme) ; caractères Unicode | D-18 |
+
+## 2026-11-09 : audit de la session des articles (reprise du travail d'Icare)
+
+Sauvegarde avant modification : `sauvegardes/20261109-011511_avant_audit_b6/`.
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Introduction | sections « Contexte » (enjeu réel : Cadre Harmonisé, chocs de prix, seuils du PAM, mêmes sources que le chap. 3) et « Problématique » séparées ; section « Objectifs » ajoutée (objectif général, cinq objectifs spécifiques reliés à RH1 à RH5 et au cas des prix) | canevas : contexte, problématique, hypothèses, objectifs |
+| Introduction, périmètre | le modèle de Markov caché est dit traité en théorie seulement (annexe G), sans expérience | le périmètre l'annonçait comme objet d'étude |
+| Introduction, thèse | « soupçon méthodique » et « termes bannis » reformulés | ton défensif |
+| Chap. 4, introduction | rappel des cinq hypothèses de recherche | canevas, point 1 du chapitre des résultats |
+| Chap. 4, bilan et recommandations | phrase après la grille et ouverture des recommandations resserrées ; recommandation de standardiser reliée au cas d'Iris | ton ; contradiction avec Iris non standardisé |
+| Chap. 3, validité interne | valeur calibrée de la régularisation précisée (ε = 0,1) | « εI » laissait croire à un ε infinitésimal |
+| Chap. 4, discussion critique | précautions réduites à ce qui n'est pas dans la section 3 des limites ; perspectives générales renvoyées à la conclusion (« reprises suggérées par les résultats ») | limites écrites trois fois, perspectives deux fois |
+| Conclusion | « Limites du travail » réduite aux limites absentes ailleurs ; perspectives resserrées, avec le critère d'élagage reporté de la discussion ; contributions 1 et 2 fusionnées ; paragraphe final redondant retiré (renvoi à la grille reporté dans les réponses aux hypothèses) | redites ; volume |
+| Chap. 1 | prose autour des équations condensée (loi gaussienne univariée, cadre bayésien, interprétation de la KL) ; taxonomie fusionnée avec les exemples ; deux lignes du tableau 1.1 retirées (analyse factorielle, IRT) ; conclusion du chapitre de 669 à environ 250 mots | volume (D-12) ; cours général sans usage dans la suite |
+| Volume | corps de la page 1 à la page 112 (bibliographie page 113), contre 114 pages au départ | limite de 112 pages (D-12) |
+
+Restent, après le recalcul D-19 : chiffres de la synthèse du cas des prix, de la discussion de RH3 et des réponses aux hypothèses ; paragraphe sur les épisodes de prix (tableau `prix_episodes`) ; nouvelle mesure du volume.
+
+## 2026-11-09 : résultats recalculés après D-19
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 4, synthèse du cas des prix | couverture du bootstrap EM-BIC 44 % et 78 % (au lieu de 66 % et 82 %), écart au VB chiffré ; phrase « dix fois plus étroit… n'est pas une précision » remplacée : largeurs comparables (0,075 à 0,093 pour le VB, 0,087 à 0,124 pour EM-BIC) | D-19 |
+| Chap. 4, cas des prix | paragraphe sur les épisodes datés (tableau `prix_episodes`, figure `prix_carte_alerte`), définitions différentes de la tension (maïs pour EM-BIC, niébé pour le VB) ; limites du cas réduites aux points qui lui sont propres | relais du 09/11 ; redite avec la section 3 des limites |
+| Chap. 4, RH3 et littérature | couvertures recalculées ; nuance : sous-couverture aussi à K connu (EM-K) | D-19 |
+| Chap. 3, écarts au protocole | point (8) : défaut d'alignement corrigé après les résultats, unités recalculées, verdicts inchangés | transparence |
+| Conclusion, RH3 | couverture du bootstrap EM-BIC chiffrée | D-19 |
+| Annexe D | ligne du recalcul (instance aarch64, commit `dd538fc`) | traçabilité |

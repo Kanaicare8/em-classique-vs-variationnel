@@ -348,3 +348,40 @@ mention.
   pages, à la limite. Corrections de génération au passage : en-têtes `N_k` et `K_ref`, note de `prix_complet`
   (`ef` lu comme retour chariot), valeur de `tol_rel` du registre ; renvois `tab:1_2`, `tab:1_4`, `tab:1_5`
   devenus `tab:t1_*`. Compilation : 0 erreur, aucune référence indéfinie, 168 pages au total.
+
+## D-19 Alignement des réplicats du bootstrap de l'EM (cas des prix), 2026-11-07, recalcul le 2026-11-09
+
+- **Défaut** : les bootstraps de l'EM de l'étape des prix (`etape_prix.unite_alerte` et les 300 unités
+  `couverture/*` de HP6) alignaient chaque réplicat sur le modèle de référence par appariement hongrois sur les seules
+  moyennes (`cdist(mu)`). Le modèle de référence a K = 2 composantes aux moyennes voisines (tension 10,5 %, maïs
+  +0,11 ; calme 89,5 %) : dans 47 réplicats sur 200, l'alignement prenait la grosse composante pour la tension.
+- **Diagnostic** (script `diag_alerte_em.py` de la session du 07/11) : largeur moyenne de l'IC à 90 % de
+  P(tension), EM-BIC : 0,94 avec l'ancien alignement (IC contenant 0,5 : 100 %), 0,10 avec l'alignement par
+  responsabilités (7 %), à comparer à 0,08 pour VB-emp (6 %). L'alignement par responsabilités est identique au
+  démarrage chaud dans 200 cas sur 200.
+- **Correctif** : `comparaison.aligner_bootstrap`, appariement hongrois sur le recouvrement des responsabilités
+  calculées sur les données d'origine, utilisé par `unite_couverture` et `unite_alerte` (commit `a0eead6`) ; test
+  `tests/test_alignement_bootstrap.py` ; suite complète : 102 tests passés (sur l'instance, le 2026-11-09).
+- **Effet attendu** : la couverture du bootstrap EM-BIC (66 % pour pi, 82 % pour mu) et la décision HP6-diff
+  « VB < EM-BIC » (RH3) étaient sans doute gonflées ; à relire sur les résultats recalculés. La couverture du VB
+  (22 % et 64 %) n'est pas touchée.
+- **Unités recalculées** : `couverture/*` (300) et `alerte` (1) ; les ajustements mémorisés (`_sous/`) sont relus,
+  seuls les bootstraps sont refaits. 23 unités faites en local le 2026-11-08, les 278 autres sur une instance spot
+  c8g.8xlarge (32 cœurs, `--travailleurs 31`) le 2026-11-09 (la c8g.16xlarge choisie dépassait le quota spot du
+  compte, 96 vCPU, dont 64 pris par MKAN). Anciennes unités et anciens tableaux gardés pour comparaison.
+- **Non refait, déclaré** : le pilote de `n_bootstrap_modele` (`calibrage.py`, l. 821) utilise encore l'ancien
+  alignement ; B = 1 000 reste prudent, le calibrage n'est pas refait.
+- **Données** : `.gitattributes` (`data/** -text`) garde le CSV des prix en octets exacts ; sans lui, Git sous Windows
+  ajoute des CRLF et l'empreinte SHA-256 vérifiée par `donnees.py` échoue.
+- **Résultats du recalcul (2026-11-09)** : 278 unités en 1 h 20 sur la c8g.8xlarge (code 0, aucune erreur), coût
+  d'environ 0,30 $ ; instance et disque supprimés automatiquement après copie des sorties. Agrégation refaite en local
+  (`run.py prix --tables`) avec les unités de chronométrage du magasin du 07/11, que l'instance n'avait pas (sans
+  elles, les lignes HP4 disparaissaient). Tableaux non touchés par D-19 (`prix_descriptif`, `prix_diebold_mariano`,
+  `prix_resume`) gardés dans leur version commitée : seuls des écarts d'arrondi (au plus 2e-15) les distinguaient.
+  Couverture à 90 % du bootstrap EM-BIC : 44 % pour pi et 78 % pour mu (contre 66 % et 82 %) ; EM-K : 48 % et 82 %
+  (contre 72 % et 86 %) ; VB inchangé (22 % et 64 %). HP6-diff : -0,215 pour pi (IC [-0,27 ; -0,157], contre -0,44)
+  et -0,146 pour mu ; verdict « VB < EM-BIC » inchangé. Largeur moyenne de l'IC90 de P(tension) pour EM-BIC : 0,087
+  (apprentissage) et 0,124 (test), contre 0,946 et 0,921. Aucun verdict ne change : bilan 31 conformes, 4 contraires,
+  22 non tranchées, 6 sans sens prédit, comme avant. Texte mis à jour (synthèse du cas, épisodes, RH3, conclusion) et
+  défaut déclaré comme écart au protocole (8) au chapitre 3. Commit du recalcul renseigné à la main dans
+  l'historique d'environnement (`dd538fc`) : l'instance tournait sur une archive sans dossier `.git`.

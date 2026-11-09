@@ -17,11 +17,11 @@ HP4-N60,Coût,Temps du pipeline EM-BIC divisé par le temps d'un VB (ratio > 1 :
 HP4-N120,Coût,Temps du pipeline EM-BIC divisé par le temps d'un VB (ratio > 1 : EM-BIC plus coûteux),intervalle,,,,4.699138358480458,3.935261928958521,5.415562704397435,,,,ratio > 1,,,RH5,ratio > 1,
 HP4-N250,Coût,Temps du pipeline EM-BIC divisé par le temps d'un VB (ratio > 1 : EM-BIC plus coûteux),intervalle,,,,5.020699022629598,3.743001689321457,5.483743622841405,,,,ratio > 1,,,RH5,ratio > 1,
 HP4-N500,Coût,Temps du pipeline EM-BIC divisé par le temps d'un VB (ratio > 1 : EM-BIC plus coûteux),intervalle,,,,2.5806283535414165,2.4005840669131473,2.9209922401856336,,,,ratio > 1,,,RH5,ratio > 1,
-HP6-diff-VB-EM-BIC-pi,Incertitude,"Couverture VB moins couverture bootstrap EM-BIC (pi), appariée par réplication",intervalle,,,,-0.44166666666666665,-0.5,-0.3832916666666669,,,,VB < EM-BIC,,,RH3,VB < EM-BIC,300
-HP6-diff-VB-EM-BIC-mu,Incertitude,"Couverture VB moins couverture bootstrap EM-BIC (mu), appariée par réplication",intervalle,,,,-0.17777777777777778,-0.20888888888888887,-0.14833333333333334,,,,VB < EM-BIC,,,RH3,VB < EM-BIC,300
+HP6-diff-VB-EM-BIC-pi,Incertitude,"Couverture VB moins couverture bootstrap EM-BIC (pi), appariée par réplication",intervalle,,,,-0.215,-0.27,-0.15666666666666668,,,,VB < EM-BIC,,,RH3,VB < EM-BIC,300
+HP6-diff-VB-EM-BIC-mu,Incertitude,"Couverture VB moins couverture bootstrap EM-BIC (mu), appariée par réplication",intervalle,,,,-0.14611111111111114,-0.1750138888888889,-0.11722222222222224,,,,VB < EM-BIC,,,RH3,VB < EM-BIC,300
 HP6-VB-pi,Incertitude,"Couverture à 90 % (VB, pi), inconditionnelle",intervalle,,,600,0.22166666666666668,0.18166666666666667,0.26166666666666666,,,,< 90 %,,,RH3,< 90 %,300
 HP6-VB-mu,Incertitude,"Couverture à 90 % (VB, mu), inconditionnelle",intervalle,,,1800,0.6383333333333333,0.6122222222222222,0.6644444444444445,,,,< 90 %,,,RH3,< 90 %,300
-HP6-bootstrap EM-BIC-pi,Incertitude,"Couverture à 90 % (bootstrap EM-BIC, pi), inconditionnelle",intervalle,,,600,0.6633333333333333,0.6133333333333333,0.7133333333333334,,,,< 90 %,,,RH3,compatible avec 90 %,300
-HP6-bootstrap EM-BIC-mu,Incertitude,"Couverture à 90 % (bootstrap EM-BIC, mu), inconditionnelle",intervalle,,,1800,0.8161111111111111,0.7944444444444444,0.8383333333333334,,,,< 90 %,,,RH3,compatible avec 90 %,300
-HP6-bootstrap EM-K-pi,Incertitude,"Couverture à 90 % (bootstrap EM-K, pi), inconditionnelle",intervalle,,,600,0.72,0.6666666666666666,0.7666666666666667,,,,< 90 %,,,RH3,compatible avec 90 %,300
-HP6-bootstrap EM-K-mu,Incertitude,"Couverture à 90 % (bootstrap EM-K, mu), inconditionnelle",intervalle,,,1800,0.855,0.8360972222222222,0.8738888888888889,,,,< 90 %,,,RH3,compatible avec 90 %,300
+HP6-bootstrap EM-BIC-pi,Incertitude,"Couverture à 90 % (bootstrap EM-BIC, pi), inconditionnelle",intervalle,,,600,0.43666666666666665,0.38,0.49333333333333335,,,,< 90 %,,,RH3,compatible avec 90 %,300
+HP6-bootstrap EM-BIC-mu,Incertitude,"Couverture à 90 % (bootstrap EM-BIC, mu), inconditionnelle",intervalle,,,1800,0.7844444444444445,0.7633333333333333,0.806111111111111,,,,< 90 %,,,RH3,compatible avec 90 %,300
+HP6-bootstrap EM-K-pi,Incertitude,"Couverture à 90 % (bootstrap EM-K, pi), inconditionnelle",intervalle,,,600,0.48333333333333334,0.4266666666666667,0.54,,,,< 90 %,,,RH3,compatible avec 90 %,300
+HP6-bootstrap EM-K-mu,Incertitude,"Couverture à 90 % (bootstrap EM-K, mu), inconditionnelle",intervalle,,,1800,0.8227777777777778,0.8027777777777778,0.8416666666666667,,,,< 90 %,,,RH3,compatible avec 90 %,300

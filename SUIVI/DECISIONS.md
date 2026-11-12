@@ -417,3 +417,17 @@ mention.
 - **Guide de décision** (chap. 4) corrigé pour suivre les verdicts ; en particulier, le bootstrap d'EM-BIC est
   recommandé plutôt que les intervalles du VB (HP6), aucun n'atteignant 90 %.
 - Corps maintenu à 112 pages (bibliographie page 113). Détail : `CHANGEMENTS_MEMOIRE.md`.
+
+## D-22 Version finale : étiquette v1.0, présentation complétée, 2026-11-13
+
+- **Étiquette** `v1.0` posée sur le commit qui contient le mémoire relu (D-21 et relecture finale) et ce suivi ;
+  poussée sur GitHub. Toute correction ultérieure se fera par une nouvelle étiquette (`v1.0.1`), jamais en déplaçant
+  `v1.0`.
+- **Zenodo (DOI)** : non fait. L'intégration GitHub-Zenodo doit être activée par le propriétaire du dépôt
+  (compte Kanaicare8) ; l'annexe A ne cite pas de DOI, donc rien à modifier dans le mémoire. Si Icare l'active,
+  une version publiée sur GitHub à partir de `v1.0` produira le DOI.
+- **Archive locale** : code étiqueté (`git archive`), PDF du mémoire et présentation, dans
+  `M:/Travail/Icare_archive_v1.0/`.
+- **Présentation de pré-soutenance** (hors dépôt) : partie III ajoutée (bilan des 63 décisions, scénarios, prix,
+  alerte, incertitude, régularisation et coût, conclusion), 26 diapositives, notes minutées pour 20 minutes ;
+  chiffres repris des tableaux du mémoire.

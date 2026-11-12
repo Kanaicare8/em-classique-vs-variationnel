@@ -35,3 +35,12 @@ resultats/app/
 
 # outil (D-20) : base locale et clé de session
 outil/instance/
+
+# compilation LaTeX et sauvegardes locales
+main.bbl
+main.bcf
+main.blg
+main.fdb_latexmk
+main.fls
+main.run.xml
+sauvegardes/

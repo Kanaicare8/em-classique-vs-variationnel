@@ -28,7 +28,7 @@ Les constats (A-xx, T-xx) sont détaillés dans `ETAT_DU_PROJET.md`.
 | P-21 | T-07, T-08, T-09, T-11 : forme | voir audit | Renvois automatiques (`\label`, `\ref`, `\cref`), doubles espaces, environnements `theorem` et `definition`, ordre des annexes | Rédaction (forme) | 0,5 jour | P-19 || Accepté (D-03) ; **fait** : renvois, doubles espaces, théorèmes, ordre des annexes |
 | P-22 | M-14 : tests non relancés | `tests/` | Tu lances `python -m pytest -q tests` sur l'instance (déjà dans E-01) | Expérience (vérification) | quelques minutes | E-01 || Accepté (D-03) |
 | P-23 | Lecture non faite | voir topo | Finir la lecture de `etape_texte.py`, `etape_illustrations.py`, `etape_validation.py`, `risque.py`, `tex_tables.py`, `app/`, notes, `SOURCES.md` ; reprendre les décisions des notes dans `DECISIONS.md` | Lecture | 2 à 3 h | aucune || Accepté (D-03) ; **fait** : code lu (N-06, A-14 à A-17, D-16), décisions des notes reprises (D-00), `SOURCES.md` lu (A-18) |
-| P-24 | M-11 : étiquette Git et DOI | annexe A | À la version finale : étiquette `v1.0`, archive Zenodo (accord requis : service externe) | Question ouverte | 30 min | fin du travail || Reporté à la fin du travail (D-03) |
+| P-24 | M-11 : étiquette Git et DOI | annexe A | À la version finale : étiquette `v1.0`, archive Zenodo (accord requis : service externe) | Question ouverte | 30 min | fin du travail || Fait le 2026-11-13 : étiquette `v1.0` poussée ; archive Zenodo non faite (le compte propriétaire du dépôt doit relier Zenodo), archive locale à la place (D-22) |
 
 ## Questions à trancher
 

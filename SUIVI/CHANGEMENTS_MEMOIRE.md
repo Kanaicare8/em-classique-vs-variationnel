@@ -167,3 +167,11 @@ Restent, après le recalcul D-19 : chiffres de la synthèse du cas des prix, de 
 | Chap. 4, synthèse | `\enlargethispage` de deux lignes | corps maintenu à 112 pages (bibliographie page 113) |
 
 Aucun calcul refait (décision de Miguel du 12/11 : plus aucun calcul).
+
+## 2026-11-12 : relecture finale, contrôles automatiques
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 1 et 3, annexe C et G | indices mal convertis depuis Word, imprimés tels quels (« E_q », « I_comp », « a_max », « argmax_θ », « θ̂_MLE », « x_N », « K_effectif ») réécrits en vrais indices ; équation (1.19) en romain | artefacts de conversion visibles dans le PDF |
+| Chap. 1 | trois incises dont les tirets avaient disparu (virgule détachée, espace double) remises entre parenthèses | ponctuation cassée |
+| Contrôles | journal de compilation sans débordement ni référence indéfinie ; chiffres du texte (cas des prix, scénarios, bilan 31/4/22/6, coût par itération 1,1 à 2,2) retrouvés dans les tableaux ; résumé et abstract concordants | relecture |

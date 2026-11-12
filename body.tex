@@ -972,7 +972,7 @@ définie si au moins trois relevés existent dans la fenêtre. Un écart de $+0{
 \label{fig:prix_marches}
 \end{figure}
 
-\textbf{Bras. }Les bras du chapitre~\ref{chap:methodologie}, avec le même critère d'arrêt (figure~\ref{fig:boucle_arret}), le même nombre de relances (registre, famille « prix ») et la covariance pleine : EM-$K_{\text{réf}}$, EM-$K_{\max}$, EM-BIC et EM-ICL ($K$ de 1 à $K_{\max}=8$), MAP-EM (priors empiriques et calibrés), VB à priors empiriques (VB-emp) et calibrés (VB-cal). $K_{\max}=8$ est le double des quatre phases usuelles d'alerte. Le \emph{régime de tension} d'un ajustement est la composante active dont la moyenne des trois écarts, en unités d'origine, est la plus élevée ; la \emph{probabilité d'alerte} d'une observation est sa responsabilité pour cette composante.
+\textbf{Bras. }Les bras du chapitre~\ref{chap:methodologie}, avec le même critère d'arrêt (figure~\ref{fig:boucle_arret}), le même nombre de relances (registre, famille « prix ») et la covariance pleine : EM-$K_{\text{réf}}$, EM-$K_{\max}$, EM-BIC et EM-ICL ($K$ de 1 à $K_{\max}=8$), MAP-EM (priors empiriques et calibrés), VB à priors empiriques (VB-emp) et calibrés (VB-cal). $K_{\max}=8$ est le double des quatre phases usuelles d'alerte. Le \emph{régime de tension} d'un ajustement est la composante active dont la moyenne des trois écarts, en unités d'origine, est la plus élevée ; la \emph{probabilité d'alerte} d'une observation est sa responsabilité pour cette composante. Une observation est dite \emph{en alerte} lorsque cette probabilité dépasse 0,5. C'est la règle de décision de Bayes quand une fausse alerte et une alerte manquée ont le même coût : le seuil qui minimise le coût attendu vaut $c_{\text{FA}}/(c_{\text{FA}} + c_{\text{AM}})$, où $c_{\text{FA}}$ est le coût d'une fausse alerte et $c_{\text{AM}}$ celui d'une alerte manquée. Ces coûts relèvent des organismes de sécurité alimentaire et ne sont pas fixés ici.
 
 \textbf{Plan. }(a) \emph{Référence} : EM-BIC sur toute la période d'apprentissage ; il fixe $K_{\text{réf}}$ et le modèle générateur du jeu semi-synthétique (tableau~\ref{tab:prix_reference}). (b) \emph{Sous-échantillons réels} : $N \in \{30, 60, 120, 250\}$ observations tirées dans l'apprentissage, tous les bras, évaluation sur toute la période de test. (c) \emph{Semi-synthétique} : jeux de taille $N \in \{30, 60, 120, 250, 500\}$ tirés du modèle de référence, de sorte que $K$, la partition et les paramètres vrais sont connus et réalistes. (d) \emph{Couverture} des intervalles à 90 \% sur le semi-synthétique ($N \geq 120$) : intervalles de crédibilité du VB (tirages de la loi variationnelle) et bootstrap non paramétrique de l'EM à démarrage chaud, appariés aux composantes vraies par l'algorithme hongrois ; une composante vraie sans composante active appariée compte comme non couverte (couverture inconditionnelle), une indicatrice est tirée par paramètre scalaire et l'intervalle de la couverture est un bootstrap \emph{par grappes} de réplications. (e) \emph{Sensibilité} : $\hat K$ du VB sur les configurations de priors plausibles issues du calibrage, contre $\hat K$ de EM-BIC entre graines. (f) \emph{Prévision} : log-score de chaque observation de test pour chaque modèle ajusté sur tout l'apprentissage. (g) \emph{Alerte} : probabilité de tension de chaque observation, avec son intervalle à 90 \%. Les nombres de réplications sont fixés par le calcul de puissance (registre, clés \texttt{prix\_sous}, \texttt{prix\_semi}, \texttt{prix\_sensibilite}).
 
@@ -1440,9 +1440,10 @@ Chaque hypothèse de recherche répond à une limite de la littérature (section
 Cette section traduit les résultats en un guide de choix entre EM classique et EM variationnel pour une situation pratique.
 
 \tableauGenere{guide_decision}
-Ce guide ne recommande pas un algorithme dans l'absolu : chaque ligne indique le niveau de preuve disponible (théorème, expérience répliquée, expérience unique ou non testé). Il est complété par trois bonnes pratiques indépendantes de l'algorithme. Premièrement, standardiser les données avant l'ajustement, les deux algorithmes étant sensibles à l'échelle relative des dimensions ; Iris, laissé en centimètres avec une régularisation absolue commune à tous les jeux, en montre l'effet (section~\ref{sec:iris_methodo}). Deuxièmement, multiplier les initialisations (\texttt{n\_init} > 1) pour l'EM comme pour le VB. Troisièmement, utiliser un critère d'arrêt commun lorsque l'on compare des nombres d'itérations ou des temps, et rapporter les exécutions non convergées.
+Ce guide ne recommande pas un algorithme dans l'absolu : chaque ligne indique le niveau de preuve disponible. Il est complété par trois bonnes pratiques indépendantes de l'algorithme. Premièrement, standardiser les données avant l'ajustement, les deux algorithmes étant sensibles à l'échelle relative des dimensions ; Iris, laissé en centimètres avec une régularisation absolue commune à tous les jeux, en montre l'effet (section~\ref{sec:iris_methodo}). Deuxièmement, multiplier les initialisations (\texttt{n\_init} > 1) pour l'EM comme pour le VB. Troisièmement, utiliser un critère d'arrêt commun lorsque l'on compare des nombres d'itérations ou des temps, et rapporter les exécutions non convergées.
 
 \section{Synthèse du chapitre}\label{sec:conclusion_du_chapitre_3}
+\enlargethispage{2\baselineskip}%
 Ce chapitre a présenté les résultats dans l'ordre de la preuve : illustrations exploratoires du mécanisme d'élagage, scénarios confirmatoires répliqués, cas pratique sur un problème réel du Cameroun et comparaison pLSA contre LDA. Le bilan des hypothèses de recherche (tableau~\ref{tab:bilan_recherche}) et la grille « axe $\times$ preuve » (tableau~\ref{tab:2_17}) rattachent chaque conclusion à une décision lue dans un fichier de résultats, à un théorème ou à la mention « non testé ». Sur 63 décisions, 31 sont conformes aux hypothèses, 4 contraires (toutes sur la couverture du bootstrap, que l'hypothèse supposait proche du niveau nominal), 22 non tranchées et 6 sont des différences sans sens prédit. Les conditions de validité de ces conclusions sont celles de la section~\ref{sec:validite} : l'élagage dépend des priors, de $K_{\max}$ et du seuil d'activité ; les variantes de covariance non pleines utilisent un critère approché ; le cas des prix repose sur une période de test qui diffère de l'apprentissage et sur des régimes reliés à la réalité par une confrontation qualitative aux bulletins d'alerte.
 
 \chapter*{Conclusion générale}
@@ -1468,7 +1469,7 @@ Ce travail apporte les éléments suivants, sans prétention de nouveauté théo
 
 \section*{Limites du travail}
 \addcontentsline{toc}{section}{Limites du travail}
-Les limites de la méthode (dimension des scénarios, priors empiriques, jeu semi-synthétique, cas des prix) sont détaillées à la section~\ref{sec:validite}, et celles des résultats à la section~\ref{sec:discussion_critique}. S'y ajoutent les suivantes. (1) Les variantes tied, diag et sphérique du VB n'ont pas d'ELBO dérivé : leur critère est une approximation. (2) Le seuil théorique $d/2$ pour $\alpha_0$ concerne le posterior exact : son transfert au champ moyen est testé, non démontré. (3) L'irréversibilité de l'élagage, la dépendance à $K_{\max}$ et l'absence de garantie de consistance restent « non testées » ou partiellement testées. (4) Les modèles de prix ne sont pas réestimés en fenêtre glissante. (5) La comparaison pLSA contre LDA porte sur un corpus de quatre groupes, la LDA du code étant un EM variationnel à $\beta$ ponctuel et non un VB complet. (6) Les temps de calcul dépendent d'une machine et d'une implémentation (annexe D). (7) Vision, bio-informatique et recommandation ne sont pas testées.
+Les limites de la méthode et des résultats sont détaillées aux sections~\ref{sec:validite} et~\ref{sec:discussion_critique} ; s'y ajoutent les suivantes. (1) Les variantes tied, diag et sphérique du VB n'ont pas d'ELBO dérivé : leur critère est une approximation. (2) Le seuil théorique $d/2$ pour $\alpha_0$ concerne le posterior exact : son transfert au champ moyen est testé, non démontré. (3) L'irréversibilité de l'élagage, la dépendance à $K_{\max}$ et l'absence de garantie de consistance restent « non testées » ou partiellement testées. (4) Les choix de construction des variables des prix et le seuil d'alerte de 0,5 sont posés sans alternative testée (annexe E), et les modèles de prix ne sont pas réestimés en fenêtre glissante. (5) La comparaison pLSA contre LDA porte sur un corpus de quatre groupes, la LDA du code étant un EM variationnel à $\beta$ ponctuel et non un VB complet. (6) Les temps de calcul dépendent d'une machine et d'une implémentation (annexe D). (7) Vision, bio-informatique et recommandation ne sont pas testées.
 
 \section*{Perspectives}
 \addcontentsline{toc}{section}{Perspectives}
@@ -1707,6 +1708,43 @@ Le protocole est entièrement scripté : \texttt{python run.py} réalise les exp
 Chaque paramètre utilisé par le code, avec sa valeur, son statut, sa justification, ses références et l'étude de calibrage qui le fixe (section~\ref{sec:calibrage}).
 
 \tableauGenere{registre_parametres}
+
+\subsection*{Décisions du cas pratique}
+Le tableau~\ref{tab:registre_decisions_prix} donne, pour chaque décision du cas pratique, ce qui est retenu, les alternatives écartées, la raison du choix et ce qui le vérifie ; « posé » signifie fixé par le protocole sans être mis à l'épreuve.
+
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.0cm}}
+\caption{Registre des décisions du cas pratique : retenu, alternatives, raison, vérification}\label{tab:registre_decisions_prix}\\
+\toprule
+\textbf{Décision} & \textbf{Retenu} & \textbf{Alternatives écartées} & \textbf{Raison} & \textbf{Vérification} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Décision} & \textbf{Retenu} & \textbf{Alternatives écartées} & \textbf{Raison} & \textbf{Vérification} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Source & base de prix du PAM (HDX) & relevés de terrain, autres bases & publique, mensuelle, licence ouverte, 83 marchés & posé \\
+Panier & maïs blanc, riz importé, niébé & autres denrées de la base & couverture des séries ; céréale locale, céréale importée, légumineuse & posé, non testé \\
+Prix & détail, XAF/kg & gros, autres unités & prix payé par les ménages, unité commune & posé \\
+Variable & écart du log-prix au niveau des 12 mois précédents & écart à une tendance saisonnière (ALPS), variation mensuelle & causale, retire l'inflation et la saisonnalité moyenne, tolère les mois manquants & posé, non testé \\
+Fenêtre & 12 mois & 6 ou 24 mois & une année agricole complète & posé, non testé \\
+Relevés minimum & 3 & de 1 à 6 & couverture des séries & posé, non testé \\
+Nettoyage & pics isolés d'un facteur 3 & aucun, facteur 2 ou 4 & virgule décalée ; plus forte hausse mensuelle citée : 24 \% & posé après inspection (écart au protocole 3) ; 21 relevés listés (tableau~\ref{tab:prix_ecartes}) \\
+Observation retenue & les trois écarts définis & imputation d'un écart manquant & aucune hypothèse sur les données manquantes & posé \\
+Échelle & standardisation par l'apprentissage & données brutes & les deux algorithmes sont sensibles à l'échelle & posé ; effet illustré sur Iris (section~\ref{sec:res_iris}) \\
+Coupure & décembre 2023 & autres dates, fenêtre glissante & moitié des observations, test postérieur à tout l'apprentissage & posé ; limite (4) \\
+Covariance & pleine & diagonale, liée, sphérique & dimension 3 & sensibilité au type de covariance, synthétique (section~\ref{sec:res_covariance}) \\
+$K_{\max}$ & 8 & 6, 10 & double des quatre phases d'alerte & posé \\
+Seuil d'activité & 1 \% de $N$ & 0,5 \%, 5 \%, $N_k \geq 1$ & plan de recherche & S10 (synthétique, descriptif) \\
+Régime de tension & composante active aux écarts moyens les plus élevés & étiquetage par les bulletins, maïs seul & pas de vérité terrain & confrontation qualitative aux épisodes datés (figure~\ref{fig:prix_carte_alerte}) \\
+Seuil d'alerte & 0,5 & seuil tiré des coûts des erreurs & règle de Bayes à coûts égaux & posé, non testé \\
+Intervalle & VB : tirages de $q$ ; EM : bootstrap à démarrage chaud & bootstrap paramétrique, approximation de Laplace & même niveau (90 \%) pour les deux bras & couverture mesurée (HP6) \\
+Comparaison de prévision & Diebold-Mariano sur la série mensuelle & test par observation & chocs communs au mois & protocole \\
+\end{longtable}
+}
 
 \section*{Annexe F : Rappels mathématiques utilisés dans les dérivations}
 \addcontentsline{toc}{section}{Annexe F : Rappels mathématiques utilisés dans les dérivations}

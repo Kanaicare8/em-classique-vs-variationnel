@@ -155,3 +155,15 @@ Restent, après le recalcul D-19 : chiffres de la synthèse du cas des prix, de 
 | Chap. 3, écarts au protocole | point (8) : défaut d'alignement corrigé après les résultats, unités recalculées, verdicts inchangés | transparence |
 | Conclusion, RH3 | couverture du bootstrap EM-BIC chiffrée | D-19 |
 | Annexe D | ligne du recalcul (instance aarch64, commit `dd538fc`) | traçabilité |
+
+## 2026-11-12 : registre des décisions, seuil d'alerte, guide de décision (D-21)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 3, cas des prix, « Bras » | définition de l'alerte (P > 0,5) comme règle de Bayes à coûts égaux, seuil général c_FA/(c_FA + c_AM), coûts laissés aux organismes de sécurité alimentaire | le seuil n'était défini que dans deux légendes |
+| Chap. 4, recommandations pratiques | guide de décision aligné sur les verdicts : K inconnu (coût total), chevauchement et dimension (VB, HS1, HS5), incertitude (bootstrap d'EM-BIC plutôt que VB, aucun à 90 %), petit effectif (priors, HP7), prévision (gaussienne simple d'abord), seuil d'alerte ; phrase suivant le tableau raccourcie | l'ancien guide recommandait le VB pour l'incertitude, contredit par HP6 |
+| Conclusion, limites | point (4) : choix de construction des variables des prix et seuil de 0,5 posés sans alternative testée ; phrase d'introduction des limites condensée | démarche de NERA et MKAN (choix posés déclarés comme tels) |
+| Annexe E | tableau « Registre des décisions du cas pratique » (retenu, alternatives, raison, vérification), 17 décisions | idem |
+| Chap. 4, synthèse | `\enlargethispage` de deux lignes | corps maintenu à 112 pages (bibliographie page 113) |
+
+Aucun calcul refait (décision de Miguel du 12/11 : plus aucun calcul).

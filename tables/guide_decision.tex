@@ -13,9 +13,12 @@
 \bottomrule
 \endfoot
 $K$ connu avec confiance & EM classique ou VB peuvent convenir ; confirmer l'équivalence & expérience répliquée (HS1, HS3) \\
-$K$ inconnu & EM-BIC/ICL ou VB : choix selon le coût total et le besoin d'incertitude & expérience répliquée (HP1, HP4) \\
-Besoin d'une incertitude en aval (alerte) & VB (approchée) ; vérifier la couverture ; bootstrap pour l'EM & expérience répliquée (HP6) \\
-Petit effectif & Comparer les taux de dégénérescence ; régulariser l'EM & expérience répliquée (HS6, HP3) \\
+$K$ inconnu & EM-BIC ou VB ; le pipeline EM-BIC coûte 2,6 à 5 fois plus en temps total & expérience répliquée (HP1, HP4) \\
+Chevauchement, ou $D \leq 20$ & VB plutôt qu'EM-BIC en covariance pleine (ARI supérieur) & expérience répliquée (HS1, HS5) \\
+Besoin d'une incertitude en aval (alerte) & Bootstrap de l'EM-BIC plutôt que le VB, qui couvre moins ; aucun n'atteint 90 \% & expérience répliquée (HP6) \\
+Petit effectif & Priors (VB ou MAP-EM) contre la dégénérescence ; sinon régulariser l'EM & expérience répliquée (HS6, HP3, HP7) \\
+Prévision hors échantillon & D'abord une gaussienne simple : aucun mélange ne la bat (prix) & expérience unique (HPP1 à HPP6) \\
+Seuil d'alerte & 0,5 à coûts égaux ; sinon $c_{\text{FA}}/(c_{\text{FA}} + c_{\text{AM}})$ & non testé \\
 Grande dimension ($D>20$) & Non testé & non testé \\
 Très grand $N$ & EM online ou SVI pour les deux familles & non testé (références) \\
 Sensibilité aux priors acceptable & VB avec priors fixés avant les données ; plan factoriel & expérience répliquée, descriptive (HP5, S9) \\

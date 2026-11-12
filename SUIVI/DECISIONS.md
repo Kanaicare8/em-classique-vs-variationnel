@@ -404,3 +404,16 @@ mention.
   l'équivalence avec le calcul du mémoire est un test (`outil/tests`), pas une hypothèse.
 - **Données** : l'outil lit tout extrait du PAM au format de `outils/telecharger_prix_wfp.py` ; l'empreinte figée
   (`donnees.SHA256_PRIX`) ne concerne que le mémoire, l'outil enregistre celle de chaque extrait qu'il charge.
+
+## D-21 Rédaction seulement : registre des décisions, seuil d'alerte, guide de décision, 2026-11-12
+
+- **Plus aucun calcul** (Miguel, 12/11) : ni sensibilité, ni ablation, ni réestimation ; la réestimation versionnée de
+  l'outil (D-20) est abandonnée. Les améliorations restantes passent par la rédaction, à partir des résultats existants.
+- **Seuil d'alerte** : 0,5 déclaré comme règle de Bayes à coûts égaux (chap. 3) ; le seuil général
+  c_FA/(c_FA + c_AM) dépend de coûts qui relèvent des organismes de sécurité alimentaire ; aucun autre seuil étudié.
+- **Choix posés** : panier, fenêtre de 12 mois, 3 relevés au minimum, facteur 3 du nettoyage et seuil d'alerte
+  déclarés « posés sans alternative testée » (limite 4) ; registre des 17 décisions du cas pratique en annexe E
+  (retenu, alternatives, raison, vérification), sur le modèle des registres de NERA et de MKAN.
+- **Guide de décision** (chap. 4) corrigé pour suivre les verdicts ; en particulier, le bootstrap d'EM-BIC est
+  recommandé plutôt que les intervalles du VB (HP6), aucun n'atteignant 90 %.
+- Corps maintenu à 112 pages (bibliographie page 113). Détail : `CHANGEMENTS_MEMOIRE.md`.

@@ -175,3 +175,17 @@ Aucun calcul refait (décision de Miguel du 12/11 : plus aucun calcul).
 | Chap. 1 et 3, annexe C et G | indices mal convertis depuis Word, imprimés tels quels (« E_q », « I_comp », « a_max », « argmax_θ », « θ̂_MLE », « x_N », « K_effectif ») réécrits en vrais indices ; équation (1.19) en romain | artefacts de conversion visibles dans le PDF |
 | Chap. 1 | trois incises dont les tirets avaient disparu (virgule détachée, espace double) remises entre parenthèses | ponctuation cassée |
 | Contrôles | journal de compilation sans débordement ni référence indéfinie ; chiffres du texte (cas des prix, scénarios, bilan 31/4/22/6, coût par itération 1,1 à 2,2) retrouvés dans les tableaux ; résumé et abstract concordants | relecture |
+
+## 2026-11-12 : relecture finale, lecture complète (trois relecteurs, corrections vérifiées une à une)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Chap. 1 et annexes F, G | 63 sommes écrites avec la lettre Σ réécrites avec le symbole de somme ; Σ_k ne désigne plus que la covariance | confusion « Σ_k π_k = 1 » lu comme covariance × poids |
+| Chap. 1 | indices perdus (θ_enc, ℓ_c, π_K, α_K, σ_D, a_max, R^{D×D}, diag), ELBO et KL en romain et q^{*} dans les équations, « + constante » en romain ; initialisation du VB écrite avec K_max ; ensemble des paramètres variationnels noté 𝓛 (Λ est la précision) ; « estimateurs consistants » ; π_k avec l'indice i | notation cohérente |
+| Chap. 1 | renvois corrigés : log-sum-exp (étape E), illustration de la surestimation de K (chap. 4), ligne inexistante « Gestion du risque » retirée ; taux de convergence rapporté à la fraction d'information manquante ; sous-estimation de la variance attribuée à la factorisation et à la KL inverse ; phrase cassée sur l'information de Fisher | renvois faux, formulations inexactes |
+| Chap. 3 | équations renumérotées 3.1 à 3.5b (numéros 2.x hérités de l'ancien plan) ; θ̂_K dans BIC et AIC ; renvois (implémentation, comportement numérique, sections de la comparaison) ; orientation des tests par hypothèse corrigée d'après le plan des tests ; nombre de relances (20 pour tous) ; β_k du pLSA ; « Bayes empirique » ; deux phrases qui annonçaient un résultat (Iris, surcoût du VB) rendues méthodologiques | cohérence avec le plan des tests et le registre ; Partie II sans résultats |
+| Chap. 4 | 9 équivalences non démontrées sur les 22 décisions non tranchées (au lieu de « la plupart ») ; S3 équivalent au double de la marge seulement à K = 4 et 5 ; renvois S7 et critère approché ; titre K_max ; deux tournures fautives | vérifié dans `decisions_*.tex` et `sensibilite_marges.tex` |
+| Annexes | phrase sans verbe de l'annexe E ; « bien que… mais » ; exposant imprimé « ^{α_k-1} » ; α_3(P) = 0,090 ; renvois « ci-dessus » vers la section de l'élagage ; « Cette dernière annexe » | idem |
+| Partout | accord féminin de l'ELBO | majorité des occurrences au féminin |
+
+Compilation sans erreur, sans renvoi indéfini ni débordement ; corps à 112 pages (bibliographie page 113).

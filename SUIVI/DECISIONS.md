@@ -470,3 +470,21 @@ mention.
   jour de leur écriture) ; une table de correspondance est dans `SUIVI/LISEZMOI.md`. Seul
   `COMPRENDRE_LE_PROJET.md`, qui décrit le code, est mis à jour.
 - **Guide Zenodo** : `docs/GUIDE_ZENODO.md`, pour qu'Icare publie lui-même (étiquette `v1.1`).
+
+## D-25 Présentation refaite : thème du mémoire, peu de texte, autre mise en page, 2026-11-13
+
+- **Retour de Miguel** : la présentation doit porter sur le thème du mémoire (EM classique contre EM variationnel),
+  avoir peu de texte, des illustrations, des schémas et de gros titres, et ne pas reprendre la mise en page de la sienne.
+- **Refonte** : 20 diapositives (au lieu de 26), 34 mots affichés par diapositive en moyenne ; un gros titre et un seul
+  visuel chacune. Plus de bandeau, de cartes arrondies ni de pied de page à nom : étiquette de partie, titre de 40 pt,
+  visuel pleine page, grand chiffre. Le thème passe devant l'application : une seule diapositive sur les prix du
+  Cameroun (diapositive 18), contre cinq auparavant.
+- **Visuels** : figures réelles du mémoire re-tracées depuis les résultats déjà calculés (groupes, ellipses EM contre
+  VB, poids, sensibilité aux priors, carte d'alerte), en palette verte et grosses polices ; graphiques natifs
+  (bilan des 63 décisions, gains d'ARI) ; deux schémas conceptuels marqués « illustration » (un point contre une loi,
+  les deux effets de la KL inverse) ; aucun résultat nouveau, aucun calcul de modèle.
+- **Fichiers** : `presentation/Presoutenance_Icare.pptx` et `.pdf`, `presentation/NOTES.md` (notes minutées, 18 à 19
+  minutes). Les anciennes diapositives de contexte, de revue de la littérature et de limites disparaissent de l'écran
+  mais leur contenu reste dans les notes et dans le mémoire.
+- **Mémoire** : même remarque (« pareil pour le mémoire ») : l'introduction s'ouvre sur les prix alimentaires ; une
+  réécriture du paragraphe « Contexte » est proposée à Miguel, en attente de sa validation.

@@ -8,6 +8,7 @@
 | `visuels.py` | figures : re-tracées depuis les résultats du mémoire (`emvb.figures`), et deux schémas d'illustration |
 | `visuels/` | figures déjà produites (refaire les figures réelles demande le magasin de résultats) |
 | `animer.ps1` | montage : transitions et animations, posées par PowerPoint |
+| `bordure.py` | bordure en oscillation des diapositives (`visuels/bordure.png`) |
 | `logos/` | logos de l'Université de Douala et de l'ENSPD |
 
 Reconstruire (Windows, PowerPoint installé), depuis ce dossier :

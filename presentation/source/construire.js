@@ -46,6 +46,9 @@ function phrases(s, items, x, y, w, h, taillePolice = 19) {
   s.addText(runs, { x, y, w, h, isTextBox: true, fontFace: B, fontSize: taillePolice, margin: 0, valign: "top", paraSpaceAfter: 6 });
 }
 
+// Bordure en oscillation (visuels/bordure.png, produite par bordure.py), sur toute la diapositive
+function bordure(s) { s.addImage({ path: VIS("bordure"), x: 0, y: 0, w: W, h: HT, altText: "Bordure" }); }
+
 let numero = 0;
 // Titre, puis pied de page (partie à gauche, numéro à droite) : ces trois formes viennent en premier et restent
 // fixes au montage.
@@ -53,13 +56,14 @@ function page(partie, titre) {
   numero += 1;
   const s = pres.addSlide();
   s.background = { color: BLANC };
+  bordure(s);
   texte(s, titre, { x: M, y: 0.45, w: W - 2 * M, h: 1.0, fontFace: H, fontSize: 34, color: FONCE, valign: "middle" });
-  texte(s, partie, { x: M, y: 7.0, w: 8, h: 0.28, fontSize: 12, color: GRIS });
-  texte(s, numero + " / " + TOTAL, { x: W - M - 1.6, y: 7.0, w: 1.6, h: 0.28, fontSize: 12, color: GRIS, align: "right" });
+  texte(s, partie, { x: M, y: 6.93, w: 8, h: 0.26, fontSize: 12, color: GRIS });
+  texte(s, numero + " / " + TOTAL, { x: W - M - 1.6, y: 6.93, w: 1.6, h: 0.26, fontSize: 12, color: GRIS, align: "right" });
   if (NOTES[numero - 1]) s.addNotes(NOTES[numero - 1]);
   return s;
 }
-function source(s, t) { texte(s, t, { x: M, y: 6.62, w: W - 2 * M, h: 0.3, fontSize: 13, color: GRIS }); }
+function source(s, t) { texte(s, t, { x: M, y: 6.56, w: W - 2 * M, h: 0.3, fontSize: 13, color: GRIS }); }
 
 // Barres horizontales dessinées une à une (le montage les fait pousser depuis l'axe)
 let nBarre = 0;
@@ -84,8 +88,8 @@ function barresH(s, items, x, y, w, h, o = {}) {
   const s = pres.addSlide();
   s.background = { color: BLANC };
   // en-tête institutionnel, aligné à gauche, logos côte à côte
-  image(s, LOGO("logo_udo.png"), M, 0.45, 1.05, 1.05, { align: "left", alt: "Logo de l'Université de Douala" });
-  image(s, LOGO("logo_enspd.png"), M + 1.2, 0.45, 1.05, 1.05, { align: "left", alt: "Logo de l'ENSPD" });
+  image(s, LOGO("logo_udo.png"), M, 0.5, 1.05, 1.05, { align: "left", alt: "Logo de l'Université de Douala" });
+  image(s, LOGO("logo_enspd.png"), M + 1.2, 0.5, 1.05, 1.05, { align: "left", alt: "Logo de l'ENSPD" });
   s.addText([
     { text: "UNIVERSITÉ DE DOUALA", options: { bold: true, breakLine: true } },
     { text: "The University of Douala", options: { italic: true, color: GRIS, breakLine: true } },
@@ -115,6 +119,7 @@ function barresH(s, items, x, y, w, h, o = {}) {
     { text: "Prof. Patrice TAKAM SOH", options: { bold: true, color: FONCE, breakLine: true } },
     { text: "Professeur Associé, Université de Yaoundé 1", options: { color: GRIS } },
   ], { x: 6.9, y: 5.78, w: 5.7, h: 1.3, isTextBox: true, fontFace: B, fontSize: 15, margin: 0, valign: "top" });
+  bordure(s);
   s.addNotes(NOTES[0]);
 }
 

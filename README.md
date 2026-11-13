@@ -6,7 +6,7 @@ par le Prof. Dr. habil. P. NJIONOU SADJANG (ENSPD) et le Prof. Patrice TAKAM SOH
 
 Ce dépôt contient le texte du mémoire, le code qui produit chaque tableau et chaque figure, les résultats, et deux
 applications. Les étiquettes `v1.0` et `v1.0.1` sont les versions rendues ; la version `v1.1` range le dépôt sans
-changer le texte ni les résultats ; `v1.2` recentre l'introduction du mémoire et remplace la présentation ; `v1.3` y ajoute les résultats du cas pratique ; `v1.4` met la présentation sur fond blanc et ajoute son code source.
+changer le texte ni les résultats ; `v1.2` recentre l'introduction du mémoire et remplace la présentation ; `v1.3` y ajoute les résultats du cas pratique ; `v1.4` met la présentation sur fond blanc et ajoute son code source ; `v1.5` lui ajoute une bordure en oscillation.
 
 ## Ce que le mémoire établit
 

@@ -70,15 +70,15 @@ de l'auteur, ajoutez `"orcid": "0000-0000-0000-0000"` avec votre numéro ; dans 
 1. Sur la page GitHub du dépôt, colonne de droite, cliquez sur **Releases**, puis **Create a new release**
    (ou **Draft a new release**).
 2. Dans **Choose a tag**, choisissez l'étiquette de la version à publier. Pour la version finale rangée :
-   **`v1.4`** (voir la note ci-dessous).
-3. **Release title** : `Version 1.4, mémoire final`.
+   **`v1.5`** (voir la note ci-dessous).
+3. **Release title** : `Version 1.5, mémoire final`.
 4. **Description** : une ou deux phrases, par exemple « Version finale du mémoire, du code et des résultats ».
 5. Cliquez sur **Publish release**.
 
 > **Quelle étiquette ?** `v1.0` est la version rendue ; `v1.0.1` y ajoute le `README` et les métadonnées ;
 > `v1.1` range le dépôt en dossiers (`emvb/`, `memoire/`, `demo/`, `bulletin/`…) sans changer le texte ni les
 > résultats ; `v1.2` recentre l'introduction du mémoire sur son thème et remplace la présentation ; `v1.3` complète la
-> présentation avec les résultats du cas pratique ; `v1.4` la met sur fond blanc et ajoute son code source. C'est la bonne
+> présentation avec les résultats du cas pratique ; `v1.4` la met sur fond blanc et ajoute son code source ; `v1.5` lui ajoute une bordure en oscillation. C'est la bonne
 > version à archiver : c'est la plus récente, et la seule dont le texte et la présentation sont les définitifs. Si
 > une étiquette encore plus récente existe sur GitHub, prenez la plus récente de la forme `v1.x`.
 
@@ -105,7 +105,7 @@ Le DOI n'existe qu'après la publication ; il faut donc le placer ensuite.
 4. Ordre à respecter si le PDF déposé à l'école doit citer le DOI : publier d'abord (étapes 6 et 7), puis
    modifier le mémoire (point 3), puis déposer le PDF corrigé. L'archive Zenodo contient alors l'ancienne annexe A,
    ce qui est normal : le DOI désigne le code et les résultats. Pour que l'archive contienne aussi la phrase,
-   publiez ensuite une nouvelle release (`v1.4.1`) ; elle recevra un nouveau DOI de version, et le DOI « concept »
+   publiez ensuite une nouvelle release (`v1.5.1`) ; elle recevra un nouveau DOI de version, et le DOI « concept »
    restera le même.
 
 ## 9. Si quelque chose ne va pas
@@ -123,5 +123,5 @@ Le DOI n'existe qu'après la publication ; il faut donc le placer ensuite.
 1. Choisir et ajouter une licence (étape 3).
 2. Se connecter à Zenodo avec le compte GitHub et activer le dépôt (étape 4).
 3. Vérifier `.zenodo.json` et `CITATION.cff` (étape 5).
-4. Créer la release GitHub sur l'étiquette `v1.4` (étape 6).
+4. Créer la release GitHub sur l'étiquette `v1.5` (étape 6).
 5. Récupérer le DOI (étape 7) et le placer dans le `README`, le `CITATION.cff` et l'annexe A (étape 8).

@@ -23,7 +23,7 @@ d'alerte sur les prix alimentaires du Cameroun (données publiques du PAM) et su
 | lire le mémoire | [`memoire/main.pdf`](memoire/main.pdf) (sources dans [`memoire/`](memoire/)) |
 | voir la présentation de pré-soutenance et ses notes | [`presentation/`](presentation/) |
 | relancer les calculs | [`docs/LANCEMENT.md`](docs/LANCEMENT.md), puis `python run.py --statut` |
-| publier une version sur Zenodo | [`docs/GUIDE_ZENODO.md`](docs/GUIDE_ZENODO.md) |
+| publier une version sur Zenodo | [`docs/GUIDE_ZENODO.pdf`](docs/GUIDE_ZENODO.pdf) (aussi en [Word](docs/GUIDE_ZENODO.docx) et en [Markdown](docs/GUIDE_ZENODO.md)) |
 | comprendre une décision méthodologique | [`SUIVI/DECISIONS.md`](SUIVI/DECISIONS.md) (D-00 à D-24), registre en annexe E du mémoire |
 | voir ce qui a changé dans le texte | [`SUIVI/CHANGEMENTS_MEMOIRE.md`](SUIVI/CHANGEMENTS_MEMOIRE.md) |
 | utiliser le bulletin mensuel des marchés | [`bulletin/`](bulletin/README.md) |

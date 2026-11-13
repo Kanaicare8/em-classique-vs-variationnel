@@ -1,6 +1,6 @@
 # Notes de l'orateur : présentation de pré-soutenance
 
-Présentation : [`Presoutenance_Icare.pptx`](Presoutenance_Icare.pptx) (aussi en [PDF](Presoutenance_Icare.pdf)), 20 diapositives, 18 à 19 minutes. Les diapositives portent peu de texte : les mots sont ici. Les durées entre parenthèses sont celles de chaque diapositive ; les indications entre crochets sont des indications de jeu, à ne pas lire. Les chiffres sont ceux des tableaux du mémoire (`memoire/tables/`) ; les figures sont les figures du mémoire, re-tracées depuis les résultats déjà calculés, et les deux schémas marqués « illustration » ne portent aucun résultat.
+Présentation : [`Presoutenance_Icare.pptx`](Presoutenance_Icare.pptx) (aussi en [PDF](Presoutenance_Icare.pdf)), 21 diapositives, 19 à 20 minutes. Les diapositives portent peu de texte : les mots sont ici. Les durées entre parenthèses sont celles de chaque diapositive ; les indications entre crochets sont des indications de jeu, à ne pas lire. Les chiffres sont ceux des tableaux du mémoire (`memoire/tables/`) ; les figures sont les figures du mémoire, re-tracées depuis les résultats déjà calculés, et les deux schémas marqués « illustration » ne portent aucun résultat.
 
 ## 1. Couverture (15 s)
 
@@ -142,7 +142,7 @@ Explication probable, que je n'ai pas testée : la pénalité du BIC fait reteni
 
 C'est l'hypothèse 2. Sur ce scénario, le nombre de composantes retenues par le VB dépend de la concentration du prior de Dirichlet. Tant qu'elle reste faible, le VB retrouve les trois groupes. Au-delà d'un seuil, il cesse d'élaguer.
 
-Sur les prix, la variance du nombre de composantes du VB selon les priors dépasse celle de l'EM selon ses propres choix, d'un écart de 3,2.
+Sur le cas pratique, la variance du nombre de composantes du VB selon les priors dépasse celle de l'EM selon ses propres choix, d'un écart de 3,2 : c'est le test HP5.
 
 Le VB n'a donc pas supprimé le choix de K : il l'a déplacé vers ses réglages. Ce scénario est descriptif.
 
@@ -150,7 +150,7 @@ Le VB n'a donc pas supprimé le choix de K : il l'a déplacé vers ses réglages
 
 ## 16. Incertitude (1 min)
 
-Hypothèse 3. Sur un jeu où la vérité est connue, on mesure la fréquence à laquelle les intervalles à 90 % contiennent la vraie valeur. Pour le VB : 22 % pour les poids, 64 % pour les moyennes. Pour le bootstrap de l'EM avec BIC : 44 % et 78 %.
+Hypothèse 3. Sur un jeu semi-synthétique, tiré du modèle des prix, où la vérité est connue, on mesure la fréquence à laquelle les intervalles à 90 % contiennent la vraie valeur. Pour le VB : 22 % pour les poids, 64 % pour les moyennes. Pour le bootstrap de l'EM avec BIC : 44 % et 78 %.
 
 Aucun n'atteint 90 %, et le VB est le plus loin. C'est ce que prédit la théorie du champ moyen. Le bootstrap lui-même reste en dessous, même quand K est connu.
 
@@ -160,25 +160,33 @@ Conclusion : il ne faut lire aucun de ces intervalles comme une incertitude cali
 
 ## 17. Coût (50 s)
 
-Hypothèse 5. Une itération du VB coûte de 1,1 à 2,2 fois une itération de l'EM.
+Hypothèse 5. Une itération du VB coûte de 1,1 à 2,2 fois une itération de l'EM : c'est mesuré sur des données synthétiques.
 
-Mais pour obtenir un modèle final, il faut choisir K. Le pipeline de l'EM avec BIC ajuste le modèle pour toutes les valeurs de K : il coûte de 2,6 à 5 fois le temps d'un seul VB, dès 60 observations.
+Mais pour obtenir un modèle final, il faut choisir K. Le pipeline de l'EM avec BIC ajuste le modèle pour toutes les valeurs de K : il coûte de 2,6 à 5 fois le temps d'un seul VB, dès 60 observations : ce second chiffre vient du cas pratique.
 
 Le VB est donc plus cher à l'itération, mais moins cher au total. C'est le temps total qui compte.
 
 [Transition] Un mot de l'application.
 
-## 18. Application (1 min)
+## 18. Le cas pratique (1 min)
 
-Pour voir ces méthodes à l'œuvre, je les ai appliquées à un problème réel : les prix alimentaires du Cameroun, données publiques du Programme alimentaire mondial. Chaque marché reçoit, chaque mois, une probabilité d'être en régime de tension.
+Pour voir ces méthodes à l'œuvre, je les applique à un problème réel : les prix alimentaires du Cameroun, données publiques du Programme alimentaire mondial. Trois denrées de base, une cinquantaine de marchés, un apprentissage de 2021 à 2023 et un test de 2024 à 2026. Chaque marché reçoit, chaque mois, une probabilité d'être en régime de tension.
+
+Premier résultat : le nombre de régimes retenus. L'EM avec BIC en retient deux, le VB à priors empiriques quatre, et le VB à priors calibrés huit. Le nombre de groupes dépend donc du choix de l'algorithme, et pour le VB de ses priors : c'est l'hypothèse 2.
+
+Deuxième résultat : la prévision. Sur trente-deux mois de test, aucune des six comparaisons de prévision ne montre de différence : aucun mélange ne prévoit mieux qu'une simple loi gaussienne.
+
+Troisième résultat : pour l'alerte, les deux méthodes classent de la même façon 84 % des observations.
+
+[Transition] Voyons ce que cela donne sur la carte.
+
+## 19. Alerte (50 s)
 
 Voici deux mois documentés dans l'Extrême-Nord. En août 2023, le maïs a pris 24 % en un mois : des marchés passent en alerte, Mara, Gazawa, et Koza et Zamay pour l'EM seulement. En avril 2026, le maïs baisse : les marchés restent presque tous calmes, avec un marché à la limite pour l'EM.
 
-Ici encore, aucune méthode ne prévoit mieux qu'une simple loi gaussienne.
-
 [Transition] Que retenir pour choisir ?
 
-## 19. Choisir (1 min 10)
+## 20. Choisir (1 min 10)
 
 Voici le guide qui en résulte, avec son niveau de preuve. Si K est connu : l'EM ou le VB conviennent. Si les groupes se chevauchent : le VB. Si l'on a besoin d'une incertitude : le bootstrap de l'EM avec BIC, plutôt que les intervalles du VB, en vérifiant leur couverture. À petit effectif : des priors, avec le VB ou le MAP-EM.
 
@@ -188,7 +196,7 @@ Limites : des choix de construction des variables posés sans alternative testé
 
 [Transition] Pour finir, en une phrase.
 
-## 20. Fin (30 s)
+## 21. Fin (30 s)
 
 Le VB ne bat pas l'EM : il déplace la difficulté, du choix de K vers le choix des priors. Il régularise comme le ferait un MAP-EM, et ses intervalles ne se lisent pas comme calibrés.
 

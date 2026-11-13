@@ -496,3 +496,17 @@ mention.
   d'application. Chapitres 3 et 4, résumé, abstract et annexes inchangés.
 - **Étiquette `v1.2`** : texte de l'introduction et nouvelle présentation (D-25). C'est la version à publier sur
   Zenodo ; le guide Zenodo est mis à jour (Word, PDF, Markdown).
+
+## D-27 Présentation : le cas pratique rendu visible, étiquette v1.3, 2026-11-13
+
+- **Constat** : la présentation (D-25) ne nommait le cas pratique que sur une diapositive, alors que trois chiffres
+  présentés comme généraux en viennent (HP5, HP6, HP4), et ses résultats propres n'étaient que dans les notes.
+- **Décision de Miguel** : les deux corrections.
+  1. **Origine des chiffres dite sur l'écran** : diapositive 15 (courbe du scénario S8 synthétique ; 3,2 du cas
+     pratique, test HP5), 16 (couvertures mesurées sur le jeu semi-synthétique tiré du modèle des prix, test HP6),
+     17 (× 1,1 à 2,2 mesuré sur données synthétiques ; × 2,6 à 5 du cas pratique, test HP4).
+  2. **Nouvelle diapositive 18** « Plus de régimes, pas de meilleure prévision » : régimes retenus (EM-BIC 2, VB à
+     priors empiriques 4, VB calibré 8), 0 comparaison de prévision sur 6 qui montre une différence (32 mois de
+     test), 84 % d'observations classées de la même façon par les deux méthodes. La carte devient la diapositive 19.
+- **Résultat** : 21 diapositives, 19 à 20 minutes, 37 mots affichés par diapositive en moyenne, aucun texte sous 12 pt.
+- **Étiquette `v1.3`**, à publier sur Zenodo ; guide mis à jour (Word, PDF, Markdown).

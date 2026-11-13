@@ -488,3 +488,11 @@ mention.
   mais leur contenu reste dans les notes et dans le mémoire.
 - **Mémoire** : même remarque (« pareil pour le mémoire ») : l'introduction s'ouvre sur les prix alimentaires ; une
   réécriture du paragraphe « Contexte » est proposée à Miguel, en attente de sa validation.
+
+## D-26 Introduction du mémoire recentrée sur le thème, étiquette v1.2, 2026-11-13
+
+- **Décision de Miguel** (validation du texte proposé) : l'introduction du mémoire s'ouvre sur la comparaison EM
+  classique contre EM variationnel, et non sur les prix alimentaires ; le cas du Cameroun devient une phrase
+  d'application. Chapitres 3 et 4, résumé, abstract et annexes inchangés.
+- **Étiquette `v1.2`** : texte de l'introduction et nouvelle présentation (D-25). C'est la version à publier sur
+  Zenodo ; le guide Zenodo est mis à jour (Word, PDF, Markdown).

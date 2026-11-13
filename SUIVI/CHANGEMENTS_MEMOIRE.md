@@ -189,3 +189,12 @@ Aucun calcul refait (décision de Miguel du 12/11 : plus aucun calcul).
 | Partout | accord féminin de l'ELBO | majorité des occurrences au féminin |
 
 Compilation sans erreur, sans renvoi indéfini ni débordement ; corps à 112 pages (bibliographie page 113).
+
+## 2026-11-13 : introduction recentrée sur le thème (D-26)
+
+| Endroit | Changement | Raison |
+|---|---|---|
+| Introduction, « Contexte » | paragraphe réécrit : il s'ouvre sur les modèles de mélange et la comparaison EM classique contre EM variationnel (126 mots, au lieu de 179) ; les chiffres du Cadre Harmonisé et du PAM sortent de l'introduction, le cas des prix n'est plus qu'une phrase d'application | l'introduction s'ouvrait sur les prix alimentaires, alors que la question est la comparaison des deux algorithmes ; remarque de Miguel, texte validé |
+
+Références conservées : `giews2026`, `fewsnet2026`, `pam2023bulletin` (citées dans l'introduction et au chapitre 3) ;
+`pam2014alps` reste citée au chapitre 3. Chiffres et pagination inchangés (bibliographie page 113). Aucun calcul.

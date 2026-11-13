@@ -44,3 +44,7 @@ main.fdb_latexmk
 main.fls
 main.run.xml
 sauvegardes/
+
+# présentation : dépendances node et fichier intermédiaire
+presentation/source/node_modules/
+presentation/Presoutenance_Icare_brut.pptx

@@ -510,3 +510,22 @@ mention.
      test), 84 % d'observations classées de la même façon par les deux méthodes. La carte devient la diapositive 19.
 - **Résultat** : 21 diapositives, 19 à 20 minutes, 37 mots affichés par diapositive en moyenne, aucun texte sous 12 pt.
 - **Étiquette `v1.3`**, à publier sur Zenodo ; guide mis à jour (Word, PDF, Markdown).
+
+## D-28 Présentation sur fond blanc, nouvelle page de garde, motifs « IA » retirés, code source dans le dépôt, 2026-11-13
+
+- **Demande de Miguel** : projection sur un mur blanc, donc fond blanc partout ; page de garde qui rappelle un peu la
+  sienne, mais avec une autre disposition et d'autres motifs ; retirer les motifs « IA » encore présents ; résoudre la
+  diapositive 18 (résultats affichés en grands chiffres isolés) ; pousser tout le code.
+- **Fond blanc** sur les 21 diapositives (vérifié dans le fichier), y compris la page de garde et la conclusion.
+- **Page de garde** : mentions de la page de titre du mémoire ; en-tête aligné à gauche avec les deux logos côte à
+  côte, double filet horizontal, titre en minuscules accentuées sans encadré, bande vert pâle en bas pour l'auteur et
+  les directeurs. La page de Miguel a un double cadre, un en-tête bilingue en deux colonnes et un titre en capitales
+  dans un bandeau beige.
+- **Motifs retirés** : étiquettes en capitales espacées au-dessus des titres, trait court sous les titres, grands
+  chiffres isolés avec légende (0,001 ; 3,2 ; 0 / 6 ; 84 % ; × 1,1 à 2,2), anneau avec total au centre, pastilles
+  numérotées, séparateurs « · », titres en formule (« X, pas Y »). À la place : titres descriptifs, graphiques
+  (bilan en barres empilées par hypothèse, rapports de coût en intervalles sur un axe, régimes en barres), tableau des
+  hypothèses, phrases complètes. Pied de page : partie à gauche, numéro à droite.
+- **Code dans le dépôt** : `presentation/source/` (générateur, notes, figures, montage, logos, `package.json`) ;
+  autonome (`npm install`, chemins relatifs). L'ancien générateur, dans le dossier de Miguel, n'est plus la référence.
+- **Étiquette `v1.4`**, à publier sur Zenodo ; guide mis à jour.

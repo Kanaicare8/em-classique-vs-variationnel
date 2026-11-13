@@ -1,0 +1,12 @@
+{
+  "name": "presentation-icare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Génère la présentation de pré-soutenance (construire.js) à partir des visuels et des notes de ce dossier",
+  "scripts": {
+    "construire": "node construire.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "3.12.0"
+  }
+}

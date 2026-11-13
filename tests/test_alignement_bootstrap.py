@@ -5,8 +5,8 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import algorithmes as A  # noqa: E402
-import comparaison as C  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
+from emvb import comparaison as C  # noqa: E402
 
 
 def _melange_centres_proches(n=600, graine=0):

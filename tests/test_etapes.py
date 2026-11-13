@@ -10,9 +10,9 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import calibrage as K  # noqa: E402
-import etapes as E  # noqa: E402
-import run  # noqa: E402
+from emvb import calibrage as K  # noqa: E402
+from emvb import etapes as E  # noqa: E402
+from emvb import cli as run  # noqa: E402
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -36,7 +36,7 @@ def test_unites_bien_formees(etape, rapide):
     for u in us:
         assert u.etape == etape
         assert all(d in connues for d in u.depend), (u.cle, u.depend)
-        assert callable(getattr(__import__(u.module), u.fonction))
+        assert callable(getattr(E.charger_module(u.module), u.fonction))
 
 
 def test_graphe_calibrage_sans_cycle():
@@ -78,7 +78,7 @@ def test_divisions_successives_trouve_le_maximum():
 
 
 def test_configurations_dans_l_espace():
-    import parametres as PARAM
+    from emvb import parametres as PARAM
     esp = PARAM.valeur("espace_priors")
     cfg = K._configs_aleatoires(64, 3, 6)
     assert cfg[0] == {"alpha0": 1 / 6, "beta0": 1.0, "nu0_plus": 0.0, "echelle_w0": 1.0}
@@ -88,7 +88,7 @@ def test_configurations_dans_l_espace():
 
 
 def test_prix_regime_tension_et_couverture():
-    import etape_prix as P
+    from emvb import etape_prix as P
     info = {"centre": torch.zeros(3, dtype=torch.float64), "echelle": torch.ones(3, dtype=torch.float64)}
     mu = torch.tensor([[0.0, 0.0, 0.0], [2.0, 1.0, 1.0], [5.0, 5.0, 5.0]], dtype=torch.float64)
     assert P.regime_tension(mu, torch.tensor([True, True, False]), info) == 1          # composante inactive ignorée
@@ -101,7 +101,7 @@ def test_prix_regime_tension_et_couverture():
 
 
 def test_prix_dm_par_mois():
-    import etape_prix as P
+    from emvb import etape_prix as P
     mois = torch.tensor([0, 0, 1, 1, 2, 2, 3, 3])
     ls = {"Gaussienne": torch.zeros(8, dtype=torch.float64),
           "EM-BIC (plug-in)": torch.tensor([1.0, 1.2, 0.9, 1.1, 1.0, 0.8, 1.3, 1.1], dtype=torch.float64)}

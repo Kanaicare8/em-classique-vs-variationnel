@@ -25,16 +25,16 @@ resultats/magasin_rapide/
 resultats/tables_rapide/
 logs/
 resultats/calibrage_rapide/
-tables_rapide/
-figures/rapide/
-figures/html/
+memoire/tables_rapide/
+memoire/figures/rapide/
+memoire/figures/html/
 references/*.pdf
 
-# Application (précalcul régénérable par app/precalcul.py)
+# Application (précalcul régénérable par demo/precalcul.py)
 resultats/app/
 
-# outil (D-20) : base locale et clé de session
-outil/instance/
+# bulletin (D-20) : base locale et clé de session
+bulletin/instance/
 
 # compilation LaTeX et sauvegardes locales
 main.bbl

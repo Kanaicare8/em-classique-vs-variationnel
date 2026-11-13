@@ -6,8 +6,8 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import algorithmes as A  # noqa: E402
-import risque as R  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
+from emvb import risque as R  # noqa: E402
 
 
 def test_t11_criterie_commun_meme_tolerance():

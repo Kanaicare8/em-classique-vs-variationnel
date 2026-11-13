@@ -7,7 +7,7 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import statistique as S  # noqa: E402
+from emvb import statistique as S  # noqa: E402
 
 
 def test_t_cdf_quantiles_classiques():

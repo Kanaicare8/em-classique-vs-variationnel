@@ -8,8 +8,8 @@ import torch
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RACINE)
-import algorithmes as A  # noqa: E402
-import persistance as P  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
+from emvb import persistance as P  # noqa: E402
 
 
 def test_graines_independantes_et_stables():
@@ -46,7 +46,7 @@ def test_reprise_exacte_apres_interruption_brutale(tmp_path):
     script = textwrap.dedent(f"""
         import sys, os
         sys.path.insert(0, {RACINE!r})
-        import algorithmes as A, persistance as P
+        from emvb import algorithmes as A, persistance as P
         class Coupe(P.Instantane):
             def ecrire(self, e):
                 super().ecrire(e)
@@ -102,8 +102,8 @@ def unite_normale(memo, rapide):
 
 
 def test_pool_recree_apres_processus_tue(tmp_path, monkeypatch):
-    import etapes as E
-    import run
+    from emvb import etapes as E
+    from emvb import cli as run
     monkeypatch.setenv("ICARE_MAGASIN", str(tmp_path))
     us = [E.Unite("essai", "tuee", __name__, "unite_tuee_une_fois", {"marque": str(tmp_path / "marque")}),
           E.Unite("essai", "normale", __name__, "unite_normale")]

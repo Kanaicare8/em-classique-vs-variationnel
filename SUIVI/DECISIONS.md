@@ -445,3 +445,28 @@ mention.
 - **Zenodo** : `.zenodo.json` et `CITATION.cff` ajoutés (auteur, directeurs, mots-clés, lien du dépôt), pour que le
   DOI porte le nom de l'auteur et non le compte GitHub. Aucune licence n'est choisie : c'est à l'auteur de la
   décider. Étiquette `v1.0.1` (ces fichiers ne sont pas dans `v1.0`).
+
+## D-24 Réorganisation du dépôt en projet structuré, 2026-11-13
+
+- **Demande** : un projet bien organisé, sans se limiter par les QR codes ni par `LANCEMENT.md`, qui peuvent être
+  régénérés ou modifiés. D-23 s'était interdit de déplacer les modules ; cette limite est levée.
+- **Structure** : le code devient le paquet Python `emvb/` ; les sources LaTeX, tableaux et figures vont dans
+  `memoire/` ; `app/` devient `demo/`, `outil/` devient `bulletin/`, `outils/` devient `scripts/` ; `LANCEMENT.md` et
+  `notes/` vont dans `docs/`. Tous les déplacements sont faits avec `git mv` : l'historique de chaque fichier est
+  conservé. `run.py` reste à la racine comme point d'entrée (`python -m emvb` équivaut).
+- **Code** : imports réécrits (`from emvb import ...`, 140 lignes), emplacements définis une seule fois dans
+  `emvb/chemins.py`, `etapes.charger_module` résout les étapes par leur nom court, `pyproject.toml` ajouté
+  (`pip install -e .`). Aucun calcul n'est modifié.
+- **Mémoire** : chemins de fichiers cités mis à jour (scripts, `docs/LANCEMENT.md`, `python -m emvb.tex_tables`),
+  QR codes régénérés vers `emvb/*.py`, une phrase ajoutée à l'annexe A.1. Texte, chiffres et pagination inchangés
+  (bibliographie page 113).
+- **Vérifications** : 102 tests du projet et 4 tests du bulletin passent ; le mémoire compile sans erreur ni
+  référence indéfinie ; `run.py --statut` relit le magasin au même endroit ; le serveur du bulletin répond ; la
+  démo charge ses 1 055 observations ; l'arbre de `v1.0.1` est comparé à l'arbre final (aucun fichier perdu).
+- **Espace de travail nettoyé** : caches Python, fichiers de compilation LaTeX, base de test du bulletin supprimés ;
+  sauvegarde de session et anciens journaux de calcul du cas climatique abandonné déplacés dans
+  `M:/Travail/Icare_archive_v1.0/` (hors dépôt, non supprimés).
+- **Historique** : les documents de `SUIVI/` datés d'avant ce jour gardent les anciens chemins (ils étaient vrais le
+  jour de leur écriture) ; une table de correspondance est dans `SUIVI/LISEZMOI.md`. Seul
+  `COMPRENDRE_LE_PROJET.md`, qui décrit le code, est mis à jour.
+- **Guide Zenodo** : `docs/GUIDE_ZENODO.md`, pour qu'Icare publie lui-même (étiquette `v1.1`).

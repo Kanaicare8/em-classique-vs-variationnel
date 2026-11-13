@@ -10,8 +10,8 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import algorithmes as A  # noqa: E402
-import calibrage as C  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
+from emvb import calibrage as C  # noqa: E402
 
 
 def test_proba_meilleur_exacte():

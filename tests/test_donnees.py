@@ -6,7 +6,7 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import donnees as DO  # noqa: E402
+from emvb import donnees as DO  # noqa: E402
 
 EXEMPLES = {
     # étape 1a

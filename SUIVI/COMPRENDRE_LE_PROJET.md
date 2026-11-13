@@ -45,7 +45,7 @@ données ──> calibrage (7 vagues : k-means, tolérance, régularisation, rel
         étapes confirmatoires : validation ─ illustrations ─ chronométrage ─ scénarios ─ prix ─ texte
               │  chaque unité écrite dans resultats/magasin/<étape>/ (reprise exacte après arrêt)
               ▼
-        run.py --tables / --figures  ──>  tex_tables.py  ──>  tables/*.tex  ──>  pdflatex main.tex
+        run.py --tables / --figures  ──>  emvb/tex_tables.py  ──>  memoire/tables/*.tex  ──>  latexmk (dans memoire/)
 ```
 
 Le calibrage doit être fini avant tout le reste : tant qu'un paramètre n'est pas calibré, `run.py` refuse les étapes
@@ -62,18 +62,18 @@ confirmatoires.
 
 | Fichier | Rôle | Lancement |
 |---|---|---|
-| `run.py` | orchestre les étapes, en parallèle, avec reprise | `python run.py [étape]`, `--statut`, `--rapide`, `--tables`, `--figures` |
-| `superviseur.py` | relance `run.py` après un arrêt non voulu | `python superviseur.py calibrage --inactivite-max 120` |
-| `algorithmes.py` | EM, MAP-EM, VB, ELBO, variantes, LDA, pLSA, métriques | importé |
-| `comparaison.py` | les bras (EM-K, EM-Kmax, EM-BIC, EM-ICL, MAP-EM, VB-emp, VB-diff, VB-cal), règle de K̂ | importé |
-| `statistique.py` | Wilcoxon exact, TOST, Holm, bootstrap, puissance | importé |
-| `hypotheses.py` | RH1 à RH5 et tests déclarés | importé |
-| `parametres.py` | registre des paramètres (valeur, statut, justification) | importé |
-| `calibrage.py` | les sept vagues de calibrage | `python run.py calibrage` |
-| `scenarios.py`, `etape_prix.py`, `etape_texte.py`, `etape_chronometrage.py`, `etape_validation.py`, `etape_illustrations.py` | les étapes | `python run.py <étape>` |
-| `persistance.py`, `etapes.py`, `progression.py` | magasin, unités, barre de progression | importés |
-| `tex_tables.py`, `figures.py` | tableaux LaTeX et figures depuis le magasin | `python tex_tables.py`, `python run.py --figures` |
-| `app/` | application Dash de présentation du cas | `python app/app.py` |
+| `run.py` (code dans `emvb/cli.py`) | orchestre les étapes, en parallèle, avec reprise | `python run.py [étape]`, `--statut`, `--rapide`, `--tables`, `--figures` |
+| `emvb/superviseur.py` | relance `run.py` après un arrêt non voulu | `python -m emvb.superviseur calibrage --inactivite-max 120` |
+| `emvb/algorithmes.py` | EM, MAP-EM, VB, ELBO, variantes, LDA, pLSA, métriques | importé |
+| `emvb/comparaison.py` | les bras (EM-K, EM-Kmax, EM-BIC, EM-ICL, MAP-EM, VB-emp, VB-diff, VB-cal), règle de K̂ | importé |
+| `emvb/statistique.py` | Wilcoxon exact, TOST, Holm, bootstrap, puissance | importé |
+| `emvb/hypotheses.py` | RH1 à RH5 et tests déclarés | importé |
+| `emvb/parametres.py` | registre des paramètres (valeur, statut, justification) | importé |
+| `emvb/calibrage.py` | les sept vagues de calibrage | `python run.py calibrage` |
+| `emvb/scenarios.py`, `emvb/etape_prix.py`, `emvb/etape_texte.py`, `emvb/etape_chronometrage.py`, `emvb/etape_validation.py`, `emvb/etape_illustrations.py` | les étapes | `python run.py <étape>` |
+| `emvb/persistance.py`, `emvb/etapes.py`, `emvb/progression.py` | magasin, unités, barre de progression | importés |
+| `emvb/tex_tables.py`, `emvb/figures.py` | tableaux LaTeX et figures depuis le magasin | `python -m emvb.tex_tables`, `python run.py --figures` |
+| `demo/` | application Dash de présentation du cas | `python demo/app.py` |
 | `tests/` | tests unitaires | `python -m pytest -q tests` |
 | `legacy/` | ancien code (climat, S&P 500, première chaîne) | ne plus utiliser |
 

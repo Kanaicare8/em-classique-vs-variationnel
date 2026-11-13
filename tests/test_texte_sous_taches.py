@@ -8,9 +8,9 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import etape_texte as T  # noqa: E402
-import etapes as E  # noqa: E402
-import run  # noqa: E402
+from emvb import etape_texte as T  # noqa: E402
+from emvb import etapes as E  # noqa: E402
+from emvb import cli as run  # noqa: E402
 
 V, N, CLE = 30, 20, "V=30/N=20/rep=000"
 

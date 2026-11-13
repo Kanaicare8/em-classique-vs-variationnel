@@ -12,7 +12,7 @@ import torch
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RACINE)
-import algorithmes as A  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
 
 spec = importlib.util.spec_from_file_location("ref", os.path.join(RACINE, "tests", "algorithmes_reference.py"))
 REF = importlib.util.module_from_spec(spec)

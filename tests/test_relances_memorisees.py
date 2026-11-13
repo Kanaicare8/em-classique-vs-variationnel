@@ -7,10 +7,10 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import algorithmes as A  # noqa: E402
-import etape_texte as T  # noqa: E402
-import etapes as E  # noqa: E402
-import persistance as PE  # noqa: E402
+from emvb import algorithmes as A  # noqa: E402
+from emvb import etape_texte as T  # noqa: E402
+from emvb import etapes as E  # noqa: E402
+from emvb import persistance as PE  # noqa: E402
 
 
 def _comptes():

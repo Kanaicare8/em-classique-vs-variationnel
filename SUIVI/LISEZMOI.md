@@ -47,3 +47,21 @@ confirmatoires, lot 3) dès la fin du calibrage, puis lot 4 (résultats dans le 
 8. Rien n'a été modifié dans le projet hors de ce dossier `SUIVI/`.
 9. Prochaine étape : lecture complète du document, du protocole et du code (phase 1), puis matrice d'avancement.
 10. Contraintes (D-01) : dépôt le 22 novembre 2026 ; 112 pages au plus hors annexes (corps actuel : 102 pages) ; budget cloud 40 $, 3,59 $ engagés.
+
+## Anciens chemins (jusqu'au 2026-11-13)
+
+Le dépôt a été réorganisé le 2026-11-13 (D-24). Les documents de ce dossier datés d'avant cette date, qui sont un
+historique, citent les anciens chemins ; voici leur correspondance.
+
+| Ancien chemin | Nouveau chemin |
+|---|---|
+| `algorithmes.py`, `risque.py`, `comparaison.py`, `scenarios.py`, `hypotheses.py`, `statistique.py`, `parametres.py`, `persistance.py`, `progression.py`, `donnees.py`, `calibrage.py`, `etapes.py`, `etape_*.py`, `figures.py`, `tex_tables.py`, `superviseur.py` | `emvb/<même nom>.py` |
+| `run.py` | `run.py` (point d'entrée, inchangé) ; code dans `emvb/cli.py` |
+| `main.tex`, `body.tex`, `introduction.tex`, `liminaires.tex`, `references.bib`, `main.pdf` | `memoire/` |
+| `tables/`, `figures/`, `figures_tikz/` | `memoire/tables/`, `memoire/figures/`, `memoire/figures_tikz/` |
+| `app/` | `demo/` |
+| `outil/` | `bulletin/` |
+| `outils/` | `scripts/` |
+| `LANCEMENT.md`, `notes/` | `docs/LANCEMENT.md`, `docs/notes/` |
+| `A_REGENERER.md` | `legacy/A_REGENERER_octobre-2026.md` |
+| `python superviseur.py`, `python tex_tables.py`, `python figures.py` | `python -m emvb.superviseur`, `python -m emvb.tex_tables`, `python -m emvb.figures` |

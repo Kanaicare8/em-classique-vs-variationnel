@@ -4,7 +4,7 @@
 
 **Lu en entier** : `introduction.tex`, `body.tex` (chapitres 1 à 3, conclusion, bibliographie, annexes A, B en partie,
 D, E en partie, F), `hypotheses.py`, `parametres.py`, `calibrage.py`, `comparaison.py`, `statistique.py`,
-`scenarios.py`, `etape_chronometrage.py`, `LANCEMENT.md`, `A_REGENERER.md`.
+`scenarios.py`, `etape_chronometrage.py`, `LANCEMENT.md`, `legacy/A_REGENERER_octobre-2026.md` (périmé).
 **Lu en partie** : `algorithmes.py` (dégénérescence, EM, MAP-EM, VB), `etape_prix.py` (couverture, sensibilité),
 `persistance.py` (magasin), `run.py` (ordonnancement), `donnees.py` (20 Newsgroups), notes `ANALYSE_3` (début).
 **Non vérifié** : `etape_texte.py`, `etape_validation.py`, `etape_illustrations.py`, `risque.py`, `tex_tables.py`,

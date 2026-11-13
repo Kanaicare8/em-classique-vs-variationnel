@@ -431,3 +431,17 @@ mention.
 - **Présentation de pré-soutenance** (hors dépôt) : partie III ajoutée (bilan des 63 décisions, scénarios, prix,
   alerte, incertitude, régularisation et coût, conclusion), 26 diapositives, notes minutées pour 20 minutes ;
   chiffres repris des tableaux du mémoire.
+
+## D-23 Rangement du dépôt, présentation dans le dépôt, métadonnées Zenodo, 2026-11-13
+
+- **Présentation** : `presentation/Presoutenance_Icare_v1.pptx` (26 diapositives) et `presentation/NOTES.md` (notes
+  de l'orateur, lisibles) rejoignent le dépôt. Le générateur reste hors dépôt (il dépend d'outils locaux).
+- **Page d'accueil** : `README.md` (carte du dépôt, commandes de reproduction, données, citation). Le dépôt n'en avait pas.
+- **Rangement limité** : les modules Python, les sources LaTeX, `SUIVI/`, `notes/` et `LANCEMENT.md` ne bougent pas.
+  Les modules s'importent par leur nom, le mémoire renvoie à `algorithmes.py`, `risque.py`, `comparaison.py`,
+  `scenarios.py` et `run.py` par QR code sur `main`, `LANCEMENT.md` est cité en annexe A, et les documents de
+  `SUIVI/` se renvoient par chemin. Seul `A_REGENERER.md`, périmé (ancienne chaîne : `main.py`, cas climatique),
+  passe dans `legacy/A_REGENERER_octobre-2026.md`.
+- **Zenodo** : `.zenodo.json` et `CITATION.cff` ajoutés (auteur, directeurs, mots-clés, lien du dépôt), pour que le
+  DOI porte le nom de l'auteur et non le compte GitHub. Aucune licence n'est choisie : c'est à l'auteur de la
+  décider. Étiquette `v1.0.1` (ces fichiers ne sont pas dans `v1.0`).

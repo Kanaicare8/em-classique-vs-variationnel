@@ -1,0 +1,18 @@
+{
+  "title": "Comparaison entre l'algorithme EM classique et l'EM variationnel : avantages, inconvénients et applications. Code, résultats et mémoire",
+  "upload_type": "software",
+  "description": "Code, résultats et texte du mémoire de Master recherche (SDIA, ENSPD, Université de Douala, année académique 2025-2026) qui compare l'EM classique et l'EM variationnel pour les modèles de mélange, sous un protocole commun avec tests déclarés à l'avance (équivalence et différence, correction de Holm), sur dix scénarios synthétiques, un cas réel d'alerte sur les prix alimentaires du Cameroun (données publiques du Programme alimentaire mondial) et une comparaison pLSA contre LDA. Le dépôt régénère chaque tableau et chaque figure du mémoire.",
+  "creators": [
+    {"name": "KANA TIODONG, Icare Brichel", "affiliation": "École Nationale Supérieure Polytechnique de Douala, Université de Douala"}
+  ],
+  "contributors": [
+    {"name": "NJIONOU SADJANG, P.", "type": "Supervisor", "affiliation": "École Nationale Supérieure Polytechnique de Douala"},
+    {"name": "TAKAM SOH, Patrice", "type": "Supervisor", "affiliation": "Université de Yaoundé 1"}
+  ],
+  "keywords": ["algorithme EM", "inférence variationnelle", "modèles de mélange", "sélection de modèle", "tests d'équivalence", "prix alimentaires", "Cameroun"],
+  "language": "fra",
+  "access_right": "open",
+  "related_identifiers": [
+    {"identifier": "https://github.com/Kanaicare8/em-classique-vs-variationnel", "relation": "isSupplementTo", "scheme": "url"}
+  ]
+}

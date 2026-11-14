@@ -127,3 +127,5 @@ Outil, interface et usage (09/11) : vocabulaire pour non-spécialistes (probabil
 | 2026-11-14 | D-20 étape 1 : 169 → 141 pages au total (annexes allégées, redites retirées, coquille de l'annexe A corrigée) | lot 4 | `memoire/body.tex`, `memoire/liminaires.tex`, `memoire/introduction.tex` | | décision de l'étudiant sur les 16 pages restantes |
 
 | 2026-11-14 | D-20 étape 2 : 141 → 139 pages (discussion, chapitre 2, théorie resserrée sans perte de résultat ni de référence) | lot 4 | `memoire/body.tex` | | choix de l'étudiant sur la suite |
+
+| 2026-11-14 | D-20 étape 3 : 139 → 131 pages (table des matières aux sections, annexes B, C, F, G archivées) ; compilation finale propre | lot 4 | `memoire/body.tex`, `memoire/main.tex`, `memoire/annexes_archivees.tex` | | relecture de l'étudiant |

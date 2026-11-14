@@ -548,3 +548,7 @@ mention.
   141 pages. Détail : `CHANGEMENTS_MEMOIRE.md`.
 - **Reste** : environ 16 pages pour atteindre 125 ; les coupes restantes touchent au fond (annexes B, C, F, G,
   théorie des chapitres 1 et 2) et sont soumises à l'étudiant.
+
+- **Suite de D-20 (2026-11-14)** : choix 1 (« viser environ 130 ») puis « a et b » : table des matières limitée aux
+  sections et annexes B, C, F, G archivées dans le dépôt. Résultat : 131 pages au total (169 au départ), contenu
+  principal de 102 pages. Figures conservées, largeurs inchangées (option de réduction écartée).

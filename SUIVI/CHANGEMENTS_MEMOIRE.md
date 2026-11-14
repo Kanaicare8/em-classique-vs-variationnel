@@ -257,3 +257,16 @@ mathématiques (annexe F), garanties théoriques du VB. Compilation : 0 erreur, 
 
 Vérifié pendant l'étape : les chiffres de couverture du bootstrap modifiés en v1.5 (44 % et 78 %) sont cohérents partout ;
 aucune ancienne valeur (66 %, 82 %) ne subsiste.
+
+## 2026-11-14 : réduction du total des pages (D-20), étape 3 (choix « a et b » de l'étudiant)
+
+139 → 131 pages au total ; contenu principal de la page 1 à la page 102 (inchangé).
+
+| Passage | Modification | Raison | Gain (PDF) |
+|---|---|---|---|
+| Table des matières | limitée aux sections (`tocdepth` 1) | choix A | environ 2 |
+| Annexes B, C, F et G | archivées dans `memoire/annexes_archivees.tex` (source intégrale) et dans la version v1.5 compilée ; notice d'une demi-page à leur place ; lettres A, D, E, H conservées pour que les renvois du texte restent valables | choix B | environ 6 |
+| Renvois vers l'annexe G (chapitre 1, six endroits) | réécrits vers « l'annexe G, archivée dans le dépôt du mémoire » | annexe retirée du PDF | 0 |
+
+Contrôles finaux : compilation complète (biber et deux passes) sans erreur ni référence indéfinie ; hypothèses RH1 à
+RH5, HP4, HP6, HP7 et HT1 citées autant de fois qu'avant la réduction ; aucun résultat chiffré modifié.

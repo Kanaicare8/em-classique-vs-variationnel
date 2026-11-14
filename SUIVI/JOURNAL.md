@@ -123,3 +123,5 @@ Outil, interface et usage (09/11) : vocabulaire pour non-spécialistes (probabil
 | 2026-11-13 | Présentation : bordure en oscillation sur les 21 diapositives (deux sinusoïdes déphasées, `presentation/source/bordure.py`), pied de page remonté ; guide Zenodo pour `v1.5` | demande de Miguel | `presentation/`, `docs/GUIDE_ZENODO.*`, `README.md` | rendu relu | étiquette `v1.5` |
 
 | 2026-11-14 | Diagnostic de longueur, plan validé, réduction de concision (D-19) : 112 → 111 pages de contenu principal, compilation propre | lot 4 | `memoire/body.tex`, `memoire/main.pdf` | | relecture de l'étudiant |
+
+| 2026-11-14 | D-20 étape 1 : 169 → 141 pages au total (annexes allégées, redites retirées, coquille de l'annexe A corrigée) | lot 4 | `memoire/body.tex`, `memoire/liminaires.tex`, `memoire/introduction.tex` | | décision de l'étudiant sur les 16 pages restantes |

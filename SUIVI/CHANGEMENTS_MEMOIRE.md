@@ -216,3 +216,27 @@ Contrôles : compilation sans erreur ni avertissement LaTeX, aucune référence 
 total ; hypothèses RH1 à RH5, HP4, HP6, HP7, HT1 citées autant de fois qu'avant ; aucun résultat chiffré modifié ;
 distinction entre K fixé de l'extérieur (EM) et K estimé par élagage sous l'influence des priors et de Kmax (VB)
 conservée (remarque (2) de la section fusionnée, 1.8.4, RH2).
+
+## 2026-11-14 : réduction du total des pages (D-20), étape 1
+
+Objectif de l'étudiant : 120 à 125 pages au total. Avant : 169 pages (PDF complet). Après cette étape : 141 pages,
+contenu principal de la page 1 à la page 104. Sauvegarde : `sauvegardes/20261114-090000_reduction_total/`.
+
+| Passage | Modification | Raison | Gain (PDF) |
+|---|---|---|---|
+| Annexe H | tableaux descriptifs (S1 à S7, S8, `prix_resume`, `prix_ecartes`) et lectures détaillées archivés dans le dépôt (fichiers cités) ; trois figures et sensibilité aux marges gardées | descriptif, reproductible par le code | environ 16 |
+| Annexe E | registre complet (9 pages) remplacé par les valeurs calibrées principales (tableau `tab:registre_resume`, lues dans `resultats/calibrage/`) et un renvoi au dépôt ; registre des décisions du cas pratique gardé | détail reproductible | environ 7 |
+| Annexe A | coquille de v1.5 corrigée (`\texttt` devenu une tabulation) | erreur | 0 |
+| Annexe G | Baum-Welch et son exemple retirés (aucune expérience) ; renvois corrigés (chap. 1, tableau du code, introduction) | hors périmètre expérimental | environ 3 |
+| 3.11 | extraits de code retirés (dont `_em_une_fois`, fonction qui n'existe plus) ; renvoi au code exécuté de l'annexe A | redondance et extrait périmé | environ 2 |
+| 4.2.5 et S8 | grille S8 fusionnée dans la sous-section sur α0 ; phrase sur un tableau retiré corrigée | même sujet en deux endroits | environ 0,5 |
+| 2.5.2 et 2.5.3 | domaines non testés réunis en un paragraphe ; références et tableau 3.1 gardés | revue sans expérience | environ 1 |
+| 3.7.4 | description d'ALPS remplacée par un renvoi à 2.5.1 ; « Lien avec la thèse » resserré | répétitions | environ 0,3 |
+| 1.2 à 1.5 | rappels de manuel resserrés, sous-sections fusionnées ; toutes les équations (1.1 à 1.11) et le théorème de Jensen gardés | concision | environ 1,5 |
+| 3.4 | trois niveaux d'inférence en un paragraphe (tableau 2.2 gardé) ; ligne « Traitement de K » du tableau 2.1 : K fixé à la main ou par critère externe (EM), estimé par élagage sous Kmax et sous l'influence des priors (VB) | redondance avec le tableau ; distinction demandée | environ 0,7 |
+| 3.5 | conclusion sur le temps total écrite une seule fois ; stabilité et Cholesky resserrés | répétitions | environ 0,5 |
+| 4.2 | introductions des sous-sections (scalabilité, K = 3, ELBO, initialisation, covariance, Iris, aberrations) resserrées | redites du chapitre 1 et de 4.2.2 | environ 1 |
+| Liste des abréviations | interligne local 0,92 pour supprimer une page blanche | page vide | 1 |
+
+Gardés intacts : équations, figures, tableaux de décision, bilan des hypothèses, écarts au protocole, rappels
+mathématiques (annexe F), garanties théoriques du VB. Compilation : 0 erreur, aucune référence indéfinie.

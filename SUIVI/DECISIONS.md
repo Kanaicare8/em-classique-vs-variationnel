@@ -538,3 +538,13 @@ mention.
   actions facultatives (extraits de code de 3.11, domaines non testés 2.5.2-2.5.3, détail des prix 3.7.4, bases du
   chapitre 1) non appliquées.
 - **Résultat** : 111 pages. Détail et contrôles : `CHANGEMENTS_MEMOIRE.md`.
+
+## D-20 Réduction du total des pages (2026-11-14)
+
+- **Demande** : « je veux 115 pages maximum au total », puis « ou même 120 à 125 maxi » ; « fais ce qui semble bien
+  pour mon mémoire ».
+- **Choix appliqués** (étape 1) : réduire d'abord les annexes (contenu archivé dans le dépôt, fichiers cités), puis
+  les redites du texte ; garder les figures, les équations, les écarts au protocole et l'annexe F. Résultat : 169 →
+  141 pages. Détail : `CHANGEMENTS_MEMOIRE.md`.
+- **Reste** : environ 16 pages pour atteindre 125 ; les coupes restantes touchent au fond (annexes B, C, F, G,
+  théorie des chapitres 1 et 2) et sont soumises à l'étudiant.

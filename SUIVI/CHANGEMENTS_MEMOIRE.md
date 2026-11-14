@@ -240,3 +240,20 @@ contenu principal de la page 1 à la page 104. Sauvegarde : `sauvegardes/2026111
 
 Gardés intacts : équations, figures, tableaux de décision, bilan des hypothèses, écarts au protocole, rappels
 mathématiques (annexe F), garanties théoriques du VB. Compilation : 0 erreur, aucune référence indéfinie.
+
+## 2026-11-14 : réduction du total des pages (D-20), étape 2 (choix 1 de l'étudiant : viser environ 130)
+
+141 → 139 pages au total ; contenu principal de la page 1 à la page 102.
+
+| Passage | Modification | Raison | Gain (PDF) |
+|---|---|---|---|
+| 4.4 | lecture générée du cas (`lecture_prix_cas`) retirée ; synthèse rédigée gardée | chiffres déjà dans les tableaux et la synthèse | environ 0,5 |
+| 2.3 | SVI, AEVB et flux normalisants resserrés ; toutes les références gardées | méthodes non expérimentées | environ 0,7 |
+| Chap. 2, introduction | plan annoncé en une phrase | redite de la table des matières | environ 0,2 |
+| 1.7.2 c et d | erreurs standard et résultats de Dwivedi et al. resserrés ; théorèmes, taux, réserves et références gardés | concision | environ 0,8 |
+| 1.8.7 | point « Garanties fréquentistes partielles » resserré ; références et réserves (articles non consultés) gardées | concision | environ 0,3 |
+| 3.7.5 | variante lissée de la LDA en deux phrases | détail hors expérience | environ 0,3 |
+| 1.9, 3.1 | conclusion du chapitre 1 et plan du chapitre 3 resserrés | redites | environ 0,4 |
+
+Vérifié pendant l'étape : les chiffres de couverture du bootstrap modifiés en v1.5 (44 % et 78 %) sont cohérents partout ;
+aucune ancienne valeur (66 %, 82 %) ne subsiste.

@@ -3,10 +3,10 @@
 \input{introduction}
 
 %% ==== PARTIE 1 ====
-\part{REVUE DE LA LITTÉRATURE : FONDEMENTS ET ÉTAT DE L'ART}
+\part{Revue de la littérature : fondements et état de l'art}
 
 %% ==== CHAPITRE : FONDEMENTS THÉORIQUES ET ALGORITHMES EM ====
-\chapter{CADRE CONCEPTUEL : FONDEMENTS THÉORIQUES ET ALGORITHMES EM}\label{chap:fondements}
+\chapter{Cadre conceptuel : fondements théoriques et algorithmes EM}\label{chap:fondements}
 \section{Introduction de la revue}\label{sec:intro_revue}
 Une revue de la littérature situe une recherche dans son champ : elle fixe les définitions, rappelle ce qui est établi et dégage ce qui reste à établir. La présente revue porte sur l'estimation des modèles à variables latentes, en particulier des mélanges gaussiens, par l'algorithme EM et par l'inférence variationnelle ; ce domaine est né avec l'article de Dempster, Laird et Rubin~\cite{dempster1977} et a été renouvelé par l'inférence variationnelle bayésienne~\cite{jordan1999,attias2000,bishop2006}. Elle est organisée par thèmes, en deux chapitres. Le présent chapitre constitue le cadre conceptuel : il définit les concepts (variables latentes, vraisemblance, mélange gaussien, cadre bayésien, divergence de Kullback-Leibler, ELBO) et présente les deux algorithmes, leurs propriétés, leurs avantages et leurs limites. Le chapitre~\ref{chap:etat_art} examine les travaux antérieurs, compare les approches de façon critique, recense les domaines d'application, dégage les limites de la littérature et situe la présente recherche.
 
@@ -123,7 +123,7 @@ où les poids de mélange $\pi _{k}$ satisfont $\pi _{k}$ $\geq $ 0 et $\sum_{k}
 
 \label{sec:relation_entre_gmm_et_k}L'algorithme k-means en est un cas limite : avec $\Sigma _{k}$ = $\sigma ^{2}I$ et $\sigma ^{2}$ $\to $ 0, les responsabilités de l'EM deviennent des affectations dures au centre le plus proche, et les mises à jour des moyennes sont celles des centroïdes de k-means.
 
-Un exemple numérique d'évaluation de la densité d'un mélange à deux composantes figure à l'annexe G, archivée dans le dépôt du mémoire.
+Un exemple numérique d'évaluation de la densité d'un mélange à deux composantes figure à un complément archivé dans le dépôt du mémoire (annexe A).
 
 \section{Introduction au cadre bayésien}\label{sec:introduction_au_cadre_bayesien}
 \label{sec:la_philosophie_bayesienne}\label{sec:le_theoreme_de_bayes_et}Le bayésien traite les paramètres comme des variables aléatoires : ses connaissances préalables sont une loi a priori, son incertitude après observation une loi a posteriori ; c'est le cadre de l'EM variationnel (section~\ref{sec:em_variationnel}). Le théorème de Bayes s'écrit :
@@ -137,7 +137,7 @@ où p($\theta $) est la loi a priori, p(X | $\theta $) la vraisemblance, p($\the
 
 Pour un GMM bayésien, on place des priors conjugués : un prior de Dirichlet sur les poids, $\pi $ $\sim $ Dir($\alpha _{0}$, \ldots{}, $\alpha _{0}$), et un prior Normal-Wishart sur les composantes, ($\mu _{k}$, $\Lambda _{k}$) $\sim $ $\mathcal{N}\mathcal{W}$($m_{0}$, $\beta _{0}$, $W_{0}$, $\nu _{0}$), où $\Lambda _{k}$ = $\Sigma _{k}^{-1}$ désigne la matrice de précision. \label{sec:distributions_conjuguees}Un prior est conjugué à la vraisemblance si la loi a posteriori reste dans sa famille ; la conjugaison (Dirichlet--Catégorielle pour les poids, Normal-Wishart--Gaussienne multivariée pour les composantes) donne les mises à jour en forme fermée de l'EM variationnel (section~\ref{sec:em_variationnel}).
 
-Un exemple numérique de la conjugaison Dirichlet--Catégorielle figure à l'annexe G, archivée dans le dépôt du mémoire.
+Un exemple numérique de la conjugaison Dirichlet--Catégorielle figure à un complément archivé dans le dépôt du mémoire (annexe A).
 
 \section{La divergence de Kullback-Leibler}\label{sec:la_divergence_de_kullback_leibler}
 \subsection{Définition et propriétés}\label{sec:definition_et_proprietes}
@@ -269,7 +269,7 @@ Les résultats précédents~\cite{dempster1977,wu1983} sont asymptotiques en nom
 
 \textbf{Sous-spécification et projection de Kullback-Leibler~\cite{dwivedi2018}.} Lorsque le modèle ajusté ne contient pas la vraie loi $P$, la cible de l'EM est la projection $\theta^\dagger = \arg\min_{\theta} \mathrm{KL}(P \,\Vert\, P_\theta)$, où $P_\theta$ est la loi du modèle de paramètre $\theta$. Pour deux classes univariées à variance connue, les auteurs caractérisent le biais $|\theta^\dagger - \theta^*|$ et montrent que l'EM empirique atteint une boule de rayon $O(n^{-1/2})$ autour de $\theta^\dagger$. Sur des données à queues épaisses (S4) ou réelles, les paramètres de l'EM approchent donc la meilleure approximation gaussienne au sens de la divergence KL, non des « groupes vrais » ; le VB optimise une autre fonction objectif, et ces résultats ne s'y transposent pas sans démonstration.
 
-Le déroulement complet de l'EM sur un petit exemple numérique figure à l'annexe G, archivée dans le dépôt du mémoire.
+Le déroulement complet de l'EM sur un petit exemple numérique figure à un complément archivé dans le dépôt du mémoire (annexe A).
 
 \subsection{Variantes de l'EM classique}\label{sec:variantes_em}
 \begin{table}[H]
@@ -448,7 +448,7 @@ L'une des propriétés les plus remarquables et pratiquement importantes de l'EM
 
 La clé de ce mécanisme réside dans le prior de Dirichlet Dir($\alpha _{0}$, \ldots{}, $\alpha _{0}$) placé sur les poids de mélange. Lorsque $\alpha _{0}$ est petit (typiquement $\alpha _{0}$ = $1/K_{\max}$ ou $\alpha _{0}$ = 10$^{-3}$), ce prior favorise fortement les solutions parcimonieuses, où la plupart des poids sont proches de zéro, c'est-à-dire les solutions n'utilisant qu'un petit nombre de composantes actives.
 
-Lors de l'optimisation variationnelle, l'élagage ne provient pas de l'espérance $\mathbb{E}[\pi_k] = (\alpha_0 + N_k)/(K\alpha_0 + N)$ : celle-ci est tirée vers la valeur uniforme $1/K$ pour tout $\alpha_0$ (exemple de l'annexe G) et ne s'annule jamais. Il provient de l'espérance du logarithme du poids, qui intervient dans l'étape E (équation~\ref{eq:1_29}) :
+Lors de l'optimisation variationnelle, l'élagage ne provient pas de l'espérance $\mathbb{E}[\pi_k] = (\alpha_0 + N_k)/(K\alpha_0 + N)$ : celle-ci est tirée vers la valeur uniforme $1/K$ pour tout $\alpha_0$ (exemple archivé dans le dépôt, annexe A) et ne s'annule jamais. Il provient de l'espérance du logarithme du poids, qui intervient dans l'étape E (équation~\ref{eq:1_29}) :
 \begin{equation*}
 \mathbb{E}[\log \pi_k] = \psi(\alpha_k) - \psi\Big(\sum_{j}\alpha_j\Big), \qquad \alpha_k = \alpha_0 + N_k .
 \end{equation*}
@@ -470,7 +470,7 @@ Ce rasoir d'Occam a un coût que le texte précédent ne doit pas masquer : le r
 
 \textbf{Deux mécanismes d'élagage à ne pas confondre. }Le mécanisme décrit ci-dessus, par $\mathbb{E}[\log \pi_k]$, est celui du modèle entièrement bayésien de Bishop~\cite[section~10.2]{bishop2006}, où $\pi$ suit un Dirichlet ; c'est celui que ce travail implémente. Corduneanu et Bishop~\cite{corduneanu2001} obtiennent l'élagage autrement : $\pi$ est un paramètre ponctuel, réestimé par $\pi_k = N^{-1}\sum_i r_{ik}$~\cite[éq.~10.83]{bishop2006}, et les composantes qui contribuent peu à expliquer les données voient leur poids conduit à zéro au cours de l'optimisation, par un effet de détermination automatique de la pertinence. Dans la typologie de la section~\ref{sec:trois_niveaux_d_inference_mle}, cette variante est hybride : $\pi$ relève du niveau 2 (point estimé sur une borne marginale), $(\mu_k, \Lambda_k)$ du niveau 3. Les deux mécanismes partent d'un $K$ initial élevé et suppriment les composantes superflues en une seule exécution, mais ils n'ont ni les mêmes hyperparamètres (pas d'$\alpha_0$ chez Corduneanu et Bishop) ni la même lecture de l'incertitude sur les poids. Bishop~\cite[section~10.2.4]{bishop2006} signale en outre que, pour comparer des valeurs de $K$ par la borne, il faut tenir compte des $K!$ modes équivalents du posterior, par exemple en ajoutant $\ln K!$ à la borne.
 
-Un exemple numérique de l'EM variationnel et de son élagage figure à l'annexe G, archivée dans le dépôt du mémoire.
+Un exemple numérique de l'EM variationnel et de son élagage figure à un complément archivé dans le dépôt du mémoire (annexe A).
 
 \subsection{Calcul de l'ELBO et critère de convergence}\label{sec:calcul_elbo}
 Pour le mélange gaussien bayésien sous l'hypothèse du champ moyen, l'ELBO peut être calculé analytiquement à chaque itération. Il se décompose sous la forme :
@@ -480,7 +480,7 @@ Pour le mélange gaussien bayésien sous l'hypothèse du champ moyen, l'ELBO peu
 \tag{1.31}
 \label{eq:1_31}
 \end{equation}
-Chacun de ces termes peut être calculé analytiquement grâce aux formes conjuguées des distributions considérées ; leur expression complète est donnée par Bishop~\cite[éq.~10.71 à 10.77]{bishop2006} et implémentée à l'annexe B. L'ELBO constitue le critère de convergence naturel de l'EM variationnel : on arrête l'algorithme lorsque |ELBO(t) - ELBO(t-1)| < $\varepsilon $. Contrairement à l'EM classique, où la log-vraisemblance peut diverger vers l'infini en présence de singularités, l'ELBO de l'EM variationnel reste toujours borné, grâce à la régularisation bayésienne induite par les priors.
+Chacun de ces termes peut être calculé analytiquement grâce aux formes conjuguées des distributions considérées ; leur expression complète est donnée par Bishop~\cite[éq.~10.71 à 10.77]{bishop2006} et implémentée dans le code (détail archivé dans le dépôt, annexe A). L'ELBO constitue le critère de convergence naturel de l'EM variationnel : on arrête l'algorithme lorsque |ELBO(t) - ELBO(t-1)| < $\varepsilon $. Contrairement à l'EM classique, où la log-vraisemblance peut diverger vers l'infini en présence de singularités, l'ELBO de l'EM variationnel reste toujours borné, grâce à la régularisation bayésienne induite par les priors.
 
 \subsection{Avantages de l'EM variationnel}\label{sec:avantages_de_l_em_variationnel}
 \begin{itemize}
@@ -504,7 +504,7 @@ Chacun de ces termes peut être calculé analytiquement grâce aux formes conjug
 \item \textbf{Double usage des données avec des priors empiriques : }fixer $m_0$ et $W_0^{-1}$ à partir des données (Bayes empirique) utilise l'échantillon deux fois ; l'ELBO et les intervalles de crédibilité n'ont plus leur lecture bayésienne stricte. Un jeu de priors fixés avant les données doit être comparé (expérience S9).
 \end{itemize}
 \section{Conclusion du chapitre}\label{sec:conclusion_du_chapitre_1}
-Les modèles à variables latentes, et en particulier le mélange gaussien, fournissent le cadre commun de l'EM classique et de l'EM variationnel. L'inégalité de Jensen et la borne ELBO en sont le socle commun ; le cadre bayésien et la divergence de Kullback-Leibler disent ce qui les distingue. Chaque notion est illustrée par un exemple numérique, calculé à la main ou produit par le code, à l'annexe G, archivée dans le dépôt du mémoire.
+Les modèles à variables latentes, et en particulier le mélange gaussien, fournissent le cadre commun de l'EM classique et de l'EM variationnel. L'inégalité de Jensen et la borne ELBO en sont le socle commun ; le cadre bayésien et la divergence de Kullback-Leibler disent ce qui les distingue. Chaque notion est illustrée par un exemple numérique, calculé à la main ou produit par le code, à un complément archivé dans le dépôt du mémoire (annexe A).
 
 L'EM classique est simple, peu coûteux par itération et monotone, mais il faut lui fixer $K$ de l'extérieur, il ne fournit pas d'incertitude native et il est sujet aux singularités ; en sur-spécification équilibrée, il converge lentement, et en sous-spécification il vise la projection de Kullback-Leibler de la vraie loi (section~\ref{sec:proprietes_em}.d). Le cadre bayésien de l'EM variationnel ne lève pas ces limites mais les déplace : le nombre de composantes est estimé par élagage, sous l'influence de $K_{\max}$ et des priors, et l'incertitude devient native mais approchée et vraisemblablement trop étroite (section~\ref{sec:limites_vb}), au prix d'une implémentation plus complexe et d'un coût par itération plus élevé.
 
@@ -512,7 +512,7 @@ Le chapitre suivant examine ce que la littérature a établi sur ces deux algori
 
 
 %% ==== CHAPITRE : ÉTAT DE L'ART ====
-\chapter{ÉTAT DE L'ART ET POSITIONNEMENT DE LA RECHERCHE}\label{chap:etat_art}
+\chapter{État de l'art et positionnement de la recherche}\label{chap:etat_art}
 Le chapitre~\ref{chap:fondements} a posé le cadre conceptuel : les objets, les théorèmes et les deux algorithmes. Ce chapitre examine ce que la littérature a établi à leur sujet, avec quelles méthodes et sous quelles limites. Il suit l'ordre des travaux antérieurs, des tendances récentes, de la comparaison critique et des domaines d'application, avant de dégager les limites de cette littérature et d'y situer la présente recherche. Les sources marquées « cité d'après » ou « non consulté » dans la bibliographie n'ont pas été lues directement ; les constats sur ce qui manque dans la littérature portent sur les seules sources citées.
 
 \section{Travaux antérieurs sur l'EM classique}\label{sec:ea_em}
@@ -628,10 +628,10 @@ La littérature établit les propriétés de l'EM (croissance de la vraisemblanc
 
 
 %% ==== PARTIE 2 ====
-\part{MÉTHODOLOGIE}
+\part{Méthodologie}
 
 %% ==== CHAPITRE : MÉTHODOLOGIE ====
-\chapter{MÉTHODOLOGIE DE LA CONFRONTATION}\label{chap:methodologie}
+\chapter{Méthodologie de la confrontation}\label{chap:methodologie}
 \section{Introduction du chapitre}\label{sec:intro_methodo}
 La question du mémoire est de savoir ce que l'on gagne et ce que l'on perd en passant de l'EM classique à l'EM variationnel, et sur quelles preuves. Le chapitre~\ref{chap:etat_art} a relevé que, dans les sources citées, les avantages attribués au VB sont surtout établis par des arguments et des illustrations, et en a tiré cinq hypothèses de recherche. Ce chapitre décrit la manière dont ces hypothèses sont mises à l'épreuve ; il ne présente aucun résultat. Il suit les neuf points du canevas de l'école : type et cadre de la recherche, comparaison théorique et algorithmique, hypothèses et tests, données, échantillonnage, méthodes d'analyse, calibrage et implémentation, éthique, limites.
 
@@ -639,7 +639,7 @@ La question du mémoire est de savoir ce que l'on gagne et ce que l'on perd en p
 La recherche est \emph{explicative et expérimentale} : elle cherche à établir, par des expériences contrôlées, si une différence entre deux algorithmes existe, dans quel sens, et à quoi elle tient (priors, $K_{\max}$, effectif, forme des données). Elle est aussi \emph{appliquée}, par un cas réel de suivi des prix alimentaires. L'approche est \emph{quantitative} : chaque hypothèse est opérationnalisée par une métrique (indice de Rand ajusté, log-vraisemblance hors échantillon, erreur sur $K$, fréquence d'ajustements dégénérés, couverture, temps) et par un test statistique déclaré avant les calculs confirmatoires. Les expériences exploratoires (illustrations sur un tirage) sont séparées des expériences confirmatoires (réplications et tests) et ne tranchent aucune hypothèse. Ce choix découle de la question posée : un avantage revendiqué ne peut être retenu que s'il est mesuré, sur des données dont la vérité est connue (scénarios, jeu semi-synthétique) ou sur des données réelles avec une période de test séparée.
 
 \section{Cadre de recherche}\label{sec:cadre_recherche}
-Le travail est un mémoire de Master en science des données et intelligence artificielle de l'École nationale supérieure polytechnique de Douala (Université de Douala), année 2025-2026. Il ne porte sur aucune population humaine : les unités étudiées sont des \emph{jeux de données} et des \emph{ajustements} d'algorithmes. La population cible est celle des problèmes de mélange que décrivent les données retenues : jeux synthétiques gaussiens ou de Student dont la vérité est connue (scénarios S1 à S10, section~\ref{sec:scenarios_plan}), Iris (section~\ref{sec:iris_methodo}), relevés mensuels de prix de trois denrées sur les marchés du Cameroun (section~\ref{sec:prix_methodo}) et documents de quatre groupes de 20 Newsgroups (section~\ref{sec:texte_methodo}). Les critères d'inclusion et d'exclusion sont ceux de chaque source : règles de nettoyage et période d'étude pour les prix, critères de vocabulaire et de longueur des documents pour le texte, plan expérimental pour les scénarios. Les calculs sont exécutés sur une instance de calcul dans le nuage (annexe D).
+Le travail est un mémoire de Master en science des données et intelligence artificielle de l'École nationale supérieure polytechnique de Douala (Université de Douala), année 2025-2026. Il ne porte sur aucune population humaine : les unités étudiées sont des \emph{jeux de données} et des \emph{ajustements} d'algorithmes. La population cible est celle des problèmes de mélange que décrivent les données retenues : jeux synthétiques gaussiens ou de Student dont la vérité est connue (scénarios S1 à S10, section~\ref{sec:scenarios_plan}), Iris (section~\ref{sec:iris_methodo}), relevés mensuels de prix de trois denrées sur les marchés du Cameroun (section~\ref{sec:prix_methodo}) et documents de quatre groupes de 20 Newsgroups (section~\ref{sec:texte_methodo}). Les critères d'inclusion et d'exclusion sont ceux de chaque source : règles de nettoyage et période d'étude pour les prix, critères de vocabulaire et de longueur des documents pour le texte, plan expérimental pour les scénarios. Les calculs sont exécutés sur une instance de calcul dans le nuage (annexe B).
 
 \section{Comparaison théorique}\label{sec:comparaison_theorique}
 Sur le plan théorique, l'EM classique et l'EM variationnel partagent un socle commun (la maximisation alternée d'une borne inférieure de la vraisemblance, l'ELBO) mais divergent fondamentalement sur la nature de l'objet qu'ils cherchent à estimer. L'EM classique traite les paramètres $\theta $ comme des constantes inconnues, dont on cherche l'estimateur ponctuel du maximum de vraisemblance $\hat{\theta }$ = $\arg\max_{\theta}$ $\ell $($\theta $). L'EM variationnel, en revanche, traite $\theta $ comme une variable aléatoire dont on cherche à approximer la distribution a posteriori complète $q^{*}$($\theta $), au moyen d'une famille variationnelle factorisée sous l'hypothèse du champ moyen.
@@ -807,7 +807,7 @@ Cinq sources de données sont utilisées, toutes secondaires : deux générateur
 \subsection{Jeu synthétique de référence}\label{sec:donnees_reference}
 Les illustrations du chapitre~\ref{chap:resultats} reposent sur un jeu de données synthétique bidimensionnel. Ce choix méthodologique permet une visualisation directe des résultats et une interprétation sans ambiguïté des mécanismes en jeu.
 
-Le jeu de données est constitué de N = 300 observations bidimensionnelles, générées à partir de trois groupes gaussiens, de centres respectifs (0, 0), (5, 5) et (0, 5), chacun comportant 100 observations et une covariance isotrope d'écart-type 0,7 (variance 0,49). Les centres sont distants de 5 à 7,1 unités, soit de 7 à 10 écarts-types : les trois groupes sont donc bien séparés. Ce jeu de données constitue, par construction, un mélange à trois composantes gaussiennes. Sa graine est dérivée de façon déterministe du rôle du tirage (fonction \texttt{persistance.graine}, annexe D), de sorte que chaque étape qui l'utilise (validation, illustrations) travaille sur un tirage fixé et reproductible ; les scénarios S1 à S10 (section~\ref{sec:scenarios_plan}) répliquent et généralisent ce protocole.
+Le jeu de données est constitué de N = 300 observations bidimensionnelles, générées à partir de trois groupes gaussiens, de centres respectifs (0, 0), (5, 5) et (0, 5), chacun comportant 100 observations et une covariance isotrope d'écart-type 0,7 (variance 0,49). Les centres sont distants de 5 à 7,1 unités, soit de 7 à 10 écarts-types : les trois groupes sont donc bien séparés. Ce jeu de données constitue, par construction, un mélange à trois composantes gaussiennes. Sa graine est dérivée de façon déterministe du rôle du tirage (fonction \texttt{persistance.graine}, annexe B), de sorte que chaque étape qui l'utilise (validation, illustrations) travaille sur un tirage fixé et reproductible ; les scénarios S1 à S10 (section~\ref{sec:scenarios_plan}) répliquent et généralisent ce protocole.
 
 L'expérience consiste à ajuster, sur ce même jeu de données, un GMM classique via l'algorithme EM classique et un GMM bayésien via l'algorithme EM variationnel, en imposant dans les deux cas un nombre de composantes délibérément surestimé, K = 6, soit le double du nombre réel de groupes. L'objectif est d'observer comment chacun des deux algorithmes gère cette surestimation. Deux jeux d'hyperparamètres sont considérés pour l'EM variationnel : des priors empiriques (centrés sur les données : $\beta _{0}$ = 1, $W_{0}^{-1}$ égale à la covariance empirique) et des priors diffus ($\beta _{0}$ = $10^{-3}$, $W_{0}$ = I). Sauf mention contraire, les résultats rapportés utilisent les priors empiriques.
 
@@ -946,7 +946,7 @@ Ce placement suit le texte original : Blei, Ng et Jordan~\cite[section~5.3]{blei
 \section{Plan d'échantillonnage}\label{sec:echantillonnage}
 \textbf{Taille de l'échantillon. }L'unité d'échantillonnage est la \emph{réplication} : un jeu de données tiré, sur lequel tous les bras sont ajustés. Le nombre de réplications de chaque famille de plans est fixé avant les calculs confirmatoires par un calcul de puissance (puissance d'au moins 0,8 au niveau de la première étape de Holm), à partir de réplications pilotes dont les graines sont disjointes de celles des étapes confirmatoires ; une hypothèse sans variance pilote ne fixe pas ce nombre, et celui-ci est plafonné par un budget de temps déclaré, la puissance obtenue étant rapportée (section~\ref{sec:calibrage}). Les tailles des tirages Monte Carlo (bootstrap, tirages a posteriori) sont fixées par une règle de précision des bornes rapportées.
 
-\textbf{Méthode d'échantillonnage. }Les jeux synthétiques sont tirés par simulation selon le plan de chaque scénario. Pour les prix, des sous-échantillons de $N \in \{30, 60, 120, 250\}$ observations sont tirés aléatoirement, sans remise, dans la période d'apprentissage, et des jeux semi-synthétiques de $N \in \{30, 60, 120, 250, 500\}$ observations sont simulés à partir du modèle de référence ; la comparaison de prévision utilise au contraire une séparation \emph{temporelle} (apprentissage d'avril 2021 à décembre 2023, test de janvier 2024 à août 2026), afin de ne pas évaluer un modèle sur des mois antérieurs à ses données. Pour le texte, des échantillons de $N \in \{50, 200, 1000\}$ documents sont tirés dans le réservoir d'apprentissage. Chaque tirage reçoit une graine dérivée de son rôle (annexe D).
+\textbf{Méthode d'échantillonnage. }Les jeux synthétiques sont tirés par simulation selon le plan de chaque scénario. Pour les prix, des sous-échantillons de $N \in \{30, 60, 120, 250\}$ observations sont tirés aléatoirement, sans remise, dans la période d'apprentissage, et des jeux semi-synthétiques de $N \in \{30, 60, 120, 250, 500\}$ observations sont simulés à partir du modèle de référence ; la comparaison de prévision utilise au contraire une séparation \emph{temporelle} (apprentissage d'avril 2021 à décembre 2023, test de janvier 2024 à août 2026), afin de ne pas évaluer un modèle sur des mois antérieurs à ses données. Pour le texte, des échantillons de $N \in \{50, 200, 1000\}$ documents sont tirés dans le réservoir d'apprentissage. Chaque tirage reçoit une graine dérivée de son rôle (annexe B).
 
 \textbf{Justification. }Le tirage aléatoire simple et la simulation donnent des réplications indépendantes, condition des tests appariés de la section~\ref{sec:decision} ; les tailles croissantes isolent l'effet de l'effectif, central pour l'hypothèse RH4 ; la séparation temporelle reproduit l'usage réel d'un modèle d'alerte.
 
@@ -968,7 +968,7 @@ Le verdict d'une décision au regard de son hypothèse de recherche est déclar�
 La sous-estimation de variance du champ moyen (section~\ref{sec:kl_inverse}) ne peut être jugée que par la couverture empirique des intervalles à 90 \% sur des jeux dont les paramètres vrais sont connus. Elle constitue une \emph{prédiction théorique testée} : le champ moyen sous-estime la variance a posteriori~\cite[section~10.1.2]{bishop2006}, \cite{blei2017}, et les intervalles qui en découlent sont trop étroits dans les mélanges~\cite{wang2005}. La mesure est faite sur le jeu semi-synthétique du cas pratique (section \ref{sec:res_prix}, hypothèse HP6), pour le VB et pour le bootstrap de l'EM-BIC, qui choisit $K$ par le BIC sur chaque jeu simulé comme le VB choisit le sien ; la comparaison porte sur la différence de couverture entre les deux, appariée par réplication. Le bootstrap de l'EM au $K$ de référence, qui connaît $K$, sert de borne favorable à l'EM. Les deux bootstraps sont conditionnels au $K$ retenu : ils ne propagent pas l'incertitude du choix de $K$, de même que les intervalles du VB sont conditionnels à sa structure élaguée. La couverture est \emph{inconditionnelle} (une composante vraie sans composante active appariée compte comme non couverte) ; une indicatrice est tirée par paramètre scalaire, et l'intervalle de la couverture est un bootstrap par grappes de réplications, les indicatrices d'une même réplication n'étant pas indépendantes. Les intervalles de crédibilité et de confiance ne mesurent pas le même objet : leur couverture sur la valeur vraie est une comparaison de calibration, non de justesse bayésienne.
 
 \section{Calibrage des paramètres}\label{sec:calibrage}
-Aucune valeur méthodologique n'est choisie à la main. Chaque paramètre est inscrit dans un registre (\texttt{parametres.py} ; valeurs principales au tableau~\ref{tab:registre_resume}, annexe E) avec un statut : \emph{mathématique} (conséquence d'un résultat), \emph{source} (valeur prescrite par une référence vérifiée), \emph{plan} (choix de conception déclaré), ou \emph{calibré} par une étude écrite dans le code. Tant qu'une valeur calibrée manque, l'orchestrateur refuse les étapes confirmatoires. Le calibrage s'exécute en sept vagues, chacune n'utilisant que des valeurs fixées par les vagues précédentes, et uniquement des données d'apprentissage (jamais la période de test du cas pratique) :
+Aucune valeur méthodologique n'est choisie à la main. Chaque paramètre est inscrit dans un registre (\texttt{parametres.py} ; valeurs principales au tableau~\ref{tab:registre_resume}, annexe C) avec un statut : \emph{mathématique} (conséquence d'un résultat), \emph{source} (valeur prescrite par une référence vérifiée), \emph{plan} (choix de conception déclaré), ou \emph{calibré} par une étude écrite dans le code. Tant qu'une valeur calibrée manque, l'orchestrateur refuse les étapes confirmatoires. Le calibrage s'exécute en sept vagues, chacune n'utilisant que des valeurs fixées par les vagues précédentes, et uniquement des données d'apprentissage (jamais la période de test du cas pratique) :
 \begin{enumerate}
 \item plafond des itérations de Lloyd pour l'initialisation par k-means (au plus 1 \% des exécutions l'atteignent) ;
 \item tolérance d'arrêt et plafond d'étapes M : plus grande tolérance dont 99 \% des ajustements s'accordent avec une référence à $10^{-10}$ sur le critère final (écart par observation inférieur à $5 \times 10^{-4}$), l'accord des partitions étant rapporté ; si aucune tolérance ne remplit la règle, le calibrage s'arrête ;
@@ -991,7 +991,7 @@ La densité gaussienne est évaluée par la factorisation de Cholesky de la cova
 Deux initialisations sont disponibles : par k-means (avec initialisation k-means++), qui donne un point de départ proche de la solution, et aléatoire (K points de données tirés au hasard et covariance globale, section~\ref{sec:formulation_mathematique_complete}.a). L'algorithme est relancé n\_init fois et la solution de plus grande log-vraisemblance est conservée. Le critère d'arrêt est celui de la figure~\ref{fig:boucle_arret}, commun à l'EM, au MAP-EM, au VB et au pLSA : variation relative du critère \emph{total} inférieure à la tolérance calibrée, plafond d'étapes M calibré, la sortie rapportant \texttt{converge} (faux si le plafond est atteint : l'exécution est alors « non convergée »). Chaque covariance reçoit $+\,\varepsilon I$, $\varepsilon$ étant calibré par validation croisée (registre, \texttt{reg\_covariance}) : l'EM utilisé dans ce mémoire est donc régularisé, ce qui en fait un maximum local de la vraisemblance régularisée (section~\ref{sec:proprietes_em}.a). Le code retourne aussi l'ICL, l'entropie des affectations et un indicateur de dégénérescence.
 
 \subsection{EM variationnel}\label{sec:impl_vb}
-L'EM variationnel pour le GMM bayésien est implémenté de la même façon. Les espérances nécessaires (équations~\ref{eq:1_29} et \ref{eq:1_30}) sont calculées avec la fonction digamma de PyTorch, les mises à jour suivent les équations~\eqref{eq:1_26} et \eqref{eq:1_28}, et l'ELBO de l'équation~\eqref{eq:1_31} est évaluée exactement à chaque itération (annexe B). L'étape E variationnelle est reproduite à l'annexe A.
+L'EM variationnel pour le GMM bayésien est implémenté de la même façon. Les espérances nécessaires (équations~\ref{eq:1_29} et \ref{eq:1_30}) sont calculées avec la fonction digamma de PyTorch, les mises à jour suivent les équations~\eqref{eq:1_26} et \eqref{eq:1_28}, et l'ELBO de l'équation~\eqref{eq:1_31} est évaluée exactement à chaque itération (détail archivé dans le dépôt, annexe A). L'étape E variationnelle est reproduite à l'annexe A.
 
 \subsubsection*{Étapes E et M variationnelles}
 Les variantes de covariance tied, diag et spherical, absentes du chapitre~\ref{chap:fondements}, sont obtenues avec un prior de Wishart partagé ou des priors Gamma sur les précisions. Leur ELBO n'est ni dérivée ni implémentée : le critère d'arrêt est la somme des log-normalisations de l'étape E, c'est-à-dire l'ELBO privée du terme $\mathrm{KL}[q(\theta)\Vert p(\theta)]$, qui n'est pas nécessairement monotone. Ces variantes sont donc une \emph{approximation} (clé \texttt{critere\_nom} = \texttt{approximation\_log\_norm}) et les conclusions qui les concernent sont formulées en conséquence ; le terme $D/\beta_k$ de l'étape E reste exact pour ces priors.
@@ -1017,12 +1017,12 @@ Le travail n'implique aucune enquête auprès de personnes et ne requiert donc p
 La méthodologie retenue est quantitative et expérimentale. Les deux algorithmes sont implémentés à partir des mêmes équations, avec le même critère d'arrêt, les mêmes relances et des paramètres fixés par un calibrage écrit à l'avance ; ils sont comparés à la base EM-BIC et EM-ICL et à un MAP-EM. Cinq hypothèses de recherche sont opérationnalisées par des tests déclarés (différence ou équivalence), corrigés par famille, sur des scénarios synthétiques, un cas réel de prix alimentaires et un corpus de texte, avec un nombre de réplications fixé par un calcul de puissance. Les limites de cette démarche et les écarts au protocole sont déclarés. Le chapitre~\ref{chap:resultats} présente les résultats dans l'ordre de cette méthodologie et les confronte aux hypothèses et à la littérature.
 
 %% ==== PARTIE 3 ====
-\part{RÉSULTATS ET DISCUSSION}
+\part{Résultats et discussion}
 
 %% ==== CHAPITRE : RÉSULTATS ET DISCUSSION ====
-\chapter{RÉSULTATS ET DISCUSSION}\label{chap:resultats}
+\chapter{Résultats}\label{chap:resultats}
 \section{Introduction du chapitre}\label{sec:intro_resultats}
-Ce chapitre présente et interprète les résultats du protocole décrit au chapitre~\ref{chap:methodologie}. Il met à l'épreuve les cinq hypothèses de recherche : l'absence de supériorité générale du VB sur EM-BIC (RH1), le déplacement de la sélection de $K$ vers les hyperparamètres (RH2), une incertitude du VB qui couvre moins que son niveau nominal (RH3), une régularisation due aux priors (RH4) et un coût par ajustement plus élevé, mais inférieur au balayage EM-BIC complet (RH5). Il suit l'ordre de la preuve : validations numériques et illustrations exploratoires du mécanisme (section~\ref{sec:res_illustrations}), scénarios confirmatoires (section~\ref{sec:res_scenarios}), cas pratique des prix alimentaires du Cameroun (section~\ref{sec:res_prix}), comparaison pLSA contre LDA (section~\ref{sec:res_texte}), puis bilan des hypothèses de recherche (section~\ref{sec:bilan}) et recommandations (section~\ref{sec:recommandations}). Tous les tableaux et les lectures factuelles des décisions sont produits par le code à partir des fichiers de résultats.
+Ce chapitre présente les résultats du protocole décrit au chapitre~\ref{chap:methodologie} ; le chapitre~\ref{chap:discussion} les interprète. Il met à l'épreuve les cinq hypothèses de recherche : l'absence de supériorité générale du VB sur EM-BIC (RH1), le déplacement de la sélection de $K$ vers les hyperparamètres (RH2), une incertitude du VB qui couvre moins que son niveau nominal (RH3), une régularisation due aux priors (RH4) et un coût par ajustement plus élevé, mais inférieur au balayage EM-BIC complet (RH5). Il suit l'ordre de la preuve : validations numériques et illustrations exploratoires du mécanisme (section~\ref{sec:res_illustrations}), scénarios confirmatoires (section~\ref{sec:res_scenarios}), cas pratique des prix alimentaires du Cameroun (section~\ref{sec:res_prix}) et comparaison pLSA contre LDA (section~\ref{sec:res_texte}). Tous les tableaux et les lectures factuelles des décisions sont produits par le code à partir des fichiers de résultats.
 
 \section{Validation numérique et illustrations exploratoires}\label{sec:res_illustrations}
 Les expériences de cette section portent sur le jeu de référence (section~\ref{sec:donnees_reference}) et sur Iris. Elles sont \emph{exploratoires} : une seule exécution par configuration, avec $K$ parfois imposé, de sorte qu'elles illustrent les mécanismes du chapitre~\ref{chap:fondements} sans trancher aucune hypothèse de recherche ; les décisions confirmatoires sont celles des sections suivantes.
@@ -1045,7 +1045,7 @@ Le BIC est minimal à $K = 3$ (1972,74), comme l'ICL (1972,96) et l'AIC (1909,78
 L'EM classique est ajusté avec $K=6$ composantes, l'EM variationnel avec $K_{\max}=6$, des priors empiriques et un prior de Dirichlet de concentration $\alpha_0 = 1/K$ (vingt initialisations et critère d'arrêt commun pour les deux). Le tableau~\ref{tab:ill_k6} donne, pour chaque ajustement, le nombre de composantes actives (seuil $N_k/N \geq 1\,\%$), l'ARI et la silhouette, calculés sur les affectations à la composante de responsabilité maximale, et le nombre d'itérations ; les partitions et les poids finaux figurent aux figures~\ref{fig:2_3} et~\ref{fig:2_4}.
 
 \tableauGenere{ill_k6}
-\emph{Source : implémentation PyTorch (graine dérivée du rôle, annexe D) ; les temps sont ceux d'une exécution unique, le coût étant jugé par l'étape de chronométrage (HP4).}
+\emph{Source : implémentation PyTorch (graine dérivée du rôle, annexe B) ; les temps sont ceux d'une exécution unique, le coût étant jugé par l'étape de chronométrage (HP4).}
 
 L'EM garde ses six composantes actives, avec un ARI de 0,995 (initialisation k-means) et de 0,990 (initialisation aléatoire), en 233 itérations : les composantes excédentaires ne captent que quelques points. Il n'a aucun mécanisme interne pour reconnaître que $K=6$ est surestimé ; un balayage de $K$ par BIC ou ICL le fait (section~\ref{sec:selection_modele}). Le VB à priors empiriques ne garde que trois composantes actives, les trois autres s'éteignant, et retrouve exactement la partition génératrice (ARI de 1,000) en 21 itérations. Avec des priors diffus ($\beta_0 = 10^{-3}$, $W_0 = I$), il garde aussi trois composantes et le même ARI, mais en 538 itérations (487 avec une initialisation par le prior) : sur ce jeu bien séparé, les priors changent la vitesse de convergence, pas la solution.
 
@@ -1087,7 +1087,7 @@ Le temps des deux algorithmes est mesuré en faisant varier $N$ (à $D=2$) et $D
 \caption{Temps d'exécution des deux algorithmes en fonction du nombre d'observations N (à gauche, échelles logarithmiques) et de la dimension D (à droite). Les étiquettes donnent le rapport du temps variationnel au temps classique.}
 \label{fig:2_6}
 \end{figure}
-\emph{Source : implémentation PyTorch (CPU, un processus, graine dérivée du rôle, annexe D).}
+\emph{Source : implémentation PyTorch (CPU, un processus, graine dérivée du rôle, annexe B).}
 
 Les deux grandeurs doivent être lues séparément. Le \emph{coût par itération} du VB vaut de 1,1 à 2,2 fois celui de l'EM (colonne « Rapport par itération ») ; ce rapport diminue quand $N$ croît (2,22 à $N = 300$, 1,13 à $N = 20\,000$) et reste entre 1,6 et 1,9 quand $D$ varie. Le \emph{temps jusqu'au modèle final} est le produit de ce coût par le nombre d'itérations, qui varie dans un sens ou dans l'autre : le rapport des temps va de 0,45 ($D = 20$, où le VB s'arrête en 58 itérations contre 198 pour l'EM) à 15,9 ($N = 5\,000$). À $N = 5\,000$ et $N = 20\,000$, le VB atteint le plafond de 1 800 étapes dans 11 et 20 répétitions sur 20 (fichier \texttt{chronometrage\_brut.csv}) : son critère d'arrêt n'y est pas atteint et son temps n'est qu'une borne inférieure. Ces mesures sont propres à une machine, à une implémentation et à $D \leq 20$ : la conclusion « le VB est $x$ fois plus lent » n'est pas retenue, et la question utile, le temps total d'un pipeline EM-BIC contre un VB, est traitée à la section \ref{sec:res_cout}.
 
@@ -1174,7 +1174,7 @@ Le plan factoriel fait varier $\alpha_0$, $\beta_0$, $\nu_0$ et l'échelle de $W
 Le rapport des temps médians entre le pipeline EM-BIC complet et un ajustement VB, à relances égales, est mesuré dans un seul processus sur les données de prix ; la décision HP4 (hypothèse RH5) est lue à la section~\ref{sec:res_prix}. Le coût par itération (tableau~\ref{tab:chronometrage}) et le temps total jusqu'au modèle final ne se confondent pas : seul le second compare des pipelines.
 
 \section{Cas pratique : régimes de tension des prix alimentaires au Cameroun}\label{sec:res_prix}
-Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_methodo}. Les résultats sont produits par le code depuis le magasin d'artefacts : modèle de référence (tableau~\ref{tab:prix_reference}), moyennes par plan, effectif et bras et relevés écartés par le nettoyage (dépôt du mémoire, annexe A), décisions (tableau~\ref{tab:decisions_prix} ; figure~\ref{fig:prix_decisions} en annexe H), ajustements sur toute la période d'apprentissage (tableau~\ref{tab:prix_complet}), comparaisons de prévision (tableau~\ref{tab:prix_dm}), régime de tension et probabilités d'alerte (tableau~\ref{tab:prix_alerte}, figures~\ref{fig:prix_alerte} et~\ref{fig:prix_alerte_mois}), confrontation aux épisodes datés (tableau~\ref{tab:prix_episodes}, figure~\ref{fig:prix_carte_alerte}). La sélection du nombre de régimes est illustrée en annexe H (figure~\ref{fig:prix_selection}).
+Le cas, ses données et son plan sont décrits à la section~\ref{sec:prix_methodo}. Les résultats sont produits par le code depuis le magasin d'artefacts : modèle de référence (tableau~\ref{tab:prix_reference}), moyennes par plan, effectif et bras et relevés écartés par le nettoyage (dépôt du mémoire, annexe A), décisions (tableau~\ref{tab:decisions_prix} ; figure~\ref{fig:prix_decisions} en annexe D), ajustements sur toute la période d'apprentissage (tableau~\ref{tab:prix_complet}), comparaisons de prévision (tableau~\ref{tab:prix_dm}), régime de tension et probabilités d'alerte (tableau~\ref{tab:prix_alerte}, figures~\ref{fig:prix_alerte} et~\ref{fig:prix_alerte_mois}), confrontation aux épisodes datés (tableau~\ref{tab:prix_episodes}, figure~\ref{fig:prix_carte_alerte}). La sélection du nombre de régimes est illustrée en annexe D (figure~\ref{fig:prix_selection}).
 
 \tableauGenere{prix_reference}
 \tableauGenere{decisions_prix}
@@ -1217,13 +1217,16 @@ Le corpus et le protocole sont décrits à la section~\ref{sec:texte_methodo}.
 
 \textbf{Synthèse.} Le pLSA surapprend plus que la LDA aux trois effectifs (HT1, p de Holm 0,006 pour chacun), et l'écart se réduit quand $N$ croît : au vocabulaire principal, l'écart relatif de perplexité (test sur apprentissage) du pLSA vaut $2{,}39 \times 10^{42}$ à $N = 50$, 12\,881 à $N = 200$ et 0,51 à $N = 1\,000$, contre 1,81, 0,53 et 0,14 pour la LDA (tableau~\ref{tab:texte_resume}). Les valeurs extrêmes du pLSA viennent des mots du test auxquels il donne une probabilité nulle (10,8 \% des mots à $N = 50$) ; la moyenne des différences n'est donc pas interprétable, et la décision repose sur les rangs (test de Wilcoxon) et sur l'estimateur de Hodges-Lehmann. À $N = 1\,000$, les deux modèles ont une cohérence (NPMI 0,138 et 0,141) et une pureté (0,607 et 0,617) voisines ; une exécution pLSA sur dix n'y a pas convergé. Deux réserves s'appliquent à cette lecture. D'abord, la LDA du code lisse $\beta$ (pseudo-compte calibré) et le pLSA ne le fait pas : une partie de l'écart aux petits effectifs peut venir des probabilités nulles du pLSA (colonne « Mots nuls ») et non seulement du prior sur $\theta_d$. Ensuite, les exécutions non convergées au plafond d'étapes M sont signalées, et les résultats dépendent du prétraitement et du nombre de thèmes ($K=4$, égal au nombre de groupes).
 
-\section{Analyse et interprétation : bilan des hypothèses de recherche}\label{sec:bilan}
+\chapter{Discussion}\label{chap:discussion}
+Ce chapitre interprète les résultats du chapitre~\ref{chap:resultats} : il confronte les décisions aux hypothèses de recherche, les met en relation avec la littérature, en dégage les forces et les limites, et en tire des recommandations pratiques.
+
+\section{Confrontation aux hypothèses de recherche}\label{sec:bilan}
 \tableauGenere{bilan_recherche}
 \lectureGeneree{recherche}
 
 Le verdict de chaque décision suit la règle déclarée à la section~\ref{sec:decision} (conforme, contraire, non tranché). La lecture d'ensemble ne désigne pas un meilleur algorithme : elle décrit des déplacements. Le VB transfère la sélection de $K$ vers le choix de $K_{\max}$, des hyperparamètres et du seuil d'activité ; il fournit une incertitude approchée dont la couverture est mesurée ; il coûte plus par ajustement que l'EM, ce qui n'établit pas un coût plus élevé que le pipeline EM-BIC en temps total. Les décisions d'équivalence (RH1) indiquent dans quelles conditions les deux algorithmes sont de qualité comparable. La comparaison à $K = 6$ imposé est défavorable à l'EM par construction et ne sert que d'illustration du mécanisme d'élagage.
 
-Les décisions d'équivalence dépendent de la marge fixée a priori ; le tableau~\ref{tab:sensibilite_marges} (annexe H) les rapporte aussi à la moitié et au double de cette marge, la correction de Holm étant recalculée pour chaque variante. Une équivalence qui ne tient qu'à la marge fixée se lit comme fragile.
+Les décisions d'équivalence dépendent de la marge fixée a priori ; le tableau~\ref{tab:sensibilite_marges} (annexe D) les rapporte aussi à la moitié et au double de cette marge, la correction de Holm étant recalculée pour chaque variante. Une équivalence qui ne tient qu'à la marge fixée se lit comme fragile.
 
 
 Le tableau~\ref{tab:2_17} remplace les anciennes listes d'avantages et d'inconvénients par une grille « axe $\times$ preuve » : chaque ligne renvoie à une expérience, à un théorème, ou porte la mention « non testé ».
@@ -1231,7 +1234,7 @@ Le tableau~\ref{tab:2_17} remplace les anciennes listes d'avantages et d'inconv�
 \tableauGenere{grille_axe_preuve}
 Le choix entre les deux algorithmes est donc un arbitrage qui dépend du contexte d'application, précisé par les recommandations de la section~\ref{sec:recommandations}, et non un classement entre une méthode meilleure et une méthode moins bonne.
 
-\subsection{Mise en relation avec la littérature}\label{sec:res_litterature}
+\section{Mise en relation avec la littérature}\label{sec:res_litterature}
 Chaque hypothèse de recherche répond à une limite de la littérature (section~\ref{sec:ea_limites}) ; ses décisions se lisent donc face aux sources correspondantes.
 \textbf{RH2 et le seuil $d/2$.} Rousseau et Mengersen~\cite{rousseau2011} montrent que, pour le posterior exact, les composantes excédentaires se vident quand $\alpha_0 < d/2$. Le champ moyen reproduit l'ordre des seuils entre formes de covariance (S8), mais ses transitions se situent au-dessus de ces seuils : le résultat nuance la transposition de la théorie au VB sans la contredire, la théorie ne portant pas sur le champ moyen. Le poids de $\alpha_0$ dans la variance du nombre de composantes (69 \%, S9) et la variance de $\hat K$ entre priors plausibles (HP5) confirment que le VB déplace la sélection de $K$ vers ses hyperparamètres.
 
@@ -1243,7 +1246,10 @@ Chaque hypothèse de recherche répond à une limite de la littérature (section
 
 \textbf{HT1 et la motivation de la LDA.} Blei, Ng et Jordan~\cite{blei2003} motivent la LDA par le surapprentissage du pLSA, dont le nombre de paramètres croît avec le nombre de documents. Le résultat le confirme aux trois effectifs, avec la réserve que l'écart tient en partie au lissage de $\beta$ dans la LDA.
 
-\section{Discussion critique}\label{sec:discussion_critique}
+\section{Forces du travail}\label{sec:forces}
+Quatre éléments font la solidité de ces conclusions. (1) \emph{Un protocole commun} : les deux algorithmes sont écrits à partir des mêmes équations, avec le même critère d'arrêt, les mêmes relances et les mêmes graines, et la base de comparaison est EM-BIC et EM-ICL, non un EM à $K$ surestimé (section~\ref{sec:protocole}). (2) \emph{Des tests déclarés avant les calculs} : 63 décisions, un test d'équivalence là où l'hypothèse prédit une absence de différence, la correction de Holm par famille et un nombre de réplications fixé par un calcul de puissance. (3) \emph{Un calibrage écrit à l'avance} : chaque paramètre est fixé par une règle tracée (section~\ref{sec:calibrage}), et les écarts au protocole sont déclarés (section~\ref{sec:validite}). (4) \emph{La reproductibilité} : l'implémentation, sans bibliothèque de modélisation, est vérifiée par des tests automatiques (monotonie des critères, équivalence du MAP-EM à prior plat et de l'EM, valeurs de référence des tests statistiques), et chaque tableau est produit par le code à partir des fichiers de résultats (annexe A). S'y ajoutent un comparateur MAP-EM, qui sépare l'effet des priors de celui de l'inférence variationnelle, et un cas réel du Cameroun évalué sur une période postérieure à l'apprentissage.
+
+\section{Discussion critique et limites}\label{sec:discussion_critique}
 \textbf{Limites des résultats. }Les limites de la méthode sont déclarées à la section~\ref{sec:validite}.
 (1) 22 décisions sur 63 restent non tranchées (tableau~\ref{tab:bilan_recherche}), dont 9 équivalences non démontrées : une équivalence non démontrée n'est pas une différence démontrée. (2) Pour HP7-N120, le plafond de 200 réplications donne une puissance simulée de 0,74, sous l'objectif de 0,8 ; cinq hypothèses sans variance pilote (HS1-sep1, HP3-N30, HP3-N60, HP7-N30, HP7-N60) n'ont pas fixé le nombre de réplications de leur famille. (3) Aucune réplication n'a été exclue pour échec numérique : toutes les décisions portent sur 110 réplications (scénarios), 50, 100 ou 200 (prix) et 10 (texte). (4) Le bruit d'optimisation de la log-vraisemblance (0,066 nat par observation, quantile à 95 \% de l'écart entre deux ajustements d'un même bras) dépasse la marge de 0,05 : une équivalence en log-vraisemblance non démontrée peut refléter ce bruit. Pour HP2-LL, l'intervalle $[-0{,}172 ; -0{,}147]$ est toutefois entièrement au-delà de la marge, ce qui établit un écart et non une simple absence d'équivalence. (5) Avec vingt relances, la probabilité d'atteindre le meilleur optimum des 200 relances pilotes est d'au moins 0,99 dans 47 \% des cas pilotes seulement (minimum 0,10), surtout à $K$ surdimensionné ; EM et VB ayant le même nombre de relances, aucun bras n'en est avantagé. (6) Le chronométrage a été interrompu une fois par une reprise de l'instance de calcul ; chaque répétition étant mémorisée, seules les répétitions en cours ont été refaites.
 
@@ -1257,13 +1263,13 @@ Cette section traduit les résultats en un guide de choix entre EM classique et 
 \tableauGenere{guide_decision}
 Ce guide ne recommande pas un algorithme dans l'absolu : chaque ligne indique le niveau de preuve disponible. Il est complété par trois bonnes pratiques indépendantes de l'algorithme. Premièrement, standardiser les données avant l'ajustement, les deux algorithmes étant sensibles à l'échelle relative des dimensions ; Iris, laissé en centimètres avec une régularisation absolue commune à tous les jeux, en montre l'effet (section~\ref{sec:iris_methodo}). Deuxièmement, multiplier les initialisations (\texttt{n\_init} > 1) pour l'EM comme pour le VB. Troisièmement, utiliser un critère d'arrêt commun lorsque l'on compare des nombres d'itérations ou des temps, et rapporter les exécutions non convergées.
 
-\section{Synthèse du chapitre}\label{sec:conclusion_du_chapitre_3}
+\section{Synthèse}\label{sec:conclusion_du_chapitre_3}
 \enlargethispage{2\baselineskip}%
-Ce chapitre a présenté les résultats dans l'ordre de la preuve : illustrations exploratoires du mécanisme d'élagage, scénarios confirmatoires répliqués, cas pratique sur un problème réel du Cameroun et comparaison pLSA contre LDA. Le bilan des hypothèses de recherche (tableau~\ref{tab:bilan_recherche}) et la grille « axe $\times$ preuve » (tableau~\ref{tab:2_17}) rattachent chaque conclusion à une décision lue dans un fichier de résultats, à un théorème ou à la mention « non testé ». Sur 63 décisions, 31 sont conformes aux hypothèses, 4 contraires (toutes sur la couverture du bootstrap, que l'hypothèse supposait proche du niveau nominal), 22 non tranchées et 6 sont des différences sans sens prédit. Les conditions de validité de ces conclusions sont celles de la section~\ref{sec:validite} : l'élagage dépend des priors, de $K_{\max}$ et du seuil d'activité ; les variantes de covariance non pleines utilisent un critère approché ; le cas des prix repose sur une période de test qui diffère de l'apprentissage et sur des régimes reliés à la réalité par une confrontation qualitative aux bulletins d'alerte.
+Les chapitres~\ref{chap:resultats} et~\ref{chap:discussion} ont présenté les résultats dans l'ordre de la preuve : illustrations exploratoires du mécanisme d'élagage, scénarios confirmatoires répliqués, cas pratique sur un problème réel du Cameroun et comparaison pLSA contre LDA. Le bilan des hypothèses de recherche (tableau~\ref{tab:bilan_recherche}) et la grille « axe $\times$ preuve » (tableau~\ref{tab:2_17}) rattachent chaque conclusion à une décision lue dans un fichier de résultats, à un théorème ou à la mention « non testé ». Sur 63 décisions, 31 sont conformes aux hypothèses, 4 contraires (toutes sur la couverture du bootstrap, que l'hypothèse supposait proche du niveau nominal), 22 non tranchées et 6 sont des différences sans sens prédit. Les conditions de validité de ces conclusions sont celles de la section~\ref{sec:validite} : l'élagage dépend des priors, de $K_{\max}$ et du seuil d'activité ; les variantes de covariance non pleines utilisent un critère approché ; le cas des prix repose sur une période de test qui diffère de l'apprentissage et sur des régimes reliés à la réalité par une confrontation qualitative aux bulletins d'alerte.
 
-\chapter*{Conclusion générale}
-\addcontentsline{toc}{chapter}{Conclusion générale}
-\markboth{CONCLUSION GÉNÉRALE}{CONCLUSION GÉNÉRALE}
+\chapter*{Conclusion générale et perspectives}
+\addcontentsline{toc}{chapter}{Conclusion générale et perspectives}
+\markboth{Conclusion générale et perspectives}{}
 Ce mémoire a comparé l'EM classique et l'EM variationnel pour les modèles de mélange, sur trois niveaux d'inférence, en reliant chaque avantage et chaque inconvénient à un théorème, à une expérience ou à la mention « non testé ».
 
 \section*{Réponses aux hypothèses de recherche}
@@ -1284,23 +1290,15 @@ Ce travail apporte les éléments suivants, sans prétention de nouveauté théo
 
 \section*{Limites du travail}
 \addcontentsline{toc}{section}{Limites du travail}
-Les limites de la méthode et des résultats sont détaillées aux sections~\ref{sec:validite} et~\ref{sec:discussion_critique} ; trois d'entre elles bornent la portée des conclusions. (1) Certains résultats sont des constats, non des démonstrations : le critère des variantes tied, diag et sphérique du VB est une approximation faute d'ELBO dérivée, et le transfert du seuil $d/2$ du posterior exact au champ moyen est testé, non démontré ; l'irréversibilité de l'élagage, la dépendance à $K_{\max}$ et la consistance restent « non testées » ou partiellement testées. (2) Le cas des prix repose sur des choix de variables et un seuil d'alerte de 0,5 posés sans alternative testée (annexe E), sans réestimation en fenêtre glissante ; la comparaison pLSA contre LDA porte sur un corpus de quatre groupes, avec une LDA à $\beta$ ponctuel et non un VB complet. (3) Les temps de calcul dépendent d'une machine et d'une implémentation (annexe D), et la vision, la bio-informatique et la recommandation ne sont pas testées.
+Les limites de la méthode et des résultats sont détaillées aux sections~\ref{sec:validite} et~\ref{sec:discussion_critique} ; trois d'entre elles bornent la portée des conclusions. (1) Certains résultats sont des constats, non des démonstrations : le critère des variantes tied, diag et sphérique du VB est une approximation faute d'ELBO dérivée, et le transfert du seuil $d/2$ du posterior exact au champ moyen est testé, non démontré ; l'irréversibilité de l'élagage, la dépendance à $K_{\max}$ et la consistance restent « non testées » ou partiellement testées. (2) Le cas des prix repose sur des choix de variables et un seuil d'alerte de 0,5 posés sans alternative testée (annexe C), sans réestimation en fenêtre glissante ; la comparaison pLSA contre LDA porte sur un corpus de quatre groupes, avec une LDA à $\beta$ ponctuel et non un VB complet. (3) Les temps de calcul dépendent d'une machine et d'une implémentation (annexe B), et la vision, la bio-informatique et la recommandation ne sont pas testées.
 
 \section*{Perspectives}
 \addcontentsline{toc}{section}{Perspectives}
 Sur le plan expérimental : étendre la comparaison à la grande dimension avec des covariances structurées, éprouver l'irréversibilité de l'élagage par des initialisations adverses, réestimer les modèles de prix en fenêtre glissante et modéliser la persistance des régimes par un modèle de Markov caché tolérant les mois manquants. Sur le plan méthodologique : un critère d'élagage indépendant du seuil d'activité, l'ELBO des variantes de covariance, des familles variationnelles plus riches (flux normalisants) ou d'autres divergences que la KL inverse, et une confrontation des seuils de type $d/2$ à un posterior approché par MCMC. Sur le plan applicatif : tester le cas des prix sur les autres pays de la CEMAC et du bassin du lac Tchad couverts par la base du PAM, et confronter les alertes aux phases du Cadre Harmonisé avec les analystes de la sécurité alimentaire.
 
-%% ==== Bibliographie ====
-\printbibliography[title={Bibliographie}, heading=bibintoc]
-\markboth{BIBLIOGRAPHIE}{BIBLIOGRAPHIE}
-
-
 %% ==== Annexes ====
-\chapter*{Annexes}
-\addcontentsline{toc}{chapter}{Annexes}
-\markboth{ANNEXES}{ANNEXES}
-\section*{Annexe A : Code source}
-\addcontentsline{toc}{section}{Annexe A : Code source}
+\appendix
+\chapter{Code source et dépôt}\label{ann:code}
 Les résultats de ce mémoire sont produits par les modules Python suivants, rangés dans le paquet \texttt{emvb/} : \texttt{algorithmes.py} (EM classique, MAP-EM, EM variationnel, ELBO, variantes, Baum-Welch, LDA, pLSA, métriques), \texttt{risque.py} (loi prédictive du VB, test de Diebold--Mariano), \texttt{statistique.py} (Wilcoxon exact, TOST, Holm, bootstrap), \texttt{comparaison.py} (protocole des bras, statistiques de comparaison), \texttt{hypotheses.py} (hypothèses déclarées), \texttt{parametres.py} et \texttt{calibrage.py} (registre et calibrage des paramètres), \texttt{scenarios.py} (scénarios synthétiques S1 à S10), \texttt{etape\_validation.py}, \texttt{etape\_illustrations.py} et \texttt{etape\_chronometrage.py} (validations du chapitre~\ref{chap:fondements} et expériences du chapitre~\ref{chap:methodologie}), \texttt{donnees.py} et \texttt{etape\_prix.py} (cas pratique des prix alimentaires), \texttt{etape\_texte.py} (comparaison pLSA contre LDA), \texttt{figures.py} et \texttt{tex\_tables.py} (figures et tableaux \LaTeX{} produits depuis les résultats), enfin \texttt{run.py}, \texttt{persistance.py} et \texttt{superviseur.py} (orchestration reprenable après interruption). Le dépôt complet, avec son jeu de tests (\texttt{tests/}), est publié sur GitHub (section A.1) ; l'étiquette Git et le DOI Zenodo de la version définitive restent à créer au moment de l'archivage. Le tableau suivant indique, pour chaque fonction de la bibliothèque, la section et l'équation correspondantes.
 
 \begin{table}[H]
@@ -1329,7 +1327,7 @@ bic, aic & \ref{sec:selection_modele} & (\ref{eq:2_4}), (\ref{eq:2_5}) \\
 \caption{Correspondance entre fonctions du code, sections et équations}
 \end{table}
 
-\subsection*{A.1 Accès au code complet}
+\section{Accès au code complet}
 Le code complet (environ 1\,400 lignes pour \texttt{algorithmes.py}, 250 pour \texttt{risque.py}, plus les scripts d'expériences et les tests) n'est pas reproduit ici. Les modules sont rangés dans le paquet \texttt{emvb/} du dépôt, et \texttt{run.py}, à la racine, lance les étapes. Il est disponible dans le dépôt public \href{\depot}{\texttt{github.com/Kanaicare8/em-classique-vs-variationnel}}. Chaque QR code ci-dessous ouvre le fichier correspondant sur la branche \texttt{main}.
 
 \begin{center}
@@ -1345,7 +1343,7 @@ Le code complet (environ 1\,400 lignes pour \texttt{algorithmes.py}, 250 pour \t
 \qrfichier{run.py}{Lancement des étapes}
 \end{center}
 
-\subsection*{A.2 Extraits commentés}
+\section{Extraits commentés}
 Les trois extraits suivants sont copiés sans modification du code exécuté. Ils montrent la traduction directe des équations en calcul tensoriel : toutes les relances (dimension \texttt{B}) sont traitées en un seul lot, et les responsabilités sont normalisées en log-espace (équation~\ref{eq:1_18}).
 
 \textbf{Étape E de l'EM classique} (\texttt{algorithmes.py}, équation~\ref{eq:1_15}).
@@ -1394,19 +1392,17 @@ def ecart(m, c, t):
 \end{lstlisting}
 Seuls les relevés antérieurs au mois $t$ entrent dans le niveau de référence ; un test unitaire recalcule une observation à la main pour le vérifier.
 
-\subsection*{A.3 Expériences et cas pratique}
+\section{Expériences et cas pratique}
 L'orchestrateur \texttt{run.py} enchaîne les étapes (calibrage, validation, illustrations, chronométrage, scénarios, prix, texte) ; chaque étape est une liste d'unités indépendantes, exécutées en parallèle et écrites atomiquement dans un magasin d'artefacts, de sorte qu'un calcul interrompu (erreur, coupure de courant, arrêt volontaire) reprend exactement où il s'était arrêté lorsqu'on relance la même commande ; \texttt{superviseur.py} relance automatiquement le calcul après un arrêt non voulu. L'option \texttt{--rapide} exécute une version réduite dans un magasin séparé. Les tableaux (\texttt{python -m emvb.tex\_tables}) et les figures (\texttt{python run.py --figures}) sont produits depuis le magasin, sans recalcul ; aucun nombre des tableaux n'est saisi à la main.
 
-\subsection*{A.4 Corpus et résultats de la comparaison pLSA contre LDA}
+\section{Corpus et résultats de la comparaison pLSA contre LDA}
 Le corpus (sous-ensemble de 20 Newsgroups) est lu et prétraité par \texttt{donnees.py} (section~\ref{sec:texte_methodo}) ; les ajustements pLSA et LDA sont faits par \texttt{etape\_texte.py}, une unité par taille de vocabulaire, par taille $N$ et par réplication, écrite dans le magasin de l'étape \texttt{texte}, d'où les tableaux de la section~\ref{sec:res_texte} sont produits.
 
 
-\section*{Annexes B, C, F et G : dérivations, symboles et exemples numériques}
-\addcontentsline{toc}{section}{Annexes B, C, F et G : dérivations, symboles et exemples numériques}
-Pour tenir le volume du mémoire, quatre annexes sont archivées dans le dépôt du mémoire (annexe A) et non reproduites ici : l'annexe B (détail du calcul de l'ELBO pour le GMM bayésien, terme par terme, avec le code correspondant), l'annexe C (table de correspondance des symboles mathématiques), l'annexe F (rappels sur le calcul matriciel, les lois de Wishart et de Dirichlet et la fonction digamma) et l'annexe G (exemples numériques : densité d'un GMM, conjugaison Dirichlet--Catégorielle, déroulement complet de l'EM et de l'EM variationnel sur huit observations). Leur source est le fichier \texttt{memoire/annexes\_archivees.tex} ; elles figurent aussi dans la version complète du mémoire, étiquette \texttt{v1.5} du dépôt.
+\section{Compléments archivés : dérivations, symboles et exemples numériques}\label{sec:complements_archives}
+Pour tenir le volume du mémoire, quatre compléments sont archivés dans le dépôt et non reproduits ici : le détail du calcul de l'ELBO pour le GMM bayésien, terme par terme, avec le code correspondant ; la table de correspondance des symboles mathématiques ; des rappels sur le calcul matriciel, les lois de Wishart et de Dirichlet et la fonction digamma ; des exemples numériques (densité d'un GMM, conjugaison Dirichlet--Catégorielle, déroulement complet de l'EM et de l'EM variationnel sur huit observations). Leur source est le fichier \texttt{memoire/annexes\_archivees.tex} ; elles figurent aussi dans la version complète du mémoire, étiquette \texttt{v1.5} du dépôt.
 
-\section*{Annexe D : Environnement logiciel et reproductibilité}
-\addcontentsline{toc}{section}{Annexe D : Environnement logiciel et reproductibilité}
+\chapter{Environnement logiciel et reproductibilité}
 Les calculs dont les résultats figurent dans ce mémoire ont été exécutés sur une instance de calcul dans le nuage de 32 cœurs logiques et 61,6 Go de mémoire, louée à l'heure ; la machine personnelle de l'auteur n'a servi qu'à écrire le code et le document. À chaque lancement, \texttt{run.py} enregistre la machine et les logiciels (système, processeur, nombre de cœurs, mémoire, versions de Python et de PyTorch, commit Git du code exécuté, nombre de processus) dans \texttt{resultats/environnement.json} et ajoute une ligne à \texttt{resultats/environnement\_historique.jsonl}. Le tableau suivant est produit depuis ce fichier, sans saisie manuelle ; il regroupe les lancements par configuration.
 
 \tableauGenere{environnement}
@@ -1417,8 +1413,7 @@ Toutes les graines sont dérivées de façon déterministe du rôle de chaque ti
 
 Le protocole est entièrement scripté : \texttt{python run.py} réalise les expériences, écrit les tableaux (fichiers \texttt{.csv}) et les figures (\texttt{.html} interactifs et \texttt{.png}) ; la marche à suivre figure dans \texttt{docs/LANCEMENT.md}.
 
-\section*{Annexe E : Registre des paramètres}
-\addcontentsline{toc}{section}{Annexe E : Registre des paramètres}
+\chapter{Registre des paramètres}
 Le registre complet (chaque paramètre utilisé par le code, avec sa valeur, son statut, sa justification, ses références et l'étude de calibrage qui le fixe, section~\ref{sec:calibrage}) est produit par le code et archivé dans le dépôt du mémoire (annexe A, fichiers \texttt{emvb/parametres.py} et \texttt{resultats/tables/calibrage\_registre.csv}). Le tableau~\ref{tab:registre_resume} en donne les valeurs calibrées principales, lues dans \texttt{resultats/calibrage/}.
 
 \begin{table}[H]
@@ -1443,7 +1438,7 @@ Bootstrap des intervalles ; tirages de $q$ & 2\,000 ; 8\,000 & erreur Monte Carl
 \caption{Valeurs calibrées principales du registre des paramètres}\label{tab:registre_resume}
 \end{table}
 
-\subsection*{Décisions du cas pratique}
+\section{Décisions du cas pratique}
 Le tableau~\ref{tab:registre_decisions_prix} donne, pour chaque décision du cas pratique, ce qui est retenu, les alternatives écartées, la raison du choix et ce qui le vérifie ; « posé » signifie fixé par le protocole sans être mis à l'épreuve.
 
 {\scriptsize
@@ -1480,13 +1475,10 @@ Comparaison de prévision & Diebold-Mariano sur la série mensuelle & test par o
 \end{longtable}
 }
 
-\section*{Annexe H : Tableaux détaillés des résultats}
-\addcontentsline{toc}{section}{Annexe H : Tableaux détaillés des résultats}
+\chapter{Figures et tableaux complémentaires des résultats}
 Cette annexe rassemble trois figures du chapitre~\ref{chap:resultats} et la sensibilité des décisions d'équivalence à la marge. Les tableaux descriptifs (moyennes par bras des scénarios S1 à S7, grille de $\alpha_0$ du scénario S8, moyennes du cas pratique par plan, effectif et bras, relevés de prix écartés) et la lecture détaillée de chaque décision sont produits par le code et archivés dans le dépôt du mémoire (annexe A) : fichiers \texttt{resultats/tables/scenarios\_resume.csv}, \texttt{S8\_alpha0.csv}, \texttt{prix\_resume.csv}, \texttt{prix\_releves\_ecartes.csv} et \texttt{memoire/tables/lecture\_*.tex}.
-\setcounter{table}{0}\renewcommand{\thetable}{H.\arabic{table}}\renewcommand{\theHtable}{H.\arabic{table}}
 
-\subsection*{Figures des décisions et de la sélection du nombre de régimes}
-\setcounter{figure}{0}\renewcommand{\thefigure}{H.\arabic{figure}}\renewcommand{\theHfigure}{H.\arabic{figure}}
+\section{Figures des décisions et de la sélection du nombre de régimes}
 \begin{figure}[H]
 \centering
 \IfFileExists{figures/fig12.png}{\includegraphics[width=0.9\textwidth]{figures/fig12.png}}{\fbox{\parbox{0.8\textwidth}{\centering figure à générer (\texttt{python run.py --figures})}}}
@@ -1507,3 +1499,7 @@ Cette annexe rassemble trois figures du chapitre~\ref{chap:resultats} et la sens
 \end{figure}
 
 \tableauGenere{sensibilite_marges}
+
+%% ==== Bibliographie ====
+\printbibliography[title={Bibliographie}, heading=bibintoc]
+\markboth{Bibliographie}{}

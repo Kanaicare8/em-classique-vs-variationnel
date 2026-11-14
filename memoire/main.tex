@@ -28,10 +28,14 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[LE,RO]{\thepage}
-\fancyhead[RE]{\nouppercase{\leftmark}}
-\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
+\makeatletter
+\renewcommand{\chaptermark}[1]{\markboth{\@chapapp\ \thechapter.\ #1}{}}
+\makeatother
+\renewcommand{\sectionmark}[1]{}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
 \AtBeginDocument{\setlength{\headheight}{15pt}}
 \setlength{\emergencystretch}{3em}
 
@@ -43,6 +47,9 @@
   {\normalfont\bfseries\Large}
   {\chaptertitlename\ \thechapter}{20pt}{\Large}
 \titlespacing*{\chapter}{0pt}{0pt}{30pt}
+% pages de partie : « Première partie », puis le titre (mémoire de référence)
+\newcommand{\partieordinal}[1]{\ifcase#1\or Première\or Deuxième\or Troisième\or Quatrième\fi{} partie}
+\titleformat{\part}[display]{\centering\normalfont\Huge\bfseries}{\partieordinal{\value{part}}}{20pt}{\Huge}
 
 % 
 % Mathematiques
@@ -169,9 +176,8 @@
   \renewcommand{\figurename}{Figure}%
   \renewcommand{\contentsname}{Table des matières}%
   \renewcommand{\listtablename}{Liste des tableaux}%
-  \renewcommand{\listfigurename}{Liste des figures}%
+  \renewcommand{\listfigurename}{Table des figures}%
   \renewcommand{\bibname}{Bibliographie}%
-  \renewcommand{\partname}{Partie}%
 }
 % application immédiate : les noms de babel sont déjà en place à ce stade
 \captionsfrench
@@ -181,45 +187,30 @@
 % =======================================================================
 \begin{titlepage}
 \begin{center}
+{\Large Université de Douala}\\[4pt]
+{\large École Nationale Supérieure Polytechnique de Douala}
 
-\textbf{UNIVERSITÉ DE DOUALA}\\[2pt]
-\textit{THE UNIVERSITY OF DOUALA}
+\vspace{2.5cm}
+{\LARGE\bfseries Comparaison entre l'algorithme EM classique\\[4pt] et l'EM variationnel}\\[10pt]
+{\large\itshape Avantages, inconvénients et applications}
 
-\vspace{4pt}
-* \quad * \quad *
-\vspace{4pt}
+\vspace{2cm}
+{\large Mémoire de Master of Science}\\[6pt]
+{\large Sciences des données et Intelligence Artificielle}
 
-\textbf{ÉCOLE NATIONALE SUPÉRIEURE POLYTECHNIQUE DE DOUALA}\\[2pt]
-(ENSPD)
+\vspace{2cm}
+Présenté par\\[6pt]
+{\Large\bfseries KANA TIODONG Icare Brichel}
 
-\vspace{4pt}
-* \quad * \quad *
-\vspace{20pt}
-
-\textbf{DÉPARTEMENT DE GÉNIE INFORMATIQUE}
-
-\vspace{10pt}
-\textbf{\Large MÉMOIRE DE MASTER}\\[2pt]
-\textit{Master of Science en Data Science et Intelligence Artificielle (SDIA)}
-
-\vspace{30pt}
-{\Large\textbf{COMPARAISON ENTRE L'ALGORITHME EM CLASSIQUE ET L'EM VARIATIONNEL}}\\[6pt]
-\textit{(Avantages, inconvénients et applications)}
-
-\vspace{40pt}
-Dressé et présenté par :\\[4pt]
-\textbf{\Large KANA TIODONG ICARE BRICHEL}
-
-\vspace{25pt}
-Mémoire co-encadré par :\\[8pt]
-\textbf{Prof. Dr. habil. P. NJIONOU SADJANG}\\
-\textit{Professeur Associé, École Nationale Supérieure Polytechnique de Douala}\\[8pt]
-\textbf{Prof. Patrice TAKAM SOH}\\
-\textit{Professeur Associé, Université de Yaoundé 1}
+\vspace{1.8cm}
+Mémoire co-encadré par\\[8pt]
+\begin{tabular}{@{}ll@{}}
+Prof. Dr. habil. P. Njionou Sadjang & Professeur associé, ENSPD \\
+Prof. Patrice Takam Soh & Professeur associé, Université de Yaoundé 1 \\
+\end{tabular}
 
 \vfill
-\textbf{Année Académique 2025 -- 2026}
-
+Douala, Cameroun \textbullet{} novembre 2026
 \end{center}
 \end{titlepage}
 
@@ -231,14 +222,15 @@ Mémoire co-encadré par :\\[8pt]
 % =======================================================================
 % SOMMAIRE, LISTES
 % =======================================================================
-\setcounter{tocdepth}{1}% table des matières limitée aux sections (D-20)
 \tableofcontents
 \clearpage
-\renewcommand{\listfigurename}{Liste des figures}
+\renewcommand{\listfigurename}{Table des figures}
 \listoffigures
 \clearpage
 \renewcommand{\listtablename}{Liste des tableaux}
 \listoftables
+\clearpage
+\input{abreviations.tex}
 \clearpage
 
 \pagenumbering{arabic}

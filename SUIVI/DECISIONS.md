@@ -552,3 +552,21 @@ mention.
 - **Suite de D-20 (2026-11-14)** : choix 1 (« viser environ 130 ») puis « a et b » : table des matières limitée aux
   sections et annexes B, C, F, G archivées dans le dépôt. Résultat : 131 pages au total (169 au départ), contenu
   principal de 102 pages. Figures conservées, largeurs inchangées (option de réduction écartée).
+
+## D-21 Structure et numérotation alignées sur le mémoire de référence (2026-11-14)
+
+- **Demande** : structurer le mémoire et numéroter les pages comme `mémoiremkoo.pdf` (mémoire de M. Moukoko,
+  ENSPD, même filière). Plan présenté et validé (« 1 oui ») ; table des matières avec sous-sections (« remet les sous
+  sections »).
+- **Appliqué** : page de titre disposée comme la référence ; pages de début dans l'ordre résumé (i), abstract (ii),
+  table des matières (sous-sections comprises), table des figures, liste des tableaux, liste des notations et
+  abréviations (`abreviations.tex`) ; introduction page 1, numérotation arabe continue jusqu'à la fin ; en-tête
+  « Chapitre N. Titre » à gauche et numéro à droite, numéro en bas au centre sur les premières pages ; pages de partie
+  « Première partie », « Deuxième partie », « Troisième partie » ; titres en casse normale ; chapitre 4 « Résultats »
+  et nouveau chapitre 5 « Discussion » (confrontation aux hypothèses, mise en relation avec la littérature, forces du
+  travail, discussion critique et limites, recommandations, synthèse) ; section « Forces du travail » rédigée à partir
+  de ce que le mémoire établit déjà ; « Conclusion générale et perspectives » ; annexes en chapitres A (code et dépôt,
+  avec les compléments archivés), B (environnement), C (registre), D (figures et tableaux complémentaires), placées
+  avant la bibliographie ; lettres d'annexes mises à jour dans tout le texte.
+- **Résultat** : 135 pages au total, compilation sans erreur ni référence indéfinie. Sauvegarde :
+  `sauvegardes/20261114-111138_structure_mkoo/`.

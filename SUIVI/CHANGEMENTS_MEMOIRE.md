@@ -198,3 +198,21 @@ Compilation sans erreur, sans renvoi indéfini ni débordement ; corps à 112 pa
 
 Références conservées : `giews2026`, `fewsnet2026`, `pam2023bulletin` (citées dans l'introduction et au chapitre 3) ;
 `pam2014alps` reste citée au chapitre 3. Chiffres et pagination inchangés (bibliographie page 113). Aucun calcul.
+
+## 2026-11-14 : réduction de concision (D-19)
+
+Mesure : contenu principal de l'introduction à la fin de la conclusion. Avant : pages 1 à 112 (`main.pdf` de v1.5).
+Après : pages 1 à 111. Sauvegarde : `sauvegardes/20261114-081345_reduction/`.
+
+| N° | Passage | Modification | Raison | Gain |
+|---|---|---|---|---|
+| 1 | 4.2.2, 4.2.3, 4.2.4 | fusionnées en « EM à K = 6 imposé et EM variationnel à Kmax = 6 » (étiquettes `sec:res_em_k6`, `sec:res_vb_k6`, `sec:res_partition` conservées) ; toutes les valeurs, le tableau et les deux figures gardés ; retrait de « EM à composantes fragmentées » (contredit par l'ARI de 0,995) et du « constat antérieur » | même expérience racontée trois fois | environ 0,5 page |
+| 2 | Ch. 1, quatre paragraphes « Renvois à la grille » | remplacés par une phrase unique au début de 1.7.4 | chaque paragraphe répétait la liste qui le précède | environ 0,4 page |
+| 3 | Ch. 1, listes d'avantages et d'inconvénients | monotonie, coût par itération, singularités, lenteur, scalabilité, régularisation, ELBO raccourcis avec renvoi à 1.7.2, 3.5.1, 3.5.2 ; « Convergence rapide loin de l'optimum » fusionné dans le coût par itération ; « Convergence monotone de l'ELBO » fusionné dans le point ELBO ; « Garanties fréquentistes partielles » gardé intact | répétitions entre chapitres 1 et 3 | environ 0,3 page |
+| 4 | 4.3.1, 4.3.2, 4.3.3 | titres presque vides regroupés dans l'introduction de 4.3 (étiquettes conservées) | tableaux déjà en annexe H | environ 0,2 page |
+| 5 | Conclusion, limites | sept points regroupés en trois, sans en retirer | lisibilité | moins de 0,1 page |
+
+Contrôles : compilation sans erreur ni avertissement LaTeX, aucune référence indéfinie ni multiple, 169 pages au
+total ; hypothèses RH1 à RH5, HP4, HP6, HP7, HT1 citées autant de fois qu'avant ; aucun résultat chiffré modifié ;
+distinction entre K fixé de l'extérieur (EM) et K estimé par élagage sous l'influence des priors et de Kmax (VB)
+conservée (remarque (2) de la section fusionnée, 1.8.4, RH2).

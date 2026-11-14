@@ -529,3 +529,12 @@ mention.
 - **Code dans le dépôt** : `presentation/source/` (générateur, notes, figures, montage, logos, `package.json`) ;
   autonome (`npm install`, chemins relatifs). L'ancien générateur, dans le dossier de Miguel, n'est plus la référence.
 - **Étiquette `v1.4`**, à publier sur Zenodo ; guide mis à jour.
+
+## D-19 Réduction de concision du mémoire (2026-11-14)
+
+- **Contexte** : l'établissement demande au plus 115 pages, sans règle de comptage ; l'étudiant vise 110 à 115.
+  Comptage retenu : de l'introduction à la fin de la conclusion (112 pages en v1.5).
+- **Plan présenté et validé** (« je valide ») : cinq actions prioritaires contre les répétitions, arrêt à 110 pages ;
+  actions facultatives (extraits de code de 3.11, domaines non testés 2.5.2-2.5.3, détail des prix 3.7.4, bases du
+  chapitre 1) non appliquées.
+- **Résultat** : 111 pages. Détail et contrôles : `CHANGEMENTS_MEMOIRE.md`.
